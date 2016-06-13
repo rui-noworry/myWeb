@@ -1,0 +1,144 @@
+<?php
+/**
+ * ActivityTalkAction
+ * 活动讨论模块
+ *
+ * 作者: 黄蕊
+ * 创建时间: 2013-8-15
+ *
+ */
+class ActivityTalkAction extends BaseAction{
+
+    // 初始化
+    public function _initialize() {
+
+        parent::_initialize();
+        $this->template = strtolower(ACTION_NAME).$this->authInfo['a_type'];
+    }
+
+    public function index() {
+
+        if ($this->authInfo['a_type'] == 1) {
+
+            if (!intval($_REQUEST['ap_id'])) {
+                $this->error('无效数据');
+            }
+
+            $this->activity = M('ActivityPublish')->where(array('ap_id' => intval($_REQUEST['ap_id'])))->find();
+        }
+
+        if ($this->authInfo['a_type'] == 2) {
+
+            if (!intval($_REQUEST['act_id'])) {
+                $this->error('无效数据');
+            }
+
+            $this->activity = M('Activity')->where(array('act_id' => intval($_REQUEST['act_id'])))->find();
+        }
+
+        $this->display($this->template);
+    }
+
+    // 获取讨论列表
+    public function lists() {
+
+        // 置顶
+        if (intval($_POST['at_id']) && intval($_POST['act_id'])) {
+            M('ActivityTalk')->where(array('act_id' => intval($_POST['act_id'])))->save(array('at_is_top' => 0));
+            M('ActivityTalk')->where(array('at_id' => intval($_POST['at_id'])))->save(array('at_is_top' => 1));
+        }
+
+        // 分页
+        $p = intval($_REQUEST['p']) ? intval($_REQUEST['p']) : 1;
+
+        if (intval($_REQUEST['ap_id'])) {
+            $map['act_id'] = M('ActivityPublish')->where(array('ap_id' => intval($_REQUEST['ap_id'])))->getField('act_id');
+        }
+
+        if (intval($_REQUEST['act_id'])) {
+            $map['act_id'] = intval($_REQUEST['act_id']);
+        }
+
+        $map['s_id'] = $this->authInfo['s_id'];
+
+        $result = getListByPage('ActivityTalk', 'at_is_top DESC, at_id DESC', $map, '', 1, $p);
+
+        $authInfo = getDataByArray('Auth', $result['list'], 'a_id', 'a_id, a_nickname');
+
+        foreach ($result['list'] as $key => $value) {
+            $result['list'][$key]['a_nickname'] = $authInfo[$value['a_id']]['a_nickname'];
+        }
+
+        echo json_encode($result);
+    }
+
+    public function insert() {
+
+        if ($this->authInfo['a_type'] == 1) {
+
+            $ap_id = intval($_POST['ap_id']);
+
+            // 数据验证
+            if (!$activityPublish = M('ActivityPublish')->where(array('ap_id' => $ap_id, 's_id' => $this->authInfo['s_id']))->field('act_id, act_title, co_id, cl_id, l_id, c_id, cro_id')->find()) {
+
+                $this->error('没有此数据');
+
+            }
+
+            // 权限验证
+            if ($activityPublish['c_id']) {
+
+                if (!M('ClassStudent')->where(array('c_id' => $activityPublish['c_id'], 'a_id' => $this->authInfo['a_id']))->count()) {
+                    $this->error('您无权限操作');
+                }
+            }
+
+            if ($activityPublish['cro_id']) {
+
+                if (!M('AuthCrowd')->where(array('cro_id' => $activityPublish['cro_id'], 'a_id' => $this->authInfo['a_id']))->count()) {
+                    $this->error('您无权限操作');
+                }
+            }
+
+            $data['co_id'] = $activityPublish['co_id'];
+            $data['cl_id'] = $activityPublish['cl_id'];
+            $data['l_id'] = $activityPublish['l_id'];
+            $data['act_id'] = $activityPublish['act_id'];
+            $data['ap_id'] = $ap_id;
+            $data['at_content'] = strval($_POST['at_content']);
+            $data['a_id'] = $this->authInfo['a_id'];
+            $data['s_id'] = $this->authInfo['s_id'];
+            $data['at_created'] = time();
+
+        }
+
+        if ($this->authInfo['a_type'] == 2) {
+
+            $act_id = intval($_POST['act_id']);
+
+            // 数据验证
+            if (!$activity = M('Activity')->where(array('act_id' => $act_id, 's_id' => $this->authInfo['s_id']))->field('act_id, act_title, co_id, cl_id, l_id')->find()) {
+
+                $this->error('没有此数据');
+            }
+
+            $data['co_id'] = $activity['co_id'];
+            $data['cl_id'] = $activity['cl_id'];
+            $data['l_id'] = $activity['l_id'];
+            $data['act_id'] = $activity['act_id'];
+            $data['act_id'] = $act_id;
+            $data['at_content'] = strval($_POST['at_content']);
+            $data['a_id'] = $this->authInfo['a_id'];
+            $data['s_id'] = $this->authInfo['s_id'];
+            $data['at_created'] = time();
+        }
+
+        $result['at_id'] = M('ActivityTalk')->add($data);
+        $result['a_nickname'] = $this->authInfo['a_nickname'];
+
+        echo json_encode($result);
+
+    }
+
+}
+?>

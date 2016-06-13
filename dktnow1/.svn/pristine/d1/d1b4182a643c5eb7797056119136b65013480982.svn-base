@@ -1,0 +1,97 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/group_class.css"/>
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="/Public/Js/Home/jquery-ui.js"/>
+<script>
+$(function(){
+
+    $('.left_over').hide();
+
+    var str = '';
+    for(i = 0; i < 79; i++){
+        str += "<a class=sol_"+i+"></a>";
+    }
+
+    // 获取班级小组列表
+    $.post('__APPURL__/ClassGroup/lists', 'c_id='+{$class.c_id}, function(json){
+
+        var str = '';
+
+        if (json) {
+            for (var i = 0; i < json.length; i++) {
+
+                styLeft = (json[i]['cg_logo'] % 10) * 30 + 4;
+                styTop = (parseInt(json[i]['cg_logo'] / 10) * 32) + 2;
+                sty = 'style="background-position:-'+styLeft+'px -'+styTop+'px;"';
+
+                str += "<div class='right_gor' attr="+json[i]['cg_id']+"><div class='left_null fl'><a class='left_map' "+sty+"></a></div><div class='gor_hide fl'><span class='map_sor'><div class='sorll'>"+str+"</div></span><input type='text' name='' value='' class='class_input'/><a class='rig_select'></a><a class='rig_add'></a></div><div class='rig_edit'><i>"+json[i]['cg_title']+"</i></div></div>";
+            }
+        }
+
+        $('.gr_right .rig_main').append(str);
+
+    }, 'json');
+
+    $(document).on('click','.rig_edit',function(){
+
+        // TO DO 展开本组学生，其他组收缩
+        $(this).parent().addClass('right_grop_on').siblings().removeClass('right_grop_on');
+        $('.gro_ri').text($(this).text()+"小组成员")
+        $.post('__APPURL__/ClassGroupStudent/lists', 'cg_id='+$(this).parents('.right_gor').attr('attr'), function(json){
+
+            if (json) {
+                var groupStudentList = '';
+
+                $('.gr-left ul').html('');
+
+                for (var i = 0; i < json.length; i++) {
+
+                    $('.ruge_none span').each(function() {
+                        if ($(this).attr('attr') == json[i]) {
+                            // TO DO 将接收到的学生放入HTML
+                            //alert($(this).html());
+                            $('.gr-left ul').append("<li>"+$(this).html()+"</li>")
+                        }
+                    })
+                }
+            }
+            $(".rig_cure").dialog("open");
+        }, 'json');
+    })
+})
+</script>
+<div class="warp">
+    <include file="Public:leftSider"/>
+    <ul class="top_tab_menu fl">
+        <li class="tab_return" onclick="javascript:location.href='/Class'">返回</li>
+        <li class="tab_name">{$class.s_id|replaceClassTitle=$class['c_type'],$class['c_grade'],$class['c_title'],$class['is_graduation']}</li>
+        <li onclick="javascript:location.href='__URL__/teachers/id/{$class.c_id}'">任课老师</li>
+        <li onclick="javascript:location.href='__URL__/student/id/{$class.c_id}'">同学们</li>
+        <li class="selected">小组</li>
+        <eq name="isBeanOpen" value="1">
+            <li onclick="javascript:location.href='__URL__/honor/id/{$class.c_id}'">光荣榜</li>
+         </eq>
+        <li onclick="javascript:location.href='__URL__/notice/id/{$class.c_id}'">通知</li>
+        <li onclick="javascript:location.href='__URL__/syllabus/id/{$class.c_id}'">课程表</li>
+    </ul>
+    <div class="group_right fr">
+        <span class='gro_le'>班级小组</span>
+        <span class='gro_ri'>小组成员</span>
+        <div class="gr_right gr_group">
+            <div class="rig_main">
+            </div>
+        </div>
+        <div class="gr-left fl">
+            <ul>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="ruge_none" style="display:none;">
+    <volist name="students" id="student">
+        <span attr="{$student.a_id}">{$student.a_nickname}</span>
+    </volist>
+</div>
+<div class="clear"></div>
+<include file="Public:footer"/>

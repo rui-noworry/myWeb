@@ -1,0 +1,168 @@
+/* CSS Document */
+body{
+    font-family: "Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei","微软雅黑",tahoma,arial,simhei,"黑体";
+}
+.lesson_left{
+    width:191px;
+    padding:15px 0px 0px 17px;
+    border:1px solid #cbcbcb;
+    background:#f2f2f2;
+}
+.left_top{
+    width:110px;
+    height:38px;
+    line-height:38px;
+    padding-left:64px;
+    background:url("../image/classroom.png") no-repeat 0px -38px;
+    color:#ffffff;
+    font-size:14px;
+}
+/*右部分*/
+.lesson_righ{
+    width:766px;
+    padding-top:15px;
+}
+.lesson_revert{
+    padding:12px 21px 0px 9px;
+    color:#080808;
+    font-size:18px;
+}
+.lesson_mark{
+    padding-top:12px;
+}
+.lesson_revert:hover{
+    color:#3aba6e;
+}
+.lesson_lead{
+    display:block;
+    width:124px;
+    height:36px;
+    line-height:36px;
+    margin-left:23px;
+    border:1px solid #e6e6e6;
+    color:#555555;
+    font-size:14px;
+    text-align:center;
+}
+.lesson_tab{
+    width:100%;
+    margin-top:15px;
+}
+.lesson_tab li{
+    display:block;
+    position:relative;
+    height:50px;
+    line-height:50px;
+    padding:0px 35px 0px 8px;
+    color:#99999d;
+    font-size:18px;
+}
+.lesson_tab li.lesson_cut{
+    color:#080808;
+}
+.lesson_tab li.lesson_ad{
+    padding:0px;
+}
+.lesson_tab li.lesson_cut .lesson_norm{
+    display:block;
+}
+.lesson_norm{
+    display:none;
+    position:absolute;
+    left:45px;
+    top:45px;
+    width:11px;
+    height:5px;
+    background:url("../image/lesson.png") no-repeat -30px -36px;
+}
+.lesson_add{
+    display:block;
+    width:76px;
+    height:38px;
+    line-height:38px;
+    padding-left:50px;
+    background:url("../image/lesson.png") no-repeat -120px -38px;
+    color:#555555;
+    font-size:14px;
+    overflow:hidden;
+}
+.lesson_add:hover{
+    background-position:-120px 0px;
+}
+.lesson_content{
+    width:766px;
+}
+.lesson_caption{
+    width:746px;
+    height:60px;
+    padding-left:20px;
+    background:#26a75b;
+    filter:alpha(opacity=70);
+    opacity:0.7;
+}
+.lesson_caption li{
+    float:left;
+    height:60px;
+    line-height:60px;
+    text-align:center;
+    color:#ffffff;
+    font-size:14px;
+}
+.lesson_caption li.cap_order{
+    width:10%;
+}
+.lesson_caption li.cap_name{
+    width:30%;
+}
+.lesson_caption li.cap_tag{
+    width:14%;
+}
+.lesson_caption li.cap_time{
+    width:20%;
+}
+.cap_down,.cap_up{
+    width:3%;
+}
+.cap_operate{
+    width:20%;
+}
+.cap_less{
+    width:6%;
+}
+.cap_issue{
+    width:10%;
+    /width:9%;
+    _width:9%;
+}
+.cap_close{
+    width:4%;
+}
+.cap_tag p{
+    position:relative;
+}
+.cap_tag p span{
+    position:absolute;
+    right:-5px;
+    top:20px;
+    width:15px;
+    height:9px;
+    background:url("../image/lesson.png") no-repeat -9px -33px;
+}
+.lesson_caption li.cap_rig{
+    text-align:right;
+}
+.lesson_caption .cap_cor{
+    color:#373737;
+}
+.lesson_gra{
+    background:#f2f2f2;
+}
+.lesson_sub li{
+    color:#717171;
+}
+.lesson_sub li a{
+    color:#717171;
+}
+.lesson_whit{
+    background:#ffffff;
+}

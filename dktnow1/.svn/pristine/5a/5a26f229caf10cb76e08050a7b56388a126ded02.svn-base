@@ -1,0 +1,201 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/index.css"/>
+<script type="text/javascript">
+<!--
+    $(function() {
+
+        // 选中
+        $('.search_box span').click(function(){
+
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+
+        // 显示高级搜索
+        $('.common_search .gj').click(function(){
+
+            $('.high_search li').each(function() {
+                $(this).find('span').eq(0).click();
+            })
+
+            $('.ks').toggle();
+            $('.high_search').slideToggle();
+
+        })
+
+        // 高级搜索 点击取消 收起
+        $('.cancel').click(function(){
+
+            $(this).parent().parent().slideUp();
+            $('.ks').show();
+        })
+
+        $('.ks').click(function() {
+            search();
+        })
+
+        $('.confirm').click(function(){
+            search();
+        })
+
+        // 资源模块切换
+        $(".res_tab li").click(function(){
+            $(this).show();
+            $(this).addClass("current").siblings().removeClass("current");
+            var index =  $(".res_tab li").index(this);
+            $(".res_box div.mould").eq(index).show().siblings().hide();
+        })
+
+        if ($('.res_tab li').size() == 4) {
+            $(".res_tab li").eq(0).click();
+        }
+
+        $.getJSON('__APPURL__/html/new.txt', function(json) {
+            setTabList(json, 1);
+        })
+
+        $.getJSON('__APPURL__/html/hot.txt', function(json) {
+            setTabList(json, 2);
+        })
+
+        $.getJSON('__APPURL__/html/recommend.txt', function(json) {
+            setTabList(json, 3);
+        })
+
+    })
+
+    function setTabList(json, order) {
+
+        if (json.length > 0) {
+
+            var str = '<a class="more fr" href="__APPURL__/Search/index/order/' + order + '">更多</a><ul>';
+            $.each(json, function(i, data){
+
+                str += '<li><a class="res_cover" href="__APPURL__/Resource/index/id/'+data['re_id']+'" target="_blank"><img src="'+data['re_img']+'" width="100" height="75"/></a><a class="res_title" href="__APPURL__/Resource/index/id/'+data['re_id']+'" title="'+data['re_title']+'">'+data['re_title']+'</a><span>'+data['a_nickname']+'</span><span><i>'+data['re_download_points']+'</i>积分</span></li>';
+            })
+
+            str += '</ul>';
+
+            $('.res_tab').next().find('.show' + order).html(str);
+            $('.res_tab .show' + order).show();
+
+            if (!$('.res_tab li').eq(0).hasClass('current')) {
+                $('.res_tab li').eq(0).click();
+            }
+        } else {
+            $('.res_tab').next().find('.show' + order).remove();
+            $('.res_tab .show' + order).remove();
+        }
+    }
+
+    function search() {
+        var keywords = $('input[name=keywords]').val();
+        var resFrom = $('.resFrom span.on').attr('attr');
+        var resType = $('.resType span.on').attr('attr');
+
+        var str = '';
+
+        if (keywords) {
+            str += 'keywords/' + keywords + '/';
+        }
+
+        if (resFrom > 0) {
+            str += 'resFrom/' + resFrom + '/';
+        }
+
+        if (resType > 0) {
+            str += 'resType/' + resType + '/';
+        }
+
+        str = str.slice(0, -1);
+
+        if (!str) {
+            return false;
+        }
+
+        location.href="__APPURL__/SchoolSearch/index/" + str;
+    }
+//-->
+</script>
+<div class="warp">
+    <include file="Public:leftSider"/>
+        <div class="res_right">
+        <p class="file_num">当前已有<cite>{$total}</cite>份文档</p>
+        <!-- 搜索开始 -->
+        <div class="search_box">
+            <div class="common_search">
+                <input type="text" value="{$keywords}" name="keywords" placeHolder="资源名称">
+                <a class="gj"></a>
+                <a class="ks"></a>
+            </div>
+            <div class="high_search hide">
+                <ul>
+                    <!--li class="resFrom">
+                        <label>来源</label>
+                        <div>
+                            <span class="hand on" attr="1">系统</span>
+                            <span class="hand" attr="2">数字学校</span>
+                        </div>
+                    </li-->
+                    <li class="resType">
+                        <label>资源类型</label>
+                        <div>
+                            <span class="hand on" attr="0">全部</span>
+                            <volist name="model" id="model">
+                                <span class="hand" attr="{$model.m_id}">{$model.m_title}</span>
+                            </volist>
+                        </div>
+                    </li>
+                </ul>
+                <div class="btn">
+                    <a class="confirm">确定</a>
+                    <a class="cancel">取消</a>
+                </div>
+            </div>
+        </div>
+        <!-- 搜索结束 -->
+        <!-- 资源列表开始 -->
+        <div class="res_list fl">
+            <ul class="res_tab">
+                <neq name="cate" value="">
+                    <li class="current">订阅资源</li>
+                </neq>
+                <li class="show1">最新资源</li>
+                <li class="show2">最热资源</li>
+                <li class="show3">推荐资源</li>
+            </ul>
+            <div class="res_box fl">
+                <neq name="cate" value="">
+                    <div class="mould">
+                        <volist name="cate" id="cate">
+                            <neq name="cate.lists" value="">
+                                <ul class="column1">
+                                    <div class="column_title">{$cate.rc_title}<a class="more fr" href="__APPURL__/SchoolSearch/index/rc/{$cate.rc_id}">更多</a></div>
+                                    <volist name="cate.lists" id="clist">
+                                        <li>
+                                            <a class="res_cover" href="__APPURL__/Resource/index/id/{$clist.re_id}" target="_blank"><img src="{$clist.re_img}" width="100" height="75"/></a>
+                                            <a class="res_title" href="__APPURL__/Resource/index/id/{$clist.re_id}" title="{$clist.re_title}">{$clist.re_title}</a>
+                                            <span>{$clist.a_nickname}</span>
+                                            <span><i>{$clist.re_download_points}</i>积分</span>
+                                        </li>
+                                    </volist>
+                                </ul>
+                            <else />
+                                <ul class="column2">
+                                    <div class="column_title">{$cate.rc_title}</div>
+                                    <span class="alert">本栏目下暂无资源</span>
+                                </ul>
+                            </neq>
+                        </volist>
+                    </div>
+                </neq>
+                <div class="mould hide show1"></div>
+                <div class="mould hide show2"></div>
+                <div class="mould hide show3"></div>
+            </div>
+        </div>
+        <!-- 资源列表结束 -->
+    </div>
+
+<div class="clear"></div>
+</div>
+<include file="Public:footer"/>

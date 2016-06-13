@@ -1,0 +1,20 @@
+//
+//  AouthViewController.h
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-7-24.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "ACEDrawingView.h"
+@interface AouthViewController : UIViewController
+{
+    UIImageView *backImageView;
+
+    AppDelegate *dele;
+    NSMutableDictionary *autoDict;
+}
+@property(nonatomic,retain)NSMutableDictionary *autoDict;
+
+@end

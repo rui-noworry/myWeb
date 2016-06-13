@@ -1,0 +1,36 @@
+<include file="../Public/header_main" />
+
+<load file="__PUBLIC__/Css/Ilc/system_add.css"/>
+    <div class="title_hea">
+        <i class="fl">新增角色</i>
+        <a href="__URL__/">返回列表</a>
+    </div>
+    <form method="post" action="__URL__/insert/" onsubmit="return check();">
+        <ul class="add_option">
+            <li>
+                <label>组名：</label>
+                <input class="fl" type="text" name="r_name" value=""/>
+            </li>
+
+            <li>
+                <label>上级组：</label>
+                <select name="r_pid">
+                    <option value="0" selected>无上级组</option>
+                    <volist name="roleList" id="role" key="k">
+                        <option value="{$k}">{$role}</option>
+                    </volist>
+                </select>
+            </li>
+            <li>
+                <label>状态：</label>
+                <select  name="r_status">
+                    <option value="1">启用</option>
+                    <option value="9">禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <button class="save fin" value="" type="submit">保存</button>
+                <button class="reset fin" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>

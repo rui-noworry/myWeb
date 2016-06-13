@@ -1,0 +1,109 @@
+<load href="__PUBLIC__/Css/Ilc/header.css,__PUBLIC__/Css/Ilc/public.css"/>
+<load file="/Public/Css/Ilc/resource_index.css"/>
+<load href="__PUBLIC__/Js/Public/jquery-1.9.1.js,__PUBLIC__/Js/Public/jquery-ui.js,__PUBLIC__/Js/Public/public.js"/>
+<script type="text/javascript">
+$(function(){
+    var listObj = {"data_check": "2%","data_id": "8%" ,"data_school": "10%","data_class": "10%","data_username": "10%","data_name": "10%","data_pho": "10%","data_tloginnum": "10%","data_loginip": "6%","data_status": "10%","data_hand": "10%"};
+    setWidth(listObj);
+})
+</script>
+    <h2 class="res">资源列表</h2>
+    <div class="model_search">
+        <a>名称：</a>
+        <input type="text" value="" name="re_title">
+        <a class="search">搜索</a>
+        <div class="clear"></div>
+    </div>
+    <div class="add_option uesr_option">
+        <select class="fl" name="">
+            <option value="">景山学校</option>
+            <option value="">景山学校1</option>
+        </select>
+        <select class="fl" name="">
+            <option value="">初中</option>
+            <option value="">高中</option>
+        </select>
+        <select class="fl" name="">
+            <option value="">一年级</option>
+            <option value="">二年级</option>
+        </select>
+        <select class="fl" name="">
+            <option value="">1班</option>
+            <option value="">2班</option>
+        </select>
+    </div>
+    <div class="clear"></div>
+    <div class="tools fl">
+        <span class="add">
+            <i></i>
+            新增
+        </span>
+        <span class="del">
+            <i></i>
+            编辑
+        </span>
+        <span class="del">
+            <i></i>
+            禁用
+        </span>
+        <span class="del">
+            <i></i>
+            启用
+        </span>
+    </div>
+    <ul class="list_hea">
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck">
+            <span class="data_id">编号</span>
+            <span class="data_school">学校</span>
+            <span class="data_class">班级</span>
+            <span class="data_username">用户名</span>
+            <span class="data_name">姓名</span>
+            <span class="data_pho">手机</span>
+            <span class="data_tloginnum">登录次数</span>
+            <span class="data_loginip">登录IP</span>
+            <span class="data_status">状态</span>
+            <span class="data_hand">操作</span>
+        </li>
+    </ul>
+    <ul class="list_list list_hea">
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck">
+            <span class="data_id">编号</span>
+            <span class="data_school">学校</span>
+            <span class="data_class">班级</span>
+            <span class="data_username">用户名</span>
+            <span class="data_name">姓名</span>
+            <span class="data_pho">手机</span>
+            <span class="data_tloginnum">登录次数</span>
+            <span class="data_loginip">登录IP</span>
+            <span class="data_status">状态</span>
+            <span class="data_hand">编辑</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck">
+            <span class="data_id">编号</span>
+            <span class="data_school">学校</span>
+            <span class="data_class">班级</span>
+            <span class="data_username">用户名</span>
+            <span class="data_name">姓名</span>
+            <span class="data_pho">手机</span>
+            <span class="data_tloginnum">登录次数</span>
+            <span class="data_loginip">登录IP</span>
+            <span class="data_status">状态</span>
+            <span class="data_hand">编辑</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck">
+            <span class="data_id">编号</span>
+            <span class="data_school">学校</span>
+            <span class="data_class">班级</span>
+            <span class="data_username">用户名</span>
+            <span class="data_name">姓名</span>
+            <span class="data_pho">手机</span>
+            <span class="data_tloginnum">登录次数</span>
+            <span class="data_loginip">登录IP</span>
+            <span class="data_status">状态</span>
+            <span class="data_hand">编辑</span>
+        </li>
+    </ul>

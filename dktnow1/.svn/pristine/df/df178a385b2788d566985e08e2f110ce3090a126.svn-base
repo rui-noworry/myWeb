@@ -1,0 +1,276 @@
+//
+//  AppDelegate.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-3.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "AppDelegate.h"
+
+#import "ViewController.h"
+
+@implementation AppDelegate
+@synthesize server_Address_str,push_server_Address;
+
+@synthesize _queue;
+- (void)dealloc
+{
+    
+    self.push_server_Address=nil;
+    self.server_Address_str=nil;
+    
+    self._queue=nil;
+
+    
+    [_window release];
+    [_viewController release];
+    [super dealloc];
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    
+    //请求队列
+    NSOperationQueue *queue=[[NSOperationQueue alloc]init];
+    self._queue=queue;
+    [queue release];
+
+    //添加本地数据库
+
+    
+    NSString *dbName =[NSString stringWithFormat:@"%@.db",@"local"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentDirectory stringByAppendingPathComponent:dbName];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
+    if (![db open]) {
+        //NSLog(@"Could not open db.");
+    }
+    //创建本地资源表
+    [db executeUpdate:@"CREATE TABLE IF NOT EXISTS resour_table(r_id integer PRIMARY KEY,re_id text,type text,re_title text,localURL text)"];
+
+    
+    //设置画笔颜色，粗细，橡皮大小,如果是第一次进来默认设置
+    int flag2 = [[[NSUserDefaults standardUserDefaults] objectForKey:@"first"] intValue];
+    if (flag2 == 0) {
+        
+        
+        [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithFloat:2] forKey:@"clear_width"];
+        [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithFloat:2] forKey:@"width"];
+        
+        CGFloat components[3];
+        [ToolClass getRGBComponents:components forColor:[UIColor blackColor]];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:components[0]] forKey:@"color_r"];
+         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:components[1]] forKey:@"color_g"];
+         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:components[2]] forKey:@"color_b"];
+        
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"first"];
+    
+   
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    // Override point for customization after application launch.
+    self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
+    navController=[[UINavigationController alloc]initWithRootViewController:self.viewController];
+    [navController setNavigationBarHidden:YES];
+    self.window.rootViewController = navController;
+    [self.window makeKeyAndVisible];
+    return YES;
+}
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
+
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    return UIInterfaceOrientationMaskLandscape;
+}
+#endif
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    
+   
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    
+    
+    NSString *strIP=[[NSUserDefaults standardUserDefaults]objectForKey:@"IP"];
+    if (!strIP) {
+        strIP=@"";
+    }else{
+        self.server_Address_str=[NSString stringWithFormat:@"http://%@",strIP];
+    }
+    
+    NSString *strIP2=[[NSUserDefaults standardUserDefaults]objectForKey:@"IP2"];
+    if (!strIP2) {
+        strIP2=@"";
+    }else{
+        self.push_server_Address=strIP2;
+    }
+    
+//    NSDictionary *dict = [[NSUserDefaults standardUserDefaults] objectForKey:@"loginInfo"];
+//    
+//    
+//    if(dict!=nil){
+//        
+//        [self loginSocket];
+//        
+//    }
+//
+
+    
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+}
+-(void)loginSocket{
+    
+    flag = NO;
+
+    [self loginSocketAction];
+    
+    
+    if (timer) {
+        [timer invalidate];
+        timer=nil;
+    }
+    timer=[NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(timerSendData) userInfo:nil repeats:YES];
+}
+-(void)timerSendData{
+    
+    [self loginSocketAction];
+    
+}
+-(void)connect2{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"textUserName"]) {
+        
+        //每一次从后台，进来的时候，都需要重新去跟socket服务器进行一次连接。
+        
+        
+        NSString *strUser=[[NSUserDefaults standardUserDefaults] objectForKey:@"textUserName"];
+        NSString *strPass=[[NSUserDefaults standardUserDefaults] objectForKey:@"textPassword"];
+        
+        
+        NSMutableDictionary *mudict=[ToolClass getSocektHeadDict:strUser pass:strPass auth_type:@"2" auth_version:IOS_VERSION contentLength:@"0" contentype:@"" receiver:@""];
+        
+        NSString *strHead=[ToolClass getSocketHead:mudict];
+        
+        
+        if (flag==NO) {
+            [[StreamSocket sharedStream]setIsFirst:YES];
+        }else{
+            [[StreamSocket sharedStream]setIsFirst:NO];
+            
+        }
+        
+        
+        [[StreamSocket sharedStream] requestData:strHead whoRequest:nil condition:0];
+        flag=YES;
+        
+        [mudict release];
+        [strHead release];
+    }
+    
+    
+}
+-(void)loginSocketAction{
+    
+    
+    [[StreamSocket sharedStream]set_currentObject:self];
+    [[StreamSocket sharedStream]start];
+    
+    NSInvocationOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(connect2) object:nil];
+    [self._queue addOperation:operation];
+    [operation release];
+    
+    
+    
+}
+#pragma mark streamDelegate
+-(void)getData:(NSData *)receivedData{
+    
+    
+    
+    
+    NSString *str=[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    NSLog(@"reveice is %@",str);
+    
+    NSDictionary *dict=[str JSONValue];
+    
+    
+    if([[dict objectForKey:@"type"] intValue]==1) {
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"touchScreen" object:[dict objectForKey:@"content"]];
+        
+    }else if([[dict objectForKey:@"type"] intValue]==2) {
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"moveScreen" object:[dict objectForKey:@"content"]];
+        
+    }else if([[dict objectForKey:@"type"] intValue]==3) {
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"endScreen" object:[dict objectForKey:@"content"]];
+        
+    }else if([[dict objectForKey:@"type"] intValue]==14) {
+        
+        [NSThread detachNewThreadSelector:@selector(didloadimage:) toTarget:self withObject:dict];
+
+    
+                     
+
+    }
+    
+    NSLog(@"dict is %@",dict);
+}
+-(void)didloadimage:(NSDictionary *)dict{
+    
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc]init];
+    
+    AppDelegate *dele = [[UIApplication sharedApplication]delegate];
+    
+    NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",dele.server_Address_str,[dict objectForKey:@"content"]]]];
+    
+    UIButton *imageView = [[UIButton alloc]initWithFrame:CGRectMake(0, 20, 1024, 748)];
+    imageView.backgroundColor = [UIColor blackColor];
+    imageView.alpha = 0.3;
+   
+    imageView.userInteractionEnabled = YES;
+    //[imageView setImage:[[UIImage alloc]initWithData:data] forState:UIControlStateNormal];
+    [imageView addTarget:self action:@selector(clickImage:) forControlEvents:UIControlEventTouchUpInside];
+    [navController.view addSubview:imageView];
+    [imageView release];
+    
+    
+    UIImageView *contentView = [[UIImageView alloc]initWithFrame:CGRectMake(1024/2-958/2, 768/2-700/2, 958,700)];
+    contentView.image = [[UIImage alloc]initWithData:data];
+    contentView.tag = 191;
+    contentView.layer.borderColor = MYCOLOR.CGColor;
+    contentView.layer.borderWidth =2.0;
+    contentView.layer.masksToBounds = YES;
+    [navController.view addSubview:contentView];
+    [contentView release];
+    
+    [pool release];
+}
+-(void)clickImage:(UIButton*)btn{
+    
+    [[navController.view viewWithTag:191] removeFromSuperview];
+    [btn removeFromSuperview];
+}
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+@end

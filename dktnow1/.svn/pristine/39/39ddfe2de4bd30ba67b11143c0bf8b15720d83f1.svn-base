@@ -1,0 +1,141 @@
+<load href="__PUBLIC__/Css/Ilc/header.css,__PUBLIC__/Css/Ilc/public.css"/>
+<load file="/Public/Css/Ilc/resource_index.css"/>
+<load href="__PUBLIC__/Js/Public/jquery-1.9.1.js,__PUBLIC__/Js/Public/jquery-ui.js,__PUBLIC__/Js/Public/public.js"/>
+<script type="text/javascript">
+$(function(){
+    //修改班级名称
+    $(document).on('click','.classObj .modify_cname',function(){
+        $(this).prev().hide();
+        $(this).siblings('.mselect').show();
+        $(this).siblings('.mbtn').show();
+        $(this).hide();
+    })
+    //取消班级名称
+    $(document).on('click','.cancel',function(){
+        if ($(this).parents('.classObj').hasClass('on')){
+            $(this).parents('.classObj').remove();
+        } else {
+            $(this).parent().hide();
+            $(this).parent().siblings().show();
+            $(this).parents('.classObj').removeClass('on');
+        }
+    })
+    //确定班级名称
+    $(document).on('click','.confirm',function(){
+        var t_text =  $(this).siblings('.c_id').find("option:selected").text().replace(/[ ]/g,'');
+        if (t_text == '选择班级') {
+            $(this).parent().hide();
+            $(this).parent().siblings().show();
+        } else {
+            $(this).parent().siblings('.class_names').text(t_text);
+            $(this).parent().hide();
+            $(this).parent().siblings().show();
+        }
+        $(this).parents('.classObj').removeClass('on');
+    })
+    //添加班级
+    var str = "<div class='classObj on'><span class='class_names'>初二(1)班</span><span class='cname modify_cname'>修改</span><div class='mselect'><select name='a_school_type'><option value='0'>选择学制</option><option value='2'>初中</option><option value='3'>高中</option></select><select name='a_grade'><option value='0'>选择年级</option></select><select name='c_id' class='c_id'><option value='0'>选择班级</option><option value='0'>初二(2)班</option></select><span class='confirm cour'>确定</span><span class='cancel cour'>取消</span></div></div>"
+    $('.modify_add').click(function(){
+        $('.classObj').removeClass('on');
+        $('.oclass .oclass_div').append(str);
+        $('.oclass_div .on').children('.mselect').show().siblings('span').hide();
+    })
+})
+</script>
+    <h2 class="res study_add">学生添加</h2>
+    <a href="" class="stydy_return fr">返回列表</a>
+    <form enctype="multipart/form-data" onsubmit="return check();" method="post">
+        <ul class="add_option">
+            <li>
+                <label><i></i>账号：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li>
+                <label><i></i>真实姓名：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li class="oclass">
+                <label class="fl"><i></i>班级：</label>
+                <div class="oclass_div fl">
+                    <div class="classObj">
+                        <span class="class_names">初二(1)班</span>
+                        <span class="cname modify_cname">修改</span>
+                        <div class="mselect">
+                            <select name="a_school_type">
+                                <option value="0">选择学制</option>
+                                <option value="2">初中</option>
+                                <option value="3">高中</option>
+                            </select>
+                            <select name="a_grade">
+                                <option value="0">选择年级</option>
+                            </select>
+                            <select name="c_id" class="c_id">
+                                <option value="0">选择班级</option>
+                                <option value="0">初二(2)班</option>
+                            </select>
+                            <span class="confirm cour">确定</span>
+                            <span class="cancel cour">取消</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <label><i></i>&nbsp;</label>
+                <div class="oclass_div oclass_obj">
+                    <div class="classObj">
+                        <span style="border:none"></span>
+                        <span class="cname modify_add">添加</span>
+                    </div>
+                </div>
+            </li>
+            <li class="rad_sex">
+                <label><i></i>性别：</label>
+                <input type="radio" value="1" name="a_sex" class="radio_sex"/>
+                <span>男</span>
+                <input type="radio" value="2" name="a_sex" class="radio_sex"/>
+                <span>女</span> 
+            </li>
+            <li>
+                <label><i></i>生日：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li>
+                <label><i></i>籍贯：</label>
+                <select class="fl" name="">
+                    <option value="">请选择省</option>
+                    <option value="">枚举</option>
+                </select>
+                <select class="fl" name="">
+                    <option value="">请选择市</option>
+                    <option value="">枚举</option>
+                </select>
+                <select class="fl" name="">
+                    <option value="">请选择县/区</option>
+                    <option value="">枚举</option>
+                </select>
+            </li>
+            <li>
+                <label><i></i>手机：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li>
+                <label><i></i>头像：</label>
+                <input type="file" name="a_avatar">
+            </li>
+            <li>
+                <label>简介：</label>
+                <textarea placeholder="内容不能超过300字符" name="sys_tex"></textarea>
+            </li>
+            <li>
+                <label><i></i>状态：</label>
+                <select class="fl" name="">
+                    <option value="">启用</option>
+                    <option value="">禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <button class="save" value="" type="submit">添加</button>
+                <button class="reset" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>

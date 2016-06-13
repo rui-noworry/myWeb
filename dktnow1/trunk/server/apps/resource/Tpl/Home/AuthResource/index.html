@@ -1,0 +1,244 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/upload.css"/>
+
+<!--多文件上传plupload插件开始-->
+<link rel="stylesheet" href="/Public/Js/Public/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css">
+<script type="text/javascript" src="/Public/Js/Public/plupload/plupload.full.js"></script>
+<script type="text/javascript" src="/Public/Js/Public/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+<script type="text/javascript" src="/Public/Js/Public/plupload/i18n/zh-cn.js"></script>
+<!--多文件上传plupload插件结束-->
+
+<script type="text/javascript">
+<!--
+    $(function() {
+
+        //判断IE6浏览器（上传文件不兼容）
+        if (window.ActiveXObject) {
+
+              var ua = navigator.userAgent.toLowerCase();
+
+              var ie=ua.match(/msie ([\d.]+)/)[1];
+
+            if(ie==6.0){
+
+             //alert("您的浏览器版本过低，在本系统中不能达到良好的视觉效果，建议你升级到ie8以上！");
+
+             $('.upload_top').remove();
+
+             $('.warn_file').show();
+
+            //window.close();//关闭浏览器窗口;
+
+            }
+
+        }
+
+        //IE6 添加列表，删除 滑过滑离
+        $(document).on('mouseover','.file_add,.file_bottom li span',function(){
+            $(this).addClass('on');
+        }).on('mouseout','.file_add,.file_bottom li span',function(){
+            $(this).removeClass('on')
+        })
+
+        //IE6 添加列表 点击
+        $(document).on('click','.file_add',function(){
+            var size = $('.file_bottom li').size();
+            if (size > 9) {
+                showMessage('一次最多只能上传10个');
+            } else {
+                $('.file_bottom').append("<li><label>上传资源</label><input type='file' name='a_avatar'/><span>删除</span></li>");
+            }
+        })
+
+        //IE6 删除 点击
+        $(document).on('click','.file_bottom li span',function(){
+            if (confirm('确定要删除该项吗')) {
+                $(this).parent().remove();
+            } else {
+                return false;
+            }
+        })
+
+        //资源多文件上传
+        reloadFileUpload();
+
+        // 添加资源
+        $('.finish_btn').click(function(){
+
+            // 如果用户上传了附件，但忘了点击上传按钮，自动点击上传
+            if ($('.plupload_buttons').css('display') != 'none' && $('#uploader_filelist').children().size() > 0) {
+                $('.plupload_start').click();
+                var uploader = $('#uploader').pluploadQueue();
+                // Files in queue upload them first
+                if (uploader.files.length > 0) {
+                    // When all files are uploaded submit form
+                    uploader.bind('UploadComplete', function() {
+                        if (uploader.files.length === (uploader.total.uploaded + uploader.total.failed)) {
+                            urlTurn();
+                        }
+                    });
+                    uploader.start();
+                }
+            } else {
+
+                urlTurn();
+            }
+        });
+
+    })
+
+    // 附件上传后，页面转向
+    function urlTurn() {
+
+        // 等待转码
+        Loading();
+
+        $.post('__URL__/insert', '', function(json){
+
+            // 取消等待
+            close_Loading();
+
+            if (json) {
+
+                var str = '';
+                    for (var i = 0; i < json.length; i ++) {
+                        str += ','+json[i];
+                    }
+
+                str = str.substr(1);
+
+                location.href="__URL__/resourcePublish/ids/"+str;
+
+            } else {
+                showMessage('上传文件失败');
+            }
+
+        }, 'json');
+    }
+
+    // 初始化多文件上传
+    function reloadFileUpload(){
+        var maxSize = {$maxSize};
+        $("#uploader").pluploadQueue({
+            // General settings
+            runtimes : 'html4,html5,flash,silverlight,gears,browserplus',
+            url : '__URL__/uploadAttach',
+            max_file_size : maxSize+'mb',
+            chunk_size : '10mb',
+            unique_names : true,
+
+            // Resize images on clientside if we can
+            resize : {width : 320, height : 240, quality : 90},
+            dragdrop : true,
+            // Specify what files to browse for
+            filters : [
+                {title : "Image files", extensions : "png,jpg,gif,bmp,jpeg"},
+                {title : "Zip files", extensions : "zip,rar"},
+                {title : "Audio files", extensions : "mp3,m4a,m4v"},
+                {title : "Mindmark files", extensions : "db"},
+                {title : "Video files", extensions : "mpeg,mp4,avi,rmvb,rm,wmv,fla,3gp,flv"},
+                {title : "Docs files", extensions : "txt,doc,xls,ppt,docx,xlsx,pptx,pdf"}
+            ],
+
+            // Flash settings
+            flash_swf_url : '/Public/Js/Public/plupload/plupload.flash.swf',
+
+            // Silverlight settings
+            silverlight_xap_url : '/Public/Js/Public/plupload/plupload.silverlight.xap',
+            init: {
+                FileUploaded: function(up, file, info) {
+                    var reg = /error(.*)<\/p>/ig;
+                    var res = info.response.match(reg);
+                    if (res) {
+                        var str = res.toString();
+                        alert(str.slice(7,-4));
+                        location.reload(true);
+                    }
+                }
+            }
+        });
+    }
+
+//-->
+</script>
+<div class="warp">
+    <include file="Public:leftSider"/>
+        <div class="res_upload">
+            <ul class="top">
+                <li class="title fl">上传资源</li>
+            </ul>
+            <div class="upload_box">
+                <p class="tit">资源选择</p>
+                <div class="upload_top">
+                    <div id="uploader">
+                        <p>上传资源控件加载错误，可能是您的浏览器不支持 Flash, Silverlight, Gears, BrowserPlus 或 HTML5，请检查</p>
+                    </div>
+                    <div class="warn_word">
+                        资源上传须知：<br/>
+                        1.请不要上传侵犯他人版权的文件<br/>
+                        2.每份文档不超过{$maxSize}M
+                    </div>
+                    <div class="clear"></div>
+                    <!--div class="tools">
+                        <span class="save_to_wp">保存到我的网盘</span>
+                        <span class="save_to_library">保存并发布到资源库</span>
+                        <cite class="">*为必填项</cite>
+                    </div-->
+                    <div class="finish">
+                        <button class="finish_btn">完成</button>
+                    </div>
+                </div>
+                <div class="warn_file">
+                    <div class="file_left">
+                        <div class="file_top">
+                            <span>多文件上传</span>
+                            <span class="file_add">添加列表</span>
+                        </div>
+                        <ul class="file_bottom">
+                            <li>
+                                <label>上传资源</label>
+                                <input type="file" name="a_avatar"/>
+                                <span>删除</span>
+                            </li>
+                            <li>
+                                <label>上传资源</label>
+                                <input type="file" name="a_avatar"/>
+                                <span>删除</span>
+                            </li>
+                            <li>
+                                <label>上传资源</label>
+                                <input type="file" name="a_avatar"/>
+                                <span>删除</span>
+                            </li>
+                            <li>
+                                <label>上传资源</label>
+                                <input type="file" name="a_avatar"/>
+                                <span>删除</span>
+                            </li>
+                            <li>
+                                <label>上传资源</label>
+                                <input type="file" name="a_avatar"/>
+                                <span>删除</span>
+                            </li>
+                            <li>
+                                <label>上传资源</label>
+                                <input type="file" name="a_avatar"/>
+                                <span>删除</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="warn_word fr">
+                        资源上传须知：<br/>
+                        1.请不要上传侵犯他人版权的文件<br/>
+                        2.每份文档不超过{$maxSize}M
+                    </div>
+                    <div class="clear"></div>
+                    <div class="file_but">
+                        <button class="finish_btn">完成</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="clear"></div>
+</div>
+<include file="Public:footer"/>

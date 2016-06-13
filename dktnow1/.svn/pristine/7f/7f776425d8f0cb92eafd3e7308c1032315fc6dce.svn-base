@@ -1,0 +1,90 @@
+//
+//  DongtaiCell.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-14.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "DongtaiCell.h"
+
+@implementation DongtaiCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+        
+//        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 899, 107)];
+//        imageView.image = [UIImage imageNamed:@"动态背景.png"];
+//        [self addSubview:imageView];
+//        [imageView release];
+        
+        headImage = [[ImgDownSelf alloc]initWithFrame:CGRectMake(30, 20, 60, 60)];
+        //headImage.image = [UIImage imageNamed:@"temp.png"];
+        [self addSubview:headImage];
+        [headImage release];
+        
+        UIImageView *fengedian = [[UIImageView alloc] initWithFrame:CGRectMake(124, 20, 14, 14)];
+        fengedian.image = [UIImage imageNamed:@"分割点.png"];
+        [self addSubview:fengedian];
+        [fengedian release];
+        
+        lblName = [[UILabel alloc]initWithFrame:CGRectMake(160, 20, 120, 30)];
+        lblName.backgroundColor = [UIColor clearColor];
+        lblName.text = @"张雪梅老师";
+        lblName.textAlignment = NSTextAlignmentLeft;
+        lblName.font = [UIFont systemFontOfSize:18];
+        [self addSubview:lblName];
+        [lblName release];
+        
+        
+        lblContent = [[UILabel alloc]initWithFrame:CGRectMake(160, 50, 600, 30)];
+        lblContent.backgroundColor = [UIColor clearColor];
+        lblContent.text = @"发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）发布了作业（我爱你的吻）";
+        lblContent.textColor = TEXTCOLOR;
+        lblContent.textAlignment = NSTextAlignmentLeft;
+        lblContent.numberOfLines = 0;
+        lblContent.font = [UIFont boldSystemFontOfSize:16];
+        [self addSubview:lblContent];
+        [lblContent release];
+        
+        
+        lblTime = [[UILabel alloc]initWithFrame:CGRectMake(720, 65, 150, 30)];
+        lblTime.backgroundColor = [UIColor clearColor];
+        lblTime.text = @"4分钟以前";
+        lblTime.textColor = [UIColor grayColor];
+        lblTime.textAlignment = NSTextAlignmentLeft;
+        lblTime.font = [UIFont systemFontOfSize:16];
+        [self addSubview:lblTime];
+        [lblTime release];
+        
+        UIImageView *fengexian = [[UIImageView alloc] initWithFrame:CGRectMake(130, 90, 740, 1)];
+        fengexian.image = [UIImage imageNamed:@"分割线.png"];
+        [self addSubview:fengexian];
+        [fengexian release];
+        
+    }
+    return self;
+}
+-(void)changeUI:(NSMutableDictionary *)muDict{
+    
+    
+    [headImage setImgUrl:[muDict objectForKey:@"a_avatar"]];
+    lblName.text = [muDict objectForKey:@"a_nickname"];
+    lblContent.text = [NSString stringWithFormat:@"%@了\t\t\t\t%@—%@",[muDict objectForKey:@"tr_action"],[muDict objectForKey:@"tr_obj"],[muDict objectForKey:@"tr_title"]];
+    lblTime.text = [muDict objectForKey:@"tr_created"];
+}
+-(void)dealloc{
+    
+    [super dealloc];
+}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

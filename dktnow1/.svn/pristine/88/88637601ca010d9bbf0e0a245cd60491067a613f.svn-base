@@ -1,0 +1,371 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Ilc/user.css"/>
+<load href="/Public/Js/Public/Ymd/WdatePicker.js, /Public/Js/Public/provincesCity.js,/Public/Js/Public/provincesdata.js"/>
+<script type="text/javascript">
+$(function() {
+    $('.teacher span').eq(0).addClass('on');
+    // 籍贯
+    setProvince("province", "a_region", '');
+
+    // 课程 点击选中
+    $(".teacher span").click(function() {
+
+        var oTrue = true;
+        var oSize = $('.teacher div .on').size();
+        //alert(oSize)
+
+        if ($(this).hasClass('on')) {
+             if (oSize == 1) {
+                return false;
+             } else {
+                $(this).removeClass('on');
+             }
+        } else {
+            if (oSize < 5) {
+                oTrue = true;
+                $(this).addClass('on');
+            } else {
+                oTrue = true;
+                showMessage('最多添加5门课程')
+            }
+        }
+
+        var clcount = $(this).parent().find("span.on").size();
+
+        if (clcount > 0) {
+            $(this).parent().prev().addClass('on');
+        }else {
+            $(this).parent().prev().removeClass('on');
+        }
+    })
+
+    //前端验证  账号
+    $('input[name=a_account]').blur(function() {
+        var oVal = $(this).val();
+        var trim = /^[\d|\w]{6,17}$/g;
+        var flag = trim.test(oVal)
+        if (oVal.length > 0) {
+            if (flag == true) {
+                $('input[name=a_account]').next().text('');
+                $('input[name=a_account]').next().append("<image src='__APPURL__/Public/Images/Home/true.png'/>");
+            } else {
+                $('input[name=a_account]').addClass('new_red');
+                $('input[name=a_account]').next().text('你输入的账号格式不正确，请重新输入账号').css('color','red');
+                oNum = false;
+                tTrue = false;
+            }
+        } else {
+            $(this).next().text('')
+        }
+    })
+
+        $('input[name=a_account]').focus(function() {
+            $(this).removeClass('new_red')
+            $(this).next().text('账号至少6位，最多17位').css('color','gray');
+            //$(this).css('border-color','none')
+        })
+
+    //前端验证  姓名
+    $('input[name=a_nickname]').blur(function() {
+        var oVal = $(this).val();
+        var new_val = /((^[\u4E00-\u9FA5]{2,6}$)|(^[a-zA-Z]+[\s\.]?([a-zA-Z]+[\s\.]?){0,4}[a-zA-Z]$))/g;
+        var flag = new_val.test(oVal);
+        if (oVal.length > 0) {
+            if (flag == true) {
+                $(this).next().text('');
+                $(this).next().append("<image src='__APPURL__/Public/Images/Home/true.png'/>");
+            } else {
+                $(this).addClass('new_red');
+                $(this).next().text('输入的格式不正确，请重新输入姓名').css('color','red');
+                return false;
+            }
+        } else {
+            $(this).next().text('');
+        }
+    })
+    $('input[name=a_nickname]').focus(function() {
+        $(this).removeClass('new_red');
+        $(this).next().text('请输入姓名,中文或英文').css('color','gray');
+    })
+
+    //前端验证 入校时间
+    $('select[name=a_year]').change(function() {
+        var oVal = $(this).val();
+        //alert(oVal)
+        var myDate = new Date();
+        var oYear = myDate.getFullYear();    //获取完整的年份(4位,1970)
+        if (oVal > oYear) {
+            //$(this).addClass('new_red')
+            $(this).next().text('请输入正确的时间').css('color','red');
+            return false;
+        } else {
+            //$(this).removeClass('new_red')
+            $(this).next().text('');
+        }
+    })
+
+    //前端验证 生日
+    $('input[name=a_birthday]').blur(function() {
+        var myDate = new Date();
+        myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+        myDate.getMonth();       //获取当前月份(0-11,0代表1月)
+        myDate.getDate();       //获取当前日(1-31)
+        var nowDate = (myDate.getFullYear()) + '-' + '0' + (myDate.getMonth() + 1) + '-' + myDate.getDate();
+        //nowDate = myDate.toLocaleDateString()
+        var oldVal = $(this).val();
+        var newVal = oldVal.replace(/[-]/g,'');
+        var newDate = nowDate.replace(/[-]/g,'');
+        var ntwVal = oldVal.replace(/[-]/g,'');
+        if (newVal == '') {
+            $(this).next().text('');
+            $(this).removeClass('new_red');
+            $(this).children().remove();
+            return false;
+        }
+        if (newVal > newDate) {
+            $(this).addClass('new_red');
+            $(this).next().text('请输入正确的生日').css('color','red');
+        } else {
+            $(this).removeClass('new_red');
+            $(this).next().text('');
+        }
+    })
+    $('input[name=a_birthday]').focus(function(){
+        //$(this).next().text('未满18周岁，不可输入').css('color','gray');
+        $(this).removeClass('new_red');
+    })
+
+    //前端验证 手机号码
+    $('input[name=a_tel]').blur(function() {
+        var tVal = $(this).val();
+        var tPar = /^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/;
+        var newVal = tVal.replace(/[ ]/g,'');
+        if (newVal == '') {
+            $(this).next().text('');
+            $(this).next().children().remove();
+        } else {
+            if (tPar.test(tVal)) {
+                $(this).next().text('');
+                $(this).next().append("<image src='__APPURL__/Public/Images/Home/true.png'/>");
+            } else {
+                $(this).addClass('new_red')
+                $(this).next().text('你输入的手机格式不正确，请重新输入').css('color','red');
+                return false;
+            }
+        }
+    })
+    $('input[name=a_tel]').focus(function() {
+        $(this).removeClass('new_red');
+        $(this).next().text('请输入正确的手机号码').css('color','gray')
+    })
+
+    //前端验证 简介
+    $('.addTeacher textarea').blur(function() {
+        var tVal = $(this).val();
+        var newVal = tVal.replace(/[ ]/g,'').length;
+        if (newVal > 300) {
+            showMessage('内容不能超过300字符');
+            $(this).focus();
+            return false;
+        }
+    })
+
+})
+
+// 验证
+function check() {
+
+    // 获取课程
+    var course = '';
+    $('.teacher span.on').each(function(){
+        course += ',' + $(this).attr('attr');
+    });
+
+    course = course.substr(1);
+    $('input[name=teacher]').val(course);
+
+
+    var tTrue = true;
+    var oNum = true;
+    //账号验证
+    var oVal = $('input[name=a_account]').val();
+    var nowVal = /^[\d|\w]{6,17}$/g;
+    if (oVal.length > 0) {
+        if (nowVal.test(oVal) == true) {
+            $('input[name=a_account]').next().text('');
+            $('input[name=a_account]').next().append("<image src='__APPURL__/Public/Images/Home/true.png'/>");
+        } else {
+            $('input[name=a_account]').addClass('new_red');
+            $('input[name=a_account]').next().text('你输入的账号格式不正确，请重新输入账号').css('color','red');
+            oNum = false;
+            tTrue = false;
+        }
+    } else {
+        $('input[name=a_account]').addClass('new_red');
+        $('input[name=a_account]').next().text('你输入的账号不能为空').css('color','red');
+    }
+
+    //姓名验证
+    var tVal = $('input[name=a_nickname]').val();
+    var ntwVal = /((^[\u4E00-\u9FA5]{2,6}$)|(^[a-zA-Z]+[\s\.]?([a-zA-Z]+[\s\.]?){0,4}[a-zA-Z]$))/g;
+    if (tVal.length > 0) {
+        if (ntwVal.test(tVal) == true) {
+            $('input[name=a_nickname]').next().text('');
+            $('input[name=a_nickname]').next().append("<image src='__APPURL__/Public/Images/Home/true.png'/>");
+        } else {
+            $('input[name=a_nickname]').addClass('new_red');
+            $('input[name=a_nickname]').next().text('你输入的姓名格式不正确，请重新输入姓名');
+            oNum = false;
+            tTrue = false;
+        }
+    } else {
+        $('input[name=a_nickname]').addClass('new_red');
+        $('input[name=a_nickname]').next().text('请输入姓名,中文或英文').css('color','red');
+        oNum = false;
+        tTrue = false;
+    }
+
+    //入校时间验证
+    var yeaVal = $('select[name=a_year]').val();
+    var myDate = new Date();
+    var oYear = myDate.getFullYear();    //获取完整的年份(4位,1970)
+    if (yeaVal > oYear) {
+        //$('select[name=a_year]').addClass('new_red');
+        $('select[name=a_year]').next().text('请输入正确的入校时间').css('color','red');
+        oNum = false;
+        tTrue = false;
+    }
+
+    //生日验证
+    var oldVal = $('input[name=a_birthday]').val();
+    var myDate = new Date();
+    myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+    myDate.getMonth();       //获取当前月份(0-11,0代表1月)
+    myDate.getDate();       //获取当前日(1-31)
+    var nowDate = (myDate.getFullYear()) + '-' + '0' + (myDate.getMonth() + 1) + '-' + myDate.getDate();
+    var newVal = oldVal.replace(/[-]/g,'');
+    var newDate = nowDate.replace(/[-]/g,'');
+    var ntwVal = oldVal.replace(/[-]/g,'');
+    if (newVal > newDate) {
+        $('input[name=a_birthday]').addClass('new_red');
+        $('input[name=a_birthday]').next().text('请输入正确的生日').css('color','red');
+        tTrue = false;
+    }
+
+    //手机验证
+    var pVal = $('input[name=a_tel]').val();
+    var reVal = pVal.replace(/[ ]/g,'');
+    var tPar = /^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/;
+    if (reVal == '') {
+    } else {
+        if (!tPar.test(pVal)) {
+            $('input[name=a_tel]').addClass('new_red');
+            $('input[name=a_tel]').next().text('你输入的手机格式不正确，请重新输入').css('color','red');
+            tTrue = false;
+        }
+    }
+
+    //简介验证
+    var adVal = $('.addTeacher textarea').val();
+    var nadLen = adVal.replace(/[ ]/g,'').length;
+    if (nadLen > 300) {
+        showMessage('简介内容不能超过300字符');
+        $('.addTeacher textarea').focus();
+        tTrue = false;
+    }
+    
+    //判断
+    if (tTrue == false) {
+        if(!oNum == true){
+            $("html, body").animate({ scrollTop: 50 }, 500);
+        }
+        return false;
+    } else {
+        return true;
+    }
+}
+</script>
+<div class="warp">
+    <include file="Public:left"/>
+    <div class="addBox">
+        <div class="title"><i class="fl">教师添加</i><a href="__URL__/index">返回列表</a></div>
+        <form action="__URL__/insert" method="post" onsubmit="return check();" enctype="multipart/form-data">
+            <input type="hidden" name="a_type" value="2" />
+            <ul class="addOption addTeacher">
+                <li>
+                    <label><i>&lowast;</i>账号：</label>
+                    <input type="text" name="a_account" class="fl"/>
+                    <p class="fl"></p>
+                </li>
+                <li>
+                    <label><i>&lowast;</i>姓名：</label>
+                    <input type="text" name="a_nickname" class="fl"/>
+                    <p class="fl"></p>
+                </li>
+                <li>
+                    <label><i>&lowast;</i>入校时间：</label>
+                    <select name="a_year" class="fl">
+                        <volist name="year" id="year">
+                            <option value="{$year}">{$year}</option>
+                        </volist>
+                    </select>
+                    <p class="fl"></p>
+                </li>
+                <li class="teacher">
+                    <label><i>&lowast;</i>教授课程：</label>
+                    <div>
+                    <volist name="course" id="course" key="y">
+                        <span class="hand" attr="{$y}">{$course}</span>
+                    </volist>
+                    <input type="hidden" value="" name="teacher" />
+
+                    </div>
+                </li>
+                <li class="tsex">
+                    <label>性别：</label>
+                    <input class="boy" type="radio" name="a_sex" value="0"/><i>保密</i>
+                    <input class="boy" type="radio" name="a_sex" value="1"/><i>男</i>
+                    <input class="girl" type="radio" name="a_sex"  value="2"/><i>女</i>
+                </li>
+                <li>
+                    <label>生日：</label>
+                    <input type="text" onclick="WdatePicker();" name="a_birthday" class="fl">
+                    <p class="fl"></p>
+                </li>
+                <li class="tnative">
+                    <label>籍贯：</label>
+                    <span id="province"></span>
+                    <input type="hidden" name="a_region"/>
+                </li>
+                <li>
+                    <label>手机：</label>
+                    <input type="text" name="a_tel" class="fl">
+                    <p class="fl"></p>
+                </li>
+                <li>
+                    <label>头像：</label>
+                    <input type="file" name="a_avatar">
+                </li>
+                <li>
+                    <label>简介：</label>
+                    <textarea name="t_intro" name="a_note" placeholder="内容不能超过300字符"></textarea>
+                </li>
+                <li>
+                    <label>状态：</label>
+                    <div>
+                        <select name="a_status">
+                            <option>启用</option>
+                            <option>禁用</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="coBtn">
+                    <button type="submit" value="" class="save">保存</button>
+                    <button type="reset" value="" class="reset">清除</button>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="clear"></div>
+</div>
+<include file="Public:footer"/>

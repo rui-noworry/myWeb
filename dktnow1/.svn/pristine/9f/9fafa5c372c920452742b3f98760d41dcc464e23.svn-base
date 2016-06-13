@@ -1,0 +1,51 @@
+//
+//  ActNoteCell.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-7-7.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "ActNoteCell.h"
+
+@implementation ActNoteCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+        
+        imageview = [[UIImageView alloc] initWithFrame:CGRectMake(20, 5, 391, 188)];
+        [self addSubview:imageview];
+        [imageview release];
+        
+//        
+//        backImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 640, 208)];
+//        backImage.layer.borderWidth = 1.0;
+//        backImage.layer.cornerRadius = 5.0;
+//        backImage.alpha = 0.3;
+//        backImage.layer.borderColor = [UIColor grayColor].CGColor;
+//        backImage.layer.masksToBounds = YES;
+//        [self addSubview:backImage];
+//        [backImage release];
+    }
+    return self;
+}
+-(void)updateCell:(NSMutableDictionary *)muDict{
+    
+    imageview.image = [muDict objectForKey:@"image"];
+    float imageHeight = imageview.image.size.height;
+    imageview.frame = CGRectMake(20, 5, imageview.image.size.width, imageHeight);
+  
+    //  backImage.frame = CGRectMake(10, 0, 640, imageHeight+10);
+
+}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

@@ -1,0 +1,173 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/myres.css"/>
+<script type="text/javascript">
+<!--
+    $(function() {
+
+        // 鼠标滑过资源
+        $(document).on('mouseenter','.res_cover',function() {
+            $(this).parent().addClass('on');
+        })
+        $(document).on('mouseleave','.res_cover',function() {
+            $(this).parent().removeClass('on');
+        })
+
+        // 鼠标点击选中资源
+        $(document).on('click','.res_cover',function() {
+            choose($(this));
+        })
+
+        // 选中复选框
+        $(document).on('click', '.ck', function() {
+            choose($(this));
+        })
+
+        // 取消收藏
+        $(document).on('click','.tools .del',function() {
+
+            if (confirm("您确定删除收藏的资源吗？")) {
+
+                var str = getChoosed(0);
+                if (!str) {
+                    return false;
+                }
+
+                $.post('__URL__/delete', 'id='+str, function(json) {
+                    if (json.status == 1) {
+
+                        $('.mouldBox').eq(0).find('li.click').remove();
+                        $('.mouldBox').eq(0).find('.tools i').html(0);
+
+                    } else {
+                        showMessage(json.info);
+                    }
+                }, 'json')
+            }
+        })
+
+        // 全选
+        $('input[name=checkall]').click(function(){
+            var obj = $('.mould');
+
+            if (this.checked) {
+                obj.find('li').addClass('click');
+                obj.find('.ck').prop('checked', true);
+                obj.find('.tools i').html(obj.find('li').size());
+                obj.find('.tools p').show();
+            } else {
+                obj.find('li').removeClass('click');
+                obj.find('.ck').prop('checked', false);
+                obj.find('.tools i').html(0);
+                obj.find('.tools p').find();
+            }
+        })
+
+        getList(0);
+
+        // 切换显示方式
+        $('.order_switch a').click(function() {
+            $(this).addClass('on').siblings().removeClass('on');
+            var obj = $('.mouldBox li');
+            obj.each(function() {
+                $(this).find('.ck').prop('checked', $(this).hasClass('click'));
+            })
+            if ($(this).index()) {
+                obj.removeClass('listli');
+            } else {
+                obj.addClass('listli');
+            }
+        })
+    })
+
+    function getChoosed(num) {
+        var str = '';
+        $('.mouldBox li.click').each(function(){
+             str += ',' + $(this).attr('attr');
+        })
+
+        return str.slice(1);
+    }
+
+    function choose(obj) {
+        if (obj.parent().hasClass('click')) {
+            obj.parent().removeClass('click');
+        } else {
+            obj.parent().addClass('click');
+        }
+
+        var chooseNum = $('.mould li.click').size();
+        $('.tools i').html(chooseNum);
+
+        //有选中资源则显示资源操作按钮
+        if (chooseNum > 0) {
+            $('.tools p').show();
+        } else {
+            $('.tools p').hide();
+        }
+    }
+
+    function getList(p) {
+
+        p = parseInt(p);
+
+        $.post('__URL__/lists', 'p=' + p, function(json) {
+            var str = '';
+            var page = '';
+            $('page').html('');
+            $('.mouldBox ul').html('');
+
+            if (json.list && json.list.length) {
+
+                var obj = json.list;
+
+                for (var i = 0; i < obj.length; i ++) {
+                    str += '<li attr="'+obj[i]['re_id']+'"><input type="checkbox" class="ck" name="list_check"><a class="res_cover" href="javascript:void(0)"><img class="old_frame" src="'+obj[i]['re_img']+'" width="100" height="75"/><img class="res_scan hide" src="__APPURL__/Public/Images/Home/res_scan.png"><img class="res_click hide" src="__APPURL__/Public/Images/Home/res_click.png"></a><a class="res_title" target="_blank" href="__APPURL__/Resource/index/id/'+obj[i]['re_id']+'" title="'+obj[i]['re_title']+'">'+obj[i]['re_title']+'</a><span>'+obj[i]['a_nickname']+'</span><span><i>'+obj[i]['re_download_points']+'</i>积分</span><span class="time">'+obj[i]['time']+'</span></li>';
+                }
+
+                page = json.page;
+
+                $('.page').html(page);
+                $('.mouldBox ul').html(str);
+            } else {
+                str = '<div class="mould"><p class="noData">暂无收藏资源</p></div>';
+                $('.mouldBox').html(str);
+            }
+
+            $(".res_box .mouldBox").show();
+        }, 'json');
+    }
+//-->
+</script>
+<div class="warp">
+    <include file="Public:leftSider"/>
+        <div class="myres_right">
+        <!-- 资源列表开始 -->
+        <div class="res_list fl">
+            <ul class="res_tab">
+                <p class="order_switch">
+                    <a href="#" class="list"></a>
+                    <a href="#" class="thumb on"></a>
+                </p>
+                <li class="current">我的收藏</li>
+            </ul>
+            <div class="res_box fl">
+                <div class="mouldBox two fl hide">
+                    <div class="mould">
+                        <div class="tools">
+                            <a class="choose"><input type="checkbox" name="checkall"><span>已选中<i>0</i>个文件</span></a>
+                            <p class="hide">
+                                <a class="del"></a>
+                            </p>
+                        </div>
+                        <ul>
+                        </ul>
+                    </div>
+                    <div class="page"></div>
+                </div>
+        </div>
+        <!-- 资源列表结束 -->
+    </div>
+
+<div class="clear"></div>
+</div>
+<include file="Public:footer"/>

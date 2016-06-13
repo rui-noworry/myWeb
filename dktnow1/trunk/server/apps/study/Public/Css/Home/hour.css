@@ -1,0 +1,2027 @@
+/* 课时页面CSS */
+#body {
+    position:relative;
+}
+.lesson_left {
+    width:20%;
+    /*width: 190px;*/
+    min-height: 800px;
+    _height: 800px;
+    padding: 15px 0px 0px 0px;
+    margin-top: 25px;
+    background: #F3F2F0;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+    position:relative;
+}
+.lesson_left .left-shrink {
+    position:absolute;
+    width:11px;
+    height:117px;
+    top:300px;
+    left:200px;
+    cursor:pointer;
+}
+.l-shrink-open {
+    background:url('/apps/study/Public/Images/Home/shrink_left.png') no-repeat;
+}
+.l-shrink-close {
+    background:url('/apps/study/Public/Images/Home/c_shrink_left.png') no-repeat;
+}
+.r-shrink-open {
+    background:url('/apps/study/Public/Images/Home/shrink_right.png') no-repeat;
+}
+.r-shrink-close {
+    background:url('/apps/study/Public/Images/Home/c_shrink_right.png') no-repeat;
+}
+.add_unit {
+    width:87%;
+    height: 38px;
+    line-height: 38px;
+    /*padding-left: 64px;*/
+    background: url('/apps/study/Public/Images/Home/classroom.png') no-repeat 0px -38px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    margin:0 15px;
+    overflow:hidden;
+}
+.add_unit span {
+    margin-left:64px;
+}
+.tree {
+    float:left;
+    width:90%;
+    /*width:175px;*/
+    margin-top:20px;
+    margin-left:20px;
+    padding:0;
+    overflow:hidden;
+}
+.tree li {
+    float:left;
+    width:180px;
+    font-size: 14px;
+    margin-left:3px;
+    margin-bottom:15px;
+    overflow: hidden;
+    display:inline;
+}
+.tree_switch_plus {
+    float:left;
+    width: 16px;
+    height: 16px;
+    background: url("/apps/study/Public/Images/Home/deploy.png") no-repeat;
+    margin-top:3px;
+    margin-right: 5px;
+    cursor:pointer;
+}
+.tree_switch_sub {
+    float:left;
+    width: 16px;
+    height: 16px;
+    background: url("/apps/study/Public/Images/Home/shrink.png") no-repeat;
+    margin-top:3px;
+    margin-right: 5px;
+    cursor:pointer;
+}
+.tree_unit_a {
+    float:left;
+    width: 155px;
+    overflow: hidden;
+    color: #818181;
+    font-size: 18px;
+}
+.child_node_a {
+    width: 145px;
+    font-size: 16px;
+}
+.grandchild_node_a{
+    width: 150px;
+    font-size: 14px;
+}
+.grandchild_node_a span.on {
+    color:rgb(46, 187, 104);
+}
+.tree_branch {
+    float:left;
+    width:100px;
+    white-space:nowrap;
+    overflow:hidden;
+    cursor:pointer;
+}
+.child_node_span {
+    width:85px;
+}
+.grandchild_node_span {
+    width:95px;
+}
+.add ,.del ,.edit, .add_c ,.del_c ,.edit_c ,.edit_ks ,.del_ks{
+    float:left;
+    width:12px;
+    height:12px;
+    margin-top:5px;
+    margin-left: 3px;
+    cursor:pointer;
+    display:none;
+}
+.add ,.add_c {
+    background:url('/apps/study/Public/Images/Home/addNodes.png') no-repeat;
+}
+.add:hover ,.add_c:hover {
+    background:url('/apps/study/Public/Images/Home/addNodesHover.png') no-repeat;
+}
+.del ,.del_c ,.del_ks{
+    background:url('/apps/study/Public/Images/Home/delNodes.png') no-repeat;
+}
+.del:hover ,.del_c:hover ,.del_ks:hover{
+    background:url('/apps/study/Public/Images/Home/delNodesHover.png') no-repeat;
+}
+.edit ,.edit_c ,.edit_ks {
+    background:url('/apps/study/Public/Images/Home/editNodes.png') no-repeat;
+    margin-top:7px;
+    margin-left:7px;
+}
+.tree ul.ctree {
+    float: left;
+    width: 185px;
+    padding: 0;
+    display:inline;
+}
+.tree ul.stree {
+    float: left;
+    width: 160px;
+    padding: 0;
+    margin-left: 10px;
+    display: inline;
+}
+.tree ul.ctree li {
+    float: left;
+    width:170px;
+    color: #818181;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: 15px;
+    margin-bottom: 3px;
+    overflow: hidden;
+    cursor: pointer;
+    display:inline;
+}
+.tree ul.stree li {
+    float: left;
+    width:150px;
+    color: #818181;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    display:inline;
+}
+.tree_branch .edit_node {
+    float:left;
+    width:80px;
+    height:20px;
+    line-height:20px;
+}
+.lesson_main {
+    width:64%;
+    /*width:630px;*/
+    height:auto;
+    min-height:815px;
+    background:#f3f2f0;
+    margin-top:25px;
+    margin-left:10px;
+}
+.lesson_main .main_top {
+    float:left;
+    width:100%;
+    height:50px;
+    line-height:50px;
+    border-bottom: 1px solid gainsboro;
+}
+.lesson_main .main_top .back {
+    float:right;
+    margin-right:12px;
+    font-size: 18px;
+    cursor:pointer;
+}
+.lesson_main .main_top .back:hover {
+    color: #22a558;
+}
+.lesson_main .main_top .title {
+    float:left;
+    display: inline;
+    font-size: 16px;
+    color: #373737;
+    margin-left:20px;
+}
+.lesson_main .main_top .courseTitle {
+    float:left;
+    display: inline;
+    font-size: 16px;
+    color: #373737;
+    margin-left:20px;
+}
+.lesson_main .tache_box .add_node {
+    float: left;
+    width: 78px;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 18px;
+    text-align: center;
+    border:1px solid #9bdbb5;
+    background:#dff4e7;
+    color: #22a558  ;
+    cursor: pointer;
+    display: inline;
+    margin-top:10px;
+}
+.main_top .publish {
+    float: right;
+    width: 73px;
+    height: 28px;
+    line-height: 28px;
+    margin-right: 10px;
+    text-align: center;
+    border:1px solid #9bdbb5;
+    background:#dff4e7;
+    color: #22a558  ;
+    cursor: pointer;
+    display: inline;
+    margin-top:10px;
+}
+.lesson_main .main_top .order_switch {
+    float: right;
+    width: 64px;
+    margin-right: 10px;
+}
+.lesson_main .main_top .order_switch .list ,.order_switch .thumb{
+    float: left;
+    width: 32px;
+    height: 28px;
+    margin-top: 10px;
+}
+.lesson_main .main_top .order_switch .list {
+    background: url('/apps/study/Public/Images/Home/order_switch.png') 0px 0px;
+}
+.lesson_main .main_top .order_switch .list.on {
+    background: url('/apps/study/Public/Images/Home/order_switch.png') 0px -28px;
+}
+.lesson_main .main_top .order_switch .thumb.on {
+    background: url('/apps/study/Public/Images/Home/order_switch.png') -31px -0px;
+}
+.lesson_main .main_top .order_switch .thumb {
+    background: url('/apps/study/Public/Images/Home/order_switch.png') -31px -28px;
+}
+.lesson_main .main_top .lesson_lead ,.lesson_main .main_top .add_res{
+    float: right;
+    display: block;
+    width: 100px;
+    height: 28px;
+    line-height: 28px;
+    margin-top: 9px;
+    margin-right: 10px;
+    background:#dff4e7;
+    border: 1px solid #9bdbb5;
+    color: #22a558;
+    font-size: 14px;
+    text-align: center;
+}
+.lesson_main .main_top .lesson_lead {
+    width: 100px;
+}
+.lesson_main .main_top .add_res {
+    width: 70px;
+}
+.tache_box {
+    width:100%;
+    height:auto;
+}
+.tache_box .tache {
+    float:left;
+    width:100%;
+}
+.tache .act_top {
+    float:left;
+    width:100%;
+    /*width:630px;*/
+    height:40px;
+    line-height:40px;
+    background:#ECEAE8;
+    border-bottom:1px solid #E2E0DB;
+}
+.tache .act_top .node_name {
+    cursor:pointer;
+}
+.tache .act_top .snode_name {
+    margin-left:20px;
+}
+.tache .act_top .node_name .edit_tache {
+    width:100px;
+    height:20px;
+    line-height:20px;
+}
+.tache .act_top .addTache {
+    float: left;
+    width: 72px;
+    height: 32px;
+    line-height: 32px;
+    margin-left: 10px;
+    text-align: center;
+    /*border: 1px solid #9BDBB5;
+    background: #DFF4E7;*/
+    background:url('/apps/study/Public/Images/Home/upload_bg.png');
+    color: #22A558;
+    cursor: pointer;
+    display: inline;
+    margin-top: 4px;
+}
+.tache .act_top .cancel_add {
+    float: left;
+    width: 72px;
+    height: 32px;
+    line-height: 32px;
+    margin-left: 10px;
+    text-align: center;
+    background:url('/apps/study/Public/Images/Home/upload_bg.png');
+    color: #22A558;
+    cursor: pointer;
+    display: inline;
+    margin-top: 4px;
+    display:none;
+}
+.tache .act_top label {
+    float:left;
+    font-size:16px;
+    color:#807D78;
+    margin-left:5px;
+}
+.tache .act_top .del_tache {
+    float:left;
+    width:16px;
+    height:16px;
+    background:url('/apps/study/Public/Images/Home/del_tache1.png') no-repeat;
+    margin-top: 12px;
+    margin-left: 20px;
+    cursor:pointer;
+}
+.tache .act_top .tache_up {
+    float:right;
+    width:19px;
+    height:20px;
+    background:url('/apps/study/Public/Images/Home/tache_up.png') no-repeat;
+    margin-top: 10px;
+    margin-right: 15px;
+    cursor:pointer;
+}
+.tache .act_top .tache_down {
+    float:right;
+    width:19px;
+    height:20px;
+    background:url('/apps/study/Public/Images/Home/tache_down.png') no-repeat;
+    margin-top: 10px;
+    margin-right: 15px;
+    cursor:pointer;
+}
+.tache_box .act_box {
+    float: left;
+    width:100%;
+    /*width: 630px;*/
+    min-height:140px;
+    _height:expression(this.scrollHeight < 140 ? "140px" : "auto");
+    position:relative;
+}
+.tache_box .act_box li {
+    float:left;
+    cursor:pointer;
+}
+.tache_box .act_box li.flex_add {
+    position: relative;
+    float: left;
+    width: 135px;
+    height: 120px;
+    margin: 0 10px 15px 10px;
+    box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+}
+.unlink{
+    float: left;
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+}
+.tache_box .act_box li.flex_add .add_btn {
+    width: 81px;
+    height: 78px;
+    margin-top: 20px;
+    margin-left:25px;
+    background: url("/apps/study/Public/Images/Home/mould.png") no-repeat -268px 0px;
+    overflow:hidden;
+}
+.add_homework ,.add_execrise ,.add_text ,.add_link ,.add_read ,.add_talk{
+    float:left;
+    width:126px;
+    height:61px;
+    margin-top: 4px;
+    margin-left: 5px;
+}
+.add_homework {
+    background: url("/apps/study/Public/Images/Home/act_group.png") no-repeat 0px 0px;
+}
+.add_execrise {
+    background: url("/apps/study/Public/Images/Home/act_group.png") no-repeat 0px -61px;
+}
+.add_text {
+    background: url("/apps/study/Public/Images/Home/act_group.png") no-repeat 0px -122px;
+}
+.add_link {
+    background: url("/apps/study/Public/Images/Home/act_group.png") no-repeat 0px -183px;
+}
+.add_read {
+    background: url("/apps/study/Public/Images/Home/act_group.png") no-repeat 0px -244px;
+}
+.add_talk {
+    background: url("/apps/study/Public/Images/Home/act_group.png") no-repeat 0px -305px;
+}
+.tache_box .act_box li.flex_add span {
+    float:left;
+    width:100%;
+    height:45px;
+    margin-top: 5px;
+    text-align:center;
+    color: #5A5A5A;
+    font-size:14px;
+    overflow:hidden;
+}
+.tache_box .add_tache {
+    float:left;
+    width:100%;
+    height: 50px;
+    line-height: 50px;
+    border-top:1px solid #E0DED9;
+}
+.flex_del {
+    display: none;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 16px;
+    height: 16px;
+    background: url("/apps/study/Public/Images/Home/mould.png") no-repeat -367px -2px;
+    display:none;
+}
+.flex_del:hover{
+    background:url("/apps/study/Public/Images/Home/mould.png") no-repeat -367px -20px;
+}
+.lesson_right {
+    width:14%;
+    /*width:140px;*/
+    height:815px;
+    margin-top:25px;
+    margin-left:10px;
+    background: #F3F2F0;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+    position:relative;
+}
+.lesson_right .right-shrink {
+    position:absolute;
+    width:11px;
+    height:117px;
+    top:300px;
+    left:-11px;
+    cursor:pointer;
+}
+.lesson_right p.title {
+    float:left;
+    height:50px;
+    line-height:50px;
+    font-size:16px;
+    margin-left:20px;
+    color:#373838;
+}
+.lesson_right p.title img {
+    position:relative;
+    top:5px;
+    margin-right: 3px;
+}
+.lesson_right ul {
+    float:left;
+    /*margin-top:10px;*/
+}
+.lesson_right ul li {
+    float:left;
+    width:120px;
+    margin-left:20px;
+    margin-bottom:32px;
+    display:inline;
+}
+.lesson_right .scrollArea {
+    float:left;
+    overflow:hidden;
+    margin-top:15px;
+}
+.lesson_right .resBox span.pageUp,.lesson_right .resBox span.pageDown {
+    float:left;
+    cursor:pointer;
+    width:140px;
+    height:17px;
+}
+.lesson_right .resBox span.pageUp {
+    background:url('/apps/study/Public/Images/Home/pageUp.png') no-repeat;
+}
+.lesson_right .resBox span.pageUp:hover{
+    background:url('/apps/study/Public/Images/Home/pageUp_hover.png') no-repeat;
+}
+.lesson_right .resBox span.pageDown {
+    background:url('/apps/study/Public/Images/Home/pageDown.png') no-repeat;
+}
+.lesson_right .resBox span.pageDown:hover {
+    background:url('/apps/study/Public/Images/Home/pageDown_hover.png') no-repeat;
+}
+.resBox {
+    float:left;
+    width:140px;
+    height:765px;
+    position:relative;
+}
+.pageUp {
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+.pageDown {
+    position:absolute;
+    bottom:0px;
+    left:0px;
+}
+.lesson_right ul.res_tab li {
+    float:left;
+    width:140px;
+    font-size:14px;
+    cursor:pointer;
+    margin:15px 0;
+}
+.lesson_right ul.res_tab li span {
+    float:left;
+    margin-left:45px;
+}
+.lesson_right ul.res_tab li a.add_res {
+    float:left;
+    width:16px;
+    height:16px;
+    margin-top:2px;
+    margin-left:6px;
+    background:
+    float: left;
+    background: url('/apps/study/Public/Images/Home/course_addres.png') no-repeat;
+    cursor: pointer;
+}
+.res_box li .tools {
+    float: left;
+    width: 100px;
+    margin-top:5px;
+}
+.res_box li .tools a {
+    margin:0 7px;
+}
+.res_scan ,.res_dw ,.res_del{
+    float:left;
+    width:18px;
+    height:18px;
+}
+.res_scan {
+    background:url('/apps/study/Public/Images/Home/resScan.png') no-repeat;
+}
+.res_dw {
+    background:url('/apps/study/Public/Images/Home/resDw.png') no-repeat;
+}
+.res_del {
+    background:url('/apps/study/Public/Images/Home/resDel.png') no-repeat;
+}
+.lesson_right .res_box {
+    float:left;
+    height:730px;
+    position:relative;
+}
+.lesson_right .res_box ul {
+    margin-top:25px;
+
+}
+.lesson_right ul.res_tab li.on {
+    color:#22A558;
+    font-weight:bold;
+}
+.lesson_right ul li a {
+    float:left;
+    width:100px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-align:center;
+    font-size:14px;
+}
+.lesson_right ul li .tools_cover a {
+    float:left;
+    width:20px;
+    margin-top:2px;
+}
+.lesson_right .res_cover {
+    position:relative;
+}
+.lesson_right .res_cover .tools_cover {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100px;
+    height:75px;
+    background:rgba(0,0,0,0.3);
+    display:none;
+}
+.lesson_right ul li a.res_title {
+    line-height:30px;
+}
+/* 列表展示 */
+.act_box .act_option {
+    float:left;
+    width:100%;
+    /*width:600px;*/
+    /*border: 1px solid #e7e7e7;*/
+    margin: 0 15px 10px 15px;
+    display:inline;
+}
+.act_box .act_option .listAct {
+    float:left;
+    width:100%;
+    overflow:hidden;
+    /*background:#fff;
+    border-top: 1px solid #e7e7e7;*/
+}
+.act_box .act_option .listAct .topicBox {
+    float:left;
+    width:93%;
+    margin-bottom:5px;
+    /*border-bottom:1px dashed #9bdbb5;*/
+}
+.act_box .act_option .listAct .topicBox > p {
+    float:left;
+    margin-top:10px;
+    margin-left:30px;
+}
+.listAct .act_title {
+    float:left;
+    width:92%;
+    /*width:585px;*/
+    height:35px;
+    line-height:35px;
+    font-size:15px;
+    padding-left:15px;
+    color:#F59393;
+    /*background: #eee;*/
+    border-bottom: 1px dashed #d5d5d5;
+}
+.listAct .topic_option {
+    float:left;
+    width:560px;
+    margin-left:10px;
+    padding-left:20px;
+}
+.listAct .topic_option .topic_title {
+    float:left;
+    width: 560px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    color: #20D691;
+    overflow:hidden;
+    white-space:nowrap;
+}
+.listAct .topic_option .topic_cont {
+    float:left;
+    width: 100%;
+    padding:10px 0;
+    font-size: 12px;
+}
+.listAct .topic_option .topic_answer {
+    float:left;
+    width:100%;
+    margin:10px 0;
+}
+.listAct .topic_option .topic_answer .dalist label {
+    margin-right:10px;
+}
+.listAct .topic_option .topic_answer .dalist input {
+    margin-right:3px;
+}
+.listAct .topic_option .topic_answer .dalist.tkt p {
+    margin-bottom:10px;
+}
+.listAct .topic_tool {
+    float:right;
+    margin:10px 20px 15px 0;
+}
+.listAct .topic_tool a {
+    color: #20D691;
+    margin-right:5px;
+}
+.listAct .act_title .topic_up {
+    float:right;
+    width:19px;
+    height:20px;
+    background:url('/apps/study/Public/Images/Home/topic_up.png') no-repeat;
+    margin-top: 8px;
+    margin-right: 8px;
+    cursor:pointer;
+}
+.listAct .act_title .topic_down {
+    float:right;
+    width:19px;
+    height:20px;
+    background:url('/apps/study/Public/Images/Home/topic_down.png') no-repeat;
+    margin-top: 8px;
+    margin-right: 8px;
+    cursor:pointer;
+}
+/* 创建活动 */
+.create_act {
+    float:left;
+    width:100%;
+    /*width:630px;*/
+    height:auto;
+    min-height:627px;
+    background:#fff;
+    padding-left:10px;
+}
+.create_act ul.actul{
+    float:left;
+    margin-bottom:15px;
+}
+.create_act .actul > li {
+    float:left;
+    width:96%;
+    /*width: 610px;*/
+    font-size:14px;
+    margin:20px 0 0 20px;
+    display:inline;
+}
+.create_act .actul li.finishBtn {
+    margin:0 0 0 20px;
+}
+.create_act ul.actul li label.la {
+    float:left;
+    width:12%;
+    /*width:90px;*/
+    color:#313030;
+}
+.create_act .act_li_r {
+    float:left;
+    width:88%;
+}
+.create_act .act_li_r input {
+    float:left;
+    width:70%;
+    /*width:300px;*/
+    height:25px;
+}
+.create_act .act_li_r textarea {
+    float:left;
+    width:85%;
+    /*width:490px;*/
+    height:100px;
+}
+#uploader {
+    width:75%;
+    /*width: 490px;*/
+    height: 255px;
+}
+.act_li_r .switchOn, .act_li_r .switchOff {
+    float: left;
+    width: 85px;
+    height: 31px;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+}
+.act_li_r .switchOn {
+    background: #499669;
+}
+.act_li_r .switchOff {
+    background: #CBD3D6;
+}
+.act_li_r .switchOn span {
+    position: absolute;
+    top: 5px;
+    left: 30px;
+    font-size: 14px;
+    color: #ABD3BC;
+}
+.act_li_r .switchOff span {
+    position: absolute;
+    top: 5px;
+    left: 40px;
+    font-size: 14px;
+    color: #94A0A5;
+}
+.act_li_r .switchOn label {
+    position: absolute;
+    right: 4px;
+    top: 3px;
+    width: 25px;
+    height: 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    background: #ABD3BC;
+}
+.act_li_r .switchOff label {
+    position: absolute;
+    left: 4px;
+    top: 3px;
+    width: 25px;
+    height: 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    background: #94A0A5;
+}
+.create_act .act_li_r label {
+    width:25px;
+}
+.create_act .act_li_r .ts {
+    float:left;
+    width:420px;
+    margin-top:5px;
+    margin-left:10px;
+    color: #979797;
+    font-size:12px;
+}
+.create_act .act_li_r .ts img {
+    float:left;
+    margin-right:2px;
+}
+.act_li_r .addTopic ,.act_li_r .fromLibrary ,.upload_click{
+    float:left;
+    padding: 3px 6px;
+    border: 1px solid #20D691;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.finishBtn .publish {
+    float: left;
+    width: 174px;
+    height: 38px;
+    border: 0;
+    color: white;
+    font-size: 14px;
+    background: url('/apps/study/Public/Images/Home/btns.png') 0px 0px;
+    margin-top:15px;
+    margin-left:120px;
+    cursor:pointer;
+}
+.finishBtn .publish:hover {
+    background: url('/apps/study/Public/Images/Home/btns.png') 0px -38px;
+}
+.finishBtn .finish {
+    float: left;
+    width: 174px;
+    height: 38px;
+    border: 0;
+    color: white;
+    font-size: 14px;
+    background: url('/apps/study/Public/Images/Home/btns.png') 0px 0px;
+    margin-top:15px;
+    margin-left:20px;
+    cursor:pointer;
+}
+.finishBtn .finish:hover {
+    background: url('/apps/study/Public/Images/Home/btns.png') 0px -38px;
+}
+.finishBtn .cancel {
+    float: left;
+    width: 174px;
+    height: 38px;
+    border: 0;
+    color: #292929;
+    font-size: 14px;
+    background: url('/apps/study/Public/Images/Home/btns.png') -174px 0px;
+    margin-top:15px;
+    cursor:pointer;
+    margin-left:20px;
+}
+.finishBtn .cancel:hover {
+    background: url('/apps/study/Public/Images/Home/btns.png') -174px -38px;
+}
+.act_box_ul {
+    float: left;
+    width:100%;
+    padding: 12px 0;
+    margin-left:10px;
+}
+.act_box_ul .liliObj {
+    float:left;
+}
+/*添加题目列表*/
+.create_act li.topicBox ul.topicContent li.libox {
+    float:left;
+    width:95%;
+    /*width:600px;*/
+    margin: 20px 0 0 30px;
+    display:inline;
+}
+.create_act li.topicBox {
+    float: left;
+    width:100%;
+    /*width: 630px;*/
+    font-size: 14px;
+    margin: 10px 0 0 0;
+    border-top:1px solid #ECEBE9;
+    border-bottom:1px solid #ECEBE9;
+    padding-bottom:10px;
+}
+.create_act .topicBox li.libox > label {
+    float: left;
+    width: 60px;
+    color: #313030;
+}
+#content {
+    float: left;
+    display: inline;
+    width:80%;
+    /*width: 500px;*/
+}
+.ad {
+    float:left;
+    width:90%;
+}
+.ad a {
+    color: #20D691;
+    margin-right: 15px;
+}
+.create_act li.finishBtn {
+    margin:0 0 0 20px;
+}
+.dalist {
+    float: left;
+    width:90%;
+    /*width: 520px;*/
+    margin-top: 10px;
+    margin-left: 50px;
+}
+.dalist input {
+    float:left;
+    margin-right: 3px;
+}
+.dalist label {
+    float:left;
+    margin-right: 15px;
+}
+.dalist .spacelist {
+    float:left;
+    width:100%;
+    margin-bottom:10px;
+}
+.dalist .spacelist input {
+    width:50%;
+    /*width:200px;*/
+    height:25px;
+}
+.dalist .pdt {
+    float:left;
+}
+.dalist .jdt textarea {
+    width:60%;
+    /*width:400px;*/
+    height:100px;
+}
+.libox .addTopicBtn {
+    width: 174px;
+    height: 38px;
+    line-height: 38px;
+    border: 0;
+    display: inline-block;
+    margin-left:190px;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    background: url('/apps/study/Public/Images/Home/btns.png') 0px 0px;
+}
+.libox .addTopicBtn:hover {
+    background: url('/apps/study/Public/Images/Home/btns.png') 0px -38px;
+}
+/*已添加的题目列表*/
+.addedTopic_box {
+    float: left;
+    width: 100%;
+}
+.addedTopic_box .addTopic_list {
+    float: left;
+    width:100%;
+}
+.addedTopic_box .addTopic_list li {
+    float: left;
+    width:98%;
+    /*width: 550px;*/
+    height: auto;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ECEBE9;
+}
+.addTopic_list li .ttitle {
+    width: 98%;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: none;
+    font-size: 14px;
+    color: #20D691;
+}
+.addTopic_list li .tcontent {
+    float:left;
+    width:98%;
+    margin: 10px 30px;
+}
+.addTopic_list li .tanswer {
+    float:left;
+    width:98%;
+    /*width:520px;*/
+    margin-left:30px;
+}
+.addTopic_list .dalist1 input {
+    margin-right: 3px;
+}
+.addTopic_list .dalist1 label.option {
+    float: none;
+    width: 10px;
+    background: none;
+    text-align: center;
+    font-size: 14px;
+    color: #313030;
+    font-weight: normal;
+    height: 10px;
+    margin-right: 15px;
+}
+.addTopic_list p.operate {
+    padding: 5px 30px;
+    float: left;
+    width:95%;
+    /*width: 490px;*/
+    height: auto;
+    margin-top: 10px;
+}
+.addTopic_list p.operate label {
+    margin-right: 10px;
+    display: block;
+    float: left;
+}
+.addTopic_list p.operate label.lc {
+    font-weight: normal;
+    word-break: break-all;
+    color: #20D691;
+}
+.addTopic_list li.noline {
+    border-bottom: none;
+}
+.addTopic_list li .ttitle {
+    margin-left: 20px;
+}
+/*从资源库检索题目*/
+#reslibrary {
+    height:570px;
+    overflow:scroll;
+    overflow-x:hidden;
+    display:none;
+}
+#reslibrary .filter {
+    float:left;
+    width:650px;
+    height:auto;
+    margin-top:10px;
+}
+#reslibrary .filter li {
+    float:left;
+    width:100%;
+    line-height: 45px;
+    overflow: hidden;
+}
+#reslibrary .filter li label {
+    width:80px;
+    float:left;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: bold;
+}
+#reslibrary .filter li div {
+    float: left;
+    width: 550px;
+}
+#reslibrary .filter li span {
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    padding: 0px 20px;
+    border: 1px solid #20D691;
+    margin: 10px 5px;
+    cursor: pointer;
+    position:relative;
+}
+#reslibrary .filter li span.on {
+    background: #93E5BD;
+}
+#reslibrary .topic_search {
+    margin-bottom:10px;
+}
+#reslibrary .topic_search input {
+    float:left;
+    width: 533px;
+    height: 36px;
+    line-height: 36px;
+    margin-left: 10px;
+    /*border: none;
+    background: url('/Public/Images/Home/cc_input.png') no-repeat;*/
+}
+#reslibrary .topicOption {
+    width:750px;
+    height:auto;
+    padding:10px;
+    margin-bottom:10px;
+}
+#reslibrary .topicOption.on{
+    background:#e0e0e0;
+}
+#reslibrary .topic_search button {
+    float:left;
+    width: 90px;
+    height: 39px;
+    border: none;
+    margin-left: 10px;
+    background: url('/apps/study/Public/Images/Home/searchBtn.png') no-repeat;
+    cursor:pointer;
+}
+#reslibrary .sTopicList .topicOption span {
+    float:left;
+    width:60px;
+    height:60px;
+    line-height:60px;
+    display:block;
+    background:#E2F5E9;
+    text-align:center;
+    border-radius:2px;
+}
+#reslibrary .sTopicList .topicOption p {
+    float:left;
+    width:60px;
+}
+#reslibrary .sTopicList .topicOption p span {
+    cursor:pointer;
+    color:#797979;
+    font-size:18px;
+    font-weight:bold;
+}
+#reslibrary .sTopicList .topicOption p span.selected {
+    background:#20D691;
+}
+#reslibrary .sTopicList .topicOption p a {
+    float:left;
+    width:60px;
+    margin-top:6px;
+    text-align:center;
+}
+#reslibrary .sTopicList .topicOption p a:hover{
+    color:#20D691;
+}
+#reslibrary .sTopicList .topicOption .topicObj {
+    width:650px;
+    height:auto;
+    padding:10px;
+    margin-left:15px;
+    border:1px solid #e0e0e0;
+}
+#reslibrary .topicObj div {
+    float:left;
+    width:100%;
+    margin-bottom:6px;
+    font-size:14px;
+}
+#reslibrary .topicObj .tcontent {
+    float:left;
+    width:100%;
+}
+#reslibrary .topicObj .tcontent p {
+    float:left;
+    width:100%;
+    margin-bottom:5px;
+}
+#reslibrary .topicObj .ttitle {
+    color:#20D691;
+}
+.page .current {
+    background: #93E5BD;
+}
+/*添加标签（学科领域）*/
+.tagcustom li.taglist {
+    width:560px;
+    line-height:45px;
+    overflow:hidden;
+}
+.tagcustom li.taglist span{
+    position:relative;
+}
+.tagcustom li.taglist label.la {
+    float:left;
+    width:80px;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: bold;
+}
+.taglist div{
+    float:left;
+    width:450px;
+}
+.taglist div span{
+    float:left;
+    height:25px;
+    line-height:25px;
+    padding: 0px 20px;
+    border: 1px solid #20D691;
+    margin:10px 5px 10px 0;
+    cursor: pointer;
+}
+.taglist div span.hand.on {
+    background: #93E5BD;
+}
+.tagcustom li.taglist span {
+    margin-right:15px;
+    font-size:14px;
+}
+.tagcustom li.taglist span input {
+    margin-right:5px;
+}
+.tagcustom .tag_input{
+    display:block;
+    float:left;
+    width:195px;
+    height:36px;
+    line-height:38px;
+    padding-left:5px;
+    border:1px solid #d1d1d1;
+    border-top-color:#9b9b9b;
+}
+.flex_close{
+    display:none;
+    position:absolute;
+    right:-8px;
+    top:-8px;
+    width:16px;
+    height:16px;
+    background:url("/apps/study/Public/Images/Home/mould.png") no-repeat -367px -1px;
+        cursor:pointer;
+}
+.flex_close:hover{
+    background:url("/apps/study/Public/Images/Home/mould.png") no-repeat -367px -19px;
+}
+.tag_append{
+    float:left;
+    width:78px;
+    height:38px;
+    line-height:37px;
+    margin-left:18px;
+    text-align:center;
+    background:url("/apps/study/Public/Images/Home/left_btn.png") no-repeat -0px -0px;
+    color:#a5a5a5;
+    cursor:pointer;
+}
+.tag_append:hover{
+    background:url("/apps/study/Public/Images/Home/left_btn_h.png") no-repeat -0px -0px;
+    color:#109443;
+}
+.list_lab{
+    cursor:pointer;
+}
+.creat_c_mainBox ul li.libox .c_tag label.hand {
+    float:left;
+    height:25px;
+    line-height:25px;
+    padding: 2px 20px;
+    border: 1px solid #20D691;
+    margin:10px 5px;
+    cursor: pointer;
+}
+.creat_c_mainBox ul li.libox .c_tag label.on {
+    padding:3px 21px;
+    background: #93E5BD;
+}
+.list_append{
+    float:left;
+}
+/*外链*/
+.link_list {
+    float:left;
+    width:630px;
+}
+.link_list .link-btn {
+    float: left;
+    width:85%;
+}
+.link_list .link-btn .addLink {
+    padding: 3px 8px;
+    border: 1px solid #20D691;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.link_list div.link_box {
+    float: left;
+    width:90%;
+    /*width: 630px;*/
+    margin-top:20px;
+    padding-left:90px;
+}
+.link_box .link-unit {
+    /*border-bottom: 1px solid #E0E0E0;*/
+    float: left;
+    width:90%;
+    /*width: 500px;*/
+    height: 65px;
+    position: relative;
+}
+.link_list div.link-cont {
+    float: left;
+    width: 100%;
+    height: 60px;
+}
+.link_box .link-cont label {
+    float: left;
+    font-size: 14px;
+    color: #313030;
+    margin-right: 6px;
+    line-height: 65px;
+}
+.link_box div input {
+    float: left;
+    width:30%;
+    /*width: 165px;*/
+    height: 25px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+.link_box .link-unit .alarm .name {
+    float: left;
+    position: absolute;
+    top: 55px;
+    left: 45px;
+    display: none;
+}
+.link_box .link-unit .alarm .address {
+    float: left;
+    position: absolute;
+    top: 55px;
+    left: 370px;
+    display: none;
+}
+.link_box .link-unit .alarm {
+    color: red;
+    font-size: 14px;
+}
+.link_list .link_box div .del-link {
+    float: left;
+    width: 20px;
+    height: 20px;
+    background: url('/apps/study/Public/Images/Home/del-link.png') no-repeat;
+    margin-top: 23px;
+    cursor: pointer;
+}
+.link_list .link_box div .del-link:hover {
+    background: url('/apps/study/Public/Images/Home/del-link-hover.png') no-repeat;
+}
+.link-cont {
+    float: left;
+    width: 580px;
+    height: 60px;
+}
+.link-cont label {
+    float: left;
+    font-size: 14px;
+    color: #313030;
+    margin-right: 6px;
+    line-height: 65px;
+}
+.link-cont input {
+    float: left;
+    width: 165px;
+    height: 25px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+/* 拓展阅读 */
+.upload_area {
+    float:left;
+    width:630px;
+    display:none;
+}
+.upload_area #uploader {
+    margin-left:110px;
+}
+.confirm_upload button {
+    float: right;
+    width: 72px;
+    height: 32px;
+    border: 0;
+    font-size: 14px;
+    background: url('/apps/study/Public/Images/Home/upload_bg.png') no-repeat;
+    text-align: center;
+    cursor: pointer;
+    color: #22A558;
+    margin-top: 10px;
+    margin-right: 120px;
+}
+.ListFiles {
+    float: left;
+    width: 100px;
+    font-size: 14px;
+    margin: 10px 25px 10px 0;
+    position:relative;
+}
+.ListFiles .res_title {
+    float:left;
+    width:100px;
+    overflow:hidden;
+    white-space:nowrap;
+    margin-top:5px;
+}
+.res_list .res_right_box {
+    float:left;
+    width:80%;
+    /*width:500px;*/
+}
+.res_list .res_right_box ul {
+    float:left;
+}
+.create_act .actul li .res_right_box li {
+    width:100px;
+    margin:0 20px 10px 0;
+}
+.del_res {
+    display:none;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 16px;
+    height: 16px;
+    background: url("/apps/study/Public/Images/Home/mould.png") no-repeat -367px -1px;
+    cursor: pointer;
+}
+.del_res:hover{
+    background:url("/apps/study/Public/Images/Home/mould.png") no-repeat -367px -19px;
+}
+.topicBox .ListFiles {
+    margin-left:10px;
+    margin-right:10px;
+}
+.topicBox .link-unit {
+    margin-left:20px;
+}
+.topicBox .link-unit .del-link {
+    float: left;
+    width: 20px;
+    height: 20px;
+    background: url('/apps/study/Public/Images/Home/del-link.png') no-repeat;
+    margin-top: 23px;
+    cursor: pointer;
+}
+.topicBox .link-unit .del-link:hover {
+    background: url('/apps/study/Public/Images/Home/del-link-hover.png') no-repeat;
+}
+.topicBox .addTopic_list .tanswer ul li {
+    float:left;
+    width:100%;
+}
+.tache body {
+    background:#fff;
+}
+/*资源库检索窗口*/
+#read_reslibrary {
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+#read_reslibrary .filter {
+    float: left;
+    width: 650px;
+    margin-top: 10px;
+}
+#read_reslibrary .filter li {
+    float: left;
+    width: 100%;
+    line-height: 45px;
+    overflow: hidden;
+}
+#read_reslibrary .topic_search {
+    margin-bottom: 10px;
+}
+#read_reslibrary .topic_search input {
+    float: left;
+    width: 533px;
+    height: 36px;
+    line-height: 36px;
+    margin-left: 10px;
+}
+#read_reslibrary .topic_search button {
+    float: left;
+    width: 90px;
+    height: 39px;
+    border: none;
+    margin-left: 10px;
+    background: url('/apps/study/Public/Images/Home/searchBtn.png') no-repeat;
+    cursor: pointer;
+}
+#read_reslibrary .filter li label {
+    width: 80px;
+    float: left;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: bold;
+}
+#read_reslibrary .filter li div {
+    float: left;
+    width: 550px;
+}
+#read_reslibrary .filter li span {
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    padding: 0px 20px;
+    border: 1px solid #20D691;
+    margin: 10px 5px;
+    cursor: pointer;
+    position: relative;
+}
+#read_reslibrary .filter li span.on {
+    background: #93E5BD;
+}
+#read_reslibrary .res_list {
+    float:left;
+    margin-top:20px;
+    margin-left:10px;
+}
+#read_reslibrary .res_list li {
+    float:left;
+    width: 120px;
+    height: auto;
+    margin-bottom: 20px;
+}
+#read_reslibrary .res_list li.on .res_cover{
+    background:url('/apps/study/Public/Images/Home/res_frame.png');
+}
+#read_reslibrary .res_list li.on .res_scan{
+    display:inline;
+}
+#read_reslibrary .res_list li .res_scan{
+    display:none;
+    position: absolute;
+    top:3px;
+    left:3px;
+}
+#read_reslibrary .res_list li.listli .res_cover{
+    display:none;
+}
+#read_reslibrary .res_list li .res_cover {
+    width: 106px;
+    height: 81px;
+    background: url('/apps/study/Public/Images/Home/res_frame.png');
+    position: relative;
+}
+#read_reslibrary .res_list li .res_cover {
+    background:none;
+    display:block;
+}
+#read_reslibrary .res_list li.click .res_click{
+    position: absolute;
+    top:0px;
+    left:0px;
+}
+#read_reslibrary .res_list li.click .res_click {
+    display:inline;
+}
+#read_reslibrary .res_list .res_cover img {
+    float: left;
+    width: 100px;
+    height: 75px;
+    top: 0px;
+    left: 0px;
+}
+#read_reslibrary .res_list li .res_title {
+    float:left;
+    width:100px;
+    overflow:hidden;
+    white-space:nowrap;
+}
+/*课时发布窗口---指定班级*/
+.xin_noe {
+    float:left;
+    width:450px;
+    margin-left:5px;
+}
+.xin_noe div {
+    width:450px;
+}
+.xin_noe div span {
+    float:left;
+    height:25px;
+    line-height:25px;
+    margin:5px 0px 0px 10px;
+    padding:0px 15px;
+    border:1px solid #22a558;
+    color:#22a558;
+    cursor:pointer;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+.xin_add .xin_noe label {
+    line-height:35px;
+}
+.xin_sain .sa_click span.xin_ds, .xin_adae .sa_click span.xin_dss {
+    background: #22a558;
+    color: #fff;
+}
+.xin_add .xin_noe .xin_sain div {
+    width:360px;
+}
+/*教学组件弹出窗口*/
+#Win_cover {
+    background:black;
+    /*opacity:0.2;
+    filter: alpha(opacity = 20);*/
+    background: rgba(0,0,0,0.2);
+    position:fixed;
+    _position: absolute;
+    left:0;
+    top:0;
+    overflow:hidden;
+    display:none;
+    z-index:800;
+}
+#add_module {
+    float:left;
+    width:520px;
+    height:auto;
+    padding-bottom:10px;
+    display:none;
+    background:#fff;
+    z-index:9999;
+    position:relative;
+}
+#add_module ul {
+    float:left;
+    margin-top: 30px;
+    margin-left:18px;
+}
+#add_module ul li {
+    float:left;
+    width: 78px;
+    height: 78px;
+    border: 1px solid white;
+    border-right: 1px solid #AFAFAF;
+    border-bottom: 1px solid #AFAFAF;
+    background: #F2F2F2;
+    color: #5A5A5A;
+    line-height: 78px;
+    text-align: center;
+    font-size: 14px;
+    margin-left:8px;
+    margin-right: 8px;
+    margin-bottom:10px;
+}
+#add_module ul li:hover ,#add_module ul li.on{
+    border: 1px solid white;
+    border-right: 1px solid #AFAFAF;
+    border-bottom: 1px solid #AFAFAF;
+    background: #4AC27C;
+    color: white;
+    cursor: pointer;
+}
+.closeWin {
+    width:18px;
+    height:18px;
+    position:absolute;
+    top:5px;
+    right:10px;
+    cursor:pointer;
+    background:url('/apps/study/Public/Images/Home/c-w.png') no-repeat;
+}
+.closeWin:hover {
+    background:url('/apps/study/Public/Images/Home/c-w-h.png') no-repeat;
+}
+/*活动展示*/
+.resourceContent {
+    float:left;
+    margin:10px 0;
+}
+.resour_online {
+    float:left;
+    width:98%;
+    margin-left:20px;
+    margin-bottom:10px;
+    padding-left: 10px;
+    display:inline;
+}
+.resour_online div {
+    float:left;
+}
+.resour_online i {
+    line-height:30px;
+    color:#00944C;
+    font-size:16px;
+}
+.online_cursor {
+    width:100%;
+    float:left;
+    padding-bottom:10px;
+}
+.online_cursor li {
+    float:left;
+}
+.online_cursor span {
+    line-height:30px;
+    font-size:16px;
+}
+.online_cursor p span {
+    float:left
+    display:block;
+    font-size:14px;
+}
+.online_cursor > div {
+    padding-top:6px;
+    width:98%;
+    /*text-indent:2em;*/
+}
+.online_cursor div input,.online_cursor div label {
+    float:left;
+    line-height:14px;
+    margin-right:3px;
+    cursor:pointer;
+}
+.online_cursor div label img {
+    margin-top:-3px;
+}
+.resourceContent h3 {
+    width:90%;
+    line-height:45px;
+    margin-left:50px;
+    font-size:18px;
+    color:#686868;
+    font-weight:normal;
+}
+.online_cursor p {
+    float:left;
+    width:98%;
+    font-size:14px;
+    line-height:20px;
+    letter-spacing:2px;
+    color:#22778f;
+    word-spacing:2px;
+    letter-spacing:2px;
+    word-break:break-all;
+    margin-top:6px;
+    text-indent:2em;
+}
+.online_cursor div input {
+    display:inline;
+    float:left;
+    line-height:20px;
+    margin-top:4px;
+    _margin-top:1px;
+}
+.online_cursor div label {
+    float:left;
+    display:block;
+    height:auto;
+    max-width:96%;
+    font-size:14px;
+    line-height:20px;
+    padding:0px 5px;
+    word-spacing:2px;
+    letter-spacing:2px;
+    word-break:break-all;
+}
+.online_appendix span,.online_appendix a {
+    float:left;
+    line-height:24px;
+    color:#1cad76;
+    font-size:14px;
+}
+
+/*班级弹窗*/
+.xin_cur{
+    cursor:pointer;
+}
+.xin_add{
+    width:450px;
+}
+.xin_add ul{
+    width:450px;
+    float:left;
+    margin-top:5px;
+    margin-left:5px;
+}
+.xin_add ul li{
+    float:left;
+    width:150px;
+    height:30px;
+    line-height:30px;
+    margin-bottom:5px;
+    border:1px solid #22a558;
+    color:#22a558;
+    font-size:14px;
+    text-align:center;
+    cursor:pointer;
+}
+.xin_add ul li.xin_uli{
+    background:#22a558;
+    color:#fff;
+}
+.xin_noe{
+    width:450px;
+    margin-left:5px;
+}
+.xin_noe div{
+    width:450px;
+}
+.xin_noe div span{
+    float:left;
+    height:25px;
+    line-height:25px;
+    margin:5px 0px 0px 10px;
+    padding:0px 15px;
+    border:1px solid #22a558;
+    color:#22a558;
+    cursor:pointer;
+}
+.xin_adae p{
+    width:450px;
+}
+.xin_adae p label{
+    float:left;
+    line-height:20px;
+    font-size:14px;
+    color:#3e3e3e;
+}
+.xin_adae p a{
+    line-height:20px;
+    margin-right:10px;
+    cursor:pointer;
+    color:#22a558;
+}
+.xin_adae span{
+    position:relative;
+}
+.xin_add .xin_noe label{
+    line-height:35px;
+}
+.xin_add .xin_noe .xin_sain div{
+    width:360px;
+}
+.xin_add .xin_noe .xin_sain .sa_opend{
+    margin-bottom:10px;
+}
+.xin_sain .sa_click span.xin_ds,.xin_adae .sa_click span.xin_dss{
+    background:#22a558;
+    color:#fff;
+}
+.xin_add .xin_noe .xin_adae div{
+    width:300px;
+}
+.xin_add .xin_noe .xin_adae .xin_sch{
+    line-height:25px;
+    color:#22a558;
+    cursor:pointer;
+}
+#addResBox .uploadBox {
+    float:left;
+    padding-top:10px;
+}
+#addResBox span.win_fromLibrary {
+    padding: 3px 6px;
+    border: 1px solid #20D691;
+    margin: 10px 0;
+    cursor: pointer;
+}
+#addResBox #uploader {
+    width: 575px;
+    height: 255px;
+    margin-top:15px;
+}
+/*备课页面资源检索窗口*/
+/*资源库检索窗口*/
+#res_reslibrary {
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+#res_reslibrary .filter {
+    float: left;
+    width: 650px;
+    margin-top: 10px;
+}
+#res_reslibrary .filter li {
+    float: left;
+    width: 100%;
+    line-height: 45px;
+    overflow: hidden;
+}
+#res_reslibrary .topic_search {
+    margin-bottom: 10px;
+}
+#res_reslibrary .topic_search input {
+    float: left;
+    width: 533px;
+    height: 36px;
+    line-height: 36px;
+    margin-left: 10px;
+}
+#res_reslibrary .topic_search button {
+    float: left;
+    width: 90px;
+    height: 39px;
+    border: none;
+    margin-left: 10px;
+    background: url('/Public/Images/Home/searchBtn.png') no-repeat;
+    cursor: pointer;
+}
+#res_reslibrary .filter li label {
+    width: 80px;
+    float: left;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: bold;
+}
+#res_reslibrary .filter li div {
+    float: left;
+    width: 550px;
+}
+#res_reslibrary .filter li span {
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    padding: 0px 20px;
+    border: 1px solid #20D691;
+    margin: 10px 5px;
+    cursor: pointer;
+    position: relative;
+}
+#res_reslibrary .filter li span.on {
+    background: #93E5BD;
+}
+#res_reslibrary .res_list {
+    float:left;
+    margin-top:20px;
+    margin-left:10px;
+}
+#res_reslibrary .res_list li {
+    float:left;
+    width: 120px;
+    height: auto;
+    margin-bottom: 20px;
+}
+#res_reslibrary .res_list li.on .res_cover{
+    background:url('/Public/Images/Home/res_frame.png');
+}
+#res_reslibrary .res_list li.on .res_scan{
+    display:inline;
+}
+#res_reslibrary .res_list li .res_scan{
+    display:none;
+    position: absolute;
+    top:3px;
+    left:3px;
+}
+#res_reslibrary .res_list li.listli .res_cover{
+    display:none;
+}
+#res_reslibrary .res_list li .res_cover {
+    width: 106px;
+    height: 81px;
+    background: url('/Public/Images/Home/res_frame.png');
+    position: relative;
+}
+#res_reslibrary .res_list li .res_cover {
+    background:none;
+    display:block;
+}
+#res_reslibrary .res_list li.click .res_click{
+    position: absolute;
+    top:0px;
+    left:0px;
+}
+#res_reslibrary .res_list li.click .res_click {
+    display:inline;
+}
+#res_reslibrary .res_list .res_cover img {
+    float: left;
+    width: 100px;
+    height: 75px;
+    top: 0px;
+    left: 0px;
+}
+#res_reslibrary .res_list li .res_title {
+    float:left;
+    width:100px;
+    overflow:hidden;
+    white-space:nowrap;
+}

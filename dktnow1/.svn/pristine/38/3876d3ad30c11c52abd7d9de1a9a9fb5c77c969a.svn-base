@@ -1,0 +1,147 @@
+/*高级搜索*/
+.search_box {
+    float: left;
+    width: 1024px;
+    /*border: 1px solid #cecece;*/
+    background:#fff;
+}
+.search_box .filter {
+    float:left;
+    width:1000px;
+    border-top:2px solid #86b0e6;
+    border-bottom:1px solid #cecece;
+    border-left:1px solid #cecece;
+    border-right:1px solid #cecece;
+    margin:20px 12px 0;
+    display:inline;
+}
+.search_box .filter .filter_top {
+    width:100%;
+    height:32px;
+    line-height:32px;
+    border-bottom:1px solid #cecece;
+}
+.search_box .filter .filter_top label {
+    font-size:14px;
+    color:#545450;
+    margin-left:12px;
+}
+.search_box .filter .sear_type {
+    float:left;
+    width:100%;
+    margin-top:12px;
+    margin-bottom:10px;
+    font-size:14px;
+}
+.search_box .filter .sear_type li {
+    float:left;
+    width:100%;
+    height:25px;
+    line-height:25px;
+    margin-bottom: 8px;
+}
+.search_box .filter .sear_type li label {
+    float: left;
+    width: 60px;
+    font-size: 14px;
+    color: #494949;
+    text-align:right;
+    margin-right:10px;
+}
+.search_box .filter .sear_type li div {
+    float: left;
+    width: 900px;
+}
+.search_box .filter .sear_type li div span {
+    margin-right:30px;
+}
+.search_box .filter .sear_type li div span:hover {
+    cursor:pointer;
+}
+.search_box .filter .sear_type li div span.on {
+    color:#e4621d;
+}
+.search_box .filter .rearch_box {
+    float:left;
+    position: relative;
+    margin: 10px 0 10px 15px;
+    display:inline;
+}
+.search_box .filter .rearch_box .sch_input {
+    width: 216px;
+    height: 30px;
+    background: url('/apps/nr/Public/Images/Home/sch_input_bg.png');
+    border: none;
+    padding-left: 10px;
+}
+.search_box .filter .rearch_box .sch_btn {
+    width: 50px;
+    height: 30px;
+    background: url('/apps/nr/Public/Images/Home/sch_btn.png');
+    border: none;
+    position: absolute;
+    top:0;
+    left: 176px;
+    _top:2px;
+    _left:190px;
+    cursor: pointer;
+}
+.result_list .list_tab {
+    float:left;
+    width:1000px;
+    height:32px;
+    border:1px solid #cecece;
+    margin-top:15px;
+    margin-left:12px;
+    background:#f0f0f0;
+    display:inline;
+}
+.result_list .list_tab li {
+    float:left;
+    line-height:31px;
+    padding:0 35px;
+    border-right:1px solid #cecece;
+    cursor:pointer;
+}
+.result_list .list_tab li.on {
+    color:#007be7;
+    border-bottom:2px solid #138af2;
+}
+.result_list .list_box .rlbox {
+    float:left;
+    margin-top:15px;
+}
+.result_list .list_box .rlbox li {
+    float: left;
+    width: 124px;
+    height: 125px;
+    background: url('/apps/nr/Public/Images/Home/rebox_bg.png');
+    margin:0 10px 15px 12px;
+    display:inline;
+    overflow:hidden;
+}
+.result_list .list_box .rlbox li a.cov {
+    float: left;
+    height: 75px;
+    margin: 6px 0 0 12px;
+    cursor: pointer;
+}
+.result_list .list_box .rlbox li a.tit {
+    float: left;
+    width: 100px;
+    margin-top: 3px;
+    margin-left: 12px;
+    cursor: pointer;
+    color: #252525;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.result_list .list_box .rlbox li div {
+    float: left;
+    width: 100px;
+    margin-left: 12px;
+    margin-right: 12px;
+    color: #959595;
+    display:inline;
+}

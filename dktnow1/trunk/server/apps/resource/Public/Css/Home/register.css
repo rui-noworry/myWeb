@@ -1,0 +1,120 @@
+body {
+    width:100%;
+    background:#ffffff;
+}
+body * {
+    font-family:"微软雅黑",Microsoft Yahei;
+    font-size:12px;
+}
+.header,.main {
+    width:100%;
+}
+.header img {
+    margin-top:6px;
+}
+.header a {
+    line-height:76px;
+    color:#5bb381;
+    font-size:14px;
+}
+.main_center {
+    position:relative;
+    width:679px;
+    padding:63px 0px 0px 12px;
+    overflow:hidden;
+    background:url(../../Images/Home/enroll_center.jpg) repeat-x;
+}
+.main_enr {
+    position:absolute;
+    left:570px;
+    top:268px;
+    /top:272px;
+    _top:274px;
+    display:block;
+    width:100px;
+    height:40px;
+}
+.center_enroll {
+    width:670px;
+    height:400px;
+    padding:70px 0px 0px 33px;
+}
+.center_enroll ul {
+    float:left;
+    width:540px;
+    margin-top:15px;
+}
+.center_enroll ul li {
+    float:left;
+    height:27px;
+    line-height:27px;
+    color:#333;
+}
+.center_enroll ul li.enroll_user {
+    width:60px;
+    padding-right:20px;
+    font-size:14px;
+    text-align:right;
+}
+.center_enroll ul li.enroll_text input {
+    width:180px;
+    height:25px;
+    line-height:27px;
+    margin-right:8px;
+    text-indent:5px;
+    border:1px solid #adadad;
+}
+.center_enroll ul li input {
+    text-indent:5px;
+}
+.center_enroll ul li.enroll_cue img {
+    margin-top:3px;
+    margin-top:4px;
+    _margin-top:4px;
+}
+.center_enroll ul li.enroll_cue span {
+    margin-right:5px;
+    color:#ff0909;
+}
+.center_enroll ul li.enroll_cue a {
+    color:#21a557;
+    text-decoration:underline;
+}
+.center_enroll ul.enroll_code li input {
+    width:70px;
+}
+.center_enroll ul li.enroll_text a {
+    color:#ff8a2b;
+}
+.center_enroll ul.enroll_check li.enroll_text {
+    height:16px;
+    line-height:24px;
+}
+.center_enroll ul.enroll_check li.enroll_text input {
+    float:left;
+    width:14px;
+    height:14px;
+    margin-top:6px;
+    border:none;
+}
+.enroll_enr {
+    display:block;
+    width:100px;
+    height:40px;
+    margin:53px 0px 0px 80px;
+    background:url(../../Images/Home/enroll_enr.jpg) no-repeat;
+}
+.enroll_logged {
+    display:block;
+    width:100px;
+    height:40px;
+    margin:53px 0px 0px 80px;
+    background:url(../../Images/Home/enroll_logged.jpg) no-repeat;
+}
+.enroll_noenr {
+    display:block;
+    width:100px;
+    height:40px;
+    margin:53px 0px 0px 80px;
+    background:url(/Public/Images/Home/enroll_noenr.jpg) no-repeat;
+}

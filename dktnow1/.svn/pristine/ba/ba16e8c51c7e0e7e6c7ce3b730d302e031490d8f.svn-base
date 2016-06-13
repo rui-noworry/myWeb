@@ -1,0 +1,115 @@
+<html>
+<head>
+    <title>TestApi</title>
+    <load href="__PUBLIC__/Css/index.css"/>
+    <script src="/Public/Js/Public/jquery-1.9.1.js"></script>
+    <script type="text/javascript">
+    <!--
+        $(function(){
+            $('select[name=controller]').change(function() {
+                $('.require').html('');
+                if ($(this).val() != '') {
+                    $('select[name=function]').html('');
+                    $.post('__URL__/getFunction', 'con='+$(this).val(), function(json) {
+
+                        var str = '<option value="">请选择</option>';
+                        for(var key in json) {
+                            str += '<option value="'+key+'">'+json[key]['title']+'</option>';
+                        }
+                        $('select[name=function]').html(str);
+                    }, 'json');
+                } else {
+                    $('select[name=function]').html('<option value="">请选择</option>');
+                }
+            })
+
+            $('select[name=function]').change(function() {
+
+                if ($(this).val() != '') {
+                    $.post('__URL__/getParam', 'con='+$('select[name=controller]').val()+'&fun='+$(this).val(), function(json) {
+                        var str = '';
+                        for(var key in json) {
+                            if (json[key]['required'] == 1) {
+                                //str += json[key]['title'] + '：<input type="text" name="require['+key+']">';
+                                if (json[key]['type'] != 'file') {
+                                    str += '<label>' + key + '：</label>' + '<input type="text" name="require['+key+']">';
+                                }
+                            }
+                        }
+
+                        $('.require').html(str);
+                    }, 'json');
+                }
+            })
+
+            $('.now').click(function() {
+                $('.right .str').html('');
+                $('.right .obj').html('');
+                $.post('__URL__/api', $('.left form').serialize(), function(json) {
+                    $('.right .str').html(json.str);
+                    $('.right .obj').html(json.obj);
+                    $('.right .pre').html(json.param1 + '<hr>' + json.param2);
+                }, 'json')
+            });
+
+            //右侧切换
+            $('.right li').click(function(){
+                $(this).addClass('on').siblings().removeClass('on');
+                $('.news .show').eq($(this).index()).show().siblings().hide();
+            }).eq(2).click();
+        })
+    //-->
+    </script>
+</head>
+<body>
+    <div class="left">
+        <form>
+            <div class="con">
+                <label>类名：</label>
+                <select name="controller">
+                    <option value="">请选择</option>
+                    <volist name="controller" id="vo">
+                        <option value="{$key}" <eq name="params['controller']" value="$key">selected</eq>>{$vo.title}</option>
+                    </volist>
+                </select>
+            </div>
+            <div class="fun">
+                <label>方法名：</label>
+                <select name="function">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+            <div class="require">
+
+            </div>
+            <div class="param">
+                <label>参数：</label>
+                <textarea rows="5" cols="30" name="param"></textarea>
+                <p>
+                    *非必填参数每行一个，以这样的样式填写</br>
+                    例如：</br>
+                    co_id=21</br>
+                    a_id=1</br>
+                </p>
+            </div>
+            <div class="submit">
+                <input type="button" class="now" value="确定">
+            </div>
+        </form>
+
+        <input type="hidden" name="fun" value="{$params.function}">
+    </div>
+    <div class="right">
+        <ul>
+            <li>传递前数据</li>
+            <li>树形列表</li>
+            <li>JSON数据</li>
+        </ul>
+        <div class="news">
+            <div class="show pre"></div>
+            <div class="show obj"></div>
+            <div class="show str"></div>
+        </div>
+    </div>
+</body>
+</html>

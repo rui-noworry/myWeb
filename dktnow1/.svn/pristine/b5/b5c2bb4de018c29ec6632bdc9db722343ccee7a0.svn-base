@@ -1,0 +1,266 @@
+/* CSS Document */
+body{
+	background:#cccccc;
+}
+/*头部*/
+#header{
+	width:100%;
+	height:67px;
+	border-bottom:1px solid #666666;
+	background:#21a557;
+	overflow:hidden;
+}
+.header_logo{
+	width:994px;
+	margin:0 auto;
+	padding-left:6px;
+}
+.logo_img{
+	margin-top:9px;
+}
+.logo_name{
+	padding:20px 0px 0px 11px;
+}
+.logo_name p{
+	color:#f1f0f0;
+	font-family:"宋体" ,SimSun;
+	font-size:18px;
+}
+.logo_name span{
+	color:#c9c9c9;
+	font-family:"Arial" ,Regular;
+	font-size:10px;
+}
+.header_logo a{
+	line-height:67px;
+	color:#f1f1f1;
+	font-family:"微软雅黑" ,Microsoft Yahei;
+	font-size:13px;
+}
+/*中间*/
+#main{
+	position:relative;
+	width:1000px;
+	margin:0px auto;
+	overflow:hidden;
+}
+#main_bg{
+	position:absolute;
+	left:0px;
+	top:0px;
+	z-index:-1;
+}
+#main_bg .a1 {
+    width:958px;
+    height:668px;
+    background:url('/apps/resource/Public/Images/Home/a1.jpg');
+}
+#main_bg .a2 {
+    width:958px;
+    height:668px;
+    background:url('/apps/resource/Public/Images/Home/a2.jpg');
+}
+#main_bg .a3 {
+    width:958px;
+    height:668px;
+    background:url('/apps/resource/Public/Images/Home/a3.jpg'); 
+}
+.content{
+	width:1000px;
+	margin:0 auto;
+}
+/*左部分*/ 
+.content_left{
+	width:667px;
+	padding-top:164px;
+}
+.content_left p{
+	line-height:36px;
+	font-family:"微软雅黑" ,Microsoft Yahei;
+	font-size:24px;
+	padding-bottom:30px;
+	color:#212121;
+}
+.content_left p span{
+	font-size:35px;
+	color:#212121;
+}
+.conlef_div{
+	position:relative;
+	margin-bottom:18px;	
+}
+.conlef_div_d1{
+	position:absolute;
+	left:0px;
+	top:0px;
+	filter:alpha(opacity=60);
+	opacity:0.6;
+	width:668px;
+	height:120px;
+	background:#ffffff;
+	border-radius:10px;	
+	z-index:-1;
+}
+.conlef_div_d2{
+	filter:alpha(opacity=84);
+	opacity:0.84;
+	width:11px;
+	height:120px;
+	background:url("/apps/resource/Public/Images/Home/onload.gif") no-repeat;
+}
+.conlef_div_d21{
+	background-position:-251px 0;
+}
+.conlef_div_d22{
+	background-position:-262px 0;
+}
+.conlef_div_d23{
+	background-position:-273px 0;
+}
+.conlef_div_d3{
+	filter:alpha(opacity=84);
+	opacity:0.84;
+	padding:8px 35px 6px 34px;
+}
+.conlef_div_d31{
+	background:#DD9039;
+}
+.conlef_div_d32{
+	background:#107C3C;
+}
+.conlef_div_d33{
+	background:#2994CB;
+}
+
+.conlef_div_d3 .conlef_div_img{
+	width:80px;
+	height:70px;
+	background:url("/apps/resource/Public/Images/Home/onload.gif") no-repeat -84px -3px;
+}
+.conlef_div_d3 .conlef_div_p{
+	padding-bottom:0px;
+	color:#f6f6f6;
+	font-family:"fixedsys";
+	font-size:18px;
+	text-align:center;	
+}
+.conlef_div_d4{
+	padding-left:10px;
+}
+.conlef_div_d4 span{
+	display:block;
+	padding-top:16px;
+	color:#8c8c8c;
+	font-family:"微软雅黑" ,Microsoft Yahei;
+	font-size:14px;
+}
+.conlef_div_d4 span.left_span{
+	color:#272727;
+	font-size:16px;
+}
+.conlef_div_d3 .conlef_div_img1{
+	background-position:-165px -3px;
+}
+.conlef_div_d3 .conlef_div_img2{
+	background-position:-0px -3px;
+}
+/*右部分*/
+.content_right{
+	_width:248px;
+    height:320px;
+	max-width:250px;
+	padding:55px 30px 290px 30px;
+	border-left:1px solid #f8f7f7;
+	border-bottom:1px solid #b3a7a3;
+	background:#eaeaea;
+}
+.conrig_p1{
+	color:#323232;
+	font-family:"微软雅黑" ,Microsoft Yahei;
+	font-size:16px;
+}
+.conrig_name{
+	max-width:248px;
+	margin-top:17px;
+	margin-bottom:8px;
+	border-top:1px solid #c6c6c6;
+	background:#FFFFFF
+}
+.conrig_name .name_inp{
+	width:238px;
+	height:43px;
+	line-height:45px;
+	border:1px solid #e3e3e3;
+	border:none;
+	color:#b3b3b3;
+	font-family:"微软雅黑" ,Microsoft Yahei;
+	font-size:14px;
+	overflow:hidden;
+    text-indent:10px;
+}
+.conrig_error{
+	height:20px;
+	max-width:248px;
+	padding:13px 0px;
+	color:#e43737;
+	font-family:"宋体" ,SimSun;
+	font-size:12px;
+	display:none;
+}
+.conrig_remember{
+	line-height:12px;
+	color:#928f8b;
+	font-family:"宋体" ,SimSun;
+	font-size:12px;
+    margin-top:10px;
+}
+.conrig_remember input{
+	width:14px;
+	height:14px;
+}
+.conrig_land{
+	display:block;
+	width:103px;
+	height:40px;
+	line-height:40px;
+	margin-top:19px;
+	background:url("/apps/resource/Public/Images/Home/login.png") no-repeat 0px 0px;
+}
+.conrig_land:hover {
+    background:url("/apps/resource/Public/Images/Home/login.png") no-repeat 0px -40px;
+}
+.conrig_enroll {
+	display:block;
+	width:103px;
+	height:40px;
+	line-height:40px;
+	margin-top:19px;
+	background:url("/apps/resource/Public/Images/Home/login.png") no-repeat -103px 0px;
+}
+.conrig_enroll:hover {
+    background:url("/apps/resource/Public/Images/Home/login.png") no-repeat -103px -40px;
+}
+/*	学生老师学校注册
+.conrig_enroll{
+	padding-top:31px;
+}
+.conrig_enroll a{
+	margin-right:26px;
+	color:#5d5d5d;
+}
+.conrig_enroll .conrig_sch{
+	margin-right:0;
+}*/
+/*侯祯怿 5-21*/
+.foot_bot,.foot_top{
+	width:1000px;
+	border-bottom:1px solid #b2b2b2;
+	margin:0 auto;
+	margin-top:10px;
+	font-size:0px;
+	line-height:0px;
+}
+.foot_top{
+	border-bottom:1px solid #e8e8e8;
+	margin-top:0px;
+}

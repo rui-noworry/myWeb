@@ -1,0 +1,433 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/vedio.css"/>
+<load href="/Public/Js/Home/jplayer/skin/jplayer.blue.monday.css" />
+<load href="/Public/Js/Home/jplayer/js/jquery.jplayer.min.js" />
+<script type="text/javascript">
+<!--
+
+    $(function() {
+
+        String.prototype.trim = function() {
+            return this.replace(/[ ]/g, '');
+        }
+
+        // 视频播放区域背景设置
+        $('.r_play_bg').width($(window).width());
+
+        // 短评输入框字数计算
+        var maxSize = 140;
+        $(".scommentInput").keyup(function(){
+            var str = $(".scommentInput").val().trimLeft().length;
+            var canInput = maxSize - str;
+            if(canInput >= 0){
+                $(".scommentInputCount").html("还能输入"+canInput+"个字符");
+                $(".scommentInputCount").removeClass('overWord');
+            }else{
+                $(".scommentInputCount").addClass('overWord');
+                $(".scommentInputCount").html("已经超过"+(-canInput)+"个字符");
+            }
+        })
+
+        // 回复输入框字数计算
+        $(document).on('keyup', ".innerText", function(){
+
+            var str = $(this).val().trimLeft().length;
+            var canInput = maxSize - str;
+            if(canInput >= 0){
+                $(this).next().children('.innerCount').html("还能输入"+canInput+"个字符");
+                $(this).next().children('.innerCount').removeClass('overWord');
+            }else{
+                $(this).next().children('.innerCount').addClass('overWord');
+                $(this).next().children('.innerCount').html("已经超过"+(-canInput)+"个字符");
+            }
+        })
+
+        // 短评tab切换
+        $('.res_comment .tabbox li').click(function(){
+            var Index = $(this).index();
+            $(this).addClass('on').siblings().removeClass('on');
+            $('.comment_box .yp').eq(Index).show().siblings().hide();
+        })
+
+        // 添加评论
+        $('.scommentSubmit').click(function(){
+
+            // 弹出登录框
+            if (!$('.exit').html()) {
+                popCenterWindow();
+                return;
+            }
+
+            var comm_cont = $('.scommentInput').val();
+            if (comm_cont.trim() == '') {
+                showMessage('请填写评论内容');
+                return;
+            } else if (comm_cont.trim().length > 140) {
+                showMessage('评论的内容请不要超过140个字');
+                return;
+            }
+
+            $.post('__APPURL__/Commit/insert', {com_object_id:$('input[name=re_id]').val(), com_content:comm_cont}, function (json) {
+                var htm = '';
+                if (json.status == 1) {
+                    htm += '<li attr="' + json.info + '">'
+                        +  '<p class="des">' + comm_cont.trim() + '</p>'
+                        +  '<div class="fun">'
+                        +  '<p class="commit from"><a href="#">我</a>发表于1秒前</p>'
+                        + '<div class="ope"><a class="innerA" href="javascript:void(0)" attr="0">回复(0)</a>|<a class="innerB" href="javascript:void(0)" com_id="' + json.info + '">删除</a></div>'
+                        + '</div>'
+                        + '<div class="innerDiv">'
+                        + '<div class="replyList"><ul></ul></div>'
+                        + '<textarea class="innerText" attr="回复:"></textarea>'
+                        + '<p class="sendbox">'
+                        + '<button class="innerButton" type="button">发短评</button>'
+                        + '<span class="innerCount">还可以输入140字</span>'
+                        + '</p></div></li>'
+                    if ($('.CommitList li').size() == 1 && $('.CommitList li').attr('attr') == 0) {
+                        $('.CommitList').html(htm);
+                    } else {
+                        $('.CommitList').prepend(htm);
+                    }
+                    $('.moreArea a').last().text((parseInt($('.moreArea a').last().text().slice(0,1)) + 1) + '条记录')
+                    $('.scommentInput').val('');
+                } else {
+                    showMessage('评论失败');
+                }
+            }, 'json')
+        })
+
+        // 回复
+        $(document).on('click', '.innerA', function () {
+
+            // 展开隐藏的回复文本输入框
+            var _this = $(this);
+
+            // 如果有回复的并且没有加载过，还需异步查询并展现
+            if (_this.parents('.fun').next().css('display') == 'none') {
+
+                var innerDiv = $(this).parents('li').children('.innerDiv');
+                innerDiv.css('display', 'inline');
+                innerDiv.children('.innerText').val(innerDiv.children('.innerText').attr('attr'));
+
+                if (innerDiv.children('.replyList').children('ul').children('li').size() == 0) {
+                    $.post("__APPURL__/Public/getList", {com_id:$(this).parents('li').attr('attr')}, function (json) {
+                        var htm = '';
+                        if (json) {
+                            for (var i=0,len = json.length; i<len; i++) {
+                                htm += '<li class="hf" attr="' + json[i]['rep_id'] + '">'
+                                    +  '<p class="des">' + json[i]['rep_content'] + '</p>'
+                                    +  '<div class="fun">'
+                                    +  '<p class="from"><a href="">' + json[i]['nickname'] + '</a>发表于' + json[i]['rep_created'] + '</p>'
+                                    + '<div class="ope"><a class="innerA" href="javascript:void(0)">回复</a>|<a class="innerB" href="javascript:void(0)" rep_id="' + json[i]['rep_id'] + '">删除</a></div>'
+                                    + '</div>'
+                                    + '</li>'
+                                }
+                            _this.parents('.fun').next().children('.replyList').children('ul').append(htm);
+
+                            // 聚焦回复文本框
+                            innerDiv.children('.innerText').focus();
+                        }
+                    }, 'json')
+
+                }
+            } else {
+                _this.parents('.fun').next().css('display', 'none');
+            }
+        })
+
+        // 提交回复
+        $(document).on('click', '.innerButton', function () {
+
+            // 弹出登录框
+            if (!$('.exit').html()) {
+                popCenterWindow();
+                return;
+            }
+
+            // 赋值并检测
+            var val = $(this).parents('.innerDiv').children('.innerText').val();
+            if (val.trim() == '') {
+                showMessage('请填写回复内容');
+                return;
+            } else if (val.trim().length > 140) {
+                showMessage('回复内容请不要超过140个字');
+                return;
+            }
+
+            var _this = $(this);
+            var replyName = _this.parents('.innerDiv').prev().children('.commit').children('a').text();
+
+            // ajax写入
+            $.post("__APPURL__/Reply/insert", {com_id:_this.parents('li').attr('attr'), rep_content:val.trim()}, function (json) {
+                var htm = '';
+                if (json.status == 1) {
+                    htm += '<li class="hf" attr="' + json.info + '">'
+                        +  '<p class="des">' + val.trim() + '</p>'
+                        +  '<div class="fun">'
+                        +  '<p class="from"><a href="">我</a>发表于1秒前</p>'
+                        + '<div class="ope"><a class="innerA" href="javascript:void(0)">回复</a>|<a class="innerB" href="javascript:void(0)" rep_id="' + json.info + '">删除</a></div>'
+                        + '</div>'
+                        + '</li>'
+
+                    var arr = _this.parents('.innerDiv').prev().find('.innerA').text().match(/\d+/g);
+                    _this.parents('.innerDiv').prev().find('.innerA').text('回复(' + (parseInt(arr[0]) + 1) + ')');
+
+                    _this.parents('.innerDiv').find('.replyList').children('ul').prepend(htm);
+                    _this.parents('.innerDiv').children('.innerText').val(_this.parents('.innerDiv').children('.innerText').attr('attr')
+                    )
+                    _this.parents('.innerDiv').children('.innerText').focus();
+                } else {
+                    showMessage('发表回复失败');
+                }
+            }, 'json')
+        })
+
+        // 删除
+        $(document).on('click', '.innerB', function () {
+
+            // 弹出登录框
+            if (!$('.exit').html()) {
+                popCenterWindow();
+                return;
+            }
+
+            // 展开隐藏的回复文本输入框
+            if (confirm('是否真的要删除此评论?')) {
+
+                var _this = $(this);
+
+                // 删除评论
+                if ($(this).attr('com_id')) {
+                    $.post('__APPURL__/Commit/delete', 'com_id=' + $(this).attr('com_id') + '&a_id=' + _this.attr('a_id'), function (json) {
+                        if (json.status == 1) {
+                            $('.moreArea a').last().text((parseInt($('.moreArea a').last().text().slice(0,1)) - 1) + '条记录')
+                            _this.parents('li').remove();
+                        } else {
+                            showMessage(json.info);
+                        }
+                    }, 'json');
+                }
+
+                // 删除回复
+                if ($(this).attr('rep_id')) {
+                    $.post('__APPURL__/Reply/delete', 'rep_id=' + _this.attr('rep_id') + '&a_id=' + _this.attr('a_id') + '&com_id=' + _this.parents('.innerDiv').parents('li').attr('attr'), function (json) {
+                        if (json.status == 1) {
+
+                            var arr = _this.parents('.innerDiv').prev().find('.innerA').text().match(/\d+/g);
+                            _this.parents('.innerDiv').prev().find('.innerA').text('回复(' + (parseInt(arr[0]) - 1) + ')');
+
+                            _this.parent().parent().parent().remove();
+                        } else {
+                            showMessage(json.info);
+                        }
+                    }, 'json');
+                }
+
+            }
+        })
+
+        // 收藏
+        $(document).on('click', '.sc', function () {
+
+            // 查看是否登录
+            if ($('.exit').html()) {
+                $.post('__APPURL__/ResourceCollect/insert/', {re_id:$('input[name=re_id]').val()}, function (json) {
+                    showMessage(json.info, 1);
+                }, 'json');
+            } else {
+
+                popCenterWindow();
+            }
+        })
+
+        // 下载
+        $(document).on('click', '.download', function () {
+
+            // 查看是否登录
+            if ($('.exit').html()) {
+                location.href = "__APPURL__/MyResource/download?id=" + $('input[name=re_id]').val();
+            } else {
+
+                popCenterWindow();
+            }
+        });
+
+        // 资源排行
+        $.getJSON('__APPURL__/html/today.txt', function (json) {
+            if (json) {
+                var htm = '';
+                for (var i=0, len=json.length; i<len; i++) {
+                        htm += '<li>'
+                            +  '<span class="good">' + (i+1) + '</span>'
+                            +  '<label title="' + json[i]['re_title'] + '"><a href="__APPURL__/Resource/index/id/' + json[i]['re_id'] + '" target="_blank">' + json[i]['re_title'] + '</a></label>'
+                            +  '</li>'
+                }
+                $('.res_ranking ul').append(htm);
+            }
+        });
+
+        $(function () {
+            $("#jquery_jplayer_1").jPlayer({
+                ready: function () {
+                    $(this).jPlayer("setMedia", {
+                        m4v: "{$path}",
+                        poster: "http://www.jplayer.org/video/poster/Big_Buck_Bunny_Trailer_480x270.png"
+                    });
+                },
+                swfPath: "js",
+                supplied: "m4v",
+                size: {
+                    width: "999px",
+                    height: "360px",
+                    cssClass: "jp-video-360p"
+                }
+            });
+        })
+
+        // 加载评论
+        ajaxShow();
+
+    })
+
+    // 分页显示
+    function getList(p) {
+        ajaxShow(p);
+    }
+
+    // ajax显示评论
+    function ajaxShow(p) {
+        var p = p ? p : 1;
+
+        $.post("__APPURL__/Public/search", {com_object_id:$('input[name=re_id]').val(), p:p}, function (json) {
+            var htm = '';
+            if (json.list) {
+                for (var i=0,len = json.list.length; i<len; i++) {
+                    htm += '<li attr="' + json.list[i]['com_id'] + '">'
+                        +  '<p class="des">' + json.list[i]['com_content'] + '</p>'
+                        +  '<div class="fun">'
+                        +  '<p class="commit from"><a href="#">' + json.list[i]['nickname'] + '</a>发表于' + json.list[i]['com_created'] + '</p>'
+                        + '<div class="ope"><a class="innerA" href="javascript:void(0)" attr="' + json.list[i]['com_reply_count'] + '">回复(' + json.list[i]['com_reply_count'] + ')</a>|<a class="innerB" href="javascript:void(0)" com_id="' + json.list[i]['com_id'] + '">删除</a></div>'
+                        + '</div>'
+                        + '<div class="innerDiv">'
+                        + '<div class="replyList"><ul></ul></div>'
+                        + '<textarea class="innerText" attr="回复' + json.list[i]['nickname'] + ':"></textarea>'
+                        + '<p class="sendbox">'
+                        + '<button class="innerButton" type="button">发短评</button>'
+                        + '<span class="innerCount">还可以输入140字</span>'
+                        + '</p></div></li>'
+                }
+                $('.yp ul').html(htm);
+                $('.moreArea').html(json.page);
+            } else {
+                $('.yp ul').html('<li attr="0">暂无评论</li>');
+            }
+        }, 'json')
+
+    }
+//-->
+</script>
+<div class="warp">
+    <div class="r_info">
+        <ul>
+            <li class="dir">
+                <p class="title">{$res.re_title}</p>
+                <p class="colum">{$cate}</p>
+            </li>
+            <li class="tools">
+                <a class="download" href="javascript:void(0);" title="下载资源">下载</a>
+                <a class="sc" href="javascript:void(0);" title="收藏资源">收藏</a>
+                <input type="hidden" name="re_id" value="{$res.re_id}">
+            </li>
+        </ul>
+    </div>
+    <!-- 音频播放 -->
+        <div id="jp_container_1" class="jp-video jp-video-360p">
+            <div class="jp-type-single">
+                <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+                <div class="jp-gui">
+                    <div class="jp-video-play">
+                        <a href="javascript:;" class="jp-video-play-icon" tabindex="1">play</a>
+                    </div>
+                    <div class="jp-interface">
+                        <div class="jp-progress">
+                            <div class="jp-seek-bar">
+                                <div class="jp-play-bar"></div>
+                            </div>
+                        </div>
+                        <div class="jp-current-time"></div>
+                        <div class="jp-duration"></div>
+                        <div class="jp-controls-holder">
+                            <ul class="jp-controls">
+                                <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+                                <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+                                <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
+                                <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+                                <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+                                <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+                            </ul>
+                            <div class="jp-volume-bar">
+                                <div class="jp-volume-bar-value"></div>
+                            </div>
+                            <ul class="jp-toggles">
+                                <li><a href="javascript:;" class="jp-full-screen" tabindex="1" title="full screen">full screen</a></li>
+                                <li><a href="javascript:;" class="jp-restore-screen" tabindex="1" title="restore screen">restore screen</a></li>
+                                <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></li>
+                                <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="wrapper">
+        <div class="main">
+            <neq name="recommend" value="">
+                <div class="res_like">
+                    <p class="title">猜您喜欢</p>
+                    <ul>
+                        <volist name="recommend" id="vo">
+                        <li>
+                        <a class="res_cover" href="__APPURL__/Resource/index/id/{$vo.re_id}" target="_blank"><img src="{$vo.img_path}"></a>
+                        <a class="res_title" href="__APPURL__/Resource/index/id/{$vo.re_id}" title="{$vo.re_title}">{$vo.re_title}</a>
+                        <span>{$vo.a_nickname}</span>
+                        <span><i>{$vo.re_download_points}</i>积分</span>
+                        </li>
+                        </volist>
+                    </ul>
+                </div>
+            </neq>
+            <div class="res_comment">    <!-- 短评 -->
+                <p class="title">短评</p>
+                <div class="topic_input">
+                    <div class="t_box">
+                        <textarea class="scommentInput" placeholder="我来说两句"></textarea>
+                    </div>
+                    <p class="sendbox">
+                        <button class="scommentSubmit" type="button">发短评</button>
+                        <span class="scommentInputCount">还可以输入140字</span>
+                    </p>
+                </div>
+                <ul class="tabbox">
+                    <li class="newestSComment on">最热短评</li>
+                </ul>
+                <div class="comment_box new fl">
+                    <div class="yp">
+                        <ul class="CommitList"></ul>
+                        <p class="moreArea"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="side">
+            <div class="res_ranking">    <!-- 资源排行榜 -->
+                <p class="title">资源排行榜</p>
+                <ul>
+                </ul>
+            </div>
+        </div>
+    </div>
+<div class="clear"></div>
+</div>
+<include file="Public:footer"/>

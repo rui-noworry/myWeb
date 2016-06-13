@@ -1,0 +1,180 @@
+.model_search {
+    float:left;
+    width:100%;
+    padding-top:15px;
+}
+.model_search input,.model_cor .model_name,.model_cor .model_english {
+    float:left;
+    width:330px;
+    height:36px;
+    line-height:36px;
+    margin-left:18px;
+    color:#b9b9b9;
+    font-size:16px;
+    text-indent:5px;
+}
+.model_search a{
+    float:left;
+    display:block;
+    width:74px;
+    height:38px;
+    line-height:38px;
+    margin-left:8px;
+    text-align:center;
+    background:#E5F6EB;
+    border:1px solid #9BDBB5;
+    color:#22A558;
+    cursor:pointer;
+}
+.handle_operate {
+    margin-top:15px;
+}
+.model_cor ,.model_cor  li {
+    float:left;
+    width:470px;
+}
+.model_cor ul {
+    float:left;
+    margin-top:10px;
+}
+.model_cor li {
+    margin-left:5px;
+    margin-bottom:5px;
+}
+.model_cor li label,.model_cor li textarea,.model_cor li div span,.model_cor input.model_name,.model_cor .model_english {
+    color: #393939;
+    font-size: 14px;
+}
+.model_cor li label {
+    float: left;
+    width:70px;
+    height: 37px;
+    line-height: 37px;
+    margin-right:5px;
+    text-align:right;
+}
+.model_cor input.model_name,.model_cor .model_english {
+    width:250px;
+    margin-left:0px;
+}
+.model_cor li textarea {
+    float:left;
+    display:block;
+    width:340px;
+    height:80px;
+    padding-top:5px;
+    text-indent:5px;
+}
+.model_cor li div {
+    float:left;
+    width:390px;
+}
+.model_cor li div input {
+    float:left;
+    width:14px;
+    height:14px;
+    margin:13px 3px 0px 0px;
+    cursor:pointer;
+}
+.model_cor li div span {
+    float:left;
+    padding-right:10px;
+    line-height:30px;
+}
+.model_cor li p {
+    float:left;
+    line-height:30px;
+    padding-left:10px;
+    color:#393939;
+    font-size:14px;
+}
+.model_cor li.mod_type span {
+    float: left;
+    display: block;
+    line-height: 30px;
+    margin-right:15px;
+    padding: 0 20px;
+    border: 1px solid #20D691;
+    color: #393939;
+    font-size: 14px;
+    cursor: pointer;
+}
+.model_cor li.mod_type span.on {
+    background:#93E5BD;
+}
+.model_cor li p.cor_red {
+    color:red;
+}
+.data_main li {
+    cursor:pointer;
+}
+.data_main li:hover {
+    background:#e4e4e4;
+}
+.data_main li span {
+    color:#616161;
+}
+.data_hea li {
+    background:#26A75B;
+    opacity:0.7;
+}
+.data_hea li span {
+    color:#fff;
+}
+/* 工具按钮 */
+.tools {
+    margin:10px 0px 10px 20px;
+}
+.tools span,.xin_tools span {
+    float:left;
+    width:66px;
+    height:28px;
+    line-height:28px;
+    background:url('/apps/resource/Public/Images/Ilc/toolbg.png') no-repeat;
+    margin-right:10px;
+    color: #444;
+    font-weight: 400;;
+    cursor:pointer;
+}
+.tools span.add i, .pass i, .unpass i, .tools span.addCode i,.edit i,.del i, .returnBack i,.sort i,.forbidden i,.resume i,.xin_tools span.add i {
+    float:left;
+    width:15px;
+    height:15px;
+    margin-top:6px;
+    margin-left:8px;
+    margin-right:5px;
+}
+.tools span.add i, .tools span.addCode i ,.xin_tools span.add i {
+    background:url('/apps/resource/Public/Images/Ilc/plus.png') no-repeat;
+}
+.tools span.edit i {
+    background:url('/apps/resource/Public/Images/Ilc/write.png') no-repeat;
+}
+.tools span.del i {
+    background:url('/apps/resource/Public/Images/Ilc/plus.png') no-repeat;
+}
+.tools span.returnBack i {
+    background:url('/apps/resource/Public/Images/Ilc/plus.png') no-repeat;
+}
+.tools span.sort i {
+    background:url('/apps/resource/Public/Images/Ilc/activity.png') no-repeat;
+}
+.tools span.forbidden i {
+    background:url('/apps/resource/Public/Images/Ilc/locked.png') no-repeat;
+}
+.tools span.resume i {
+    background:url('/apps/resource/Public/Images/Ilc/ok.png') no-repeat;
+}
+.tools span.pass i {
+    background:url('/apps/resource/Public/Images/Ilc/ok.png') no-repeat;
+}
+.tools span.unpass i {
+    background:url('/apps/resource/Public/Images/Ilc/locked.png') no-repeat;
+}
+.mod_file {
+    float:left;
+    width:250px;
+    height:26px;
+    margin-top:5px;
+    text-indent:5px;
+}

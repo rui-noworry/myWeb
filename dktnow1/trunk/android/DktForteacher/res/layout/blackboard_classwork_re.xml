@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<Button android:id="@+id/classwork_push"
+      	android:layout_width="75dp"
+       	android:layout_height="38dp"
+       	android:layout_alignParentLeft="true"
+       	android:layout_marginLeft="10dp"
+       	android:layout_marginTop="10dp"
+       	android:text="推送"
+       	android:textColor="@color/green"
+       	android:background="@drawable/classwork_btn_bg"/>
+	<Button android:id="@+id/classwork_check"
+      	android:layout_width="75dp"
+       	android:layout_height="38dp"
+       	android:layout_toRightOf="@+id/classwork_push"
+       	android:layout_marginLeft="8dp"
+       	android:layout_marginTop="10dp"
+       	android:text="查看"
+       	android:textColor="@color/green"
+       	android:background="@drawable/classwork_btn_bg"/>
+	
+	<Button android:id="@+id/classwork_tx"
+      	android:layout_width="130dp"
+       	android:layout_height="34dp"
+       	android:layout_toRightOf="@+id/classwork_check"
+       	android:layout_marginLeft="8dp"
+       	android:layout_marginTop="10dp"
+       	android:visibility="invisible"
+       	android:background="@drawable/classwork_tx_btn_bg"/>
+	
+	<TextView android:id="@+id/class_stats_text"
+        android:layout_width="match_parent"   
+    	android:layout_height="200dp"
+    	android:layout_marginLeft="20dp"
+	    android:layout_marginRight="20dp"
+	    android:layout_marginTop="10dp"
+    	android:textColor="@color/green"
+    	android:textSize="15sp"
+    	android:visibility="gone"
+    	android:layout_below="@+id/classwork_push"
+    	android:text="第一题答对0人"/>
+	<GridView  
+	    android:id="@+id/blackboard_classwork_student_gridview"  
+	    android:layout_width="match_parent"   
+	    android:layout_height="200dp" 
+	    android:layout_below="@+id/classwork_push"
+	    android:numColumns="5"  
+	    android:background="@drawable/myshape"
+	    android:verticalSpacing="5dp"  
+	    android:horizontalSpacing="10dp"  
+	    android:columnWidth="110dp"  
+	    android:stretchMode="columnWidth"  
+	    android:gravity="center"
+	    android:paddingLeft="10dp"
+	    android:paddingTop="10dp"  
+	    android:layout_marginLeft="20dp"
+	    android:layout_marginRight="20dp"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginBottom="10dp"
+	    android:scrollbarSize="2dp"
+	    android:visibility="gone"
+	    android:scrollbarThumbVertical="@color/green"
+	/>
+
+    <ListView android:id="@+id/blackboard_classwork_listview"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@+id/blackboard_classwork_student_gridview"
+    	android:layout_marginLeft="20dp"
+    	android:layout_marginRight="20dp"
+    	android:layout_marginTop="10dp"
+    	android:layout_marginBottom="30dp"
+        ></ListView>
+
+</RelativeLayout>

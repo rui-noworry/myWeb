@@ -1,0 +1,73 @@
+//
+//  ForClassViewController.h
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-7-4.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "DongtaiCell.h"
+
+
+
+#import "ZhezhaoView.h"
+#import "StartViewController.h"
+#import <QuartzCore/QuartzCore.h>
+
+
+
+#import "AudioView.h"
+#import "FabuHomework.h"
+
+@interface ForClassViewController : BaseViewController<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate,ZhezhaoViewDelegate,FabuHomeworkDelegate>
+{
+    
+    NSArray *arrbtns;
+    int preselect;
+    UIButton *selectHuanjie;
+    BOOL flag;
+        
+    UIButton *btnStart;
+
+    
+    UITableView *myTable;
+    UIView *timeLineView;
+    UIImageView *tishiView;
+    
+    UIView *timeLineView2;
+    
+    UIImageView *xialaView;
+    UIScrollView *scroll;
+    
+    UIImageView *imageView;
+    BOOL isEdit;
+    ASIFormDataRequest *requestDetail;
+    ASIFormDataRequest *requestContent;
+    ASIFormDataRequest *requestType;
+    ASIFormDataRequest *downLoadRes;
+    UILabel *lblDownLoad;
+    NSMutableDictionary *hourDict;
+    AppDelegate *dele;
+    
+
+    NSMutableDictionary *courseDict;
+    UIScrollView *mainScrollview;
+    
+    NSMutableArray *huanjieArray;
+    int huanjieSelect;
+    ZhezhaoView *detailView;
+    NSMutableArray *contentArray;
+    
+
+    NSMutableDictionary *contentSelDict;
+    
+    FabuHomework *fabu;
+ 
+    
+}
+
+@property(nonatomic,retain)NSMutableDictionary *courseDict;
+@property(nonatomic,retain)NSMutableDictionary *hourDict;
+
+@end

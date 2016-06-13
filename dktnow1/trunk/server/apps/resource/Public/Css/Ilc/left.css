@@ -1,0 +1,60 @@
+.class_left{
+    width:128px;
+    margin-top:25px;
+    margin-bottom:20px;
+}
+.class_left ul li{
+    width:128px;
+}
+.class_left a{
+    display:block;
+    width:107px;
+    height:107px;
+    border:1px solid #cecece;
+    border-bottom:none;
+    background:#fff;
+}
+.class_left a:last{
+    border-bottom:1px solid #cecece;
+}
+.class_left a span{
+    display:block;
+    width:48px;
+    height:45px;
+    margin:25px 0px 0px 32px;
+    background:url("/apps/resource/Public/Images/Ilc/class_manage.png") no-repeat -59px -10px #fff;
+}
+.class_left a p{
+    line-height:30px;
+    text-align:center;
+    color:#363636;
+    font-size:16px;
+}
+.class_left a span.GradeCourse{
+    background-position:-159px -10px;
+}
+.class_left a span.Auth{
+    background-position:-2px -65px;
+}
+.class_left a span.SchoolRole{
+    background-position:-4px -10px;
+}
+.class_left a span.Course{
+    background-position:-54px -58px;
+}
+.class_left a span.Class{
+    background-position:-109px -9px;
+}
+.class_left a span.group{
+    background-position:-103px -68px;
+}
+.class_left a span.Resource{
+    background-position:-155px -68px;
+}
+.class_left ul li.class_li{
+    background:url("/apps/resource/Public/Images/Ilc/class_left_li.png") no-repeat;
+}
+.class_left ul li.class_li a{
+    background:none;
+    border-right:none;
+}

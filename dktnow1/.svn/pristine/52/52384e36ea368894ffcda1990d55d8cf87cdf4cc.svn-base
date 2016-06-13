@@ -1,0 +1,13 @@
+//
+//  ZhuxingView.h
+//  JiChang
+//
+//  Created by apple  on 13-7-4.
+//
+//
+
+#import <UIKit/UIKit.h>
+#import "histogramView.h"
+@interface ZhuxingView : UIView
+
+@end

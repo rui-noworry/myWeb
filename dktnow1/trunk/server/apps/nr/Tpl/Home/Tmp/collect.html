@@ -1,0 +1,377 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/myres.css"/>
+<script type="text/javascript">
+<!--
+    $(function() {
+
+        // 资源模块切换
+        $('.modl_tab li.menu').click(function(){
+
+            var index = $(this).index();
+            $(this).addClass('current').siblings().removeClass('current');
+            $('.res_show_area .res_show').eq(index).show().siblings().hide();
+        })
+
+        // 资源分类模块切换
+        $('.res_type_tab li.typ').click(function(){
+
+            var index = $(this).index();
+            $(this).addClass('on').siblings().removeClass('on');
+            $('.res_type .resType_box').eq(index - 1).show().siblings().hide();
+        })
+
+        // 编辑和删除收藏资源
+        $(document).on('mouseover','.reslist_box li',function(){
+
+            $(this).find('.licover').show();
+        }).on('mouseout','.reslist_box li',function(){
+
+            $(this).find('.licover').hide();
+        })
+
+        // 上传资源
+        $('.upload').click(function(){
+
+            window.open('__APPURL__/Tmp/upload');
+        })
+
+        // 删除资源
+        $(document).on('click','.del_cover',function(){
+
+            if(confirm("确定要删除该资源吗？")) {
+                $(this).parent().parent().remove();
+            }
+        })
+
+    })
+//-->
+</script>
+<div class="wrap">
+    <div class="resbox">
+        <ul class="modl_tab">
+            <li class="menu">我的网盘</li>
+            <li class="menu current">我的收藏</li>
+            <li class="menu">我的订阅</li>
+            <li class="upload"></li>
+        </ul>
+        <div class="res_show_area">
+            <div class="res_show hide">    <!-- 我的网盘 -->
+                11111我的网盘
+            </div>
+            <div class="res_show">    <!-- 我的收藏 -->
+                <div class="rearch_box">
+                    <input type="text" class="sch_input" placeholder="请搜索关键词" value="" >
+                    <input type="submit" class="sch_btn" value="">
+                </div>
+                <ul class="res_type_tab">
+                    <li class="label">类型：</li>
+                    <li class="typ on">全部</li>
+                    <li class="typ">音频</li>
+                    <li class="typ">视频</li>
+                    <li class="typ">图片</li>
+                    <li class="typ">文档</li>
+                    <li class="typ">试卷</li>
+                    <div class="collect_num">
+                        <span>共收藏&nbsp;<i>121</i>&nbsp;个资源</span>
+                    </div>
+                </ul>
+                <div class="res_type">
+                    <div class="resType_box fl">   <!-- 全部资源 -->
+                        <ul class="reslist_box fl">
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic1.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic2.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic3.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic4.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic5.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic6.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic2.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic6.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic4.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic3.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic5.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic1.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic3.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic1.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic6.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic5.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic2.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic1.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic3.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic4.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic2.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic1.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic6.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic3.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic4.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="res_cover" href="javascript:void(0)">
+                                    <img class="old_frame" src="__APPURL__/Public/Images/Tmp/pic3.png" width="100" height="75">
+                                </a>
+                                <a class="res_title" target="_blank" href="" title="English非谓语动词">English非谓语动词</a>
+                                <div class="licover">
+                                    <a class="edit_cover" href="javascript:void(0);"></a>
+                                    <a class="del_cover" href="javascript:void(0);"></a>
+                                </div>
+                            </li>
+
+                        </ul>
+                        <!-- 分页 -->
+                        <div class="page">
+                            <a class="current" href="javascript:void(0);">1</a>
+                            <a href="javascript:getList(2);">2</a>
+                            <a href="javascript:getList(3);">3</a>
+                            <a href="javascript:getList(4);">4</a>
+                            <a href="javascript:getList(2);">下一页</a>
+                            <a href="javascript:void(0);">1/4页</a>
+                            <a href="javascript:void(0);">42条记录</a>
+                        </div>
+                    </div>
+                    <div class="resType_box hide">    <!-- 没有收藏的资源 -->
+                        <p class="no-collect"></p>
+                    </div>
+                    <div class="resType_box hide">
+                        <p class="no-collect"></p>
+                    </div>
+                    <div class="resType_box hide">
+                        <p class="no-collect"></p>
+                    </div>
+                    <div class="resType_box hide">
+                        <p class="no-collect"></p>
+                    </div>
+                    <div class="resType_box hide">
+                        <p class="no-collect"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="res_show hide">    <!-- 我的订阅 -->
+                3333我的订阅
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Public:footer"/>

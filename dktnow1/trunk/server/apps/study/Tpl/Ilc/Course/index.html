@@ -1,0 +1,133 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Ilc/course.css"/>
+<script type="text/javascript">
+
+// 表格排列
+var listObj = {"_type": "15%","_grade": "15%" ,"_semester": "15%","_subject": "15%","_name": "20%","_teacher": "15%"};
+$(function(){
+
+    // 根据学制选择年级
+    $(".coType span").click(function() {
+        if ($(this).attr('rel') == 0) {
+            $('.coMajor').html('');
+            $('.coGrade').html('');
+        } else {
+            if ($(this).attr('rel') == 4) {
+                $('.coGrade').html('');
+                listGrade($(this).attr('rel'), 'coMajor', 1);
+            } else {
+                $('.coMajor').html('');
+                listGrade($(this).attr('rel'), 'coGrade', 1);
+            }
+        }
+    })
+
+    // 依据专业选择年级
+    $(document).on('click', '.coMajor span', function () {
+        listGrade($(this).attr('rel'), 'coGrade', 1, 'major');
+    })
+
+    // 查询
+    $('.search_btn').click(function() {
+        getList(0);
+    }).click();
+
+    // 选中
+    $(document).on('click','.hand',function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+
+    setWidth(listObj);
+})
+
+function getList(p) {
+    var p = p ? p : 1;
+    var ma_id = $('.coMajor').html() == '' ? 0 : $(".coMajor .hand.on").attr('rel');
+    var co_type = $('.coType .hand.on').attr('rel');
+    var str = 'ma_id='+ma_id+'&p='+p;
+    if (co_type && $('.coGrade .hand.on').size()) {
+        var co_grade = $('.coGrade .hand.on').attr('rel');
+        str += '&co_type='+co_type+'&co_grade='+co_grade;
+    }
+
+    var co_subject = $('.coSubject .hand.on').attr('rel');
+    if (co_subject) {
+        str += '&co_subject='+co_subject;
+    }
+
+    var keywords = $('input[name=keywords]').val();
+    if (keywords && keywords != '按教师名称查找') {
+        str += '&keywords='+keywords;
+    }
+
+    $.post('__URL__/lists', str, function(json) {
+        $('#Course .plist').remove();
+        $('.page').html('');
+        var obj = json.list;
+        var res = '';
+        if (obj) {
+            for (var i = 0; i < obj.length; i ++) {
+                res += '<div class="_caption _List plist" attr="'+obj[i]['gc_id']+'"><ul><li class="_type">'+obj[i]['type']+'</li><li class="_grade">'+obj[i]['grade']+'</li><li class="_semester">'+obj[i]['semester']+'</li><li class="_subject">'+obj[i]['subject']+'</li><li class="_name">'+obj[i]['name']+'</li><li class="_teacher">'+obj[i]['teacher']+'</li></ul></div>';
+            }
+            $('.page').html(json.page);
+        } else {
+            res = '<div class="plist"><div class="pli_null">暂无数据</div></div>';
+        }
+
+        $('#Course').append(res);
+        setWidth(listObj);
+    }, 'json')
+
+}
+</script>
+<div class="warp">
+    <include file="Public:left"/>
+    <div class="course fl">
+        <div class="filter">
+            <div class="search fl">
+                <ul class="more_search fl">
+                    <li class="coType">
+                        <label>学制：</label>
+                        <div>
+                            <span class="hand on" rel="0">全部</span>
+                            <volist name="co_type" id="type">
+                                <span class="hand" rel="{$key}">{$type}</span>
+                            </volist>
+                        </div>
+                    </li>
+                    <li class="coMajor"></li>
+                    <li class="coGrade"></li>
+                    <li class="coSubject">
+                        <label>学科：</label>
+                        <div>
+                            <span class="hand on" rel="0">全部</span>
+                            <volist name="co_course" id="co">
+                                <span class="hand" rel="{$key}">{$co}</span>
+                            </volist>
+                        </div>
+                    </li>
+                    <li>
+                        <input type="text" name="keywords" onfocus="javascript:if(this.value=='按教师名称查找'){this.value='';this.style.color='#333'}" onblur="javascript:if(this.value==''){this.value='按教师名称查找';this.style.color='#999'}" value="按教师名称查找"/>
+                        <a href="#" class="search_btn"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="_list fl" id="Course">
+            <div class="_caption t_caption">
+                <ul>
+                    <li class="_type">学段</li>
+                    <li class="_grade">年级</li>
+                    <li class="_semester">学期</li>
+                    <li class="_subject">学科</li>
+                    <li class="_name">课程名</li>
+                    <li class="_teacher">教师</li>
+                </ul>
+            </div>
+        </div>
+        <div class="page"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<include file="Public:footer"/>

@@ -1,0 +1,82 @@
+<include file="Public:header"/>
+    <load href="__PUBLIC__/Css/Home/info.css" />
+    <div class="warp">
+        <div class="body_left fl">
+            <ul class="info">
+                <li class="info_text" onclick="javascript:location.href='__URL__/index'"></li>
+                <li class="info_password" onclick="javascript:location.href='__URL__/password'"></li>
+            </ul>
+        </div>
+        <div class="body_right fr">
+            <div class="title">
+                <i class="fl"></i><span class="fl">修改头像</span><a href="__APPURL__/Auth" class='fr'>返回</a>
+            </div>
+            <div class="info_center" style="margin-left:60px;">
+                <div id="altContent" class="showInfo"></div>
+                <script type="text/javascript" src="/Public/Js/Home/FaustCplus/swfobject.js"></script>
+                <script type="text/javascript">
+
+                    function uploadevent(status){
+
+                         status += '';
+
+                         switch(status){
+                            // 上传成功
+                            case '1':
+                                window.location.href = '__URL__/';
+
+                            break;
+
+                            case '2':
+                                if(confirm('js call upload')){
+                                    return 1;
+                                }else{
+                                    return 0;
+                                }
+                            break;
+
+                            case '-1':
+
+                                window.location.href = "#";
+                            break;
+
+                            case '-2':
+                                showMessage('上传失败');
+                                window.location.href = "__URL__/";
+                            break;
+
+                            default:
+                                showMessage(typeof(status) + ' ' + status);
+                        }
+                    }
+
+                    var flashvars = {
+                      "jsfunc":"uploadevent",
+                      "imgUrl":"/Public/Images/Home/tmp/u=735081765,4140214441&fm=24&gp=0.jpg",
+                      "pid":"75642723",
+                      "uploadSrc":true,
+                      "showBrow":true,
+                      "showCame":true,
+                      "uploadUrl":"__URL__/saveavatar?action=uploadavatar"
+                    };
+
+                    var params = {
+                        menu: "false",
+                        scale: "noScale",
+                        allowFullscreen: "true",
+                        allowScriptAccess: "always",
+                        wmode:"transparent",
+                        bgcolor: "#FFFFFF"
+                    };
+
+                    var attributes = {
+                        id:"FaustCplus"
+                    };
+
+                    swfobject.embedSWF("/Public/Js/Home/FaustCplus/FaustCplus.swf", "altContent", "790", "475", "9.0.0", "expressInstall.swf", flashvars, params, attributes);
+
+                </script>
+            </div>
+        </div>
+    </div>
+<include file="Public:footer"/>

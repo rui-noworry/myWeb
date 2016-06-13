@@ -1,0 +1,62 @@
+<include file="../Public/header_main" />
+
+<load file="__PUBLIC__/Css/Ilc/system_add.css"/>
+<script type="text/javascript">
+ function check() {
+
+    if ($("input[name=at_name]").val() == '') {
+            alert('请输入名称', 0);
+            return false;
+    }
+
+    if ($("input[name=at_title]").val() == '') {
+            alert('请输入说明', 0);
+            return false;
+    }
+}
+</script>
+    <div class="title_hea">
+        新增属性
+        <a href="__URL__/">返回列表</a>
+    </div>
+    <form method="post" action="__URL__/insert/" onsubmit="return check();">
+        <ul class="add_option">
+            <li>
+                <label>名称：</label>
+                <input class="fl" type="text" name="at_name" value=""/>
+            </li>
+            <li>
+                <label>说明：</label>
+                <input class="fl" type="text" name="at_title" value=""/>
+            </li>
+
+
+            <li>
+                <label>类型：</label>
+                <select name="at_type">
+                    <option value="1">文本</option>
+                    <option value="2">枚举</option>
+                </select>
+            </li>
+            <li>
+                <label>默认值：</label>
+                <input class="fl" type="text" name="at_value"/>
+            </li>
+            <li>
+                <label>枚举：</label>
+                <input class="fl" type="text" name="at_extra"/>(请输入参数用，分割 注意：英文输入法下的 " , ")
+            </li>
+
+            <li>
+                <label><i>*</i>状态：</label>
+                <select class="fl" name="at_status">
+                    <option value="1">启用</option>
+                    <option value="9">禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <button class="save fin" value="" type="submit">保存</button>
+                <button class="reset fin" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>

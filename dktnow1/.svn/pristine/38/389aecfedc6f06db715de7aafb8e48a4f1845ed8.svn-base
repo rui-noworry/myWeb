@@ -1,0 +1,59 @@
+//
+//  ResourceViewController.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-3.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "ResourceViewController.h"
+
+@interface ResourceViewController ()
+
+@end
+
+@implementation ResourceViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+}
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+#endif
+
+
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft  ||
+            interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+    
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end

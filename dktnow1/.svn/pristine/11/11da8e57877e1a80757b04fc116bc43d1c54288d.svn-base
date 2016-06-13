@@ -1,0 +1,28 @@
+//
+//  StudentsView.h
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-7-4.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+@protocol StudentsViewDelegate;
+@interface StudentsView : UIView
+{
+    
+    id<StudentsViewDelegate>delegate;
+    UIScrollView *stuScroll;
+}
+@property(nonatomic,assign)id<StudentsViewDelegate>delegate;
+-(void)loadScroll:(NSMutableArray *)muArr;
+@end
+
+
+
+
+@protocol StudentsViewDelegate <NSObject>
+
+-(void)teacherSelectStudent:(int)index;
+
+@end

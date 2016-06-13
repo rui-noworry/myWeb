@@ -1,0 +1,75 @@
+//
+//  ZhuxingView.m
+//  JiChang
+//
+//  Created by apple  on 13-7-4.
+//
+//
+
+#import "ZhuxingView.h"
+
+@implementation ZhuxingView
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code
+        
+        
+        NSMutableArray *muArr=[[NSMutableArray alloc]init];
+        
+        
+        for (int i = 0; i < 30; i++) {
+            
+            NSMutableDictionary *tempDict=[[NSMutableDictionary alloc]init];
+            [tempDict setObject:[NSString stringWithFormat:@"%d",130] forKey:@"height"];
+            [tempDict setObject:[NSString stringWithFormat:@"%f",i/30.0] forKey:@"height2"];
+            [muArr addObject:tempDict];
+            [tempDict release];
+            
+        }
+        
+        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 630, 160)];
+        scroll.backgroundColor = [UIColor clearColor];
+        [scroll setShowsHorizontalScrollIndicator:NO];
+        [self addSubview:scroll];
+        [scroll release];
+        
+        
+        for (int i = 0; i < [muArr count]; i++) {
+            
+            NSMutableDictionary *tempDict=[muArr objectAtIndex: i];
+            
+            CGFloat fy=140-[[tempDict objectForKey:@"height"] floatValue];
+            
+            histogramView *hisView=[[histogramView alloc]initWithFrame:CGRectMake(i*35, fy, 20, [[tempDict objectForKey:@"height"] floatValue])];
+            hisView.count=[tempDict objectForKey:@"height2"];
+            hisView.backgroundColor=[UIColor whiteColor];
+            [scroll addSubview:hisView];
+            [hisView release];
+            
+            UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(i*35, 140, 20, 20)];
+            lbl.text=[NSString stringWithFormat:@"%d",i+1];
+            lbl.backgroundColor =[UIColor clearColor];
+            lbl.font = [UIFont systemFontOfSize:12];
+            lbl.textAlignment = NSTextAlignmentCenter;
+            lbl.textColor =[ UIColor blackColor];
+            [scroll addSubview:lbl];
+        }
+        
+        [scroll setContentSize:CGSizeMake(30*35, 160)];
+    }
+    return self;
+}
+
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect
+{
+    // Drawing code
+}
+*/
+
+@end

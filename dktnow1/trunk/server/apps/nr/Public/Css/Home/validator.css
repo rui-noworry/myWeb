@@ -1,0 +1,52 @@
+.onShow {
+    float:left;
+    font-size:13px;
+    padding-left:25px;
+    margin-right:15px;
+    /*border:1px dashed #dcdcdc;
+    background:#F8F8F7;*/
+    color:#3b3b3b;
+    font-size:12px;
+    word-wrap: break-word;
+    word-break: normal;
+    margin-left:10px;
+}
+.onError {
+    background:url('/apps/nr/Public/Images/Home/onError.png') no-repeat 0 center ;
+    float:left;
+    font-size:13px;
+    padding-left:23px;
+    margin-right:15px;
+    color:#e9691e;
+    font-size:12px;
+    margin-left:10px;
+}
+.onFocus {
+    background:url('/apps/nr/Public/Images/Home/onFocus.png') no-repeat 0 center ;
+    float:left;
+    font-size:13px;
+    padding-left:23px;
+    margin-right:15px;
+    color:#3b3b3b;
+    font-size:12px;
+    margin-left:10px;
+}
+.onCorrect {
+    background:url('/apps/nr/Public/Images/Home/onCorrect.png') no-repeat 0 center ;
+    float:left;
+    font-size:13px;
+    padding-left:23px;
+    margin-right:15px;
+    color:#039803;
+    font-size:12px;
+    margin-left:10px;
+}
+.onLoad {
+    float:left;
+    font-size:13px;
+    padding-left:23px;
+    margin-right:15px;
+    color:#3b3b3b;
+    font-size:12px;
+    margin-left:10px;
+}

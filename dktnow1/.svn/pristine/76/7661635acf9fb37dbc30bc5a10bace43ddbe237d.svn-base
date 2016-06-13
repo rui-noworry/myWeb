@@ -1,0 +1,78 @@
+<include file="../Public/header_main" />
+
+<load file="__PUBLIC__/Css/Ilc/system_add.css"/>
+<load file="__PUBLIC__/Css/Ilc/resource_index.css"/>
+<script type="text/javascript">
+
+    $(function(){
+
+        $(".checkall").click(function(){
+            $(".groupUserId").each(function(){
+                $(this).prop('checked', true);
+            })
+        });
+
+        $(".checkoff").click(function(){
+            $(".groupUserId").each(function(){
+                $(this).prop('checked', false);
+
+            })
+        });
+
+        $(".uncheck").click(function(){
+            $(".groupUserId").each(function(){
+               $(this).prop('checked', !Boolean($(this).prop('checked')));
+            })
+        });
+    });
+
+</script>
+<div class="title_hea">
+    组用户列表
+    <a href="__URL__/">返回列表</a>
+</div>
+<form method="post" action="__URL__/setUser/">
+    <ul class="add_option">
+        <li>
+            <label>当前组：</label>
+            <select name="groupId" onchange="location.href = '__URL__/user/id/'+this.options[this.selectedIndex].value;">
+                <option value="0">选择组</option>
+                <volist name="roleList" id="role">
+                    <option value="{$key}" <eq name="key" value="$selectGroupId">selected</eq>>{$role}</option>
+                </volist>
+            </select>
+        </li>
+        <div class="cache_select">
+            <ul>
+                <volist name="userList" id="user">
+                    <li>
+                        <span>
+                            <input name="groupUserId[]" class="groupUserId" id="sourceS" type="checkbox" value="{$key}" <in name="key" value="$groupUserList">checked</in> />
+                        </span>
+                        <span>{$user}</span>
+                    </li>
+                </volist>
+            </ul>
+        </div>
+        <div class="tools cache_tools fl">
+            <span class="checkall">
+                <i></i>
+                全选
+            </span>
+            <span class="uncheck">
+                <i></i>
+                反选
+            </span>
+            <span class="checkoff">
+                <i></i>
+                全否
+            </span>
+        </div>
+
+        <li class="coBtn">
+            <button class="save fin" value="" type="submit">保存</button>
+
+        </li>
+    </ul>
+</form>
+

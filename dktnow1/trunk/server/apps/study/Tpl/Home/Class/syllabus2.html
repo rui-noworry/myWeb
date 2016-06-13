@@ -1,0 +1,123 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="/Public/Js/Home/jquery-ui.js"/>
+<load href="__PUBLIC__/Css/Home/adviser.css"/>
+<script>
+$(function(){
+
+    // 课程表点击
+    $(document).on('click','.courses p', function(){
+        $('.courses p').removeClass('sy_name');
+        $('.syl_num').removeClass('syl_num');
+        $(this).addClass('sy_name');
+        $(".syl_cour").dialog("open");
+    });
+
+    $('.courses li').eq(4).css({'margin-top':'10px', 'border-top': '1px solid #DBDBDB'});
+
+    // 弹窗课目点击
+    $('.syl_cour span').click(function(){
+        $(this).addClass('syl_num').siblings().removeClass('syl_num');
+    })
+
+    $('.tab_return').click(function() {
+        location.href = '__URL__';
+    })
+
+    // 填写课程表弹窗
+    $(".syl_cour").dialog({
+        draggable: true,        // 是否允许拖动,默认为 true
+        resizable: true,        // 是否可以调整对话框的大小,默认为 true
+        autoOpen: false,        // 初始化之后,是否立即显示对话框,默认为 true
+        position :'center',       // 用来设置对话框的位置
+        stack : true,       // 对话框是否叠在其他对话框之上。默认为 true
+        modal: true,       // 是否模式对话框,默认为 false(模式窗口打开后，页面其他元素将不能点击，直到关闭模式窗口)
+        bgiframe: true,         // 在IE6下,让后面遮罩层盖住select
+        width: '602',
+        height: 'auto',
+
+        show: {     // 对话框打开效果
+            effect: "blind",
+            duration: 400
+        },
+        hide: {     // //对话框关闭效果
+          effect: "explode",
+          duration: 400
+        },
+        overlay: {
+            backgroundColor: '#000',
+            opacity: 0.5
+        },
+        buttons: {
+            确定: function() {
+                var tVal = $('.syl_num').text();
+                var obj = $(this);
+                var str = 'c_id='+$('input[name=c_id]').val()+'&sy_day='+$('.sy_name').attr('attr')+'&sy_num='+$('.sy_name').parents('li').attr('attr')+'&sy_subject='+$('.syl_num').attr('attr')+'&sy_id='+$('.sy_name').attr('rel');
+                $.post('__URL__/updateSyllabus', str, function(data) {
+                    if (data == 1) {
+                        if ($('.syl_num').attr('attr') == 0) {
+                            tVal = '';
+                        }
+                        $('.sy_name').attr('title', tVal);
+                        $('.sy_name').text(tVal);
+                        obj.dialog('close');
+                    }
+                })
+            },
+            取消: function() {
+                $(".temp_flex").removeClass("temp_flex_bg");
+                $(this).dialog('close');
+            }
+        }
+    })
+})
+</script>
+<div class="warp">
+    <include file="Public:leftSider"/>
+    <ul class="top_tab_menu fl">
+        <li class="tab_return">返回</li>
+        <li class="tab_name">{$class.s_id|replaceClassTitle=$class['c_type'],$class['c_grade'],$class['c_title'],$class['is_graduation']}</li>
+        <li onclick="javascript:location.href='__URL__/teachers/id/{$class.c_id}'">任课老师</li>
+        <li onclick="javascript:location.href='__URL__/student/id/{$class.c_id}'">同学们</li>
+        <li onclick="javascript:location.href='__URL__/group/id/{$class.c_id}'">小组</li>
+        <eq name="isBeanOpen" value="1">
+            <li onclick="javascript:location.href='__URL__/honor/id/{$class.c_id}'">光荣榜</li>
+        </eq>
+        <li onclick="javascript:location.href='__URL__/notice/id/{$class.c_id}'">通知</li>
+        <li class="selected">课程表</li>
+    </ul>
+    <div class="creat_c_mainBox syll_main">
+        <ul class="sy_courses">
+            <li class="sy_header">
+                <label></label>
+                <p>周一</p>
+                <p>周二</p>
+                <p>周三</p>
+                <p>周四</p>
+                <p>周五</p>
+                <p>周六</p>
+                <p>周日</p>
+            </li>
+        </ul>
+        <ul class="sy_courses courses">
+            <volist name="lists" id="vo" >
+                <li attr="{$key}"><label>{$key}</label>
+                <volist name="vo" id="vo2">
+                    <p attr="{$key}" rel='{$vo2.sy_id}' title='{$vo2.course}' <in name="vo2['sy_subject']" value="$subject">style="color:#D65858"</in>>{$vo2.course}</p>
+                </volist>
+                </li>
+            </volist>
+        </ul>
+    </div>
+</div>
+<div title="课程表" class="syl_cour">
+    <label>添加课目：</label>
+    <div>
+        <span attr="0">无</span>
+        <volist name="courseType" id="ct">
+            <span attr="{$key}">{$ct}</span>
+        </volist>
+    </div>
+</div>
+<input type="hidden" name="c_id" value="{$class.c_id}">
+<include file="Public:footer"/>

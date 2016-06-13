@@ -1,0 +1,31 @@
+<load href="__PUBLIC__/Css/Ilc/header.css,__PUBLIC__/Css/Ilc/public.css"/>
+<load file="/Public/Css/Ilc/resource_index.css"/>
+<div class="filter">
+    <div class="operate">
+        <div class="xin_ope">
+            <h3>第一步：获取excel文件模板，并填写内容</h3>
+            <div id="opearte-one" class="fl">
+                <a href="">数据导入模板下载（Excel格式为：Excel 97—2003 工作簿)</a>
+                <a href="">参照表</a>
+            </div>
+            <div id="notice">
+                <div id="notice-con">
+                    <span class="fl"><div>注意事项：</div></span>
+                    <ol>
+                        <li>请将信息填写至DataImport表中。</li>
+                        <li>如不清楚如何填写，请点击下载查看参照表。</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="list">
+            <h3>第二步：导入文件</h3>
+            <span>注意：只允许xls文件上传，不支持高版本xlsx</span>
+            <form  METHOD="POST" action="" enctype="multipart/form-data" onsubmit=''>
+                教师数据来源&nbsp&nbsp&nbsp&nbsp<input type="file" name="file">
+                <button class="submitBtn" type="submit" value="">确定</button>
+            </form>
+        </div>
+    </div>
+</div>

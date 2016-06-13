@@ -1,0 +1,31 @@
+<include file="Tmp:header"/>
+<script>
+    $(function(){
+
+        $(document).on('click','.right_submenu li dl',function(){
+            t_return = true;
+            flag = true;
+            var li_attr = $(this).parent().index();
+            var this_attr = $(this).attr('attr');
+            var new_num = li_attr + "_" + this_attr;
+            new_pop(new_num);
+            var t_num = $(this).html();
+            //alert(t_num);
+            var n_name = $('drag'+new_num+'');
+            $('.footer_submenu dl').each(function(){
+                if ($(this).attr('attr') == new_num) {
+                    flag = false;
+                }
+             })
+             if (flag == true){
+                $('.footer_submenu').append("<dl attr="+new_num+">"+t_num+"</dl>");
+             }
+        })
+
+        $(document).on('click','.footer_submenu dl',function(){
+            alert($(this).attr('attr'))
+        })
+    })
+</script>
+<include file="Tmp:main"/>
+<include file="Tmp:footer"/>

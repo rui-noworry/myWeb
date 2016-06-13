@@ -1,0 +1,139 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Ilc/class.css"/>
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="/Public/Js/Home/jquery-ui.js"/>
+<script type="text/javascript">
+
+// 表格排列
+var listObj =  {};
+var listObj =  {"ac_number": '8%',"ac_type": '15%',"ac_grade": "15%" ,"ac_title": "25%",'ac_operate':"10%",'ac_pass':"5%",'ac_no_pass':"5%"};
+$(function(){
+
+    setWidth(listObj);
+
+    // 根据学制选择年级
+    $(".coType span").click(function() {
+        if ($(this).text() == '全部') {
+            $('.coGrade').html('');
+            $('.coMajor').html('');
+        } else {
+            if ($(this).attr('rel') == 4) {
+                $('.coGrade').html('');
+                listGrade($(this).attr('rel'), 'coMajor', 1);
+            } else {
+                $('.coMajor').html('');
+        listGrade($(this).attr('rel'), 'coGrade', 1);
+            }
+        }
+    })
+
+    // 依据专业选择年级
+    $(document).on('click', '.coMajor span', function () {
+        listGrade($(this).attr('rel'), 'coGrade', 1, 'major');
+    })
+
+    // 选中学段
+    $(document).on('click', '.hand', function() {
+
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+
+    // 选中年级
+    $(document).on('click','.coGrade .hand', function() {
+
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+
+    // 查询
+    $('.search_class').click(function(){
+        getList();
+    }).click();
+
+    // 通过
+    $(document).on('click','.plist ._pass', function() {
+        var obj = $(this).parent();
+        $.post('__URL__/pass', 'ac_id='+obj.attr('attr'), function(data) {
+            if (data.status > 0) {
+                showMessage(data.info, 1);
+                obj.parents('.plist').remove();
+            }
+        }, 'json')
+    })
+
+    // 删除
+    $(document).on('click','.plist ._no_pass', function() {
+        var obj = $(this).parent();
+        $.post('__URL__/delete', 'id='+obj.attr('attr'), function(data) {
+            if (data > 0) {
+                showMessage('操作成功', 1);
+                obj.parents('.plist').remove();
+            }
+        })
+    })
+})
+
+// 获取班级列表
+function getList(p) {
+
+    p = p ? p : 1;
+
+    var c_type = $('.coType span.on').attr('rel');
+    var ma_id = $('.coMajor span.on').attr('rel'), ma_id = ma_id ? ma_id : 0;
+    var c_grade = $('.coGrade span.on').attr('rel');
+
+    $('.plist').remove();$('.page').html('');
+    $.post('__URL__/lists', 'c_type='+c_type+'&c_grade='+c_grade+'&p='+p+'&ma_id='+ma_id, function(json){
+
+        var str = '';
+        var obj = json.list;
+
+        if (obj) {
+            for (var i = 0; i < obj.length; i++) {
+
+                str += '<div class="t_caption _List plist fl"><ul attr="'+obj[i].ac_id+'"><li class="_number ac_nimber">'+(i+1+(p-1)*10)+'</li><li class="_type ac_type">'+obj[i].type+'</li><li class="_grade ac_grade">'+obj[i].grade+'</li><li class="_title ac_title">'+obj[i].c_name+'</li><li class="_pass ac_pass">通过</li><li class="_no_pass ac_no_pass">删除</li></ul></div>';
+            }
+        }
+        $('._list').after(str);
+        $('.page').html(json.page);
+        setWidth(listObj);
+    }, 'json');
+}
+</script>
+<div class="warp">
+    <include file="Public:left"/>
+    <div class="class fl">
+        <form method="post" id="form1" action="" enctype="multipart/form-data">
+            <ul class="filter">
+                <li class="coType">
+                    <label>学制：</label>
+                    <div>
+                        <span class="hand on">全部</span>
+                        <volist name="co_type" id="type">
+                            <span class="hand" rel="{$key}">{$type}</span>
+                        </volist>
+                    </div>
+                </li>
+                <li class="coMajor"></li>
+                <li class="coGrade"></li>
+                <li>
+                    <a href="javascript:void(0);" class="search_btn search_class"></a>
+                </li>
+            </ul>
+        </form>
+        <div class="_list fl">
+            <div class="t_caption">
+                <ul>
+                    <li class="_number ac_number">编号</li>
+                    <li class="_type ac_type">学段</li>
+                    <li class="_grade ac_grade">年级</li>
+                    <li class="_title ac_title">班级名称</li>
+                    <li class="_operate ac_operate">管理</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="page">{$page}</div>
+    <div class="clear"></div>
+</div>
+
+<include file="Public:footer"/>

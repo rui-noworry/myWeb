@@ -1,0 +1,303 @@
+/* 我的收藏 */
+.res_collection {
+    float:left;
+    width:755px;
+    height:auto;
+    margin:25px 0 20px 28px;
+}
+.res_collection .search_box {
+    float:left;
+    width:755px;
+    height:auto;
+    background:#F3F2F0;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+.res_collection .search_box .common_search {
+    float:left;
+    width:755px;
+    height:70px;
+}
+.res_collection .search_box .common_search input {
+    float:left;
+    width:310px;
+    height:38px;
+    margin-top:15px;
+    margin-left:13px;
+    text-indent:10px;
+}
+.res_collection .search_box .common_search a {
+    float: left;
+    width:86px;
+    height:39px;
+    border:none;
+    margin-top:15px;
+    margin-left:13px;
+    cursor:pointer;
+}
+.res_collection .search_box .common_search .ks {
+    background:url('/apps/resource/Public/Images/Home/resSearchBtn.png') no-repeat 0px 0px;
+}
+.res_collection .search_box .common_search .ks:hover {
+    background:url('/apps/resource/Public/Images/Home/resSearchBtn.png') no-repeat -86px 0px;
+}
+.res_collection .search_box .common_search .gj {
+    background:url('/apps/resource/Public/Images/Home/resSearchBtn.png') no-repeat 0px -39px;
+}
+.res_collection .search_box .common_search .gj:hover {
+    background:url('/apps/resource/Public/Images/Home/resSearchBtn.png') no-repeat -86px -39px;
+}
+.res_collection .search_box .high_search {
+    float:left;
+    width:755px;
+    height:auto;
+}
+.res_collection .high_search .filter {
+    width:683px;
+    margin:16px 36px;
+}
+.res_collection .high_search .filter input {
+    margin-right:20px;
+}
+.res_collection .high_search .filter span {
+    font-size:14px;
+    color:#606060;
+    margin-right:45px;
+}
+.res_collection .high_search ul {
+    float:left;
+    border-bottom:1px solid #DFDCD8;
+    padding-bottom:15px;
+}
+.res_collection .high_search ul li {
+    float:left;
+    width:683px;
+    height:auto;
+    margin:12px 36px 0 36px;
+}
+.res_collection .high_search ul li label {
+    float:left;
+    width:83px;
+    line-height:28px;
+    font-size:14px;
+    color:#292929;
+}
+.res_collection .high_search ul li div {
+    float:left;
+    width:600px;
+}
+.res_collection .high_search ul li span {
+    float:left;
+    padding:3px 20px;
+    font-size:14px;
+    color:#606060;
+    border:1px solid #00C165;
+    margin-right:12px;
+    cursor:pointer;
+}
+.res_collection .high_search ul li span.on {
+    background:#93E5BD;
+}
+.res_collection .high_search .btn {
+    float: left;
+    height: 55px;
+    margin-top:15px;
+    margin-left:200px;
+    display:inline;
+}
+.res_collection .high_search .btn a {
+    float:left;
+    width:174px;
+    height:38px;
+    cursor:pointer;
+}
+.res_collection .high_search .btn .confirm {
+    background:url('/apps/resource/Public/Images/Home/confirm.png');
+    margin-right:30px;
+}
+.res_collection .high_search .btn .confirm:hover {
+    background:url('/apps/resource/Public/Images/Home/confirmHover.png');
+}
+.res_collection .high_search .btn .cancel {
+    background:url('/apps/resource/Public/Images/Home/cancel.png');
+}
+.res_collection .high_search .btn .cancel:hover {
+    background:url('/apps/resource/Public/Images/Home/cancelHover.png');
+}
+.res_collection .res_list .res_tab {
+    float: left;
+    width: 755px;
+    height: auto;
+    overflow: hidden;
+    position:relative;
+}
+.res_collection .res_list .res_tab li ,.res_collection .res_list .res_tab p {
+    float: left;
+    width: 131px;
+    height: 50px;
+    line-height: 50px;
+    margin-right: 20px;
+    font-size: 18px;
+    color: #99999D;
+    text-align: center;
+    cursor: pointer;
+}
+.res_collection .res_list .res_tab .order_switch {
+    float:right;
+    width:64px;
+    margin-right:0;
+}
+.res_collection .res_list .res_tab .order_switch .list , .order_switch .thumb {
+    float:left;
+    width:32px;
+    height:28px;
+    margin-top:10px;
+}
+.res_collection .res_list .res_tab .order_switch .list {
+    background:url('/apps/resource/Public/Images/Home/order_switch.png') 0px 0px;
+}
+.res_collection .res_list .res_tab .order_switch .list:hover {
+    background:url('/apps/resource/Public/Images/Home/order_switch.png') 0px -28px;
+}
+.res_collection .res_list .res_tab .order_switch .thumb {
+    background:url('/apps/resource/Public/Images/Home/order_switch.png') -32px -28px;
+}
+.res_collection .res_list .res_tab .order_switch .thumb:hover {
+    background:url('/apps/resource/Public/Images/Home/order_switch.png') -32px -0px;
+}
+.res_collection .res_list .res_tab li.current {
+    font-weight: bold;
+    color: #080808;
+    background: url('/apps/resource/Public/Images/Home/d_selected.png') no-repeat bottom;
+}
+.res_collection .res_list .res_box {
+    width:755px;
+    height:auto;
+}
+.res_collection .res_list .res_box div.mould {
+    float:left;
+    background:#F3F2F0;
+    width:755px;
+    min-height:108px;
+}
+.res_collection .res_list .res_box .mould .tools {
+    float:left;
+    width:715px;
+    padding:12px 20px 10px 20px;
+    border-bottom:1px solid #DFDCD8;
+}
+.res_collection .res_list .res_box .mould .tools a {
+    float:left;
+}
+.res_collection .res_list .res_box .mould .tools a.choose {
+    line-height:28px;
+}
+.res_collection .res_list .res_box .mould .tools a.choose input {
+    margin-right:10px;
+    position:relative;
+    top:2px;
+}
+.res_collection .res_list .res_box .mould .tools a.choose span {
+    color:#363636;
+}
+.res_collection .res_list .res_box .mould .tools a.choose span i {
+    color:#F44D4B;
+    margin:0 3px;
+}
+.res_collection .tools .preview {
+    width:66px;
+    height:28px;
+    margin-left:15px;
+    cursor:pointer;
+    background:url('/apps/resource/Public/Images/Home/res_collection.png') 0px 0px;
+}
+.res_collection .tools .preview:hover {
+    background:url('/apps/resource/Public/Images/Home/res_collection.png') 0px -28px;
+}
+.res_collection .tools .collection {
+    width:84px;
+    height:28px;
+    margin-left:15px;
+    cursor:pointer;
+    background:url('/apps/resource/Public/Images/Home/res_collection.png') -66px 0px;
+}
+.res_collection .tools .collection:hover {
+    background:url('/apps/resource/Public/Images/Home/res_collection.png') -66px -28px;
+}
+.res_collection .tools .share_set ,.res_collection .tools .cancel_share{
+    width:88px;
+    height:28px;
+    margin-left:15px;
+    cursor:pointer;
+}
+.res_collection .res_list .res_box ul {
+    float:left;
+    width:750px;
+    padding-left: 5px;
+    padding-bottom:15px;
+    border-bottom:1px solid #DFDCD8;
+    display:inline;
+    _margin:0;
+}
+.res_collection .res_list .res_box ul li {
+    float:left;
+    width:121px;
+    height:auto;
+    margin-top:15px;
+}
+.res_collection .res_list .res_box li a ,.res_collection .res_list .res_box li span{
+    float:left;
+    margin-left:15px;
+    display:inline;
+}
+.res_collection .res_list .res_box li .res_cover {
+    width:106px;
+    height:81px;
+    background:url('/apps/resource/Public/Images/Home/res_frame.png');
+    position:relative;
+}
+.res_collection .res_list .res_box li .res_cover .res_scan {
+    position:absolute;
+    top:3px;
+    left:3px;
+}
+.res_collection .res_list .res_box li .res_cover .res_click {
+    position:absolute;
+    top:3px;
+    left:3px;
+}
+.res_collection .res_list .res_box .res_cover img {
+    float:left;
+    width:100px;
+    height:75px;
+    position: relative;
+    top: 3px;
+    left: 3px;
+}
+.res_collection .res_list .res_box li a.res_title {
+    float:left;
+    width:104px;
+    font-size:14px;
+    color:#080808;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    margin-top:5px;
+}
+.res_collection .res_list .res_box li span {
+    font-size:14px;
+    color:#A09C96;
+}
+.res_collection .res_list .res_box li span i {
+    float: left;
+    max-width: 30px;
+    overflow: hidden;
+    color:#F44D4B;
+}
+.res_collection .res_list .res_box .mould .noData {
+    float:left;
+    width: 755px;
+    text-align: center;
+    font-size: 18px;
+    color: #99999D;
+    margin-top:40px;
+}

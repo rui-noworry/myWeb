@@ -1,0 +1,99 @@
+<load href="__PUBLIC__/Css/Ilc/header.css,__PUBLIC__/Css/Ilc/public.css"/>
+<load file="/Public/Css/Ilc/resource_index.css"/>
+<load href="__PUBLIC__/Js/Public/jquery-1.9.1.js,__PUBLIC__/Js/Public/jquery-ui.js,__PUBLIC__/Js/Public/public.js"/>
+<script type="text/javascript">
+function mode(mode){
+   var mode = mode || 'on';
+    $('.cache_select input').each(function(){
+        switch(mode){
+            case 'on':
+                this.checked = true;
+                break;
+            case 'off':
+                this.checked = false;
+                break;
+            case 'toggle':
+              this.checked = !this.checked;
+                break;
+        }
+    });
+};
+
+
+$(function(){
+
+    $(".checkall").click(function(){
+        mode('on');
+    });
+
+    $(".checkoff").click(function(){
+        mode('off')
+    });
+
+    $(".uncheck").click(function(){
+        mode('toggle')
+    });
+});
+</script>
+<h2 class="res">缓存管理</h2>
+<div class="tools cache_tools">
+    <span class="add checkall">
+        <i></i>
+        全选
+    </span>
+    <span class="del uncheck">
+        <i></i>
+        反选
+    </span>
+    <span class="del checkoff">
+        <i></i>
+        全否
+    </span>
+</div>
+<div class="cache_select">
+    <ul>
+        <li>
+            <span>
+                <input type="checkbox" value="config" name=""/>
+            </span>
+            <span>配置缓存</span>
+        </li>
+        <li>
+            <span>
+                <input type="checkbox" value="config" name=""/>
+            </span>
+            <span>模型缓存</span>
+        </li>
+        <li>
+            <span>
+                <input type="checkbox" value="config" name=""/>
+            </span>
+            <span>分组缓存</span>
+        </li>
+        <li>
+            <span>
+                <input type="checkbox" value="config" name=""/>
+            </span>
+            <span>字段缓存</span>
+        </li>
+        <li>
+            <span>
+                <input type="checkbox" value="config" name=""/>
+            </span>
+            <span>模板缓存</span>
+        </li>
+        <li>
+            <span>
+                <input type="checkbox" value="config" name=""/>
+            </span>
+            <span>静态文件</span>
+        </li>
+        <li>
+            <span>
+                <input type="checkbox" value="config" name=""/>
+            </span>
+            <span>应用平台</span>
+        </li>
+    </ul>
+</div>
+<button class="save" value="" type="submit">生成</button>

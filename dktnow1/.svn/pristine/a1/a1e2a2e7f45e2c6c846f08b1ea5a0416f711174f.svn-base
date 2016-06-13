@@ -1,0 +1,83 @@
+<load href="__PUBLIC__/Css/Ilc/header.css,__PUBLIC__/Css/Ilc/public.css"/>
+<load file="/Public/Css/Ilc/resource_index.css"/>
+    <h2 class="res">资源列表</h2>
+    <div class="model_search">
+        <a>名称：</a>
+        <input type="text" value="" name="re_title">
+        <a class="search">搜索</a>
+        <div class="clear"></div>
+        <div class="pub_name">
+            <a>栏目：</a>
+            <span class="choose">选择</span>
+        </div>
+        <div class="list">
+            <ul> </ul>
+        </div>
+    </div>
+    <div class="tools fl">
+        <span class="add">
+            <i></i>
+            新增
+        </span>
+        <span class="del">
+            <i></i>
+            编辑
+        </span>
+        <span class="del">
+            <i></i>
+            删除
+        </span>
+        <span class="del">
+            <i></i>
+            取消推荐
+        </span>
+        <span class="del">
+            <i></i>
+            首页推荐
+        </span>
+    </div>
+    <ul class="list_hea">
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck" style="width: 2%;">
+            <span class="data_id" style="width: 8%;">编号</span>
+            <span class="data_name" style="width: 30%;">名称</span>
+            <span class="data_column" style="width: 10%;">类型</span>
+            <span class="data_tran" style="width: 10%;">所属栏目</span>
+            <span class="data_hand" style="width: 16%;">操作</span>
+        </li>
+    </ul>
+    <ul class="list_list list_hea">
+        <li>
+            <input class="data_check" type="checkbox" value="39" name="key" style="width: 2%;">
+            <span class="data_id" style="width: 8%;">39</span>
+            <span class="data_name" style="width: 30%;">历史与社会</span>
+            <span class="data_column" style="width: 10%;">图片</span>
+            <span class="data_tran" style="width: 10%;">21</span>
+            <span class="data_upload" onclick="edit(39)" style="width: 16%;">编辑</span>
+            <span class="data_show" style="width: 8%;">
+                <a href="/Resource/index/id/39" target="_blank">预览</a>
+            </span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" value="39" name="key" style="width: 2%;">
+            <span class="data_id" style="width: 8%;">39</span>
+            <span class="data_name" style="width: 30%;">历史与社会</span>
+            <span class="data_column" style="width: 10%;">图片</span>
+            <span class="data_tran" style="width: 10%;">21</span>
+            <span class="data_upload" onclick="edit(39)" style="width: 16%;">编辑</span>
+            <span class="data_show" style="width: 8%;">
+                <a href="/Resource/index/id/39" target="_blank">预览</a>
+            </span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" value="39" name="key" style="width: 2%;">
+            <span class="data_id" style="width: 8%;">39</span>
+            <span class="data_name" style="width: 30%;">历史与社会</span>
+            <span class="data_column" style="width: 10%;">图片</span>
+            <span class="data_tran" style="width: 10%;">21</span>
+            <span class="data_upload" onclick="edit(39)" style="width: 16%;">编辑</span>
+            <span class="data_show" style="width: 8%;">
+                <a href="/Resource/index/id/39" target="_blank">预览</a>
+            </span>
+        </li>
+    </ul>

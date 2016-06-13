@@ -1,0 +1,379 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/mould_browse.css"/>
+<div class="warp">
+<div id="main">
+    <div class="main_hea fl">
+        <a href="javascript:history.go(-1)" class="back">返回</a>
+        <a>{$unit}</a>
+        <span>></span>
+        <a>{$lesson.l_title}</a>
+        <span>></span>
+        <a>{$clName}</a>
+        <span>></span>
+        <a class="hea_class">{$tache.ta_title}</a>
+        <input type="hidden" name="ta_id" value="{$tache.ta_id}"/>
+    </div>
+    <div class="main_main">
+        <div class="main_left">
+            <div></div>
+            <ul>
+                <volist name="type" id="vo">
+                <eq name="{vo}" value="1"><li class="left_click homework"></li></eq>
+                <eq name="{vo}" value="2"><li class="contact"></li></eq>
+                <eq name="{vo}" value="3"><li class="text"></li></eq>
+                <eq name="{vo}" value="4"><li class="marry"></li></eq>
+                <eq name="{vo}" value="5"><li class="read"></li></eq>
+                <eq name="{vo}" value="6"><li class="resource"></li></eq>
+                <eq name="{vo}" value="7"><li class="leave"></li></eq>
+                <eq name="{vo}" value="8"><li class="ideas"></li></eq>
+                <eq name="{vo}" value="9"><li class="poll"></li></eq>
+                <eq name="{vo}" value="10"><li class="reason"></li></eq>
+                <eq name="{vo}" value="11"><li class="group"></li></eq>
+                </volist>
+            </ul>
+        </div>
+        <div class="main_right">
+            <div class="sTopicList">
+                <div class="resourceContent"></div>
+                <div class="res_left"></div>
+                <div class="res_right"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<include file="Public:footer"/>
+<style>
+    .current {background:#93E5BD;}
+    .uploadedList {float:left;line-height:20px;}
+    .uploadedList p {float: left;font-size: 16px;height: 38px;line-height: 38px;}
+    .uploadedList li{float: left;width: 110px;height: auto;position: relative;margin:0 2px 10px 10px;}
+    .uploadedList li a {color:#5f5f5f;}
+    .uploadedList li a.li_cover {float: left;display: inline;position: relative;margin-top: 10px;margin-left: 5px;}
+    .uploadedList li img.del {float:right;display:none;margin-top:10px;margin-right:10px;cursor:pointer;}
+    .uploadedList li a.file_name {float:left;width:100px;overflow:hidden;white-space:nowrap;text-align:center;margin-left:5px;}
+    .uploadedList li a.del_res {display:none;position: absolute;right: -3px;top: 2px;width: 16px;height: 16px;background: url("/Public/Images/Home/mould.png") no-repeat -367px -1px;cursor: pointer;}
+    .uploadedList li a.del_res:hover {background:url("__APPURL__/Public/Images/Home/mould.png") no-repeat -367px -19px;}
+</style>
+<script>
+$(function(){
+
+    $('.res_left').click(function() {
+        changeClick(0);
+    })
+
+    $('.res_right').click(function() {
+        changeClick(1);
+    })
+
+    // 前端 左侧高度
+    var t_height = document.body.clientWidth - 153;
+    $('.main_left').css('height',t_height);
+
+    var tArrow = $('.main_left').width();
+    var tCenter = $('.right_center').width();
+    $('.right_center li').css('width',tCenter+'px');
+
+    // 左侧按钮单击
+    $('.main_left div').click(function(){
+        if ($(this).hasClass('left_arrow')){
+            $(this).removeClass("left_arrow");
+            $('.main_left').width("15%");
+            $('.main_left ul').show();
+            $('.main_right').width('84%');
+        } else {
+            $(this).addClass("left_arrow");
+            $('.main_left').width("0%");
+            $('.main_left ul').hide();
+            $('.main_right').width('95%');
+        }
+    })
+
+    // 默认左侧第一个内容显示
+    $('.main_right > div').eq(0).show().siblings().hide();
+
+    // 左侧 li 点击
+    $('.main_left li').click(function(){
+        $(this).addClass('left_click').siblings().removeClass('left_click');
+
+        // 作业
+        if ($(this).hasClass('homework')) {
+            getSearchResult(1);
+
+        // 练习
+        } else if ($(this).hasClass('contact')) {
+            getSearchResult(2);
+
+        // 文本
+        } else if ($(this).hasClass('text')) {
+            getSearchResult(3);
+
+        // 链接
+        } else if ($(this).hasClass('marry')) {
+            getSearchResult(4);
+
+        // 扩展阅读
+        } else if ($(this).hasClass('read')) {
+            getSearchResult(5);
+        }
+
+        $('.main_right > div').eq($(this).index()).show().siblings().hide();
+    })
+
+    // 点击未转码的资源，自动下载
+    $(document).on('click', '.ListFiles', function () {
+        var rel = $(this).attr('rel');
+        if ($(this).attr('trans') == 0) {
+            if (confirm('该附件未转码，是否下载该附件？')) {
+                location.href = "/Activity/download/?id=" + rel;
+            }
+        } else {
+            $(this).find('a').each(function () {
+                $(this).attr({'target':'_blank', 'href':'__APPURL__/AuthResource/show/ar_id/' + rel});
+            })
+        }
+    })
+
+    // 默认点击第一个
+    $('.main_left li').eq(0).click();
+})
+
+var syncCount = 1111;
+
+function changeClick(num) {
+
+    var index = $('.main_left li.left_click').index();
+    var count = $('.main_left li').size() - 1;
+
+    if (num == 1) {
+        index = index == count ? 0 : index + 1;
+    } else {
+        index = index == 0 ? count : index - 1;
+    }
+
+    $('.main_left li').eq(index).click();
+}
+
+// 单击搜索功能
+function getSearchResult(num) {
+
+    var ta_id = $('input[name=ta_id]').val();
+    var act_type = num;
+
+    // 异步传值
+    $.post('__APPURL__/Tache/search', {ta_id:ta_id, act_type:act_type}, function(json) {
+
+        var html = '';
+
+        if (json) {
+
+            // 作业、练习、扩展阅读
+            if (act_type == 1 || act_type == 2 || act_type == 5) {
+                for (var i = 0; i < json.length; i++) {
+                    for (var j=0; j< json[i].length; j++) {
+                        if (j == 0) {
+                            html += '<h3>' + json[i][j]['act_title'] + '</h3>'
+                            // 如果有附件
+                            if (json[i][j]['attachment']) {
+                                html += '<ul class="uploadedList">';
+                                for (var k=0; k<json[i][j]['attachment'].length; k++) {
+                                    html += '<li rel="' + json[i][j]['attachment'][k]['ar_id'] + '" class="ListFiles" trans="' + json[i][j]['attachment'][k]['ar_is_transform'] + '">'
+                                         +  '<a class="li_cover" href="javascript:void(0)" target="">'
+                                         +  '<img src="' + json[i][j]['attachment'][k]['img_path'] + '" width="100" height="75" title="' + json[i][j]['attachment'][k]['ar_title'] + '">'
+                                         +  '</a>'
+                                         +  '<a class="file_name" href="javascript:void(0);" title="' + json[i][j]['attachment'][k]['ar_title'] + '">' + json[i][j]['attachment'][k]['ar_title'] + '</a>'
+                                         +  '</li>'
+                                }
+                                html += '</ul>';
+                            }
+                        } else {
+                            html += '<div class="resour_online" rel="' + json[i][j]['to_id'] + '" attr="' + json[i][j]['to_type'] + '">'
+                                    +  '<i>' + getIdByTopicType(json[i][j]['to_type']) + '</i>'
+                                    +  '<div class="online_cursor">'
+                                    +  '' + json[i][j]['to_title'] + ''
+                                    + '<div>';
+                            if (json[i][j]['to_type'] == 1) {
+                                html += syncSingle(syncCount, json[i][j]['to_option'], json[i][j]['to_answer']);
+                            } else if (json[i][j]['to_type'] == 2) {
+                                html += syncMulti(json[i][j]['to_option'], json[i][j]['to_answer']);
+                            } else if (json[i][j]['to_type'] == 3) {
+                                html += syncFill(json[i][j]['to_option'], json[i][j]['to_answer']);
+                            } else if (json[i][j]['to_type'] == 4) {
+                                html += syncJudge(syncCount, json[i][j]['to_option'], json[i][j]['to_answer']);
+                            } else {
+                                html += '<label style="cursor: pointer;">' + syncShort(json[i][j]['to_answer']) + '</label>';
+                            }
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            syncCount++;
+                        }
+                    }
+                }
+
+            // 文本
+            } else if (act_type == 3) {
+                for (var i in json) {
+                    html += '<div class="resour_online" rel="' + json[i]['act_id'] + '">'
+                         + '<i>' + json[i]['act_title'] + '</i>'
+                         + '<div class="online_cursor">'
+                         + '<div>' + json[i]['act_note'] + '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                }
+
+            // 外链
+            } else if (act_type == 4) {
+                for (var i = 0; i < json.length; i++) {
+                    for (var j=0; j< json[i].length; j++) {
+                        if (j == 0) {
+                            html += '<h3>' + json[i][j]['act_title'] + '</h3>'
+                        } else {
+                            html += '<div class="resour_online" rel="' + json[i][j]['li_id'] + '>'
+                                    +  '<i>' + json[i][j]['li_title'] + '</i>'
+                                    +  '<div class="online_cursor">'
+                                    + '<div><a href="' + json[i][j]['li_url'] + '" target="_blank">' + json[i][j]['li_title'] + '</a></div>';
+                            html += '</div>';
+                            html += '</div>';
+                        }
+                    }
+                }
+            }
+        } else {
+            html += '';
+        }
+
+        // 显示内容
+        $('.resourceContent').html(html);
+
+    }, 'json')
+}
+
+// 处理题型为3的json字符串
+function procJsonCode(jsonCode) {
+
+    var str = eval('(' + jsonCode + ')');
+    return str.join(':');
+}
+
+
+// 单选题
+function syncSingle(i, num, answer) {
+
+    var num = num.split(',');
+    var html = '';
+    var answer = eval('(' + answer + ')');
+    for (var j = 0; j < num.length; j++) {
+        if (j == parseInt(answer)) {
+            html += '<input type="radio" name="single' + i + '" value="0" checked><label class="option" style="cursor: pointer;">' + infor(j) + '</label>';
+        } else {
+            html += '<input type="radio" name="single' + i + '" value="0"><label class="option" style="cursor: pointer;">' + infor(j) + '</label>';
+        }
+    }
+    return html;
+}
+
+// 多选题
+function syncMulti(num, answer) {
+
+    var num = num.split(',');
+    var answer = eval('(' + answer + ')');
+    var answer1 = answer[0].split(',');
+    var html = '';
+    for (var j = 0; j < num.length; j++) {
+        tmp = syncArray(j, answer1);
+        if (tmp) {
+            html += tmp;
+        } else {
+            html += '<input type="checkbox" name="multiple" value="0"><label class="option" style="cursor: pointer;">' + infor(j) + '</label>';
+        }
+    }
+    return html;
+}
+
+function syncArray(j, answer) {
+    html = '';
+    for (var jj = 0; jj < answer.length; jj++) {
+        if (answer[jj] == j) {
+            html += '<input type="checkbox" name="multiple" value="0" checked><label class="option" style="cursor: pointer;">' + infor(j) + '</label>';
+        }
+    }
+    return html;
+}
+
+// 填空题
+function syncFill(num, answer) {
+    var obj = eval('(' + answer + ')')
+    var num = num.split(',');
+    var html = '';
+    for (var i = 0; i < num.length; i++) {
+        html += '<li class="noline"><label style="cursor: pointer;">' + (i + 1) + '、' + obj[i] + '</label></li>';
+    }
+    return html;
+}
+
+
+// 判断题
+function syncJudge(i,num, answer) {
+    var answer = eval('(' + answer + ')');
+    answer = parseInt(answer);
+    var html = '';
+    html += '<input type="radio" name="judge' + i + '" ' + ((answer == 0) ? 'checked' : '') + '><label attr="1" style="cursor: pointer;" class="option"><img height="20" width="20" border="0" src="__APPURL__/Public/Images/Home/ok.png"></label>';
+    html += '<input type="radio" name="judge' + i + '" ' + ((answer == 1) ? 'checked' : '') + '><label attr="2" style="cursor: pointer;" class="option"><img height="20" width="20" border="0" src="__APPURL__/Public/Images/Home/err.png"></label>'
+    return html;
+}
+function infor(i) {
+    var arr = new Array();
+    arr[0] = 'A';
+    arr[1] = 'B';
+    arr[2] = 'C';
+    arr[3] = 'D';
+    arr[4] = 'E';
+    arr[5] = 'F';
+return arr[i % 6];
+}
+
+// 已经题型id获取题型汉字信息
+function getIdByTopicType(id) {
+
+    var word = '';
+
+    switch (parseInt(id)) {
+        case 1:
+            word = '单项选择题';
+            break;
+        case 2:
+            word = '多项选择题';
+            break;
+        case 3:
+            word = '填空主观题';
+            break;
+        case 4:
+            word = '判断题';
+            break;
+        case 5:
+            word = '简答题';
+            break;
+    }
+
+    return word;
+}
+
+// 简答
+function syncShort(answer) {
+    var answer = eval('(' + answer + ')');
+    return answer;
+}
+
+window.onscroll = window.onresize = window.onload = function () {
+    //前端 按钮固定
+    o_lef = $('.res_left');
+    o_rig = $('.res_right');
+    var sTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var cHeight= document.documentElement.clientHeight || document.body.clientHeight;
+    var mid = (cHeight - o_lef.height()) / 2;
+    var o_top = parseInt(sTop + mid) - 50
+    o_lef.css('top', o_top + 'px');
+    o_rig.css('top', o_top + 'px');
+}
+</script>

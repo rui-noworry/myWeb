@@ -1,0 +1,48 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/adviser.css"/>
+<script>
+$(function(){
+    /*$('.group_content').hover(function(){
+        $(this).children('.stu_message').stop().animate({bottom:'0px'},200);
+    },function(){
+        $(this).children('.stu_message').stop().animate({bottom:'-28px'},200);
+    })*/
+    $('.group_content').css('overflow','hidden');
+    $('.tab_return').click(function() {
+        location.href = "__URL__";
+    })
+})
+</script>
+<div class="warp">
+    <include file="Public:leftSider"/>
+    <ul class="top_tab_menu fl">
+        <li class="tab_return">返回</li>
+        <li class="tab_name">{$class.s_id|replaceClassTitle=$class['c_type'],$class['c_grade'],$class['c_title'],$class['is_graduation']}</li>
+        <li onclick="javascript:location.href='__URL__/teachers/id/{$class.c_id}'">任课老师</li>
+        <li class="selected">同学们</li>
+        <li onclick="javascript:location.href='__URL__/group/id/{$class.c_id}'">小组</li>
+        <eq name="isBeanOpen" value="1">
+            <li onclick="javascript:location.href='__URL__/honor/id/{$class.c_id}'">光荣榜</li>
+        </eq>
+        <li onclick="javascript:location.href='__URL__/notice/id/{$class.c_id}'">通知</li>
+        <li onclick="javascript:location.href='__URL__/syllabus/id/{$class.c_id}'">课程表</li>
+
+    </ul>
+    <div class="creat_c_mainBox stu_cre">
+        <div class="stu_main">
+            <volist name="auth" id="auth">
+                <div class="group_content">
+                    <div class="stu_message">
+                        <a>编辑</a>
+                    </div>
+                    <img src="{$auth.a_avatar|getAuthAvatar=$auth['a_type'],$auth['a_sex'],96}" class="fl"/>
+                    <div class="fl">
+                        <p class="stu_bold">{$auth.a_nickname}</p>
+                        <p>智慧豆：{$auth.a_bean|intval}</p>
+                    </div>
+                </div>
+            </volist>
+        </div>
+    </div>
+</div>
+<include file="Public:footer"/>

@@ -1,0 +1,240 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Ilc/permission.css"/>
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="/Public/Js/Home/jquery-ui.js"/>
+<div class="warp">
+    <include file="Public:left"/>
+    <div class="accredit fl">
+        <p class="groupname">
+            <span>{$sr_name}</span>
+            <a href="__URL__" class="fr">返回</a>
+        </p>
+        <div class="user_list">
+            <p>
+                <span>用户列表</span>
+                <cite>+添加</cite>
+            </p>
+            <ul>
+                <volist name="userlists" id="user">
+                    <li attr="{$user.a_id}">
+                        <span>{$user.a_nickname}</span>
+                        <i class="user_del"></i>
+                    </li>
+                </volist>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div id="addUser" title="添加用户">
+    <div class="filter">
+        <p>
+            <label>姓名:</label>
+            <input type="text" name="user_name">
+        </p>
+        <p>
+            <label>手机号:</label>
+            <input type="text" name="user_phone">
+        </p>
+        <p class="searchUser"></p>
+        <ul class="searchList fl hide">
+        </ul>
+    </div>
+</div>
+<input type="hidden" name="sr_id" value="{$sr_id}">
+<script type="text/javascript">
+$(function(){
+
+    // 添加用户弹出窗口
+    $("#addUser").dialog({
+        draggable: true,
+        resizable: true,
+        autoOpen: false,
+        position :'center',
+        bgiframe: true,
+        width: '620',
+        height: 'auto',
+
+        show: {
+            effect: "blind",
+            duration: 400
+        },
+        hide: {
+          effect: "explode",
+          duration: 400
+        },
+        overlay: {
+            backgroundColor: '#000',
+            opacity: 0.5
+        },
+        buttons: {
+            确定: function() {
+
+                // 批量添加用户
+                var no = ',';
+                var still = '';
+                $('.user_list li').each(function() {
+                    no += $(this).attr('attr') + ',';
+                })
+
+                var tm = '';
+                var nameList = '';
+                var a_id = '';
+                var obj = $(this);
+
+                $('.searchList span.on').each(function(){
+                    tm = ','+$(this).attr('attr')+',';
+                    if (no.indexOf(tm) == -1) {
+                        still += ',' + $(this).attr('attr');
+                        nameList += "<li attr="+$(this).attr('attr')+"><span>"+ $(this).text() +"</span><i class='user_del'></i></li>";
+                    }
+                })
+
+                a_id = still.slice(1);
+
+                if (!a_id) {
+                    showMessage('没有添加用户');
+                    return false;
+                }
+
+                $.post('__URL__/saveSchoolRoleUser', 'sr_id='+$('input[name=sr_id]').val()+'&a_id='+a_id, function(data) {
+
+                    if (data > 0) {
+
+                        $('.user_list ul').append(nameList);
+
+                        $('.searchList').html('');
+                        // 关闭窗口
+                        obj.dialog('close');
+                    } else {
+                        showMessage('操作失败');
+                    }
+                })
+            },
+            取消: function() {
+                $(this).dialog('close');
+            }
+        }
+    });
+
+    // 添加用户
+    $('.user_list p cite').click(function(){
+    
+        $("#addUser").dialog("open");
+    })
+
+    // 若无用户，直接弹出添加窗口
+    if ($('.user_list ul li').size() < 1) {
+        $('.user_list p cite').click();
+    }
+
+    // 删除用户
+    $(document).on('mouseover','.user_list li',function(){
+        $(this).find('.user_del').show();
+    }).on('mouseout','.user_list li',function(){
+        $(this).find('.user_del').hide();
+    })
+
+    $(document).on('click','.user_del',function(){
+        if(confirm("确定要删除该用户吗？")){
+            var obj = $(this).parent();
+            $.post('__URL__/delSchoolRoleUser', 'sr_id='+$('input[name=sr_id]').val()+'&a_id='+obj.attr('attr'), function(data) {
+                if (data > 0) {
+                    obj.remove();
+                }
+            })
+        }
+    })
+
+    // 查询用户
+    $(document).on('click','.searchUser',function(){
+
+        // 用户名不能为空
+        /*if ($('input[name=user_name]').val() == '') {
+            showMessage("请输入教师名称缩小范围");
+            return false;
+        }*/
+
+        var still = ',';
+        $('.user_list li').each(function() {
+            still += $(this).attr('attr') + ',';
+        })
+
+        var str = 'is_ajax=1&a_nickname=' + $('input[name=user_name]').val() + '&a_tel=' + $('input[name=user_phone]').val();
+
+        // 获取用户
+        $.post('/Ilc/Auth/listTeacher', str, function(json) {
+
+            var str = '<li>本校暂无教师</li>';
+
+            if (json) {
+                str = '';
+                var on = '';
+                var tm = '';
+                for (var i = 0; i < json.length; i ++) {
+                    on = '';
+                    tm = ','+json[i]['a_id']+',';
+                    if (still.indexOf(tm) != -1) {
+                        on = ' class="on"';
+                    }
+                    str += '<li><span '+on+'attr='+json[i]['a_id']+'>'+json[i]['a_nickname']+'</span></li>';
+                }
+
+                $('.searchList').html(str);
+            }
+            $('.searchList').show();
+        }, 'json')
+    })
+
+    // 点击选中查询出的用户
+    $(document).on('click','.searchList li span', function(){
+
+        if ($(this).hasClass('on')) {
+            $(this).removeClass('on');
+        } else {
+            $(this).addClass('on');
+        }
+    })
+
+    /*//前端判断 添加用户名
+    $(document).on('blur','input[name=user_name]',function(){
+        var tVal = $(this).val();
+        String.prototype.trim = function(){
+            return this.replace(/[ ]/g,'')
+        }
+        var newVal = tVal.trim();
+        if(newVal == ''){
+            showMessage('姓名不能为空');
+            $(this).focus();
+        }else{
+            if(newVal.length > 1 && newVal.length < 7){
+            }else{
+                showMessage('该用户不存在');
+            }
+        }
+    })
+    //前端判断 添加用户手机号码
+    $(document).on('blur','input[name=user_phone]',function(){
+        var tVal = $(this).val();
+        var tPar = /^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/;
+        if(tPar.test(tVal) || tVal == ''){
+            
+        }else{
+            showMessage('手机号码格式不对，请重新输入');
+            $(this).focus();
+        }
+    })
+
+    //前端判断 添加用户查询
+    $('.searchUser').click(function(){
+        if($('input[name=user_name]').val() == ''){
+            showMessage('姓名不能为空');
+            $('input[name=user_name]').focus();
+        }else{
+            showMessage('能够查询');
+        }
+    })*/
+
+})
+</script>
+<include file="Public:footer"/>

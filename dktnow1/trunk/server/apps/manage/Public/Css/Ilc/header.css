@@ -1,0 +1,357 @@
+* {
+    margin:0px;
+    padding:0px;
+    list-style:none;
+}
+.fl {
+    float:left;
+}
+.fr {
+    float:right;
+}
+body {
+    position:relative;
+    background:#f6f6f6;
+}
+/* 头部 */
+.m_header {
+    position:absolute;
+    top:25px;
+    left:700px;
+    width:272px;
+    height:40px;
+    background:url("/apps/manage/Public/Images/Ilc/login_header.png") no-repeat;
+}
+.hea {
+    min-width:200px;
+}
+ .hea a,.hea ul li,.hea span {
+    cursor:pointer;
+ }
+.hea a {
+    border:2px solid #fff;
+    margin-right:6px;
+    margin:-15px 0px 0px 15px;
+}
+.hea a img {
+    width:30px;
+    height:30px;
+    color:#fff;
+}
+.hea ul {
+    width:auto;
+    margin-top:4px;
+}
+.hea ul li,.hea ul li i {
+    float:left;
+    width:26px;
+    height:26px;
+}
+.hea ul .on {
+    background:url("/apps/manage/Public/Images/Ilc/login_header.png") no-repeat -212px -46px;
+}
+.hea ul li i {
+    background:url("/apps/manage/Public/Images/Ilc/login_header.png") no-repeat;
+}
+.hea ul .li0 {
+    margin-left:8px;
+}
+.hea ul .li0 i {
+    background-position:-36px -62px;
+}
+.hea ul .li1 i {
+    background-position:-65px -62px;
+}
+.hea ul .li2 i {
+    background-position:-91px -62px;
+}
+.hea ul .li3 i {
+    background-position:-118px -62px;
+}
+.hea ul .li4 i {
+    background-position:-142px -62px;
+}
+.hea ul .li5 i {
+    background-position:-170px -62px;
+}
+.hea ul .lii0 i {
+    background-position:-36px -40px;
+}
+.hea ul .lii1 i {
+    background-position:-65px -40px;
+}
+.hea ul .lii2 i {
+    background-position:-91px -40px;
+}
+.hea ul .lii3 i {
+    background-position:-118px -40px;
+}
+.hea ul .lii4 i {
+    background-position:-142px -40px;
+}
+.hea ul .lii5 i {
+    background-position:-170px -40px;
+}
+.hea span {
+    width:49px;
+    height:27px;
+    margin:5px 5px 0px 0px;
+    background:url("/apps/manage/Public/Images/Ilc/login_header.png") no-repeat 5px -60px;
+}
+.hea span:hover {
+    background-position: 5px -38px;
+}
+
+/* 左部 */
+.m_left {
+    width:94px;
+    background:url("/apps/manage/Public/Images/Ilc/left.jpg") repeat-x #256497;
+}
+.m_left ul {
+    width:85px;
+    margin:0px auto;
+    margin-top:30px;
+}
+.m_left ul li {
+    width:85px;
+    height:85px;
+    margin:0px auto;
+    cursor:pointer;
+    overflow:hidden;
+}
+.m_left ul li label {
+    display:block;
+    width:85px;
+    height:57px;
+    cursor:pointer;
+    background:url("/apps/manage/Public/Images/Ilc/left.png") no-repeat;
+}
+.m_left ul li span {
+    display:block;
+    width:85px;
+    height:auto;
+    margin-top:5px;
+    text-align:center;
+    color:#f6f6f6;
+    font-size:14px;
+}
+.m_left ul .left_li0 label {
+    background-position:12px 4px;
+}
+.m_left ul .left_li1 label {
+    background-position:-73px 4px;
+}
+.m_left ul .left_li2 label {
+    background-position:-160px 4px;
+}
+.m_left ul .left_li3 label {
+    background-position:-248px 4px;
+}
+.m_left ul .left_li4 label {
+    background-position:-338px 4px;
+}
+.m_left ul .left_li5 label {
+    background-position:-423px 4px;
+}
+.m_left ul .on {
+    background:url("/apps/manage/Public/Images/Ilc/left_li.png") no-repeat;
+    z-index:-1;
+}
+/* 右部 */
+.m_right {
+    padding-top:80px;
+    overflow:hidden;
+}
+.right_submenu {
+    position:relative;
+    height:450px;
+}
+.right_submenu li {
+    position:absolute;
+    width:616px;
+    height:auto;
+    left:-720px;
+    top:0px;
+}
+.right_submenu li dl {
+    float: left;
+    height: 104px;
+    margin-left: 50px;
+    width: 104px;
+}
+.right_submenu li dl:hover {
+    background:url("/apps/manage/Public/Images/Ilc/dl_dl.png") no-repeat;
+}
+.right_submenu li dl dd {
+    color: #fff;
+    font-size: 14px;
+    height:22px;
+    line-height:20px;
+    text-align: center;
+    width: 96px;
+    margin-left:4px;
+    background:url("/apps/manage/Public/Images/Ilc/dl_dd.png") no-repeat;
+    cursor:pointer;
+    white-space:nowrap;
+    overflow:hidden;
+    -o-text-overflow:ellipsis;    /* Opera */
+    text-overflow:ellipsis;    /* IE, Safari (WebKit) */
+}
+.right_submenu li dl dt img {
+    width: 48px;
+    height: 48px;
+    margin-left:4px;
+    padding: 10px 24px;
+}
+.right_submenu .on {
+    left:0px;
+}
+ /*弹窗*/
+.drag {
+    position:absolute;
+    width:auto;
+    height:auto;
+    border:1px solid #b3b3b3;
+    background:#F6F6F6;
+    z-index:0;
+    min-width:190px;
+    border-radius:5px;
+    box-shadow:0 1px 3px 2px #b3b3b3;
+}
+.drag .title {
+    width:1000px;
+    height:27px;
+    border-bottom:1px solid #A1B4B0;
+    cursor:move;
+}
+.drag .title h2 {
+    font-size:14px;
+    height:27px;
+    line-height:24px;
+    margin-left:10px;
+}
+.drag .title a {
+    float:right;
+    width:24px;
+    height:19px;
+    display:block;
+    margin:4px 5px 0px 0px;
+    background:url("/apps/manage/Public/Images/Ilc/new_tool.png") no-repeat;
+}
+.drag .title .a_min {
+    background-position:-29px 0;
+}
+.drag .title .a_min:hover {
+    background-position:-29px -29px;
+}
+.drag .title .a_max {
+    background-position:-60px 0;
+}
+.drag .title .a_max:hover {
+    background-position:-60px -29px;
+}
+.drag .title .a_revert {
+    background-position:-149px 0;
+    display:none;
+}
+.drag .title .a_revert:hover {
+    background-position:-149px -29px;
+}
+.drag .title .a_close {
+    background-position:-89px 0;
+}
+.drag .title .a_close:hover {
+    background-position:-89px -29px;
+}
+.drag .content {
+    position:relative;
+    width:auto;
+    background:#f6f6f6;
+    overflow:auto;
+}
+.drag_in,.drag_on {
+    z-index:99;
+}
+.content .main {
+    min-width:790px;
+    height:500px;
+}
+.footer_submenu {
+    position:fixed;
+    right:10px;
+    bottom:10px;
+    height:48px;
+}
+.footer_submenu dl {
+    float:left;
+    display:block;
+    width:100px;
+    height:48px;
+    cursor:pointer;
+}
+.footer_submenu dl dt,.footer_submenu dl dt img {
+    float:left;
+    width:48px;
+    height:48px;
+}
+.footer_submenu dl dd {
+    display:block;
+    width:auto;
+    margin-top:10px;
+}
+iframe {
+    display:block;
+    width:100%;
+    padding-bottom:10px;
+    overflow:auto;
+    background:#f6f6f6;
+    width:1000px;
+    height:400px;
+    width:99%\9;
+    width:998px\9;
+}
+iframe body {
+    background:#f6f6f6;
+}
+.drag_on {
+    overflow:auto;
+}
+.content_left,.content_right,.content_bottom,.content_leftbottom,.content_rightbottom {
+    position:absolute;
+    z-index:99;
+}
+.content_left,.content_leftbottom {
+    left:-3px;
+    cursor:sw-resize;
+}
+.content_right,.content_rightbottom {
+    right:-3px;
+    cursor:se-resize;
+}
+.content_left,.content_right {
+    top:0px;
+    width:5px;
+    height:430px;
+    overflow:hidden;
+    cursor:e-resize;
+}
+.content_bottom {
+    width:980px;
+    height:5px;
+    left:10px;
+    bottom:-3px;
+    cursor:n-resize;
+}
+.content_leftbottom,.content_rightbottom {
+    width:10px;
+    height:10px;
+    bottom:-3px;
+}
+.new_if {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:100%;
+    height:100%;
+    display:none;
+}

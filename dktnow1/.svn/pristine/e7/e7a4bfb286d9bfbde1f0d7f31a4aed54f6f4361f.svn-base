@@ -1,0 +1,172 @@
+//
+//  HomeWorkCell.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-25.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "HomeWorkCell.h"
+
+@implementation HomeWorkCell
+@synthesize delegate;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+
+        
+        label = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 100, 30)];
+        label.backgroundColor = [UIColor clearColor];
+        label.textAlignment = NSTextAlignmentLeft;
+        [self addSubview:label];
+        [label release];
+      
+        
+        imageview = [[UIImageView alloc] initWithFrame:CGRectMake(20, 35, 391, 188)];
+        [self addSubview:imageview];
+        [imageview release];
+        
+        
+        lineView = [[UIView alloc] initWithFrame:CGRectMake(12, 35+188+10, 630, 0.8)];
+        lineView.backgroundColor = [UIColor grayColor];
+        lineView.alpha = 0.3;
+        [self addSubview:lineView];
+        [lineView release];
+        
+        rightAnswer = [[UILabel alloc] initWithFrame:CGRectMake(20, 35+188+15, 80, 30)];
+        rightAnswer.text = @"正确答案:";
+        rightAnswer.numberOfLines = 0;
+        rightAnswer.backgroundColor = [UIColor clearColor];
+        rightAnswer.textColor = [UIColor colorWithRed:109.0/255 green:173.0/255 blue:91.0/255 alpha:1];
+        rightAnswer.font = [UIFont boldSystemFontOfSize:16];
+        rightAnswer.textAlignment = NSTextAlignmentLeft;
+        [self addSubview:rightAnswer];
+        [rightAnswer release];
+        
+        stuAnswer = [[UILabel alloc] initWithFrame:CGRectMake(20, 35+188+15+30, 80, 30)];
+        stuAnswer.text = @"学生答案:";
+        stuAnswer.numberOfLines = 0;
+        stuAnswer.font = [UIFont boldSystemFontOfSize:16];
+        stuAnswer.backgroundColor = [UIColor clearColor];
+        stuAnswer.textAlignment = NSTextAlignmentLeft;
+        [self addSubview:stuAnswer];
+        [stuAnswer release];
+        
+        
+        backImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 640, 35+188+15+30+30+10)];
+        backImage.layer.borderWidth = 1.0;
+        backImage.layer.cornerRadius = 5.0;
+        backImage.alpha = 0.3;
+        backImage.layer.borderColor = [UIColor grayColor].CGColor;
+        backImage.layer.masksToBounds = YES;
+        [self addSubview:backImage];
+        [backImage release];
+        
+        
+        
+        
+        [self sendSubviewToBack:backImage];
+    }
+    return self;
+}
+-(void)updateCell:(NSMutableDictionary *)muDict index:(int)indexRow answer1:(NSString *)strAnswer1 answer2:(NSString *)strAnswer2  picArray:(NSArray *)arrImages{
+    
+    for (UIView *v in [self subviews]) {
+        if ([v isKindOfClass:[CCButton class]]) {
+            [v removeFromSuperview];
+        }
+    }
+    
+    
+    //1 单选 //2 多选 3 填空 4 判断 5 简答
+    if ([[muDict objectForKey:@"to_type"] intValue] == 1) {
+        
+        label.text = [NSString stringWithFormat:@"%d.单选题",indexRow+1];
+        
+    }else if ([[muDict objectForKey:@"to_type"] intValue] == 2) {
+        label.text = [NSString stringWithFormat:@"%d.多选题",indexRow+1];
+
+        
+    }else if ([[muDict objectForKey:@"to_type"] intValue] == 3) {
+        
+        label.text = [NSString stringWithFormat:@"%d.填空题",indexRow+1];
+
+    }else if ([[muDict objectForKey:@"to_type"] intValue] == 4) {
+        
+        label.text = [NSString stringWithFormat:@"%d.判断题",indexRow+1];
+
+    }else if ([[muDict objectForKey:@"to_type"] intValue] == 5) {
+        
+        label.text = [NSString stringWithFormat:@"%d.简答题",indexRow+1];
+
+    }
+    imageview.image = [muDict objectForKey:@"image"];
+    float imageHeight = imageview.image.size.height;
+    imageview.frame = CGRectMake(20, 35, imageview.image.size.width, imageHeight);
+    lineView.frame =  CGRectMake(12, 35+imageHeight+10, 630, 0.8);
+    
+    
+    rightAnswer.text = [NSString stringWithFormat:@"正确答案:\t\t%@",strAnswer1];
+    stuAnswer.text = [NSString stringWithFormat:@"学生答案:\t\t%@",strAnswer2];
+    rightAnswer.frame = CGRectMake(20, 35+imageHeight+15, 620, 30);
+    stuAnswer.frame = CGRectMake(20, 35+imageHeight+15+30, 620, 30);
+    
+    backImage.frame = CGRectMake(10, 0, 640, 35+imageHeight+15+30+30+10);
+    
+    
+    if ([[muDict objectForKey:@"to_type"] intValue] == 5 && ![strAnswer1 isEqualToString:@""]) {
+        
+        NSLog(@"stranse is %@",strAnswer1);
+        
+        CGSize size = [ToolClass getSizeFromText:[NSString stringWithFormat:@"正确答案:\t\t%@",strAnswer1] textWidth:620 fontSize:16 isBold:YES];
+        NSLog(@"%f==%f",size.width,size.height);
+        rightAnswer.frame = CGRectMake(20, 35+imageHeight+15, 620, size.height);
+        
+        CGSize size2 = [ToolClass getSizeFromText:[NSString stringWithFormat:@"学生答案:\t\t%@",strAnswer2] textWidth:620 fontSize:16 isBold:YES];
+        stuAnswer.frame = CGRectMake(20, 35+imageHeight+15+size.height +5, 620, size2.height);
+        backImage.frame = CGRectMake(10, 0, 640, 35+imageHeight+15+size.height+size2.height+10);
+
+        if (arrImages) {
+            for (int i=0; i<[arrImages count]; i++) {
+                
+                CCButton *btn = [[CCButton alloc]initWithFrame:CGRectMake(20+50*i, 35+imageHeight+15+size.height +10+size2.height, 40, 40)];
+                btn.backgroundColor = [UIColor clearColor];
+                [btn setTitle:[NSString stringWithFormat:@"%d",i+1] forState:UIControlStateNormal];
+                [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [btn setBackgroundImage:[UIImage imageNamed:@"圆背景.png"] forState:UIControlStateNormal];
+                btn.btnDict = muDict;
+                [btn addTarget:self action:@selector(clickImage:) forControlEvents:UIControlEventTouchUpInside];
+                btn.tag = i+10;
+                [self addSubview:btn];
+                [btn release];
+            }
+            
+            backImage.frame = CGRectMake(10, 0, 640, 35+imageHeight+15+size.height+size2.height+20+40);
+
+        }
+        
+
+    }
+    
+    
+
+    
+    
+
+}
+-(void)clickImage:(CCButton *)btn{
+    
+    if (delegate && [delegate respondsToSelector:@selector(clickImagesToBroad:)]) {
+        [delegate clickImagesToBroad:btn];
+    }
+}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

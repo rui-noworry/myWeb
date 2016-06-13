@@ -1,0 +1,124 @@
+//
+//  StudentCell.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-27.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "StudentCell.h"
+
+@implementation StudentCell
+@synthesize delegate;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+        
+        
+    }
+    return self;
+}
+-(void)changUIFromDict:(NSMutableArray *)muArr{
+
+    for (int i=0; i<[muArr count]; i++) {
+        
+        NSMutableDictionary *muDict = [muArr objectAtIndex:i];
+        NSLog(@"student is %@",muDict);
+        
+        UIImageView *backImage = [[UIImageView alloc] initWithFrame:CGRectMake(i%2*323+20, i/2*125, 293, 117)];
+        backImage.tag = i+1;//tag是1和2
+        backImage.image = [UIImage imageNamed:@"学生背景1.png"];
+        backImage.userInteractionEnabled = YES;
+        [self addSubview:backImage];
+        [backImage release];
+        
+        ImgDownSelf *headImage = [[ImgDownSelf alloc] initWithFrame:CGRectMake(15, 15, 48, 48)];
+        [headImage setImgUrl:[muDict objectForKey:@"a_avatar"]];
+        headImage.backgroundColor = [UIColor clearColor];
+        headImage.tag = 1;
+        [backImage addSubview:headImage];
+        [headImage release];
+        
+        if ([[muDict objectForKey:@"onLine"] isEqualToString:@"NO"]) {
+            backImage.alpha = 0.5;
+            backImage.userInteractionEnabled = NO;
+        }else{
+            backImage.alpha = 1.0;
+            backImage.userInteractionEnabled = YES;
+        }
+        
+        
+        
+        
+        UILabel *lblName = [[UILabel alloc] initWithFrame:CGRectMake(75, 20, 80, 25)];
+        lblName.text = @"王二小";
+        lblName.tag = 2;
+        lblName.backgroundColor = [UIColor clearColor];
+        lblName.textColor = [UIColor blackColor];
+        lblName.textAlignment = NSTextAlignmentLeft;
+        lblName.font = [UIFont systemFontOfSize:16];
+        [backImage addSubview:lblName];
+        [lblName release];
+        
+//        UILabel *lblStatue = [[UILabel alloc] initWithFrame:CGRectMake(75, 45, 80, 25)];
+//        lblStatue.text = @"在线";
+//        lblStatue.tag = 3;
+//        lblStatue.backgroundColor = [UIColor clearColor];
+//        lblStatue.textColor = [UIColor redColor];
+//        lblStatue.textAlignment = NSTextAlignmentLeft;
+//        lblStatue.font = [UIFont systemFontOfSize:16];
+//        [backImage addSubview:lblStatue];
+//        [lblStatue release];
+        
+        for (int i=0; i<2; i++) {
+            CCButton *btn = [[CCButton alloc] initWithFrame:CGRectMake(15+i*90, 75, 84, 33)];
+            btn.btnDict = muDict;
+            switch (i) {
+                case 0:
+                    [btn addTarget:self action:@selector(shouquan:) forControlEvents:UIControlEventTouchUpInside];
+                    [btn setTitle:@"授权演示" forState:UIControlStateNormal];
+                    break;
+                case 1:
+                    [btn addTarget:self action:@selector(chankanxueshengzhuangtai:) forControlEvents:UIControlEventTouchUpInside];
+                    [btn setTitle:@"截屏" forState:UIControlStateNormal];
+                    break;
+                default:
+                    break;
+            }
+            
+            btn.titleLabel.font = [UIFont systemFontOfSize:13];
+            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [btn setBackgroundImage:[UIImage imageNamed:@"学生按钮1.png"] forState:UIControlStateNormal];
+            [backImage addSubview:btn];
+            [btn release];
+        }
+        
+        [headImage setImgUrl:[muDict objectForKey:@"a_avatar"]];
+        lblName.text = [muDict objectForKey:@"a_nickname"];
+        
+    }
+    
+    
+}
+-(void)shouquan:(CCButton*)btn{
+    
+    if (delegate&&[delegate respondsToSelector:@selector(aouthStudent:)]) {
+        [delegate aouthStudent:(NSMutableDictionary *)btn.btnDict];
+    }
+}
+-(void)chankanxueshengzhuangtai:(CCButton*)btn{
+    
+    if (delegate&&[delegate respondsToSelector:@selector(checkStudentStatue:)]) {
+        [delegate checkStudentStatue:(NSMutableDictionary *)btn.btnDict];
+    }
+}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

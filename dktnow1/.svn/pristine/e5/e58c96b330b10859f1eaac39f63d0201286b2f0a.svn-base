@@ -1,0 +1,104 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/adviser.css"/>
+<script>
+$(function(){
+    /*$('.box_teacher li').hover(function(){
+        $(this).children('div').stop().animate({bottom:'0px'},200);
+    },function(){
+        $(this).children('div').stop().animate({bottom:'-28px'},200);
+    })*/
+
+    $('.box_teacher li').click(function() {
+        $(this).addClass('on').siblings().removeClass('on');
+        getList(0, 1);
+    }).eq(0).click();
+
+    $('.tab_return').click(function() {
+        location.href = "__URL__";
+    })
+
+    // 动态
+    $(document).on('click', '.get_more', function(){
+        getList($(this).attr('attr'));
+    })
+})
+
+// 分页获取科目动态
+function getList(p, typ) {
+
+    var c_id = '{$class.c_id}';
+    var a_id = $('.box_teacher li.on').attr('rel');
+
+    if (typ) {
+        $(".trends_content").html('');
+    }
+    $.post('__URL__/trendLists', 'a_id='+a_id+'&c_id='+c_id+'&subject='+$('.box_teacher li.on').attr('attr')+'&is_ajax=1&p='+p, function(json) {
+
+        try {
+
+            var obj = json.list;
+            var str = '';
+            var len = obj.length;
+
+            for (var i = 0; i < len; i++) {
+                str += '<li><a href="#"><img src="'+obj[i]['a_avatar']+'"/></a><div class="fl"><p><span><a href="#" class="name">'+obj[i]['a_nickname']+'</a><span></p><p>'+obj[i]['tr_action']+'了<span>'+obj[i]['tr_obj']+'-'+obj[i]['tr_title']+'</span></p><p><a href="#">'+obj[i]['tr_created']+'</a></p></li>';
+            }
+
+            if (len == 10) {
+                $('.notrend').removeClass('not-not');
+                $(".notrend").html('<a href="javascript:void(0);" attr="'+(json.page+1)+'" class="get_more">点击查看更多</a>');
+            } else {
+                $(".notrend").html('');
+            }
+        } catch(e) {
+
+            $(".notrend").html('');
+        }
+
+        $(".trends_content").append(str);
+
+        if (!$(".trends_content li").size()) {
+            $('.notrend').addClass('not-not');
+            $('.notrend').html('<a href="javascript:void(0);">暂无动态</a>');
+        }
+
+        $(".notrend").show();
+
+    }, 'json')
+}
+</script>
+<div class="warp">
+    <include file="Public:leftSider"/>
+    <ul class="top_tab_menu fl">
+        <li class="tab_return">返回</li>
+        <li class="tab_name">{$class.s_id|replaceClassTitle=$class['c_type'],$class['c_grade'],$class['c_title'],$class['is_graduation']}</li>
+        <li class="selected">任课老师</li>
+        <li onclick="javascript:location.href='__URL__/student/id/{$class.c_id}'">同学们</li>
+        <li onclick="javascript:location.href='__URL__/group/id/{$class.c_id}'">小组</li>
+        <eq name="isBeanOpen" value="1">
+            <li onclick="javascript:location.href='__URL__/honor/id/{$class.c_id}'">光荣榜</li>
+        </eq>
+        <li onclick="javascript:location.href='__URL__/notice/id/{$class.c_id}'">通知</li>
+        <li onclick="javascript:location.href='__URL__/syllabus/id/{$class.c_id}'">课程表</li>
+    </ul>
+    <div class="creat_c_mainBox">
+        <ul class="box_teacher">
+            <volist name="subjects" id="subject">
+                <li rel="{$subject.a_id}" attr="{$subject.cst_course}" title={$subject.cst_course|getTypeNameById='COURSE_TYPE'}({$subject.a_nickname})>{$subject.cst_course|getTypeNameById='COURSE_TYPE'}({$subject.a_nickname})
+                    <div class="stu_message">
+                        <a>编辑</a>
+                    </div>
+                </li>
+            </volist>
+        </ul>
+        <div class="clear"></div>
+        <div class="member_tab trends_title">
+            <ul class="trends_content">
+            </ul>
+            <p class="notrend" style="display:none">
+                <a class="trends_click" href="javascript:void(0);">暂无动态</a>
+            </p>
+        </div>
+    </div>
+</div>
+<include file="Public:footer"/>

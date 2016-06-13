@@ -1,0 +1,179 @@
+/* 资源上传 */
+.res_upload .top {
+    float: left;
+    width: 750px;
+    height: 50px;
+    overflow: hidden;
+    margin-top: 25px;
+    margin-left: 30px;
+}
+.res_upload .top li {
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    text-align: center;
+}
+.res_upload .top li.title {
+    color:#3aba6e;
+}
+.res_upload .top li.back {
+    display:inline;
+    color: #040404;
+    cursor:pointer;
+    margin-right:30px;
+}
+.res_upload .top li.back:hover {
+    color:#22a558;
+}
+.res_upload .upload_box {
+    float:left;
+    width:760px;
+    height:auto;
+    margin-top:10px;
+    margin-left:20px;
+    background:#F3F2F0;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, .05);
+    border-radius:3px;
+}
+.res_upload .upload_box .tit {
+    float:left;
+    width:710px;
+    height:50px;
+    line-height:50px;
+    padding:0 25px;
+    border-bottom:1px solid #E4E2DF;
+    color:#080808;
+    font-size:16px;
+}
+#uploader {
+    float:left;
+    display:inline-block;
+    width:515px;
+    margin-top:15px;
+    margin-left:30px;
+}
+.res_upload .upload_box .warn_word {
+    float:left;
+    width:200px;
+    line-height:25px;
+    margin-top:20px;
+    margin-left:10px;
+    font-size:12px;
+    color:#f76060;
+}
+.res_upload .upload_box .tools span {
+    float:left;
+    border:1px solid #F6F6F5;
+    background:#EDECEA;
+    padding:12px;
+    font-size:14px;
+    color:#555555;
+}
+.res_upload .upload_box .tools .save_to_wp {
+    margin:20px 36px 40px 30px;
+    cursor:pointer;
+}
+.res_upload .upload_box .tools .save_to_library {
+    margin:20px 36px 40px 0;
+    cursor:pointer;
+}
+.res_upload .upload_box .tools cite {
+    float:left;
+    padding:12px 0;
+    font-size:14px;
+    color:#555555;
+    margin:20px 0 40px 0;
+}
+.res_upload .upload_box .finish {
+    clear:both;
+    float:left;
+    display:block;
+    width:100%;
+    height:100px;
+    line-height:100px;
+    border-top:1px solid #E4E2DF;
+    text-align:center;
+}
+.res_upload .upload_box .finish_btn {
+    width:174px;
+    height:38px;
+    line-height:38px;
+    text-align:center;
+    color: #fff;
+    font-size:14px;
+    border:0;
+    background: url('/apps/resource/Public/Images/Home/btns.png') 0px 0px;
+    cursor:pointer;
+}
+.res_upload .upload_box .finish_btn:hover {
+    background: url('/apps/resource/Public/Images/Home/btns.png') 0px -38px;
+}
+/*多文件上传*/
+.warn_file {
+    float:left;
+    display:none;
+    width:735px;
+    padding-left:25px;
+    _padding-bottom:10px;
+}
+.file_left ,.file_top {
+    float:left;
+    width:520px;
+}
+.file_left {
+    margin:10px 0px;
+    padding:5px 0px;
+    border:1px solid #E4E2DF;
+}
+.file_top span {
+    float:left;
+    padding-left:10px;
+    line-height:34px;
+    color:#080808;
+    font-size:14px;
+}
+.file_top span.file_add {
+    margin-right:10px;
+    float:right;
+    cursor:pointer;
+}
+.file_top span.on,.file_bottom li span.on {
+    color:#22a558;
+}
+.file_bottom li {
+    width:100%;
+    float:left;
+    height:40px;
+    border-top:1px dashed #c3c3c3;
+}
+.file_bottom li label {
+    float:left;
+    width:80px;
+    line-height:40px;
+    text-align:right;
+}
+.file_bottom li input {
+    display:block;
+    float:left;
+    margin:9px 0px 0px 10px;
+    height:24px;
+    line-height:24px;
+    width:230px;
+    color:#080808;
+    text-indent:5px;
+}
+.file_bottom li span {
+    float:left;
+    line-height:40px;
+    margin-left:10px;
+    cursor:pointer;
+}
+.file_but {
+    float:left;
+    display:inline;
+    margin:10px 0px 20px 250px;
+}
+/*IE6多文本上传样式*/
+#uploader {
+    display:inline;
+}

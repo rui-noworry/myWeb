@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 4.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <script type="text/javascript" src="./Js/jquery-1.9.1.js" ></script>
+    <script type="text/javascript" src="./Js/public.js" ></script>
+    <link href="./Css/public.css" type="text/css" rel="stylesheet">
+    <link href="./Css/course.css" type="text/css" rel="stylesheet">
+    <link href="./Css/jquery-ui.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="./Js/jquery-ui.js" ></script>
+    <link href="./Js/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="./Js/zTree/js/jquery.ztree.core-3.5.js" ></script>
+    <script type="text/javascript" src="./Js/zTree/js/jquery.ztree.exedit-3.5.js" ></script>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="./Js/png.js" ></script>
+    <script type="text/javascript">
+        DD_belatedPNG.fix('#logo,.cShare,.cEdit,.cIn,.cClone,.cExport,.cDel,.fw_baoming_left,.fw_btn,.anli_ico_link,.anli_ico,.selected,.selected_green,.selected_gray,.to-left,.to-right,.current,.mt_tab li,.classhomework_top li,.choose_class,.current img,.res_click,.res_scan,.res_frame.png,#main_bg li img,.jCal .left,.jCal .right');
+    </script>
+    <![endif]-->
+    <title>大课堂互动教学</title>
+    <script>
+        <!--//
+
+            // 导航动画效果
+            $(function(){
+
+                $('#header li a').wrapInner('<span class="out"></span>');
+
+                $('#header li a').each(function() {
+                    $('<span class="over">' + $(this).text() + '</span>').appendTo(this);
+                });
+
+                $('#header li a').hover(function() {
+                    $('.out',this).stop().animate({'top':'67px'},200);
+                    $('.over',this).stop().animate({'top':'0px'},200);
+
+                }, function() {
+                    $('.out',this).stop().animate({'top':'0px'},200);
+                    $('.over',this).stop().animate({'top':'-67px'},200);
+                });
+                
+                $('#header li a').click(function(){
+
+                    // 选中菜单项的样式
+                    $(this).addClass('on').parent().siblings().find('a').removeClass('on');
+
+                    // 恢复动画
+                    $('.out',this).css('top','0px');
+                    $('.over',this).css('top','-67px');
+                    $(this).parent().siblings().find('a').hover(function(){
+                        $('.out',this).stop().animate({'top':'67px'},200);
+                        $('.over',this).stop().animate({'top':'0px'},200);
+                    }, function() {
+                        $('.out',this).stop().animate({'top':'0px'},200);
+                        $('.over',this).stop().animate({'top':'-67px'},200);
+                    })
+                    // 停止当前点击导航的动画效果
+                    $(this).hover(function(){
+                        $('.out',this).stop();
+                        $('.over',this).stop();
+                    },function(){
+                        $('.out',this).stop();
+                        $('.over',this).stop();
+                    })
+                }).eq(0).click();
+            })
+        //-->
+    </script>
+</head>
+<body id="body">
+    <div id="header">
+        <div>
+            <a href="javascript:void(0);" id="logo"></a>
+            <ul class="nav">
+                <li><a href="javascript:;">课程超市</a></li>
+                <li><a href="javascript:;">我的空间</a></li>
+                <li><a href="javascript:;">资源中心</a></li>
+                <li><a href="javascript:;">应用中心</a></li>
+            </ul>
+            <a href="javascript:void(0);" class="download">iPhone客户端下载</a>
+        </div>
+    </div>
+    <div class="warp">
+        <!--左部分开始-->
+        <div class="lesson_left fl">
+            <div class="left_top" id="addParent" >添加单元</div>
+            <table>
+                <tr>
+                    <td>
+                        <ul id="tree" class="ztree"></ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--左部分结束-->
+        <!--右部分开始-->
+        <div class="lesson_righ fl">
+            <a href="javascript:void(0);" class="lesson_revert fl" title="初一数学(人教版)">初一数学(人教版)</a>
+            
+            <input type="hidden" autocomplete="off"  name="co_id" value="1"/>
+            <!--pId 为单击左侧树形菜单时的课文父id-->
+            <input type="hidden" autocomplete="off" name="pId" value=""/>
+            <!--domId 为单击左侧树形菜单时的课文id-->
+            <input type="hidden" autocomplete="off" name="domId" value=""/>
+            <!--childLength 为单击左侧树形菜单时的节点的子节点数-->
+            <input type="hidden" autocomplete="off" name="childLength" value=""/>
+            <!--lId 添加课时后返回的课时id-->
+            <input type="hidden" autocomplete="off" name="lId" value=""/>
+            <!--syncId 异步返回课时后课文id-->
+            <input type="hidden" autocomplete="off" name="syncId" value="0"/>
+            <!--inputName 存储上次单击的课时名称-->
+            <input type="hidden" autocomplete="off" name="inputName" value=""/>
+            <!--subjectName 课文所属科目名称-->
+            <input type="hidden" autocomplete="off" name="subjectName" value=""/>
+            <ul class="lesson_tab">
+                <li class="selected_green">我的备课</li>
+            </ul>
+            <div class="lesson_content">
+                <!-- 我的备课 -->
+                <div class="my_course">
+                    <div class="lesson_caption">
+                        <ul>
+                            <li class="cap_order">序号</li>
+                            <li class="cap_name">课时名称</li>
+                            <li class="cap_time">最新修改时间</li>
+                            <li class="cap_operate">操作</li>
+                        </ul>
+                    </div>
+                    <div class="syncShow"></div>
+                </div>
+                <!-- 已发布备课 -->
+                <div class="pub_course hide">
+                    <div class="lesson_caption gray">
+                        <ul>
+                            <li class="pub_order">序号</li>
+                            <li class="pub_name">课时名称</li>
+                            <li class="pub_obj">发布对象</li>
+                            <li class="pub_time">发布时间</li>
+                            <li class="pub_operate">操作</li>
+                        </ul>
+                    </div>
+                    <div class="syncPub"></div>
+                </div>
+            </div>
+        </div>
+        <!--右部分结束-->
+    </div>
+    <script type="text/javascript">
+    <!--
+        // 存储课程ID
+        var co_id = $("input[name=co_id]").val();
+        // 存储删除的课文id对象
+        var delLessonId = {};
+
+        $(function() {
+
+            // 头部tab切换
+            $(".lesson_tab li:first").click(function() {
+
+                $(this).addClass("selected_green").siblings().removeClass("selected_gray");
+                $(".my_course").show();
+                $('.pub_course').hide();
+            })
+
+            // 初始化树形结构目录
+            $.fn.zTree.init($("#tree"), setting, zNodes);
+
+            // 转移到课时下的环节
+            $(document).on('click', '.prepare', function() {
+                location.href = './tache.html?cl_id=' + $(this).closest('div').attr('attr')+'&l_id='+$('input[name=syncId]').val()+'&co_id='+co_id;
+            })
+
+        })
+
+        // 树形结构目录
+        var zTree;
+        var zTreeOnDrop;
+        var demoIframe;
+        var zTreeBeforeDrag;
+        var zTreeOnDrag;
+        var setting = {
+            view: {
+                expandSpeed: "",
+                selectedMulti: false,
+                dblClickExpand: false, // 双击节点时,是否自动展开父节点的标识
+                showLine: false, // 是否显示节点之间的连线
+                showIcon: false, // 是否显示节点的图标
+                showTitle: true, // 是否显示节点的 title 提示信息
+            },
+            edit: {
+                enable: false
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick
+            }
+        };
+
+        var zNodes = [];
+
+        // 单击时异步加载课文，同时也得判断是否属于重复请求，是的话，就不请求
+        // 只需查询展现单击节点菜单课文id是否和展示课时内容区的课文id相同
+        function zTreeOnClick(event, treeId, treeNode) {
+
+            var zTree = $.fn.zTree.getZTreeObj("tree");
+            zTree.expandNode(treeNode, true, null, null);
+
+            if (treeNode.pId) {
+                $.post('./Data/classhour.txt', '', function(json) {
+                    var html = '';
+                    if (json) {
+
+                        // 已添加的课时列表
+                        var count = 1;
+                        if (json.length > 0) {
+                            for (var i = 0; i < json.length; i++) {
+                                if (treeNode.id != json[i]['l_id']) {
+                                    continue;
+                                }
+                                html += '<div class="lesson_caption lesson_list" attr="' + json[i]['cl_id'] + '">'
+                                        + '<ul class="lesson_sub">'
+                                        + '<li class="cap_order cap_mark">' + count + '</li>'
+                                        + '<li class="cap_name cap_cor"  title="' + json[i]['cl_title'] + '">' + json[i]['cl_title'] + '</li>'
+                                        + '<li class="cap_time">' + json[i]['cl_created'] + '</li>'
+                                        + '<li class="cap_less">&nbsp;</li>'
+                                        + '<li class="cap_less cap_rig">&nbsp;</li>'
+                                        + '<li class="cap_less prepare">进入</li>'
+                                        + '<li class="cap_close">&nbsp;</li>'
+                                        + '</ul>'
+                                        + '</div>';
+                                count++;
+                            }
+                            $('input[name=syncId]').val(treeNode.id);
+                        }
+                    } else {
+                        $('input[name=syncId]').val(0);
+                    }
+                    $('.syncShow').html(html);
+                }, 'json');
+            } else {
+                $('.syncShow').html('');
+            }
+        }
+        //-->
+    </script>
+    <div class="clear"></div>
+    <div class="foot_bot"></div>
+    <div class="foot_top"></div>
+    <div id="footer">
+        <div class="nav back1"></div>
+        Copyright &copy; 2007-2011 北京金商祺移动互联 All Rights Reserved.
+    </div>
+</body>
+</html>

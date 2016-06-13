@@ -1,0 +1,171 @@
+//
+//  RichengViewController.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-3.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "RichengViewController.h"
+
+@interface RichengViewController ()
+
+@end
+
+@implementation RichengViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor clearColor];
+    
+    infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 300, 55)];
+    infoLabel.backgroundColor = [UIColor clearColor];
+    infoLabel.font = [UIFont systemFontOfSize:40];
+    infoLabel.textAlignment = NSTextAlignmentLeft;
+    infoLabel.text = @"本周日程";
+    infoLabel.textColor = [UIColor colorWithRed:96.0/255 green:96.0/255 blue:96.0/255 alpha:1];
+    [self.view addSubview:infoLabel];
+    [infoLabel release];
+    
+    
+    UIImageView *imageview = [[UIImageView alloc]initWithFrame:CGRectMake(20, 65, 892,44)];
+    imageview.image = [UIImage imageNamed:@"001.png"];
+    [self.view addSubview:imageview];
+    [imageview release];
+    
+    for (int i=0; i<7; i++) {
+        UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(72+i*116, 0, 118, 44)];
+        lbl.backgroundColor = [UIColor clearColor];
+        lbl.font = [UIFont systemFontOfSize:15];
+        lbl.textColor = [UIColor colorWithRed:96.0/255 green:96.0/255 blue:96.0/255 alpha:1];
+
+        switch (i) {
+            case 0:
+                lbl.text = @"星期一";
+
+                break;
+            case 1:
+                lbl.text = @"星期二";
+                
+                break;
+            case 2:
+                lbl.text = @"星期三";
+                
+                break;
+            case 3:
+                lbl.text = @"星期四";
+                
+                break;
+            case 4:
+                lbl.text = @"星期五";
+                
+                break;
+            case 5:
+                lbl.textColor = [UIColor redColor];
+                lbl.text = @"星期六";
+                
+                break;
+            case 6:
+                lbl.textColor = [UIColor redColor];
+                lbl.text = @"星期日";
+                
+                break;
+                
+                
+            default:
+                break;
+        }
+        lbl.textAlignment = NSTextAlignmentCenter;
+        [imageview addSubview:lbl];
+        [lbl release];
+    }
+    
+    myTable = [[UITableView alloc]initWithFrame:CGRectMake(20, 65+44, 895, 560)];
+    myTable.delegate = self;
+    myTable.dataSource = self;
+    [myTable setBounces:NO];
+    [myTable setShowsVerticalScrollIndicator:NO];
+    myTable.backgroundColor = [UIColor clearColor];
+    myTable.separatorColor = [UIColor clearColor];
+    [self.view addSubview:myTable];
+    [myTable release];
+    
+    
+   
+    
+//    UIImageView *backImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 100, 100, 100)];
+//    backImage.image = [UIImage imageNamed:@"背景.jpg"];
+//    [self.view addSubview:backImage];
+//    [backImage release];
+	// Do any additional setup after loading the view.
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+
+    return 1;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return 20;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    return 44;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    NSString *strCell = @"cell";
+    RichengCell *cell = [tableView dequeueReusableCellWithIdentifier:strCell];
+    if (cell==nil) {
+        cell = [[RichengCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:strCell];
+    }
+    cell.delegate = self;
+    [cell changeContent:nil row:indexPath.row count:20];
+    return cell;
+}
+-(void)clickRichengLesson:(NSMutableDictionary *)muDict{
+    
+ 
+    
+    
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+#endif
+
+
+
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft  ||
+            interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+    
+}
+@end

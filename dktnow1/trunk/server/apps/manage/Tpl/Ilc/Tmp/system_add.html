@@ -1,0 +1,65 @@
+<include file="Tmp:header"/>
+<script type="text/javascript">
+function check() {
+
+    var name_val = $.trim($('input[name=sys_name]').val());
+    //alert(name_val);
+    if (name_val == "") {
+        alert("名称不能为空")
+        return false;
+    }
+
+    var sys_tex = $.trim($('textarea').val()); vbnvg
+    if (sys_tex.length >300) {
+        alert("内容不能超过300字符")
+        return false;
+    }
+}
+</script>
+<include file="Tmp:main"/>
+<div class="sys_add">
+    <div class="title_hea">
+        <i class="fl">新增属性</i>
+        <a href="">返回列表</a>
+    </div>
+    <form enctype="multipart/form-data" onsubmit="return check();" method="post">
+        <ul class="add_option">
+            <li>
+                <label><i>*</i>名称：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li>
+                <label>说明：</label>
+                <textarea placeholder="内容不能超过300字符" name="sys_tex"></textarea>
+            </li>
+            <li>
+                <label><i>*</i>类型：</label>
+                <select class="fl" name="">
+                    <option value="">文本</option>
+                    <option value="">枚举</option>
+                </select>
+            </li>
+            <li>
+                <label>默认值：</label>
+                <input class="fl" type="text" name=""/>
+            </li>
+            <li>
+                <label>枚举参数：</label>
+                <input class="fl" type="text" name=""/>
+                <p class="fl">(请输入参数用，分割 注意：英文输入法下的 " , ")</p>
+            </li>
+            <li>
+                <label><i>*</i>状态：</label>
+                <select class="fl" name="">
+                    <option value="">启用</option>
+                    <option value="">禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <button class="save" value="" type="submit">保存</button>
+                <button class="reset" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>
+</div>
+<include file="Tmp:footer"/>

@@ -1,0 +1,180 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Ilc/lead.css"/>
+<load href="/Public/Js/Public/public.js"/>
+<script>
+$(function(){
+
+    // 隐藏栏目
+    $('.import').hide();
+    $('.lead_sure').hide();
+
+    // 点击导出按钮，展现栏目
+    $(document).on('click', '.lead_check',  function () {
+        $('.import').show();
+        $('.lead_sure').show();
+    })
+
+    $('.colu_carte li').eq(8).addClass('car_click').siblings().removeClass('car_click');
+    //表格排列
+    var dateWidth = {'data_check':'2%','data_name':'20%','data_pattern':'15%','data_size':'15%','data_tran':'15%','data_state':'15%','data_point':'8%'};
+    setWidth(dateWidth);
+
+    //checkbox 按钮
+    $('input[name=allcheck]').click(function(){
+        
+        if($(this).is(':checked')){
+            $('.data_main .data_check').prop('checked',true)
+        }else{
+            $('.data_main .data_check').prop('checked',false)
+        }
+    })
+
+    // 无限级栏目
+    $(document).on('click', 'select[name=mainCate]', function () {
+
+        var _this = $(this), val = parseInt(_this.val());
+        if (_this.val() == 0) {
+            return;
+        }
+
+        // 避免重复加载
+        if ($('input[name=cateValue]').val() == val) {
+            return;
+        }
+        var id = _this.attr('name') == 'mainCate' ? 0 : $(this).val();
+
+        $.post('/AuthResource/findSub', 'id='+id, function (json) {
+            var str = ''
+            if (json) {
+
+                // 第一层级
+                if (_this.attr('name') == 'mainCate') {
+                    str += '<select name="oneCate">';
+                    for (var i=0, len=json.length; i<len; i++) {
+
+                        // 学校栏目
+                        if (val == 1) {
+                            if (json[i]['s_id'] == 0) {
+                                continue;
+                            }
+                            str += '<option value="' + json[i]['rc_id'] + '">' + json[i]['rc_title'] + '</option>';
+
+                        // 系统栏目
+                        } else if (val == 2) {
+                            if (json[i]['s_id'] != 0) {
+                                continue;
+                            }
+                            str += '<option value="' + json[i]['rc_id'] + '">' + json[i]['rc_title'] + '</option>';
+                        }
+                    }
+                    str += '</select>';
+                    $('.sub').html(str);
+
+                    // 存储第一层级栏目
+                    $('input[name=cateValue]').val(val)
+                }
+            }
+        }, 'json')
+    })
+
+    // 批量导入
+    $(document).on('click', '.lead_sure', function () {
+
+        // 检测有无选中资源
+        if (!$('.data_check').is(':checked')) {
+            showMessage('请选择要导入栏目的资源');
+            return;
+        }
+
+        // 检测有无选中栏目
+        if ($('.sub').children().length == 0) {
+            showMessage('请选择栏目');
+            return;
+        }
+
+        var idss = '', rc_id = $('select[name=oneCate]').val();;
+        $('.data_check').each(function () {
+            if ($(this).is(':checked') && $(this).parent().attr('rel')) {
+                idss += ',' + $(this).parent().attr('rel');
+            }
+        })
+
+        $.post('__URL__/insertResource', 'rc_id=' + rc_id + '&idss=' + idss, function (json) {
+
+            // 等待转码
+            Loading();
+
+            if (json) {
+
+                // 取消等待
+                close_Loading();
+
+                $('.data_check').each(function () {
+                    if ($(this).is(':checked') && $(this).parent().attr('rel')) {
+                        $(this).parent().remove();
+                    }
+                })
+
+                if (parseInt($('.data_main li').size()) == 0) {
+                    location.href = '__APPURL__/Ilc/ResourceImport/index';
+                }
+            }
+        }, 'json')
+    })
+})
+</script>
+<div class="warp">
+<include file="Public:left"/>
+<!--记住上次的栏目值-->
+<input type="hidden" autocomplete="off" name="cateValue" value=0/>
+<div class="colu_right">
+    <ul class="colu_carte">
+        <volist name="secondList" id="selist">
+            <li attr="{$selist['sn_name']}" <eq name="selist.sn_name" value="ResourceImport">class="car_click"</eq>><a href="__APPURL__{$selist['sn_url']}">{$selist['sn_title']}</a></li>
+        </volist>
+    </ul>
+    <div class="colu_arrow ResourceImport">
+        <image src="__APPURL__/Public/Images/Ilc/resource_arrow.png"/>
+    </div>
+    <div class="colu_main lead_center">
+               
+        <p class="lead_test">&nbsp;&nbsp;&nbsp;&nbsp;检测到如下资源：</p>
+        <ul class="handle_data data_hea">
+            <li>
+                <input type="checkbox" name="allcheck" class="data_check"/>
+                <span class="data_name">名称</span>
+                <span class="data_pattern">格式</span>
+                <span class="data_size">文件大小</span>
+                <span class="data_tran">转码</span>
+                <span class="data_point">积分</span>
+                <span class="data_state">状态</span>
+            </li>
+        </ul>
+        <ul class="handle_data data_main">
+            <volist name="array" id="vo">
+            <li rel="{$vo.id}">
+                <input type="checkbox" name="" class="data_check"/>
+                <span class="data_name" title='{$vo.re_title}'>{$vo.re_title}</span>
+                <span class="data_pattern">{$vo.re_ext}</span>
+                <span class="data_size">{$vo.re_filesize}</span>
+                <span class="data_tran"><if condition="$vo.re_is_transform eq 0">未转码<else />转码</if></span>
+                <span class="data_point">{$vo.re_download_points}</span>
+                <span class="data_state">启用</span>
+            </li>
+            </volist>
+        </ul>
+        <div class="clear"></div>
+        <a class="lead_check lead_in">导入到</a>
+        <div class="clear"></div>
+        <div class="import">
+            <select name="mainCate">
+                <option value="0">选择栏目</option>
+                <option value="1">本校栏目</option>
+                <option value="2">系统栏目</option>
+            </select>
+            <div class="sub"></div>
+        </div>
+        <a href="javascript:void(0)" class='lead_sure'>确定</a>
+    </div>
+</div>
+</div>

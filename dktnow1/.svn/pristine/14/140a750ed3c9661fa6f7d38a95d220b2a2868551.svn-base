@@ -1,0 +1,63 @@
+<include file="../Public/header_main" />
+
+<load file="__PUBLIC__/Css/Ilc/system_add.css"/>
+<script type="text/javascript">
+function check() {
+
+    var name_val = $.trim($('input[name=sn_name]').val());
+    var title_val = $.trim($('input[name=sn_title]').val());
+
+    if (name_val == "") {
+
+        alert("名称不能为空")
+        return false;
+    }
+
+    if (title_val == "") {
+
+        alert("显示名不能为空")
+        return false;
+    }
+}
+</script>
+    <div class="title_hea">
+        <i class="fl">新增</i>
+        <a href="__URL__/">返回列表</a>
+    </div>
+    <form method="post" action="__URL__/insert/" onsubmit="return check();">
+        <ul class="add_option">
+            <li>
+                <label>名称：</label>
+                <input class="fl" type="text" name="sn_name" value=""/>
+            </li>
+            <li>
+                <label>显示名：</label>
+                <input class="fl" type="text" name="sn_title" value=""/>
+            </li>
+
+            <li>
+                <label>链接：</label>
+                <input class="fl" type="text" name="sn_url"/>
+            </li>
+            <li>
+                <label>上级：</label>
+                <select class="fl" name="sn_pid">
+                    <option value="0">无</option>
+                    <volist name="nodes" id="vo">
+                        <option value="{$vo.sn_id}">{$vo.sn_title}</option>
+                    </volist>
+                </select>
+            </li>
+            <li>
+                <label>状态：</label>
+                <select class="fl" name="sn_status">
+                    <option value="1">启用</option>
+                    <option value="9">禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <button class="save fin" value="" type="submit">保存</button>
+                <button class="reset fin" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>

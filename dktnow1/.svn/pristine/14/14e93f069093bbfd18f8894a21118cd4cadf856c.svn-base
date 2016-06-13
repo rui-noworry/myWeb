@@ -1,0 +1,23 @@
+//
+//  AnsImageViewController.h
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-7-11.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+@class StartViewController;
+@interface AnsImageViewController : BaseViewController<UIScrollViewDelegate,ImgDownSelfDelegate>
+{
+    NSMutableArray *muArr;
+    UIScrollView *mainScroll;
+    UIPageControl *control;
+    
+    StartViewController *startVc;
+    int whichOne;
+}
+@property int whichOne;
+@property(nonatomic,retain)NSMutableArray *muArr;
+@property(nonatomic,retain)StartViewController *startVc;
+@end

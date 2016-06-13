@@ -1,0 +1,193 @@
+<load href="__PUBLIC__/Css/Ilc/header.css,__PUBLIC__/Css/Ilc/public.css"/>
+<load file="/Public/Css/Ilc/resource_index.css"/>
+<load href="__PUBLIC__/Js/Public/jquery-1.9.1.js,__PUBLIC__/Js/Public/jquery-ui.js,__PUBLIC__/Js/Public/public.js"/>
+<script type="text/javascript">
+$(function(){
+    var listObj = {"data_check": "2%","data_id": "30%"};
+    setWidth(listObj);
+    //列表点击
+    $(document).on('click','.sty_left .list_list li',function(){
+        $('.sty_center ul').show();
+    })
+    $(document).on('click','.sty_center .list_list li',function(){
+        $('.sty_right ul').show();
+    })
+})
+</script>
+<h2 class="res study_add">知识点列表</h2>
+<a href="" class="stydy_return fl">添加</a>
+<div class="clear"></div>
+<div class="sty_left">
+    <ul class="list_hea">
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">知识点列表</span>
+        </li>
+    </ul>
+    <ul class="list_list list_hea">
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">a</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">b</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">c</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">d</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">e</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">f</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">g</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">h</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">i</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">j</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">k</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">r</span>
+        </li>
+    </ul>
+</div>
+<div class="sty_center">
+    <ul class="list_hea">
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">知识点列表</span>
+        </li>
+    </ul>
+    <ul class="list_list list_hea">
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">a</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">b</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">c</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">d</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">e</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">f</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">g</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">h</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">i</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">j</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">k</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">r</span>
+        </li>
+    </ul>
+</div>
+<div class="sty_right">
+    <ul class="list_hea">
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">知识点列表</span>
+        </li>
+    </ul>
+    <ul class="list_list list_hea">
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">a</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">b</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">c</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">d</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">e</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">f</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">g</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">h</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">i</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">j</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">k</span>
+        </li>
+        <li>
+            <input class="data_check" type="checkbox" name="allcheck"/>
+            <span class="data_id">r</span>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,23 @@
+//
+//  LocalViewController.h
+//  ClassRoomStudent
+//
+//  Created by apple  on 13-8-7.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+@interface LocalViewController : BaseViewController
+{
+    NSMutableArray *muArrdata;
+    FMDatabase *db;
+    NSArray *toolArr;
+    UIScrollView *mainScroll;
+    int gate;
+    
+    
+    int preselect;
+    UIImageView *selectView;
+}
+@end

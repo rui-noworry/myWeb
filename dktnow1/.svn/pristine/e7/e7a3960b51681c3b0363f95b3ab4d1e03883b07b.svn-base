@@ -1,0 +1,46 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="/Public/Js/Home/jquery-ui.js"/>
+<load href="__PUBLIC__/Css/Home/course.css"/>
+
+    <script type="text/javascript">
+    <!--
+        $(function() {
+            // 字数超出显示省略号
+            $('.courseInfo').each(function(){
+                var cclass = $(this).find('p').last().html();
+                if(cclass.length > 30){
+                    var long_word = $(this).find('p').last().text();
+                    var cor_word = long_word.substr(0,26) + '．．．';
+                    $(this).find('p').last().text(cor_word);
+                }
+            })
+        })
+    //-->
+    </script>
+
+    <div class="warp">
+        <include file="Public:leftSider"/>
+        <div class="mainBox">
+            <ul class="mainBox_tab_menu fl">
+                <li class="selected">我的课程</li>
+            </ul>
+            <div class="mainBox_tab_box fl">
+                <ul class="course_list myCourse">
+                    <volist name="list" id="vo">
+                        <li class="listli">
+                            <div class="pic" <if condition="$vo.co_id eq 0">onclick="javascript:void(0);"<else />onclick="javascript:location.href='__APPURL__/Lesson/index/course/{$vo.co_id}/c_id/{$vo.c_id}/cro_id/{$vo.cro_id}'"</if>><img src="{$vo.co_cover}"/></div>
+                            <div class="courseInfo">
+                                <a class="title" title="{$vo.c_name}&nbsp;&nbsp;{$vo.subject}" <if condition="$vo.co_id eq 0">onclick="javascript:void(0);"<else />onclick="javascript:location.href='__APPURL__/Lesson/index/course/{$vo.co_id}/c_id/{$vo.c_id}/cro_id/{$vo.cro_id}'"</if>><if condition="$vo.c_name eq ''">{$vo.cro_name}<else /> {$vo.c_name}</if>&nbsp;&nbsp;{$vo.subject}</a>
+                                <p><if condition="$vo.co_title eq ''">教师未备课<else />{$vo.co_title}</if></p>
+                                <p>教师 : <if condition="$vo.a_nickname eq ''">未指定教师<else />{$vo.a_nickname}</if></p>
+                            </div>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+<include file="Public:footer"/>

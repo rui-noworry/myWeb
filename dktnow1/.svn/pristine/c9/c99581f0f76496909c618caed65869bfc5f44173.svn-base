@@ -1,0 +1,125 @@
+<include file="../Public/header_main" />
+
+<load file="__PUBLIC__/Css/Ilc/system_add.css"/>
+<script type="text/javascript">
+    $(function() {
+
+        // 根据学制选择年级
+        $("select[name=d_type]").change(function() {
+
+            var str = '<option value="0">请选择</option>';
+
+            if ($(this).val()) {
+                $.post('__URL__/getGradeByType', 'id=' + $(this).val(), function(json) {
+
+                    $.each(json, function(i) {
+                        str += '<option value="' + i + '">' + json[i] + '</option>';
+                    })
+                    $("select[name=d_grade]").html(str);
+                }, 'json');
+            } else {
+
+                $("select[name=d_grade]").html(str);
+            }
+        })
+    })
+    function check() {
+
+        if ($("input[name=d_name]").val() == '') {
+                alert('请输入标签名', 0);
+                return false;
+        }
+
+        if ($("select[name=d_type]").val() == 0) {
+                alert('请选择学制', 0);
+                return false;
+        }
+
+        if ($("select[name=d_grade]").val() == 0) {
+                alert('请选择年级', 0);
+                return false;
+        }
+
+        if ($("select[name=d_semester]").val() == 0) {
+                alert('请选择学期', 0);
+                return false;
+        }
+
+        if ($("select[name=d_subject]").val() == 0) {
+                alert('请选择课程', 0);
+                return false;
+        }
+
+        if ($("select[name=d_version]").val() == 0) {
+                alert('请选择版本', 0);
+                return false;
+        }
+    }
+</script>
+    <div class="title_hea">
+        <i class="fl">新增目录</i>
+        <a href="__URL__/">返回列表</a>
+    </div>
+    <form method="post" action="__URL__/insert/" onsubmit="return check();">
+        <ul class="add_option">
+            <li>
+                <label>目录名称：</label>
+                <input class="fl" type="text" name="d_name" value=""/>
+            </li>
+
+            <li>
+                <label>学制：</label>
+                <select name="d_type">
+                    <option value="0">请选择</option>
+                    <volist name="d_type" id="type" key="tk">
+                        <option value="{$tk}" <if condition="$d_code[0] eq $tk"> selected </if>>{$type}</option>
+                    </volist>
+                </select>
+            </li>
+            <li>
+                <label>年级：</label>
+                <select name="d_grade">
+                    <option <notempty name="d_code[1]"> value="{$d_code[0]}">{$d_code[0]|getGradeByType=$s_id,$d_code[1]}<else/>value="0">请选择</notempty></option>
+                </select>
+            </li>
+            <li>
+                <label>学期：</label>
+                <select name="d_semester">
+                    <volist name="d_semester" id="semester" key="sk">
+                        <option value="{$key}" <if condition="$d_code[2] eq $key"> selected </if>>{$semester}</option>
+                    </volist>
+                </select>
+            </li>
+            <li>
+                <label>课程：</label>
+                <select name="d_subject">
+                    <option value="0">请选择</option>
+                    <volist name="d_course" id="course" key="ck">
+                        <option value="{$ck}" <if condition="$d_subject eq $ck"> selected </if>>{$course}</option>
+                    </volist>
+                </select>
+            </li>
+            <li>
+                <label>版本：</label>
+                <select name="d_version">
+                    <option value="0">请选择</option>
+                    <volist name="d_version" id="version">
+                        <option value="{$key}" <if condition="$d_ver eq $key"> selected </if>>{$version}</option>
+                    </volist>
+                </select>
+            </li>
+            <li>
+                <label>状态：</label>
+                <select class="fl" name="d_status">
+                    <option value="1">启用</option>
+                    <option value="9">禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <input type="hidden"  name="d_pid" value="{$d_pid}">
+                <input type="hidden"  name="d_level" value="{$d_level}">
+                <button class="save fin" value="" type="submit">保存</button>
+                <button class="reset fin" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>

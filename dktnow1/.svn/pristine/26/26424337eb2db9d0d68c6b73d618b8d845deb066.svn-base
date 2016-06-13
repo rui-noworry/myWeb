@@ -1,0 +1,124 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Ilc/system.css"/>
+<script type="text/javascript">
+
+// 表格排列
+var listObj =  {"_check": '5%',"_period": "15%" ,"_grade": "15%","_subject": "20%","_person": "10%","_time": "15%","_status":"10%","_manage": "10%","_edit": "10%"};
+$(function(){
+
+    // 编辑
+    $(document).on('click','._edit',function(){
+        location.href = '__URL__/edit/id/'+$(this).parents('.plist').attr('attr');
+    })
+
+    // 根据学制选择年级
+    $(".gcType span").click(function() {
+        if ($(this).attr('rel') == 0) {
+            $('.gcGrade').html('');
+            $('.gcMajor').html('');
+        } else {
+            if ($(this).attr('rel') == 4) {
+                $('.gcGrade').html('');
+                listGrade($(this).attr('rel'), 'gcMajor', 1);
+            } else {
+                $('.gcMajor').html('');
+                listGrade($(this).attr('rel'), 'gcGrade', 1);
+            }
+        }
+    })
+
+    // 依据专业选择年级
+    $(document).on('click', '.gcMajor span', function () {
+        listGrade($(this).attr('rel'), 'gcGrade', 1, 'major');
+    })
+
+    // 查询
+    $('.search_btn').click(function() {
+        getList();
+    }).click();
+
+    // 选中
+    $(document).on('click','.hand',function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+
+    setWidth(listObj);
+})
+function getList(p) {
+    var gc_type = $('.gcType .hand.on').attr('rel');
+    var p = p ? p : 1;
+    var ma_id = $('.gcMajor').css('display') == 'none' ? 0 : $(".gcMajor .hand.on").attr('rel'), ma_id = ma_id ? ma_id : 0;
+    var str = 'ma_id='+ma_id+'&p='+p;
+    if (gc_type) {
+        var gc_grade = $('.gcGrade .hand.on').attr('rel');
+        str += '&gc_type='+gc_type+'&gc_grade='+gc_grade;
+    }console.log(str);
+    $.post('__URL__/lists', str, function(json) {
+        $('#gradeCourse .plist').remove();
+        $('.page').html('');
+        var obj = json.list;
+        var res = '<div class="_caption t_caption"><ul><li class="_check"><input type="checkbox" onclick="CheckAll(\'gradeCourse\')"></li><li class="_period">学段</li><li class="_grade">年级</li><li class="_subject">学科</li><li class="_person">创建人</li><li class="_time">创建时间</li><li class="_status">状态</li><li class="_manage">管理</li></ul></div>';
+        if (obj) {
+            for (var i = 0; i < obj.length; i ++) {
+                res += '<div class="_caption _List plist" attr="'+obj[i]['gc_id']+'"><ul><li class="_check"><input name="key" type="checkbox" value="'+obj[i]['gc_id']+'"></li><li class="_period">'+obj[i]['type']+'</li><li class="_grade">'+obj[i]['grade']+'</li><li class="_subject" title='+obj[i]['course']+'>'+obj[i]['course']+'</li><li class="_person">'+obj[i]['a_nickname']+'</li><li class="_time">'+obj[i]['gc_created']+'</li><li class="_status" attr="'+obj[i]['gc_status']+'">';
+
+                if (obj[i]['gc_status'] == 1) {
+                    res += '<img src="__APPURL__/Public/Images/Ilc/qy_status.png" />';
+                } else {
+                    res += '<img src="__APPURL__/Public/Images/Ilc/jy_status.gif" />';
+                }
+
+                res += '</li><li class="_edit">编辑</li></ul></div>';
+            }
+            $('.page').html(json.page);
+        } else {
+            res += '<div class="pli_null">暂无数据</div>';
+        }
+
+        $('#gradeCourse').html(res);
+        setWidth(listObj);
+    }, 'json')
+
+}
+</script>
+<div class="warp">
+    <include file="Public:left"/>
+    <div class="system fl">
+        <div class="sys_menu">
+            <volist name="secondList" id="selist">
+                <a href="__APPURL__{$selist['sn_url']}" <eq name="selist.sn_name" value="GradeCourse">class="selected"</eq>>{$selist['sn_title']}</a>
+            </volist>
+        </div>
+        <div class="filter">
+            <div class="tools fl">
+                <span class="add"><i></i>新增</span>
+                <span class="forbidden"><i></i>禁用</span>
+                <span class="resume"><i></i>恢复</span>
+            </div>
+            <div class="search fl">
+                <ul class="more_search fl">
+                    <li class="gcType">
+                        <label>学制：</label>
+                        <div>
+                            <span class="hand on" rel="0">全部</span>
+                            <volist name="gc_type" id="type">
+                                <span class="hand" rel="{$key}">{$type}</span>
+                            </volist>
+                        </div>
+                    </li>
+                    <li class="gcMajor"></li>
+                    <li class="gcGrade"></li>
+                    <li class="searchBtn">
+                        <a href="#" class="search_btn"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="_list fl" id="gradeCourse">
+        </div>
+        <div class="page"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<include file="Public:footer"/>

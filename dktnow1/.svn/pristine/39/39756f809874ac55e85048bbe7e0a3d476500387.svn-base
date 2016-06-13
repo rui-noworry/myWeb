@@ -1,0 +1,49 @@
+<include file="../Public/header_main" />
+
+<load file="__PUBLIC__/Css/Ilc/system_add.css"/>
+<script type="text/javascript">
+function check() {
+
+    var name_val = $.trim($('input[name=m_name]').val());
+
+    if (name_val == "") {
+
+        alert("名称不能为空")
+        return false;
+    }
+
+    var sys_tex = $.trim($('textarea').val());
+    if (sys_tex.length >300) {
+        alert("内容不能超过300字符")
+        return false;
+    }
+}
+</script>
+    <div class="title_hea">
+        <i class="fl">新增类型</i>
+        <a href="__URL__/">返回列表</a>
+    </div>
+    <form method="post" action="__URL__/insert/" onsubmit="return check();">
+        <ul class="add_option">
+            <li>
+                <label>名称：</label>
+                <input class="fl" type="text" name="m_name" value=""/>
+            </li>
+            <li>
+                <label>说明：</label>
+                <textarea placeholder="内容不能超过300字符" name="m_title"></textarea>
+            </li>
+
+            <li>
+                <label><i>*</i>状态：</label>
+                <select class="fl" name="m_status">
+                    <option value="1">启用</option>
+                    <option value="9">禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <button class="save fin" value="" type="submit">保存</button>
+                <button class="reset fin" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>

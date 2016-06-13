@@ -1,0 +1,658 @@
+.cour,.cname {
+    cursor:pointer;
+}
+.fl {
+    float:left;
+}
+.fr {
+    float:right;
+}
+.clear {
+    clear:both;
+}
+.res {
+    width:97%;
+    padding:2px 10px;
+    font-size:16px;
+    color:#333;
+}
+.model_search {
+    float:left;
+    width:100%;
+    padding-top:15px;
+}
+.model_search input {
+    color: #B9B9B9;
+    float: left;
+    font-size: 16px;
+    height: 36px;
+    line-height: 36px;
+    margin-left: 18px;
+    text-indent: 5px;
+    width: 330px;
+}
+.model_search a,.upload_add {
+    color: #616161;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 16px;
+    height: 38px;
+    line-height: 38px;
+    margin-left: 8px;
+    text-align: center;
+    width: 90px;
+}
+.model_search a.search {
+    display:block;
+    width:90px;
+    border:1px solid #58a9d4;
+    background:url("/apps/manage/Public/Images/Ilc/button_bg.jpg") repeat-x;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 14px;
+    height: 36px;
+    margin-left: 20px;
+    overflow: hidden;
+}
+.model_search a.search:hover {
+    background:url("/apps/manage/Public/Images/Ilc/button_hover.jpg") repeat-x;
+}
+.pub_name span {
+    border: 1px solid #20D691;
+    color: #3E3E3E;
+    cursor: pointer;
+    float: left;
+    font-size: 14px;
+    height: 25px;
+    line-height: 25px;
+    margin: 6px 8px 0 0;
+    padding: 0 10px;
+}
+.model_search .choose {
+    margin-left: 20px;
+}
+.tools {
+    display: inline;
+    margin: 10px 0 10px 20px;
+}
+.tools a,.couree {
+    display:block;
+    cursor: pointer;
+    float: left;
+    width: 66px;
+    height: 26px;
+    line-height: 28px;
+    background:url("/apps/manage/Public/Images/Ilc/but_bg.jpg") repeat-x;
+    border:1px solid #c6c7c9;
+    margin-right: 10px;
+    text-align:center;
+    font-weight: 400;
+    color: #000;
+}
+.tools a:hover,.couree:hover {
+    background:url("/apps/manage/Public/Images/Ilc/but_hover.jpg") repeat-x;
+}
+.list_hea {
+    width:98%;
+    margin:0px auto;
+}
+.list_hea li {
+    background:url("/apps/manage/Public/Images/Ilc/list_bg.jpg") repeat-x;
+    border-bottom: 1px solid #DCDCDC;
+    height: 45px;
+    float: left;
+    overflow: hidden;
+    width: 100%;
+}
+.list_hea li input {
+    cursor: pointer;
+    height: 13px;
+    margin-left:30px;
+    width: 13px;
+    color: #616161;
+    display: inline;
+    float: left;
+    font-size: 14px;
+    height: 45px;
+    line-height: 45px;
+    overflow: hidden;
+}
+.list_hea li span {
+    display: inline;
+    float: left;
+    font-size: 14px;
+    height: 45px;
+    line-height: 45px;
+    overflow: hidden;
+    color:#fff;
+    text-align:center;
+}
+.list_list li {
+    background:none;
+    border-bottom: 1px solid #d1d1d1;
+}
+.list_list li:hover {
+    background:#d6dbde;
+}
+.list_list li span {
+    color:#333;
+}
+.data_hand {
+    cursor:pointer;
+}
+.page {
+    float: right;
+    margin-right: 20px;
+    margin-top: 25px;
+}
+.page a {
+    border: 1px solid #c6c7c9;
+    background:url("/apps/manage/Public/Images/Ilc/button_bg.jpg") repeat-x;
+    float: left;
+    margin: 0 2px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color:#fff;
+}
+.page a:hover {
+    background:url("/apps/manage/Public/Images/Ilc/button_hover.jpg") repeat-x 0px 0px;
+}
+.sys_add {
+    width:780px;
+    height:100%;
+    margin:0 auto;
+}
+.title_hea {
+    border-radius: 2px 2px 2px 2px;
+    color: #1D1D1D;
+    float: left;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    padding: 5px 0 5px 10px;
+    text-align: left;
+    width: 97%;
+}
+.add_option {
+    float:left;
+    padding: 10px 10px 0;
+}
+.add_option li {
+    float: left;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.add_option li label,.add_left ul li label {
+    color: #494949;
+    float: left;
+    font-size: 14px;
+    line-height: 29px;
+    padding-right: 10px;
+    text-align: right;
+    width: 90px;
+}
+.add_option input,.add_left ul li input {
+    float: left;
+    height: 25px;
+    line-height:25px;
+    margin: 0;
+    text-indent: 5px;
+    width: 200px;
+}
+.add_option textarea {
+    font-size: 14px;
+    height: 120px;
+    text-indent: 5px;
+    width: 400px;
+}
+.add_option select,.add_left select {
+    height: 25px;
+    margin-top: 2px;
+    width: 80px;
+}
+.add_option li div {
+    height:auto;
+    line-height: 29px;
+    color: #494949;
+}
+.add_option li div span {
+    font-size: 14px;
+}
+.add_option .coBtn {
+    margin: 10px 0 0 10px;
+}
+.coBtn .save, .coBtn .reset {
+    cursor: pointer;
+    font-size: 14px;
+    height: 38px;
+    width: 174px;
+}
+.coBtn .save {
+    margin:0px 5px 0px 70px;
+}
+.add_option li label i {
+    color: red;
+    margin-right: 5px;
+}
+.uesr_option select {
+    margin:5px 5px 0px 10px;
+}
+/*新增*/
+.study_add {
+    float:left;
+    width:auto;
+}
+.stydy_return {
+    float:right;
+    font-size:16px;
+    line-height:30px;
+    margin-right:20px;
+    cursor:pointer;
+    text-decoration:none;
+    color:#666;
+    font-weight:none;
+}
+.stydy_return:hover {
+    color:#53829e;
+}
+.add_option .radio_sex {
+    width:20px;
+    line-height:29px;
+}
+.add_option .rad_sex span {
+    float:left;
+    line-height:29px;
+    margin-right:5px;
+}
+.add_option li div.oclass_div {
+    width: 660px;
+}
+/*缓存管理*/
+.cache_select {
+    width:500px;
+    max-height:300px;
+    overflow:auto;
+}
+.cache_select ul {
+    width:100%;
+    height:auto;
+}
+.cache_select ul li {
+    width:100%;
+    height:30px;
+    line-height:30px;
+}
+.cache_select ul li  input {
+    width:16px;
+    height:16px;
+    margin:8px 10px 0px 25px;
+}
+.cache_select ul li span {
+    float:left;
+    line-height:30px;
+    font-size:16px;
+    color:#666;
+}
+.cache_tools span {
+    display:block;
+    float:left;
+    cursor:pointer;
+    width:70px;
+    height:25px;
+    line-height:25px;
+    text-align:center;
+    background:url("/apps/manage/Public/Images/Ilc/but_bg.jpg") repeat-x;
+    border:1px solid #c6c7c9;
+    margin-right:8px;
+}
+.cache_tools span:hover {
+    background:url("/apps/manage/Public/Images/Ilc/but_hover.jpg") repeat-x;
+}
+/*师生管理*/
+.class_name {
+    float:left;
+    margin-left:20px;
+    line-height:30px;
+    font-size:16px;
+}
+.tea_main {
+    width:50%;
+    margin-left:10px;
+}
+.tea_main li {
+    width:100%;
+    height:50px;
+    background:#e9e9e9;
+    border-bottom:1px solid #d8d8d8;
+}
+.tea_main li:hover {
+    background:#e3e3e3;
+}
+.tea_main li span {
+    float:left;
+    width:25%;
+    padding-left:5%;
+    line-height:50px;
+}
+.tea_stu {
+    width:50%;
+    height:auto;
+    margin-top:10px;
+}
+.tea_stu li,.add_right li {
+    float:left;
+    padding:0px 10px;
+    margin-right:5px;
+    height:30px;
+    line-height:30px;
+    border:1px solid #58A9D4;
+    cursor:pointer;
+}
+.tea_set,.tea_set ul {
+    width:450px;
+}
+.tea_set li {
+    float:left;
+    height:35px;
+    line-height:35px;
+    margin-right:5px;
+    padding:0px 10px;
+    border:1px solid #58A9D4;
+}
+.add_right li {
+    margin-bottom:5px;
+}
+.tea_add {
+    width:500px;
+}
+.add_left {
+    float:left;
+    width:220px;
+    height:210px;
+    border-right:1px solid #d9d9d9;
+}
+.add_left ul li {
+    margin-top:5px;
+}
+.add_right {
+    float:right;
+    width:250px;
+}
+.add_left ul li label {
+    width:60px;
+}
+.add_left ul li input {
+    width:130px;
+    margin-top:3px;
+}
+.add_right li.on,.tea_stu li.on,.tea_set li.on {
+    background:#28759e;
+    color:#fff;
+}
+.admin_title,.tea_main {
+    width:50%;
+    height:auto;
+    border:1px solid #c3c3c3;
+    border-bottom:none;
+}
+.admin_title li{
+    width:100%;
+    height:35px;
+    line-height:35px;
+    background:#e9e9e9;
+    border-bottom:1px solid #c3c3c3;
+}
+.admin_title li span {
+    float:left;
+    width:35%;
+    padding-left:15%;
+}
+.plupload_container {
+    width:500px;
+}
+/*教师添加*/
+.course_name input {
+    margin-top:3px;
+}
+.course_name {
+    line-height:29px;
+}
+.modify_cname {
+    cursor:pointer;
+    margin-left:10px;
+}
+.mselect,.mbtn {
+    display:none;
+}
+/*学生编辑*/
+.classObj {
+    height:auto;
+    line-height:26px;
+}
+/*知识点列表*/
+.sty_left,.sty_center,.sty_right {
+    float:left;
+    width:250px;
+    height:400px;
+    border:1px solid #c3c3c3;
+    margin-right:8px;
+    overflow:auto;
+}
+.sty_center ul,.sty_right ul {
+    display:none;
+}
+/*教师学生导出*/
+.operate h3 {
+    margin-bottom: 5px;
+    color: #595959;
+    line-height: 30px;
+}
+#opearte-one {
+    width:100%;
+    margin-bottom: 10px;
+}
+#opearte-one a {
+    color: #FF770C;
+    display: inline;
+    margin-left: 55px;
+    line-height: 20px;
+}
+#notice-con span {
+    color: #595959;
+    width: 100%;
+    line-height: 20px;
+}
+#notice ol li {
+    float: left;
+    width: 90%;
+    padding-left:50px;
+    color: #595959;
+    line-height: 30px;
+}
+.operate h3 {
+    color: #595959;
+    line-height: 30px;
+}
+.operate .list span {
+    color: #FF770C;
+    font-size: 14px;
+    line-height: 40px;
+    margin-left: 55px;
+}
+.operate .list form {
+    line-height: 30px;
+    padding-left: 55px;
+}
+.operate .list form input {
+    color: #52829e;
+    text-indent: 5px;
+}
+.filter * {
+    font-size: 14px;
+}
+.operate .list form .submitBtn {
+    margin-left: 90px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    height: 38px;
+    line-height: 38px;
+    margin-top: 25px;
+    text-align: center;
+    width: 174px;
+}
+.sys_attr div span {
+    display:block;
+    float:left;
+    border:1px solid #22a558;
+    height:25px;
+    line-height:25px;
+    padding:0px 10px;
+    margin-right:10px;
+    cursor:pointer;
+}
+.sys_attr div .on {
+    color:#fff;
+    background:#22a558;
+}
+/*资源样式调整*/
+.choose,.choose_edit {
+    cursor: pointer;
+    display: block;
+    line-height: 35px;
+    font-size:16px;
+    color:#666;
+}
+.listCategory li {
+    font-size:16px;
+    color:#666;
+}
+.upload_top {
+    padding-top:0px;
+    width:100%;
+}
+.list_add {
+    margin-left:40px;
+}
+.res_add {
+    float:left;
+    width:100%;
+}
+.warn_word {
+    margin-left:10px;
+    color:#f00;
+    line-height:30px;
+}
+.fin,.finn {
+    width:150px;
+    height:38px;
+    background: url("/apps/manage/Public/Images/Ilc/button_bg.jpg") repeat-x;
+    border: 1px solid #58A9D4;
+    text-align:center;
+    font-size:16px;
+    color:#fff;
+    cursor:pointer;
+}
+.fin:hover,.finn:hover {
+    background: url("/apps/manage/Public/Images/Ilc/button_hover.jpg") repeat-x;
+}
+.finish_btn {
+    margin:10px 0px 0px 350px;
+}
+.pub_name span {
+    height:25px;
+    line-height:25px;
+    margin:6px 8px 0px 0px;
+    padding:0px 10px;
+    border:1px solid #58a9d4;
+    color:#3e3e3e;
+    font-size:14px;
+    cursor:pointer;
+}
+.pub_name span.on {
+    background:#28759e;
+    color:#fff;
+}
+
+.pub_res input {
+    width:80px;
+    height:20px;
+    line-height:20px;
+    margin-right:5px;
+    text-indent:5px;
+    font-size:16px;
+}
+.listCategory li {
+    list-style:none;
+    cursor:pointer;
+}
+.choose {
+    cursor:pointer;
+}
+.choose_edit {
+    line-height:29px;
+}
+.examine_edit input {
+    margin-top:2px;
+}
+.examine_edit span {
+    float:left;
+    margin:0px 20px 0px 5px;
+    line-height:29px;
+    color:#666;
+}
+.pub_res {
+    padding:0px 0px 10px 90px;
+}
+.add_option .re_recom {
+    margin-bottom:10px;
+}
+/*年级*/
+.model_search select {
+    width:90px;
+    height:29px;
+    margin:10px 5px 0px 15px;
+}
+.tea_main li span,.admin_title li span {
+    font-size:16px;
+}
+.finn {
+    float:right;
+    width:80px;
+    height:30px;
+    margin:15px 10px 0px 0px;
+}
+/*配置*/
+#mode_ind a {
+    width:50px;
+}
+#mode_ind .search {
+    width:90px;
+}
+.study_add {
+     width:80%;
+}
+.title_hea a,.study_add a {
+    float:right;
+    color:#494949;
+}
+.title_hea a:hover,.study_add a:hover {
+    color:#53829e;
+}
+h2 a {
+    color:#494949;
+}
+/*组织管理*/
+.couree {
+    margin:10px 0px 0px 10px;
+    cursor:pointer;
+}
+.tea_stu {
+    margin-left:10px;
+}
+/*后台用户*/
+.model_model a {
+    width:70px;
+}

@@ -1,0 +1,20 @@
+//
+//  PlayViewController.h
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-7-5.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
+@interface PlayViewController : UIViewController
+{
+    int type;
+    NSString *strURL;
+    MPMoviePlayerController *player;
+}
+@property int type;
+@property(nonatomic,retain)NSString *strURL;
+
+@end

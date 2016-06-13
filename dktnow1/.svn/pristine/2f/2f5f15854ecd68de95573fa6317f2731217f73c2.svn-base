@@ -1,0 +1,18 @@
+//
+//  SetView.h
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-3.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface SetView : UIView<UITextFieldDelegate>{
+    
+    UITextField *text1;
+    UITextField *text2;
+    UIImageView *backImage;
+}
+
+@end

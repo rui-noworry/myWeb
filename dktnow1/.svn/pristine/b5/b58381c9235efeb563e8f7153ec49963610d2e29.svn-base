@@ -1,0 +1,15 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 4.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <load href="__PUBLIC__/Css/Home/public.css, /Public/Js/Public/jquery-1.9.1.js" />
+    <title>大课堂互动教学</title>
+</head>
+<body>
+    <div id="header">
+        <div>
+            <a  href="__APPURL__/Index/" id="logo"></a>
+            <a href="__APPURL__/Client/download" class="download">iPhone客户端下载</a>
+        </div>
+    </div>

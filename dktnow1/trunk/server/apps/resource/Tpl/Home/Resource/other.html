@@ -1,0 +1,35 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/image.css"/>
+<script type="text/javascript">
+<!--
+
+    $(function() {
+
+        // 下载按钮鼠标移上样式
+        $('.btn-download').mouseover(function(){
+            $(this).find('.button-right').css("background","url('__APPURL__/Public/Images/Home/pic-tool.png') 0px -11px");
+        }).mouseout(function(){
+            $(this).find('.button-right').css("background","url('__APPURL__/Public/Images/Home/pic-tool.png') 0px 0px");
+        })
+
+        // 下载
+        $(document).on('click', '.btn-download .button-label', function () {
+
+            // 查看是否登录
+            if ($('.exit').html()) {
+                location.href = "__APPURL__/MyResource/download?id=" + $('input[name=re_id]').val();
+            } else {
+
+                popCenterWindow();
+            }
+        })
+
+//-->
+</script>
+<div class="warp">
+    <a class="btn-download" href="javascript:void(0);">
+        <span class="button-label">下载</span>
+        <span class="button-right"></span>
+    </a>
+</div>
+<include file="Public:footer"/>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/resource_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/resource_head_bg" >
+
+        <ImageView
+            android:id="@+id/ItemImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/demoimg" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/ImageString"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/resource_head"
+        android:layout_gravity="center_horizontal"
+        android:text="eeedddddddddddddddddddd"
+        android:layout_below="@id/resource_head"
+        android:singleLine="true"
+        android:layout_marginTop="5dp"
+        android:layout_alignRight="@id/resource_head"
+        android:textSize="15sp"
+        android:textColor="#ff000000" />
+    <ImageView 
+        android:id="@+id/item_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ImageString"
+        android:layout_alignRight="@id/ImageString"
+        android:layout_marginTop="2dp"
+        android:paddingLeft="100dp"
+        android:paddingTop="5dp"
+        android:src="@drawable/resource_bottom_bg"/>
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_below="@id/item_msg"/>
+
+</RelativeLayout>

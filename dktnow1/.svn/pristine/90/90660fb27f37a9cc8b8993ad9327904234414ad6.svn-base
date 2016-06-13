@@ -1,0 +1,31 @@
+//
+//  ReadOverView.h
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-8-26.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@protocol ReadOverViewDelegate;
+@interface ReadOverView : UIView
+{
+    UITextView *textView;
+    UILabel *scoreLbl;
+    UIImageView *contentImage;
+    int score;
+    int statue;
+    UIView *blackView ;
+    
+    id<ReadOverViewDelegate>delegate;
+}
+@property(nonatomic,assign)id<ReadOverViewDelegate>delegate;
+@end
+
+
+@protocol ReadOverViewDelegate <NSObject>
+
+-(void)clickSure:(int)score mark:(NSString *)strMark statue:(int)finish;
+
+@end

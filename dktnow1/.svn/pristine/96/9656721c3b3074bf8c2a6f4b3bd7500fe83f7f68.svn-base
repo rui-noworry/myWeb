@@ -1,0 +1,40 @@
+<!--左部-->
+    <div class="m_left fl">
+        <ul>
+            <li title="首页"><label></label><span>首页</span></li>
+            <volist name="nodeGroupList" id="node">
+                <li title="{$node.g_title}"><label></label><span>{$node.g_title}</span></li>
+            </volist>
+        <ul>
+    </div>
+    <!--右部-->
+    <div class="m_right fl">
+        <ul class="right_submenu fl">
+            <li>
+
+            </li>
+            <volist name="menuArr" id="menu">
+                <li>
+                    <volist name="menu" id="menuChild" key="key">
+                        <eq name="menuChild.access" value="1">
+                            <dl attr="{$menuChild.n_title}" rel="{$menuChild.n_name}">
+                                <dt>
+                                    <a href="javascript:void(0);" class="fl">
+                                        <img src="__APPURL__/Public/Images/Ilc/<php>echo floor(rand(0, 9));</php>.png" title="{$menuChild.n_title}" />
+                                    </a>
+                                </dt>
+                                <dd>{$menuChild.n_title}</dd>
+                            </dl>
+                        </eq>
+                    </volist>
+                </li>
+            </volist>
+        </ul>
+    </div>
+<script type="text/javascript">
+    $(function(){
+        for (i=0;i<$('.m_left li').size();i++ ) {
+            $('.m_left li').eq(i).addClass('left_li' + i);
+        }
+    })
+</script>

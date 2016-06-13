@@ -1,0 +1,85 @@
+<load href="__PUBLIC__/Css/Ilc/header.css,__PUBLIC__/Css/Ilc/public.css"/>
+<load file="/Public/Css/Ilc/resource_index.css"/>
+<load href="__PUBLIC__/Js/Public/jquery-1.9.1.js,__PUBLIC__/Js/Public/jquery-ui.js,__PUBLIC__/Js/Public/public.js"/>
+    <h2 class="res study_add">学生添加</h2>
+    <a href="" class="stydy_return fr">返回列表</a>
+    <form enctype="multipart/form-data" onsubmit="return check();" method="post">
+        <ul class="add_option">
+            <li>
+                <label><i></i>账号：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li>
+                <label><i></i>真实姓名：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li>
+                <label><i></i>所属班级：</label>
+                <select class="fl" name="">
+                    <option value="">文本</option>
+                    <option value="">枚举</option>
+                </select>
+                <select class="fl" name="">
+                    <option value="">文本</option>
+                    <option value="">枚举</option>
+                </select>
+                <select class="fl" name="">
+                    <option value="">文本</option>
+                    <option value="">枚举</option>
+                </select>
+                <select class="fl" name="">
+                    <option value="">文本</option>
+                    <option value="">枚举</option>
+                </select>
+            </li>
+            <li class="rad_sex">
+                <label><i></i>性别：</label>
+                <input type="radio" value="1" name="a_sex" class="radio_sex"/>
+                <span>男</span>
+                <input type="radio" value="2" name="a_sex" class="radio_sex"/>
+                <span>女</span> 
+            </li>
+            <li>
+                <label><i></i>生日：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li>
+                <label><i></i>籍贯：</label>
+                <select class="fl" name="">
+                    <option value="">请选择省</option>
+                    <option value="">枚举</option>
+                </select>
+                <select class="fl" name="">
+                    <option value="">请选择市</option>
+                    <option value="">枚举</option>
+                </select>
+                <select class="fl" name="">
+                    <option value="">请选择县/区</option>
+                    <option value="">枚举</option>
+                </select>
+            </li>
+            <li>
+                <label><i></i>手机：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li>
+                <label><i></i>头像：</label>
+                <input type="file" name="a_avatar">
+            </li>
+            <li>
+                <label>简介：</label>
+                <textarea placeholder="内容不能超过300字符" name="sys_tex"></textarea>
+            </li>
+            <li>
+                <label><i></i>状态：</label>
+                <select class="fl" name="">
+                    <option value="">启用</option>
+                    <option value="">禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <button class="save" value="" type="submit">添加</button>
+                <button class="reset" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>

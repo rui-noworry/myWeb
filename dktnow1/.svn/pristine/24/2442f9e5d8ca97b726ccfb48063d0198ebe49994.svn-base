@@ -1,0 +1,22 @@
+//
+//  ZhuxingView.h
+//  JiChang
+//
+//  Created by apple  on 13-7-4.
+//
+//
+
+#import <UIKit/UIKit.h>
+#import "histogramView.h"
+@interface ZhuxingView : UIView
+{
+    UIScrollView *scroll;
+    int count;
+    NSMutableArray *muArrData;
+    
+
+}
+
+-(void)changUI:(int)total data:(NSMutableDictionary *)muDict;
+-(void)clearScrollView;
+@end

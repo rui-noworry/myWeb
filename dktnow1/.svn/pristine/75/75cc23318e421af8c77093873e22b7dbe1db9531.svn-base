@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/dicuss_item_bg">
+
+    <RelativeLayout android:id="@+id/discuss_re"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_marginLeft="10dp"
+    	android:layout_marginTop="10dp"
+    	android:layout_marginRight="10dp">
+    	
+        <ImageView android:id="@+id/classhour_discuss_img"
+	        android:layout_width="66dp"
+	    	android:layout_height="66dp"
+	    	android:layout_centerVertical="true"
+	    	android:layout_marginLeft="10dp"
+	    	android:src="@drawable/logo"/>
+        <TextView android:id="@+id/classhour_discuss_name"
+            android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:layout_marginTop="10dp"
+	    	android:layout_marginLeft="10dp"
+	    	android:layout_toRightOf="@+id/classhour_discuss_img"
+	    	android:textSize="20sp"
+	    	android:textColor="@color/black"
+	    	android:text=""/>
+        <TextView android:id="@+id/classhour_discuss_time"
+            android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:textColor="@color/green"
+	    	android:layout_marginTop="5dp"
+	    	android:layout_toRightOf="@+id/classhour_discuss_img"
+	    	android:layout_below="@+id/classhour_discuss_name"
+	    	android:textSize="16sp"
+	    	android:layout_marginLeft="10dp"
+	    	android:text=""/>
+    </RelativeLayout>
+	
+    <TextView android:id="@+id/discuss_content"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:textSize="18sp"
+    	android:textColor="#ff375c6c"
+    	android:layout_marginTop="5dp"
+    	android:layout_marginLeft="60dp"
+    	android:layout_marginRight="20dp"/>
+</LinearLayout>

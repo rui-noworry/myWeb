@@ -1,0 +1,419 @@
+<load href="__PUBLIC__/Css/Home/public.css, /Public/Js/Public/jquery-1.9.1.js, /Public/Js/Public/public.js"/>
+<load href="__PUBLIC__/Css/Home/hour.css"/>
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="/Public/Js/Home/jquery-ui.js"/>
+<load href="/Public/Js/Public/ueditor/editor_config.js, /Public/Js/Public/ueditor/editor_all.js, /Public/Js/Public/ueditor/themes/default/ueditor.css" />
+
+
+<script type="text/javascript" language="javascript">
+
+    $(function () {
+
+        // 如果URL上带有c_id或cro_id，并且isShow为1，说明该活动已经发布，就把发布按钮给移除
+        if ($('input[name=isShow]').val() == 1) {
+            $('.publish').remove();
+        }
+
+        // 是否自动发布
+        if ($('input[name=act_is_auto_publish]').val() == 0) {
+            $('.switchOn').addClass('switchOff');
+            $('.switchOn').removeClass('switchOn');
+            $('.switchOff').find('span').html('否');
+            $('.switchOff').attr('attr',0);
+        }
+
+        // 设置bar的高
+        $(document).on('click','.switchOn',function(){
+            $(this).addClass('switchOff');
+            $(this).removeClass('switchOn');
+            $(this).find('span').html('否');
+            $(this).attr('attr',0);
+            $('input[name=act_is_auto_publish]').val(0);
+        })
+
+        $(document).on('click','.switchOff',function(){
+            $(this).addClass('switchOn');
+            $(this).removeClass('switchOff');
+            $(this).find('span').html('是');
+            $(this).attr('attr',1);
+            $('input[name=act_is_auto_publish]').val(1);
+        })
+
+        // 点击发布，弹出发布框
+        $(document).on('click', '.publish', function () {
+
+            // 浏览器地址上有c_id或cro_id则在隐藏域里存放它们，否则就存放选中的
+            if ($('input[name=c_idCode]').val() != 0) {
+                $('input[name=c_id]').val($('input[name=c_idCode]').val());
+                checkInfo(1);
+                return;
+            } else if ($('input[name=cro_idCode]').val() != 0) {
+                $('input[name=cro_id]').val($('input[name=cro_idCode]').val());
+                checkInfo(1);
+                return;
+            }
+
+            // 在发布前，把已经发布的用DOM加到绑定的节点上
+            var allClassGroup = $('.allClassGroup')
+            var c_id = ',' + allClassGroup.attr('c_id') + ',';
+            var cro_id = ',' + allClassGroup.attr('cro_id') + ',';
+            var tmp = '';
+            var html = '';
+
+            // 绑定的班级
+            $('.bindClass span').each(function () {
+                tmp = ',' + $(this).attr('rel') + ',';
+                if (c_id.indexOf(tmp) != -1) {
+                    html += '<span rel="' + $(this).attr('rel') + '">' + $(this).text() + '</span>';
+                    $(this).hide();
+                }
+            })
+
+            // 绑定的群组
+            $('.bindGroup span').each(function () {
+                tmp = ',' + $(this).attr('rel') + ',';
+                if (cro_id.indexOf(tmp) != -1) {
+                    html += '<span rel="' + $(this).attr('rel') + '">' + $(this).text() + '</span>';
+                    $(this).hide();
+                }
+            })
+
+            // 把发布的班级和群组贴到.allClassGroup节点上
+            allClassGroup.html(html);
+
+            $('.xin_add').dialog("open");
+
+        })
+
+        // 班级弹窗
+        $(".xin_add").dialog({
+            draggable: true,        // 是否允许拖动,默认为 true
+            resizable: true,        // 是否可以调整对话框的大小,默认为 true
+            autoOpen: false,        // 初始化之后,是否立即显示对话框,默认为 true
+            position :'center',       // 用来设置对话框的位置
+            stack : true,       // 对话框是否叠在其他对话框之上。默认为 true
+            modal: true,       // 是否模式对话框,默认为 false(模式窗口打开后，页面其他元素将不能点击，直到关闭模式窗口)
+            bgiframe: true,         // 在IE6下,让后面遮罩层盖住select
+            width: '480',
+            height: 'auto',
+
+            show: {     // 对话框打开效果
+                effect: "blind",
+                duration: 400
+            },
+            hide: {     // 对话框关闭效果
+              effect: "explode",
+              duration: 400
+            },
+            overlay: {
+                backgroundColor: '#000',
+                opacity: 0.5
+            },
+            buttons: {
+                确定: function() {
+
+                    // 单击确定时，查找bindClass和bindGroup两个里是否有被选中的值，有的话，就判断是班级还是群组
+                    var c_id = '';
+                    var cro_id = '';
+
+                    if ($('.bindClass').children().length > 0) {
+                        $('.bindClass span.xin_ds').each(function () {
+                            c_id += ',' + $(this).attr('rel') ;
+                        })
+                        c_id = c_id.slice(1);
+                    }
+
+                    if ($('.bindGroup').children().length > 0) {
+                        $('.bindGroup span.xin_ds').each(function () {
+                            cro_id += ',' + $(this).attr('rel');
+                        })
+                        cro_id = cro_id.slice(1);
+                    }
+
+                    // 如果班级和群组的值都为空，则不让提交
+                    if ($('input[name=c_idCode]').val() == 0 && $('input[name=cro_idCode]').val() == 0 && c_id == '' && cro_id == '') {
+                        window.parent.showInfo('请指定班级或群组');
+                        return;
+                    }
+
+                    // 浏览器地址上有c_id或cro_id则在隐藏域里存放它们，否则就存放选中的
+                    if ($('input[name=c_idCode]').val() != 0) {
+                        $('input[name=c_id]').val($('input[name=c_idCode]').val());
+                    } else if ($('input[name=cro_idCode]').val() != 0) {
+                        $('input[name=cro_id]').val($('input[name=cro_idCode]').val());
+                    } else {
+                        $('input[name=c_id]').val(c_id);
+                        $('input[name=cro_id]').val(cro_id);
+                    }
+
+                    if ($('input[name=end_time]').val() == '') {
+                        window.parent.showInfo('截止时间不能为空');
+                        return false;
+                    }
+
+                    // 如果用户上传了附件，但忘了点击上传按钮，自动点击上传
+                    if ($('.plupload_buttons').css('display') != 'none' && $('#uploader_filelist').children().size() > 0) {
+                        $('.plupload_start').click();
+                        var uploader = $('#uploader').pluploadQueue();
+                        // Files in queue upload them first
+                        if (uploader.files.length > 0) {
+                            // When all files are uploaded submit form
+                            uploader.bind('UploadComplete', function() {
+                                if (uploader.files.length === (uploader.total.uploaded + uploader.total.failed)) {
+                                    checkInfo(1);
+                                }
+                            });
+                            uploader.start();
+                        }
+                    } else {
+                        // 在提交前，还需验证
+                        checkInfo(1);
+                    }
+
+                    $(this).dialog('close');
+
+                },
+                取消: function() {
+
+                    $(this).dialog('close');
+                }
+            }
+        });
+
+        // 绑定群组添加
+        $(document).on('click','.xin_sain .bindGroup span',function(){
+            if ($(this).hasClass('xin_ds')){
+                $(this).removeClass('xin_ds');
+            } else {
+                $(this).addClass('xin_ds');
+            }
+        })
+
+        // 绑定班级添加
+        $(document).on('click','.xin_sain .bindClass span',function(){
+
+            if ($(this).hasClass('xin_ds')){
+                $(this).removeClass('xin_ds');
+            } else {
+                $(this).addClass('xin_ds');
+            }
+        })
+
+        // 点击完成
+        $(document).on('click','.finish',function(){
+
+            checkInfo(0);
+        })
+
+        // 点击取消 关闭iframe子窗口
+        $('.finishBtn .cancel').click(function(){
+
+            $(window.parent.document).find('.act_box[rel=1] iframe').css('display','none');
+        })
+    })
+
+
+    // 检测活动的状态
+    function checkInfo(act_is_publish) {
+
+        var act_title = $.trim($('input[name=act_title]').val());
+        var act_note = editor.getContent();
+        var act_id = $('input[name=act_id]').val();
+
+        // 是否发布
+        $('input[name=act_is_published]').val(act_is_publish);
+
+        if (act_title == '') {
+            window.parent.showInfo('文本标题不能为空');
+            return false;
+        }
+
+        if (act_note == '') {
+            window.parent.showInfo('文本内容不能为空');
+            return false;
+        }
+
+        // 活动标题限制50个字符
+        var actTitleLen = act_title.replace(/\s+/g,"").length;
+        if(actTitleLen > 50) {
+            window.parent.showInfo('活动标题最多为50个字符');
+            return false;
+        }
+
+        // 活动要求限制200个字符
+        var actNoteLen = act_note.replace(/\s+/g,"").length;
+        if(actNoteLen > 2000) {
+            window.parent.showInfo('活动要求最多为2000个字符');
+            return false;
+        }
+        act_note = encodeURIComponent(act_note);
+
+        // 查看活动是否发布或发布过
+        if ($('input[name=publishFlag]').val() == 1) {
+            act_title = "{$activity.act_title}";
+        }
+
+        // 异步传值
+        $.post('__APPURL__/Activity/update', 'act_id=' + act_id + '&co_id=' + $('input[name=co_id]').val() + '&ta_id=' + $('input[name=ta_id]').val() + '&act_type=6&act_is_auto_publish=' + $('input[name=act_is_auto_publish]').val() + '&act_is_published=' + $('input[name=act_is_published]').val() + '&act_title=' + act_title + '&act_note=' + act_note + '&c_id=' + $('input[name=c_id]').val() + '&cro_id=' + $('input[name=cro_id]').val() + '&publishFlag=' + $('input[name=publishFlag]').val(), function (json) {
+            if (json.status == 1) {
+
+                // 隐藏取消活动按钮
+                $(window.parent.document).find('.activityFlag .cancel_add').hide();
+
+                // 关闭子窗口(让iframe隐藏)
+                $(window.parent.document).find('.act_box[rel=1] iframe').css('display','none');
+                $(window.parent.document).find('.act_box[rel=1]').prepend("<iframe id='actIframe' width='100%' height='627' frameborder='no' border='0' scrolling='yes' style='display:none;'></iframe>");
+
+                // 获取样式为activityType的活动，并清空内容
+                $(window.parent.document).find('.activityType').html('');
+
+                var TopicList = "<li class='lili act_option'><div class='listAct'><div class='act_title'><a class='topic_arrow topic_down'></a><span rel='" + act_id + "' title='" + act_title + "' act_type='6'>"+act_title+"</span></div><div class='topicBox' style='display: none;'><div class='resourceContent'></div></div></div></li>"
+
+                // 若是从班级或群组页面过来备课的，还需加上unlink样式
+                var unlink = '';
+                if ($('input[name=unlink]').val() == 1) {
+                    unlink = '';
+                } else {
+                    unlink = $('input[name=isShow]').val() == 1 ? '' : ($('input[name=c_id]').val() ? '' : ($('input[name=cro_id]').val() ? '' : 'unlink'));
+                }
+
+                var TopicModule = "<li class='lili flex_add homework " + unlink + "'><div class='thumbAct' act_type='6'><div class='add_talk'></div><span title='"+act_title+"' rel='" + act_id + "'>"+act_title+"</span><a class='flex_del' rel='" + (act_is_publish ? act_is_publish : $('input[name=publishFlag]').val()) + "' style='display: none;'></a></div></li>";
+
+                // 更新
+                $(window.parent.document).find('.activityType').append(TopicModule);
+                $(window.parent.document).find('.activityType').append(TopicList);
+
+                // 判断当前的显示模式（列表/网格）
+                var isList = $(window.parent.document).find('.order_switch').children('a');
+                if(isList.first().hasClass('on')) {
+
+                    // 列表模式下添加活动（网格显示元素隐藏）
+                    $(window.parent.document).find('.thumbAct').parent().css('display','none');
+                } else {
+
+                    // 网格模式下添加活动（列表显示元素隐藏）
+                    $(window.parent.document).find('.listAct').parent().css('display','none');
+                }
+                $(window.parent.document).find('.act_box[rel=1] iframe').eq(1).remove();
+            } else {
+                window.parent.showInfo(json.info);
+            }
+        }, 'json');
+    }
+
+    window.onload = function () {
+        editor.setContent($('input[name=act_note]').val());
+    }
+
+</script>
+<div style="overflow-x:hidden;">
+    <!--环节ID-->
+    <input type="hidden" name="ta_id" value="{$activity.ta_id}"/>
+    <!--课程ID-->
+    <input type="hidden" name="co_id" value="{$activity.co_id}"/>
+    <!--编辑状态-->
+    <input type="hidden" name="editStatus" value="0"/>
+    <!--是否发布-->
+    <input type="hidden" name="act_is_published" value=""/>
+    <!--判断活动是否已发布过，0为没有-->
+    <input type="hidden" name="editCode" value="{$editCode}"/>
+    <!--活动ID-->
+    <input type="hidden" name="act_id" value="{$activity.act_id}"/>
+    <!--是否发布过标记-->
+    <input type="hidden" name="publishFlag" value="{$activity.act_is_published}"/>
+    <!--存储活动绑定的班级-->
+    <input type="hidden" name="c_id" value=""/>
+    <!--存储活动绑定的群组-->
+    <input type="hidden" name="cro_id" value=""/>
+    <!--备课的班级-->
+    <input type="hidden" name="c_idCode" value="{$c_idCode}"/>
+    <!--备课的群组-->
+    <input type="hidden" name="cro_idCode" value="{$cro_idCode}"/>
+    <!--活动描述-->
+    <input name="act_note" type="hidden" value="{$activity.act_note}" />
+    <!--弹窗是否显示-->
+    <input type="hidden" name="isShow" value="{$isShow}"/>
+    <!--是否自动发布-->
+    <input type="hidden" name="act_is_auto_publish" value="{$activity.act_is_auto_publish}"/>
+    <!--发布样式-->
+    <input type="hidden" name="unlink" value="{$unlink}"/>
+    <div class="create_act">
+        <ul class="actul">
+            <li>
+                <label class="la">讨论话题：</label>
+                <div class="act_li_r">
+                    <input type="text" name="act_title" value="{$activity.act_title}">
+                </div>
+            </li>
+            <li>
+                <label class="la">讨论内容：</label>
+                <script type="text/plain" id="content" name="act_note"></script>
+                <script type="text/javascript">
+                    <!--
+                    var editor = new baidu.editor.ui.Editor({
+                        UEDITOR_HOME_URL: '/Public/Js/Public/ueditor/'
+                    });
+                    editor.render("content");
+                    //editor.ready(function(){
+                        //editor.setContent("{$activity.act_note}");
+                    //})
+                    //-->
+                </script>
+            </li>
+            <li>
+                <label class="la">自动发布：</label>
+                <div class="act_li_r">
+                    <div class="switchOn" attr="1">
+                        <span>是</span>
+                        <label></label>
+                    </div>
+                    <div class="ts"><img src="__APPURL__/Public/Images/Home/ts.png">您在发布课时的时候会同时发布本活动给学生</div>
+                </div>
+            </li>
+            <li class="finishBtn">
+                <if condition="$bindInfo"><button type="button" class="publish" name="publish">发布</button></if>
+                <if condition="$c_idCode"><button type="button" name="publish" class="publish">发布</button></if>
+                <if condition="$cro_idCode"><button type="button" name="publish" class="publish">发布</button></if>
+                <button type="button" name="finish" class="finish">完成</button>
+                <!-- <button type="button" name="cancel" class="cancel">取消</button> -->
+            </li>
+        </ul>
+    </div>
+<input type="hidden" name="c_actType" value="text">
+</div>
+<div class="xin_add" title="指定班级或群组">
+    <ul>
+    </ul>
+    <div class="clear"></div>
+    <div class="xin_noe">
+        <div class="xin_sain">
+            <if condition="$bindInfo">
+            <label class="fl">已发布的班级和群组:</label>
+            <div class="fl sa_click allClassGroup" c_id="{$activity.c_id}" cro_id="{$activity.cro_id}">
+            </div>
+            <div class="clear"></div>
+            <label class="fl">指定班级:</label>
+            <div class="fl sa_click bindClass">
+                <volist name="bindInfo.class" id="vo">
+                    <span rel="{$vo.c_id}">{$vo.c_title}</span>
+                </volist>
+            </div>
+            <div class="clear"></div>
+            <label class="fl">指定群组:</label>
+            <div class="fl sa_click bindGroup">
+                <volist name="bindInfo.group" id="vo">
+                    <span rel="{$vo.cro_id}">{$vo.cro_title}</span>
+                </volist>
+            </div>
+            <div class="clear"></div>
+            </if>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<style>
+    .current {background:#93E5BD;}
+    .editResource {cursor:pointer;}
+    .endtime {margin-top:8px;margin-left:10px;}
+</style>

@@ -1,0 +1,82 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Ilc/permission.css"/>
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="/Public/Js/Home/jquery-ui.js"/>
+<script type="text/javascript">
+$(function(){
+
+    // 班级管理 点击选中
+    $(".class_manage span").click(function() {
+
+        if ($(this).hasClass('on')) {
+            $(this).removeClass('on');
+        } else {
+            $(this).addClass('on');
+        }
+
+        var clcount = $(this).parent().find("span.on").size();
+
+        if(clcount > 0) {
+            $(this).parent().prev().addClass('on');
+        }else {
+            $(this).parent().prev().removeClass('on');
+        }
+    })
+
+    // 保存
+    $('.accredit_save').click(function() {
+        var str = 'sr_id=' + $('input[name=sr_id]').val()+'&sn_id=';
+        var tmp = '';
+        $('.accredit .on').each(function() {
+            tmp = ',' + $(this).attr('attr') + tmp;
+        })
+
+        str += tmp.slice(1);
+        $.post('__URL__/saveCommision', str, function(data) {
+            if (data == 0) {
+                showMessage('操作失败');
+            } else {
+                showMessage('操作成功', 1);
+            }
+        })
+    })
+})
+</script>
+<div class="warp">
+    <include file="Public:left"/>
+    <div class="accredit fl">
+        <p class="groupname">
+            <span>{$sr_name}</span>
+            <a href="__URL__" class="fr">返回</a>
+        </p>
+        <div class="xin_group">
+            <volist name="schoolNode" id="snode">
+                <eq name="snode.self.sn_name" value="Resource">
+                    <neq name="studyOn" value="">
+                        <div class="class_manage">
+                            <p attr="{$snode.self.sn_id}" <in name="snode.self.sn_id" value="$schoolAccess">class="on"</in>>{$snode.self.sn_title}</p>
+                            <div>
+                                <volist name="snode.lists" id="snode2">
+                                    <span attr="{$snode2.sn_id}" <in name="snode2.sn_id" value="$schoolAccess">class="on"</in>>{$snode2.sn_title}</span>
+                                </volist>
+                            </div>
+                        </div>
+                    </neq>
+                <else />
+                    <div class="class_manage">
+                        <p attr="{$snode.self.sn_id}" <in name="snode.self.sn_id" value="$schoolAccess">class="on"</in>>{$snode.self.sn_title}</p>
+                        <div>
+                            <volist name="snode.lists" id="snode2">
+                                <span attr="{$snode2.sn_id}" <in name="snode2.sn_id" value="$schoolAccess">class="on"</in>>{$snode2.sn_title}</span>
+                            </volist>
+                        </div>
+                    </div>
+                </eq>
+            </volist>
+            <a class="accredit_save" href="javascript:void(0)">确定</a>
+        </div>
+    </div>
+    <input type="hidden" name="sr_id" value="{$sr_id}">
+    <div class="clear"></div>
+</div>
+<include file="Public:footer"/>

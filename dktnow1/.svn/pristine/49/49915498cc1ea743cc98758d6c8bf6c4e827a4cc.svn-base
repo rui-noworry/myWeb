@@ -1,0 +1,152 @@
+<?php
+/**
+ * ActivityAction
+ * 活动接口
+ *
+ * 作者:  徐少龙
+ * 创建时间: 2013-7-3
+ *
+ */
+class ActivityAction extends OpenAction {
+
+    // 获取环节下的活动列表
+    public function lists() {
+
+        // 拆分接收的参数
+        extract($_POST['args']);
+
+        // 校验
+        if (!intval($a_id) || (!intval($ta_id) && !intval($cl_id)) || (!intval($c_id) && !intval($cro_id))) {
+            $this->ajaxReturn($this->errCode[2]);
+        }
+
+        if ($cl_id) {
+            $tmpWhere['cl_id'] = $cl_id;
+        }
+
+        if ($ta_id) {
+            $tmpWhere['ta_id'] = $ta_id;
+        }
+
+        // 验证环节是否存在
+        $tache = M('Tache')->where($tmpWhere)->getField('co_id');
+        if (!$tache) {
+            $this->ajaxReturn($this->errCode[6]);
+        }
+
+        // 判断班级或群组是否在已发布的课程内
+        if ($c_id) {
+            $flag = M('Course')->where(array('co_id' => $tache, 'c_id' => array('like', "%,$c_id,%")))->getField('c_id');
+            if (!$flag) {
+                $this->ajaxReturn($this->errCode[6]);
+            }
+        }
+        if ($cro_id) {
+            $flag = M('Course')->where(array('co_id' => $tache, 'cro_id' => array('like', "%,$cro_id,%")))->getField('c_id');
+            if (!$flag) {
+                $this->ajaxReturn($this->errCode[6]);
+            }
+        }
+
+        if ($cl_id) {
+            $where['cl_id'] = $cl_id;
+        }
+
+        if ($ta_id) {
+            $where['ta_id'] = $ta_id;
+        }
+
+        if ($act_type) {
+            $where['act_type'] = $act_type;
+        }
+
+        // 学生,获取已发布的活动
+        if ($this->auth['a_type'] == 1) {
+            $ids = setArrayByField(M('ActivityPublish')->where($where)->field('ap_id,act_id')->select(), 'act_id');
+            if (!$ids) {
+                $this->ajaxReturn(array('status' => 0, 'info' => '无匹配数据'));
+            }
+            $where['act_id'] = array('IN', getValueByField($ids, 'act_id'));
+        }
+
+        $activity = M('Activity')->where($where)->field('act_id,ta_id,act_title,c_id,cro_id,act_rel,act_type,act_sort,act_is_published')->order('act_sort ASC')->select();
+
+        if (!$activity) {
+            $array['status'] = 0;
+            $array['info'] = '无匹配数据';
+        } else {
+
+            if ($c_id) {
+                $where['c_id'] = $c_id;
+            }
+            if ($cro_id) {
+                $where['cro_id'] = $cro_id;
+            }
+            $where['a_id'] = $this->auth['a_id'];
+            $ap = setArrayByField(M('ActivityPublish')->where($where)->field('ap_id,act_id')->select(), 'act_id');
+
+            foreach ($activity as $key => &$value) {
+
+                // 学生
+                if ($ids) {
+                    $value['act_is_published'] = 1;
+                    $value['ap_id'] = $ids[$value['act_id']]['ap_id'];
+
+                // 教师
+                } else {
+                    if ($c_id) {
+                        $tmpCid = ',' . $c_id . ',';
+                        if (strpos($value['c_id'], $tmpCid) !== FALSE) {
+                            $value['act_is_published'] = 1;
+                        } else {
+                            $value['act_is_published'] = 0;
+                        }
+                        if ($ap && array_key_exists($value['act_id'], $ap)) {
+                            $value['ap_id'] = $ap[$value['act_id']]['ap_id'];
+                        } elseif (!$ap) {
+                            $value['ap_id'] = 0;
+                        } elseif ($ap && !array_key_exists($value['act_id'], $ap)) {
+                            $value['ap_id'] = 0;
+                        }
+                    }
+                    if ($cro_id) {
+                        $tmpCroId = ',' . $cro_id . ',';
+                        if (strpos($value['cro_id'], $tmpCroId) !== FALSE) {
+                            $value['act_is_published'] = 1;
+                        } else {
+                            $value['act_is_published'] = 0;
+                        }
+                        if ($ap && array_key_exists($value['act_id'], $ap)) {
+                            $value['ap_id'] = $ap[$value['act_id']]['ap_id'];
+                        } elseif (!$ap) {
+                            $value['ap_id'] = 0;
+                        } elseif ($ap && !array_key_exists($value['act_id'], $ap)) {
+                            $value['ap_id'] = 0;
+                        }
+                    }
+                }
+
+            }
+
+            $array['status'] = 1;
+            $array['info'] = array('list' => $activity);
+        }
+
+        $this->ajaxReturn($array);
+    }
+
+    // 获取活动详情
+    public function detail() {
+
+        // 拆分数组
+        extract($_POST['args']);
+
+        $result = D('Activity')->detail($a_id, $act_id, $c_id, $cro_id, $this->auth['a_type']);
+
+        if ($result['status'] != 1 && !$result['info']) {
+            $this->ajaxReturn($result['status']);
+        }
+
+        $this->ajaxReturn($result);
+    }
+}

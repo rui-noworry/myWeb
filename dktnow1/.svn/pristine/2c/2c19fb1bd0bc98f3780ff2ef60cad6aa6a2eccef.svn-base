@@ -1,0 +1,155 @@
+//
+//  LiuyanView.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-25.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "LiuyanView.h"
+
+@implementation LiuyanView
+@synthesize muDict;
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        
+        dele = [[UIApplication sharedApplication]delegate];
+        // Initialization code
+        UIView *blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 748)];
+        blackView.backgroundColor = [UIColor blackColor];
+        blackView.alpha = 0.5;
+        [self addSubview:blackView];
+        [blackView release];
+        
+        
+        UIImageView *contentView = [[UIImageView alloc] initWithFrame:CGRectMake(1024/2-340, 130, 680, 385)];
+        contentView.image = [UIImage imageNamed:@"cc留言.png"];
+        contentView.userInteractionEnabled = YES;
+        [self addSubview:contentView];
+        [contentView release];
+        
+        UILabel *lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 680, 30)];
+        lblTitle.text = @"讨论";
+        lblTitle.font = [UIFont boldSystemFontOfSize:18];
+        lblTitle.backgroundColor = [UIColor clearColor];
+        lblTitle.textColor = [UIColor orangeColor];
+        lblTitle.textAlignment = NSTextAlignmentCenter;
+        [contentView addSubview:lblTitle];
+        [lblTitle release];
+
+        
+        UIButton *btnclose  = [[UIButton alloc] initWithFrame:CGRectMake(30, 30, 55, 30)];
+        [btnclose setBackgroundImage:[UIImage imageNamed:@"cc关闭按扭.png"] forState:UIControlStateNormal];
+        [btnclose setTitle:@"关闭" forState:UIControlStateNormal];
+        [btnclose addTarget:self action:@selector(btncloseAction) forControlEvents:UIControlEventTouchUpInside];
+        [btnclose setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        [contentView addSubview:btnclose];
+        [btnclose release];
+        
+        
+        UIButton *btnSure  = [[UIButton alloc] initWithFrame:CGRectMake(590, 30, 55, 30)];
+        [btnSure setBackgroundImage:[UIImage imageNamed:@"cc确定按钮.png"] forState:UIControlStateNormal];
+        [btnSure addTarget:self action:@selector(btnSureAction) forControlEvents:UIControlEventTouchUpInside];
+        [btnSure setTitle:@"发送" forState:UIControlStateNormal];
+        [contentView addSubview:btnSure];
+        [btnSure release];
+        
+        textView = [[UITextView alloc] initWithFrame:CGRectMake(30, 80, 620, 280)];
+        textView.font = [UIFont systemFontOfSize:20];
+        textView.text = @"";
+        textView.backgroundColor = [UIColor clearColor];
+        [contentView addSubview:textView];
+        [textView release];
+    }
+    return self;
+}
+-(void)btncloseAction{
+    
+    [self removeFromSuperview];
+}
+-(void)btnSureAction{
+    if (requestDetail) {
+        [requestDetail cancel];
+        requestDetail.delegate=nil;
+        [requestDetail release];
+        requestDetail = nil;
+    }
+    NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+    NSString *timeString =[ToolClass getCurretDate];
+    requestDetail=[[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/apps/manage/Api",dele.server_Address_str]]];
+    [requestDetail setDelegate:self];
+    
+    
+    NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+    
+    [postDict setObject:timeString forKey:@"ts"];
+    [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+    [postDict setObject:[muDict objectForKey:@"ap_id"] forKey:@"args[ap_id]"];
+    [postDict setObject:[ToolClass encodeURL:textView.text] forKey:@"args[at_content]"];
+    [postDict setObject:@"JSON" forKey:@"format"];
+    [postDict setObject:@"Activity.activityTalk" forKey:@"method"];
+    [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+        
+    NSString *strSign=[ToolClass getSign:postDict];
+    [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+    
+    
+    NSLog(@"postdict is %@",postDict);
+    
+    for(int i=0;i<[[postDict allKeys] count];i++){
+        
+        [requestDetail setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+    }
+    [requestDetail buildPostBody];
+    [requestDetail setTimeOutSeconds:30];
+    [requestDetail startAsynchronous];
+   
+    [requestDetail setDidFinishSelector:@selector(mySuccessSend:)];
+    [requestDetail setDidFailSelector:@selector(myError:)];
+    
+    
+    [postDict release];
+    [strSign release];
+    
+}
+-(void)mySuccessSend:(id)sender{
+    
+    NSString *str = [sender responseString];
+    NSMutableDictionary *stadict = [str JSONValue];
+    if ([[stadict objectForKey:@"status"] intValue]>0) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"发送成功!" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+        
+        [self removeFromSuperview];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"发送失败!" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+    }
+    NSLog(@"stadict is %@",stadict);
+}
+-(void)myError:(id)sender{
+    
+}
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    [self removeFromSuperview];
+}
+-(void)dealloc{
+    [muDict release];
+    
+    [super dealloc];
+}
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect
+{
+    // Drawing code
+}
+*/
+
+@end

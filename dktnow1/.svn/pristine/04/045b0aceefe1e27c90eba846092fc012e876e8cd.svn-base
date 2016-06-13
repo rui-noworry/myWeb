@@ -1,0 +1,15 @@
+//
+//  FileManageUnit.h
+//  Photos
+//
+//  Created by 伊辉 张 on 12-4-16.
+//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface FileManageUnit : NSObject
++(NSString *)getFile:(NSString *)strURL;
++(BOOL)fileIsExist:(NSString *)strURL;
++(NSString *)getFilePath:(NSString *)strGroup fileName:(NSString *)strFile;
+@end

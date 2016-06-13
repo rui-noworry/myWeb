@@ -1,0 +1,38 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/homework.css"/>
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="/Public/Js/Home/jquery-ui.js"/>
+<load href="/Public/Js/Public/jquery-ui-timepicker-addon.js"/>
+<load href="/Public/Js/Public/ueditor/editor_config.js, /Public/Js/Public/ueditor/editor_all.js, /Public/Js/Public/ueditor/themes/default/ueditor.css" />
+
+<script type="text/javascript">
+<!--
+    $(function(){
+
+        $('.hw_require label').height($('.show_cont:eq(1)').height());
+    });
+//-->
+</script>
+
+<div class="warp">
+    <div class="create_homework">
+        <p class="title">
+            <span>查看活动</span>
+            <a href="javascript:window.close();">返回</a>
+        </p>
+        <div class="hw_title fl">
+            <label>活动标题：</label>
+            <div class="show_cont">
+                {$activity.act_title}
+            </div>
+        </div>
+        <div class="hw_require fl">
+            <label>活动要求：</label>
+            <div class="show_cont">
+                {$activity.act_note}
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<include file="Public:footer"/>

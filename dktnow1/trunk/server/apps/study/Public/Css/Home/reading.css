@@ -1,0 +1,634 @@
+/* 拓展阅读 */
+.reading {
+    width: 1000px;
+    overflow: hidden;
+    background: white;
+    margin-top: 25px;
+}
+.reading .title {
+    font-size: 18px;
+    line-height: 50px;
+    height: 50px;
+    border-bottom: 1px solid #ECEBE9;
+    color: #313030;
+}
+.reading .title a:hover {
+    color: #22A558;
+}
+.reading .title span {
+    float: left;
+    margin-left: 20px;
+}
+.reading .title a {
+    float: right;
+    margin-right: 30px;
+    color: #040404;
+    font-size: 18px;
+}
+.reading_title {
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+}
+.reading .reading_title label ,.reading_require label ,.upload_res label ,.res_list label{
+    float: left;
+    width: 120px;
+    background: #F7F7F6;
+    text-align: center;
+    font-size: 18px;
+    color: #313030;
+}
+.reading_title div {
+    float: left;
+    display: inline;
+}
+.reading_title div input {
+    width: 400px;
+    height: 35px;
+    margin-left: 15px;
+    text-indent: 5px;
+}
+.reading_title div span {
+    margin-left: 15px;
+    font-size: 14px;
+    color: #8E8E8E;
+}
+.reading_require {
+    width: 100%;
+    height: 130px;
+    line-height: 130px;
+}
+.reading_require div {
+    float: left;
+    display: inline;
+    margin-top: 20px;
+}
+.reading_require div textarea {
+    width: 795px;
+    height: 90px;
+    margin-left: 15px;
+    text-indent: 5px;
+}
+.upload_res {
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+}
+.upload_res div {
+    float: left;
+    margin-left: 15px;
+}
+.upload_res span {
+    padding: 5px 10px;
+    border: 1px solid #20D691;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.upload_area {
+    width: 100%;
+    display:none;
+}
+.upload_area .ua_box {
+    float:left;
+    width:880px;
+}
+.upload_area label {
+    float: left;
+    width: 120px;
+    height:330px;
+    background: #F7F7F6;
+    text-align: center;
+    font-size: 18px;
+    color: #313030;
+}
+#uploader {
+    float:left;
+    display:inline-block;
+    width:515px;
+    margin-top:10px;
+    margin-left:10px;
+}
+.confirm_upload {
+    float:left;
+    margin-top:10px;
+    margin-left:450px;
+}
+.confirm_upload button {
+    float: left;
+    width: 72px;
+    height: 32px;
+    border: 0;
+    font-size: 14px;
+    background: url('/apps/study/Public/Images/Home/upload_bg.png') no-repeat;
+    text-align: center;
+    cursor: pointer;
+    color:#22a558;
+}
+.res_list label {
+    min-height:120px;
+}
+.res_list div {
+    float: left;
+    display: inline;
+}
+.res_list div ul {
+    float:left;
+    width:880px;
+    margin-top:10px;
+}
+.res_list div ul li {
+    float: left;
+    width: 110px;
+    height: auto;
+    margin-bottom: 10px;
+    margin-left:10px;
+    position:relative;
+}
+.res_list div ul li a {
+    float: left;
+    margin-left: 15px;
+    display: inline;
+}
+.res_list div ul li a.res_li {
+    margin-top:10px;
+    margin-left:5px;
+}
+.res_list div ul li a.res_li {
+    position:relative;
+}
+.submitBtn {
+    /*float: left;
+    width: 600px;
+    padding-top: 20px;
+    padding-left: 400px;
+    margin-bottom: 20px;
+    border-top:1px solid #ECEBE9;*/
+    width:378px;
+    height:auto;
+    margin:0 auto;
+    text-align:center;
+    padding:20px 0;
+    overflow:hidden;
+}
+.submitBtn button {
+    text-align:center;
+    border:0;
+    width:174px;
+    height:38px;
+}
+.submitBtn .publish {
+    color:#fff;
+    font-size:14px;
+    margin-right:20px;
+    background:url('/apps/study/Public/Images/Home/btns.png') 0px 0px;
+}
+.submitBtn .publish:hover {
+    background:url('/apps/study/Public/Images/Home/btns.png') 0px -38px;
+}
+.submitBtn .finish {
+    width: 174px;
+    height: 38px;
+    border: 0;
+    color: white;
+    font-size: 14px;
+    background: url('/apps/study/Public/Images/Home/btns.png') 0px 0px;
+    text-align: center;
+    cursor: pointer;
+}
+.del_res {
+    display: none;
+    position: absolute;
+    right: -3px;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    background: url("/apps/study/Public/Images/Home/mould.png") no-repeat -367px -1px;
+    cursor: pointer;
+}
+.del_res:hover{
+    background:url("/apps/study/Public/Images/Home/mould.png") no-repeat -367px -19px;
+}
+/*资源库检索窗口*/
+#reslibrary {
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
+#reslibrary .filter {
+    float: left;
+    width: 650px;
+    margin-top: 10px;
+}
+#reslibrary .filter li {
+    float: left;
+    width: 100%;
+    line-height: 45px;
+    overflow: hidden;
+}
+#reslibrary .topic_search {
+    margin-bottom: 10px;
+}
+#reslibrary .topic_search input {
+    float: left;
+    width: 533px;
+    height: 36px;
+    line-height: 36px;
+    margin-left: 10px;
+}
+#reslibrary .topic_search button {
+    float: left;
+    width: 90px;
+    height: 39px;
+    border: none;
+    margin-left: 10px;
+    background: url('/apps/study/Public/Images/Home/searchBtn.png') no-repeat;
+    cursor: pointer;
+}
+#reslibrary .filter li label {
+    width: 80px;
+    float: left;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: bold;
+}
+#reslibrary .filter li div {
+    float: left;
+    width: 550px;
+}
+#reslibrary .filter li span {
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    padding: 0px 20px;
+    border: 1px solid #20D691;
+    margin: 10px 5px;
+    cursor: pointer;
+    position: relative;
+}
+#reslibrary .filter li span.on {
+    background: #93E5BD;
+}
+#reslibrary .res_list {
+    float:left;
+    margin-top:20px;
+    margin-left:10px;
+}
+#reslibrary .res_list li {
+    float:left;
+    width: 120px;
+    height: auto;
+    margin-bottom: 20px;
+}
+#reslibrary .res_list li.on .res_cover{
+    background:url('/apps/study/Public/Images/Home/res_frame.png');
+}
+#reslibrary .res_list li.on .res_scan{
+    display:inline;
+}
+#reslibrary .res_list li .res_scan{
+    display:none;
+    position: absolute;
+    top:3px;
+    left:3px;
+}
+#reslibrary .res_list li.listli .res_cover{
+    display:none;
+}
+#reslibrary .res_list li .res_cover {
+    width: 106px;
+    height: 81px;
+    background: url('/apps/study/Public/Images/Home/res_frame.png');
+    position: relative;
+}
+#reslibrary .res_list li .res_cover {
+    background:none;
+    display:block;
+}
+#reslibrary .res_list li.click .res_click{
+    position: absolute;
+    top:0px;
+    left:0px;
+}
+#reslibrary .res_list li.click .res_click {
+    display:inline;
+}
+#reslibrary .res_list .res_cover img {
+    float: left;
+    width: 100px;
+    height: 75px;
+    top: 0px;
+    left: 0px;
+}
+/* 学科领域标签添加窗口 */
+.tagcustom li.taglist {
+    width: 560px;
+    line-height: 45px;
+    overflow: hidden;
+}
+.tagcustom li.taglist label.la {
+    float: left;
+    width: 80px;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: bold;
+}
+.taglist div {
+    float: left;
+    width: 450px;
+}
+.tagcustom li.taglist span {
+    margin-right: 15px;
+    font-size: 14px;
+}
+.flex_close {
+    display: none;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 16px;
+    height: 16px;
+    background: url("/apps/study/Public/Images/Home/mould.png") no-repeat -367px -1px;
+    cursor: pointer;
+}
+.tagcustom .tag_input {
+    display: block;
+    float: left;
+    width: 195px;
+    height: 36px;
+    line-height: 38px;
+    padding-left: 5px;
+    border: 1px solid #D1D1D1;
+    border-top-color: #9B9B9B;
+}
+.tag_append {
+    float: left;
+    width: 78px;
+    height: 38px;
+    line-height: 37px;
+    margin-left: 18px;
+    text-align: center;
+    background: url("/apps/study/Public/Images/Home/left_btn.png") no-repeat -0px -0px;
+    color: #A5A5A5;
+    cursor: pointer;
+}
+.list_lab {
+    cursor: pointer;
+}
+/*绑定班级弹窗*/
+/*侯祯怿 2013-5-20*/
+.xin_cur{
+    cursor:pointer;
+}
+.xin_add{
+    width:450px;
+}
+.xin_add ul{
+    width:450px;
+    float:left;
+    margin-top:5px;
+    margin-left:5px;
+}
+.xin_add ul li{
+    float:left;
+    width:150px;
+    height:30px;
+    line-height:30px;
+    margin-bottom:5px;
+    border:1px solid #22a558;
+    color:#22a558;
+    font-size:14px;
+    text-align:center;
+    cursor:pointer;
+}
+.xin_add ul li.xin_uli{
+    background:#22a558;
+    color:#fff;
+}
+.xin_noe{
+    width:450px;
+    margin-left:5px;
+}
+.xin_noe div{
+    width:450px;
+}
+.xin_noe div span{
+    float:left;
+    height:25px;
+    line-height:25px;
+    margin:5px 0px 0px 10px;
+    padding:0px 15px;
+    border:1px solid #22a558;
+    color:#22a558;
+    cursor:pointer;
+}
+.xin_adae p{
+    width:450px;
+}
+.xin_adae p label{
+    float:left;
+    line-height:20px;
+    font-size:14px;
+    color:#3e3e3e;
+}
+.xin_adae p a{
+    line-height:20px;
+    margin-right:10px;
+    cursor:pointer;
+    color:#22a558;
+}
+.xin_adae span{
+    position:relative;
+}
+.xin_add .xin_noe label{
+    line-height:35px;
+}
+.xin_add .xin_noe .xin_sain div{
+    width:360px;
+}
+.xin_add .xin_noe .xin_sain .sa_opend{
+    margin-bottom:10px;
+}
+.xin_sain .sa_click span.xin_ds,.xin_adae .sa_click span.xin_dss{
+    background:#22a558;
+    color:#fff;
+}
+.xin_add .xin_noe .xin_adae div{
+    width:300px;
+}
+.xin_add .xin_noe .xin_adae .xin_sch{
+    line-height:25px;
+    color:#22a558;
+    cursor:pointer;
+}
+.auto_issue {
+    width: 100%;
+    height: 80px;
+}
+.auto_issue label {
+    line-height:80px;
+    float: left;
+    width: 120px;
+    background: #F7F7F6;
+    text-align: center;
+    font-size: 18px;
+    color: #313030;
+}
+.auto_issue div {
+    float: left;
+    display: inline;
+    height:80px;
+}
+.auto_issue div .switchOn ,.auto_issue div .switchOff{
+    float:left;
+    width:85px;
+    height:31px;
+    margin-top:25px;
+    margin-left:15px;
+    border-radius:20px;
+    position:relative;
+    cursor:pointer;
+}
+.auto_issue div .switchOn {
+    background:#499669;
+}
+.auto_issue div .switchOff {
+    background:#cbd3d6 ;
+}
+.auto_issue div .switchOn span {
+    position:absolute;
+    top: 5px;
+    left: 30px;
+    font-size:14px;
+}
+.auto_issue div .switchOff span {
+    position:absolute;
+    top: 5px;
+    left: 40px;
+    font-size:14px;
+}
+.auto_issue div .switchOn span {
+    color:#abd3bc;
+}
+.auto_issue div .switchOff span {
+    color: #94a0a5;
+}
+.auto_issue div .switchOn label {
+    position:absolute;
+    right:4px;
+    top:3px;
+    width:25px;
+    height:25px;
+    border-radius:15px;
+    cursor:pointer;
+}
+.auto_issue div .switchOff label {
+    position:absolute;
+    left:4px;
+    top:3px;
+    width:25px;
+    height:25px;
+    border-radius:15px;
+    cursor:pointer;
+}
+.auto_issue div .switchOn label {
+    background:#abd3bc;
+}
+.auto_issue div .switchOff label {
+    background:#94a0a5;
+}
+
+
+/*我的标签*/
+.tagcustom li.taglist {
+    width:560px;
+    line-height:45px;
+    overflow:hidden;
+}
+.tagcustom li.taglist span{
+        position:relative;
+}
+.tagcustom li.taglist label.la {
+    float:left;
+    width:80px;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: bold;
+}
+.taglist div{
+        float:left;
+        width:450px;
+}
+.taglist div span{
+    float:left;
+    height:25px;
+    line-height:25px;
+    padding: 0px 20px;
+    border: 1px solid #20D691;
+    margin:10px 5px 10px 0;
+    cursor: pointer;
+}
+.taglist div span.hand.on {
+    background: #93E5BD;
+}
+.tagcustom li.taglist span {
+    margin-right:15px;
+    font-size:14px;
+}
+.tagcustom li.taglist span input {
+    margin-right:5px;
+}
+.tagcustom .tag_input{
+        display:block;
+        float:left;
+        width:195px;
+        height:36px;
+        line-height:38px;
+        padding-left:5px;
+        border:1px solid #d1d1d1;
+        border-top-color:#9b9b9b;
+}
+.flex_close{
+    display:none;
+    position:absolute;
+    right:-8px;
+    top:-8px;
+    width:16px;
+    height:16px;
+    background:url("/apps/study/Public/Images/Home/mould.png") no-repeat -367px -1px;
+        cursor:pointer;
+}
+.flex_close:hover{
+    background:url("/apps/study/Public/Images/Home/mould.png") no-repeat -367px -19px;
+}
+.tag_append{
+        float:left;
+        width:78px;
+        height:38px;
+        line-height:37px;
+        margin-left:18px;
+        text-align:center;
+        background:url("/apps/study/Public/Images/Home/left_btn.png") no-repeat -0px -0px;
+        color:#a5a5a5;
+        cursor:pointer;
+}
+.tag_append:hover{
+        background:url("/apps/study/Public/Images/Home/left_btn_h.png") no-repeat -0px -0px;
+        color:#109443;
+}
+.list_lab{
+        cursor:pointer;
+}
+.res_title {
+    float:left;
+    width:100px;
+    overflow:hidden;
+    white-space:nowrap;
+}
+
+/* 学生查看拓展阅读 */
+.reading div.show_cont{
+    margin-left:15px;
+    margin-top:0;
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/activity_re" >
+
+    <RelativeLayout android:layout_width="191dp"
+    	android:layout_height="94dp"
+    	android:layout_centerHorizontal="true"
+    	android:layout_marginTop="10dp"
+    	android:id="@+id/activity_img_re"
+    	android:background="@drawable/classhour_activity_img_bg">
+        <ImageView android:id="@+id/activity_img"
+            android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_centerInParent="true"/>
+    </RelativeLayout>
+	<TextView android:id="@+id/activity_name"
+	    android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="11111111"
+    	android:textSize="20sp"
+    	android:layout_below="@+id/activity_img_re"
+    	android:layout_marginLeft="8dp"
+    	android:layout_marginTop="6dp"
+    	/>
+</RelativeLayout>

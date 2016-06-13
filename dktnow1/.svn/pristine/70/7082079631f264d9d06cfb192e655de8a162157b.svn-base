@@ -1,0 +1,73 @@
+<include file="../Public/header_main" />
+
+<load file="__PUBLIC__/Css/Ilc/system_add.css"/>
+<script type="text/javascript">
+function check() {
+
+    var name_val = $.trim($('input[name=n_name]').val());
+    var title_val = $.trim($('input[name=n_title]').val());
+
+    if (name_val == "") {
+
+        alert("名称不能为空")
+        return false;
+    }
+
+    if (title_val == "") {
+
+        alert("显示名不能为空")
+        return false;
+    }
+}
+</script>
+    <div class="title_hea">
+        <i class="fl"><eq name="n_level" value="1">应用</eq><eq name="n_level" value="2">模块</eq><eq name="n_level" value="3">操作</eq></i>
+        <a href="__URL__/">返回列表</a>
+    </div>
+    <form method="post" action="__URL__/insert/" onsubmit="return check();">
+        <ul class="add_option">
+            <li>
+                <label><eq name="n_level" value="1">应用</eq><eq name="n_level" value="2">模块</eq><eq name="n_level" value="3">操作</eq>名：</label>
+                <input class="fl" type="text" name="n_name" value=""/>
+            </li>
+            <li>
+                <label>显示名：</label>
+                <input class="fl" type="text" name="n_title" value=""/>
+            </li>
+            <eq name="n_level" value="2">
+                <li>
+                    <label>链接</label>
+                    <input class="fl" type="text" name="n_url"/>
+                </li>
+                <li>
+                    <label>归属</label>
+                    <select class="fl" name="g_id">
+                        <option value="0">首页</option>
+                        <foreach name="list" item="vo">
+                            <option value="{$key}">{$vo}</option>
+                        </foreach>
+                    </select>
+                </li>
+                <li>
+                    <label>显示</label>
+                    <select class="fl" name="n_show">
+                        <option value="1">是</option>
+                        <option value="9">否</option>
+                    </select>
+                </li>
+            </eq>
+            <li>
+                <label><i>*</i>状态：</label>
+                <select class="fl" name="n_status">
+                    <option value="1">启用</option>
+                    <option value="9">禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <input type="hidden" name="n_level" value="{$n_level}">
+                <input type="hidden" name="n_pid" value="{$n_pid}">
+                <button class="save fin" value="" type="submit">保存</button>
+                <button class="reset fin" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>

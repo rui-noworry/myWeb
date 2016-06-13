@@ -1,0 +1,101 @@
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="__PUBLIC__/Css/Ilc/header.css,__PUBLIC__/Css/Ilc/public.css"/>
+<load file="/Public/Css/Ilc/resource_index.css"/>
+<load href="__PUBLIC__/Js/Public/jquery-1.9.1.js,__PUBLIC__/Js/Public/jquery-ui.js,__PUBLIC__/Js/Public/public.js"/>
+<script type="text/javascript">
+$(function(){
+
+    //设置课程老师弹窗
+    $('.tea_main .cour').click(function(){
+        $(".tea_add").dialog("open");
+    })
+    //设置课程老师弹窗
+    $(".tea_add").dialog({
+        draggable: true,        // 是否允许拖动,默认为 true
+        resizable: true,        // 是否可以调整对话框的大小,默认为 true
+        autoOpen: false,        // 初始化之后,是否立即显示对话框,默认为 true
+        position :'center',       // 用来设置对话框的位置
+        stack : true,       // 对话框是否叠在其他对话框之上。默认为 true
+        modal: true,       // 是否模式对话框,默认为 false(模式窗口打开后，页面其他元素将不能点击，直到关闭模式窗口)
+        bgiframe: true,         // 在IE6下,让后面遮罩层盖住select
+        width: '500',
+        height: '350',
+
+        show: {     // 对话框打开效果
+            effect: "blind",
+            duration: 400
+        },
+        hide: {     // //对话框关闭效果
+          effect: "explode",
+          duration: 400
+        },
+        overlay: {
+            backgroundColor: '#000',
+            opacity: 0.5
+        },
+        buttons: {
+            确定: function() {
+                var str="";
+                $('.add_right li').each(function(){
+                    var n_text = $(this).text();
+                    if ($(this).hasClass('on')) {
+                        str = n_text;
+                    }
+                })
+                $('.tea_main li').children('span').eq(0).text(str);
+                $(this).dialog('close');
+            },
+            取消: function() {
+                $(this).dialog('close');
+            }
+        }
+    })
+    //设置管理员点击
+    $('.add_right li').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+})
+</script>
+<h2 class="res study_add">学生添加</h2>
+<a href="" class="stydy_return fr">返回列表</a>
+<div class="clear"></div>
+<h2 class="res">学校超管</h2>
+<ul class="tea_main">
+    <li>
+        <span>景山</span>
+        <span class="cour">设置</span>
+    </li>
+</ul>
+<div class="clear"></div>
+<h2 class="res">景山学院管理组列表</h2>
+<ul class="admin_title">
+    <li>
+        <span>管理组</span>
+        <span>管理员</span>
+    </li>
+</ul>
+<div class="tea_add" title="设置管理员">
+    <div class="add_left">
+        <ul>
+            <li class="fl">
+                <label><i></i>姓名：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li class="fl">
+                <label><i></i>手机：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li class="fr">
+                <button class="save" value="" type="submit">提交</button>
+            </li>
+        </ul>
+    </div>
+    <div class="add_right">
+        <ul>
+            <li>学生甲</li>
+            <li>学生乙</li>
+            <li>学生丙</li>
+            <li>学生丁</li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+//
+//  AppDelegate.h
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-3.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+#import "HandleViewController.h"
+#import "ASIFormDataRequest.h"
+@class AouthViewController;
+@class StuentDoHomeWork;
+@class ViewController;
+
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+{
+    
+    
+    ASIFormDataRequest *requestOther;
+    NSString *server_Address_str;
+    NSString *push_server_Address;
+    
+    NSTimer *timer;
+    NSOperationQueue *_queue;
+    BOOL flag;
+    HandleViewController *handVc;
+    StuentDoHomeWork *pushVc;
+    AouthViewController *aouthVc;
+    UINavigationController *navController;
+    NSString *strReceive;
+    
+    
+    int markSuoping;
+    int markLianxi;
+}
+@property(nonatomic,retain)NSString *strReceive;
+@property (strong, nonatomic) UIWindow *window;
+@property(nonatomic,retain) NSOperationQueue *_queue;
+@property (strong, nonatomic) ViewController *viewController;
+@property(nonatomic,retain) NSString *server_Address_str;
+@property(nonatomic,retain) NSString *push_server_Address;
+@property int markLianxi;
+
+-(void)loginSocket;
+@end

@@ -1,0 +1,71 @@
+//
+//  LianjieCell.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-25.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "LianjieCell.h"
+
+@implementation LianjieCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+        
+        backImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 613, 73)];
+        backImage.userInteractionEnabled = YES;
+        backImage.layer.borderWidth = 1.0;
+        backImage.layer.cornerRadius = 5.0;
+        backImage.alpha = 0.3;
+        backImage.layer.borderColor = [UIColor grayColor].CGColor;
+        backImage.layer.masksToBounds = YES;
+        [self addSubview:backImage];
+        [backImage release];
+        
+        imageview = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 48, 48)];
+        imageview.image = [UIImage imageNamed:@"链接图标.png"];
+        [self addSubview:imageview];
+        [imageview release];
+        
+        lblName = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 300, 30)];
+        lblName.text = @"超链接新浪第一微博分享";
+        lblName.textColor = [UIColor colorWithRed:74.0/255 green:74.0/255 blue:74.0/255 alpha:1];
+        lblName.backgroundColor = [UIColor clearColor];
+        lblName.textAlignment = NSTextAlignmentLeft;
+        [self addSubview:lblName];
+        [lblName release];
+        
+        btnConnect = [[CCButton alloc] initWithFrame:CGRectMake(70, 40, 300, 30)];
+        [btnConnect setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        [btnConnect setTitle:@"http://www.google.com" forState:UIControlStateNormal];
+        btnConnect.titleLabel.font = [UIFont systemFontOfSize:18];
+        [btnConnect setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [btnConnect addTarget:self action:@selector(btnConnectAction:) forControlEvents:UIControlEventTouchUpInside];
+        [btnConnect setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        [self addSubview:btnConnect];
+        [btnConnect release];
+    }
+    return self;
+}
+-(void)updateCell:(NSMutableDictionary *)muDict{
+    
+    lblName.text = [muDict objectForKey:@"li_title"];
+    [btnConnect setTitle:[muDict objectForKey:@"li_url"] forState:UIControlStateNormal];
+    btnConnect.btnDict = muDict;
+}
+-(void)btnConnectAction:(CCButton *)btn{
+    
+    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[btn.btnDict objectForKey:@"li_url"]]];
+}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

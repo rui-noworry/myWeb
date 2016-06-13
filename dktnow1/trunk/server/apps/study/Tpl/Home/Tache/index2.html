@@ -1,0 +1,358 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/mould_new.css"/>
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="/Public/Js/Home/jquery-ui.js"/>
+<script>
+$(function(){
+    var l_id = "{$Classhour.l_id}";
+    var cl_id = "{$Classhour.cl_id}";
+    var co_id = "{$Classhour.co_id}";
+
+    // 切换li 滑过，滑开
+    $(document).on('mouseover','.main_new li',function(){
+        $(this).children('span').show();
+        $(this).children('a').show();
+    }).on('mouseout','.main_new li',function(){
+        $(this).children('span').hide();
+        $(this).children('a').hide();
+    })
+
+    // 修改环节
+    var preName = '';
+    $(document).on('focus', '.main_new li input', function () {
+        //$(this).focus();
+        preName = $(this).val();
+    }).on('blur','.main_new li input',function(){
+        var tVal = $(this).val();
+        String.prototype.trim = function () {
+            return this.replace(/[ ]/g, '');
+        }
+        var tLen = tVal.trim();
+
+        if (tLen.length > 8){
+            showMessage("名字不能超过8个字符，请重新输入");
+            $(this).focus();
+            return;
+        } else {
+            if (tLen.length <= 0){
+                showMessage("名字不能为空,请重新输入");
+                $(this).focus();
+                $(this).siblings('p').show();
+                return;
+            } else {
+                $(this).siblings('p').text(tVal);
+                $(this).siblings('p').attr('title', tVal);
+                $(this).hide().siblings('p').show().siblings('a').hide();
+            }
+        }
+        // 如果名称一致，则不用修改
+        if (preName != tVal) {
+            $.post('__APPURL__/Tache/update',  {ta_title:tLen, l_id:l_id, cl_id:cl_id, co_id:co_id, ta_id:$(this).parent().attr('rel')}, function (json) {}, 'json');
+        }
+        // 最后重新值为空
+        preName = '';
+    })
+
+    // 切换li下 a 点击事件
+    $(document).on('click','.main_new li a',function(){
+
+        var flag = true;
+        var tIndex = $(this).parents('li').index();
+
+        $('.main_new p').each(function(){
+            if ($(this).css('display') == 'none' && $(this).index() != tIndex) {
+                flag = false;
+            }
+        })
+
+        if (flag == false) {
+            $('.main_new li input').each(function() {
+                $(this).blur();
+            })
+        }
+
+        $(this).siblings('input').show().siblings('p').hide();
+        $(this).siblings('input').focus();
+    })
+
+    // 切换li下 a 滑过事件
+    $(document).on('mouseover','.main_new li a',function(){
+        $(this).show();
+    })
+
+    // 切换li下 p 点击 tab 切换事件
+    $(document).on('click','.main_new li p',function(){
+        $(this).parent().addClass('new_click').siblings().removeClass('new_click');
+        $(".new_tab>div").eq($(this).parent().index()-1).show().siblings().hide();
+    })
+
+    // 如果添加的课时数大于1，那么就默认选中第二个，否则就是本身
+    var initNum = $('.main_new li').size() > 1 ? 1 : 0;
+    $('.main_new p').eq(initNum).click();
+
+    // 切换li下span 删除事件
+    $(document).on('click','.main_new li span',function(){
+
+        if (confirm("确定要删除该环节吗？")) {
+
+            var obj = $(this).parent();
+
+            // 要删除节点的所在位置
+            var tIndex = obj.index();
+
+            // 要删除节点的父节点下所有li节点的个数
+            var tLeng = $('.main_new li').size();
+
+            // 所有节点对应的教学活动
+            var tIde = $('.new_tab>div').size();
+
+            // 删除节点时，如果该节点下有活动，则不允许删除
+            $.post('__APPURL__/Tache/delete', {ta_id:$(this).parent().attr('rel'), co_id:co_id, l_id:l_id, cl_id:cl_id}, function (json) {
+                if (json['status'] == 0) {
+                    showMessage(json['info']);
+                    return false;
+                } else {
+
+                    if (obj.hasClass('new_click')) {
+
+                        if (tIndex == tLeng) {
+                            $('.main_new li').eq(0).find('p').click();
+                        } else {
+                            obj.next().find('p').click();
+                        }
+                    }
+
+                    // 删除节点对应的教学活动
+                    $('.new_tab>div').eq(tIndex-1).remove();
+                    obj.remove();
+                }
+            }, 'json');
+            return false;
+         } else {
+             return false;
+         }
+    })
+
+    // 单击添加按钮的动作，添加环节
+    $(document).on('click','.main_new .add_exp',function(){
+
+        // 默认只能添加四个节点
+        if ($('.main_new li').size() > 10) {
+            showMessage('只能添加十个节点');
+            return false;
+        }
+
+        var title = '环节' + $('.main_new li').size();
+
+        $.post('__APPURL__/Tache/insert', {ta_title:title, l_id:l_id, cl_id:cl_id, co_id:co_id}, function (json) {
+            // 把新添加的环节id赋值给li的id属性
+            if (json['status'] == 1) {
+                $("<li rel='"+json['info']+"'><p title='"+title+"'>"+title+"</p><span class='flex_close'></span><input type='text' value='"+title+"'/><a></a></li>").insertBefore($(".add_exp"));
+                $(".new_tab").append("<div class='temp_bottom temp_none'><span class='temp_teach fl'>教学活动</span><div class='temp_text fl'><div class='temp_flex'><div class='flex_add'><a class='flex_addone'><div class='add_add'></div><span>添加教学组件</span></a></div></div></div></div>");
+            }
+        }, 'json');
+    })
+
+    // 弹窗里的课目显示
+    $('.add_link div').click(function() {
+        $(this).addClass("add_div").siblings().removeClass("add_div");
+    })
+
+    // 添加教学组件 弹出窗口
+    $(".add_link").dialog({
+        draggable: true,        // 是否允许拖动,默认为 true
+        resizable: true,        // 是否可以调整对话框的大小,默认为 true
+        autoOpen: false,        // 初始化之后,是否立即显示对话框,默认为 true
+        position :'center',       // 用来设置对话框的位置
+        stack : true,       // 对话框是否叠在其他对话框之上。默认为 true
+        modal: true,       // 是否模式对话框,默认为 false(模式窗口打开后，页面其他元素将不能点击，直到关闭模式窗口)
+        bgiframe: true,         // 在IE6下,让后面遮罩层盖住select
+        width: '512',
+        height: 'auto',
+
+        show: {     // 对话框打开效果
+            effect: "blind",
+            duration: 400
+        },
+        hide: {     // //对话框关闭效果
+          effect: "explode",
+          duration: 400
+        },
+        overlay: {
+            backgroundColor: '#000',
+            opacity: 0.5
+        },
+        buttons: {
+            确定: function() {
+                $(".temp_flex").removeClass("temp_flex_bg");
+
+                // 跳转到活动添加页面
+                var c_id = $('input[name=c_id]').val() > 0 ? '/c_id/' + $('input[name=c_id]').val() : '';
+                var cro_id = $('input[name=cro_id]').val() > 0 ? '/cro_id/' + $('input[name=cro_id]').val() : '';
+                location.href = '__APPURL__/Activity/add/type/' + $('.add_link div.add_div').attr('attr') + '/taId/' + $('.main_new .new_click').attr('rel') + (c_id == '' ? cro_id : c_id)
+
+                $(this).dialog('close');
+            },
+            取消: function() {
+                $(".temp_flex").removeClass("temp_flex_bg");
+                $(this).dialog('close');
+            }
+        }
+    });
+
+    // 添加教学组件
+    $(document).on('click','.flex_addone', function(){
+        $(".temp_flex").addClass("temp_flex_bg");
+        $(".add_link").dialog("open");
+        // 默认显示第一个为选中的样式
+        $('.add_link div:eq(0)').addClass('add_div').siblings().removeClass('add_div');
+    })
+
+    $(document).on('click', '.main_join', function () {
+        location.href = '__APPURL__/Tache/browse/taId/' + $('.main_new .new_click').attr('rel');
+    })
+
+    //教学组件 删除按钮 显示 于 隐藏
+    $(document).on('mouseover','.flex_add',function(){
+        $(this).children('.cDel').show();
+    }).on('mouseout','.flex_add',function(){
+        $(this).children('.cDel').hide();
+    })
+
+    //教学组件 删除按钮 删除
+    $(document).on('click','.cDel',function(){
+        if(confirm('你确定要删除该活动吗')){
+
+            var _this = $(this);
+
+            // 删除活动前，要确认该活动是否已发布，发布过了就不能删除
+            $.post('__APPURL__/Activity/delete', {act_id: $(this).parent().attr('rel'), ta_id: $('.main_new .new_click').attr('rel')} ,function (json) {
+                if (json['status'] == 0) {
+                    showMessage(json['info']);
+                } else {
+                    _this.parent().remove();
+                }
+            }, 'json')
+        }else{
+            return false;
+        }
+    })
+
+    // 单击环节下的作业，进去相关页面
+    $(document).on('click', '.temp_flex .new_work .flex_book', function () {
+
+        if ($(this).parent().attr('name') != 0) {
+            location.href = '__APPURL__/Homework/correct/ap_id/'+$(this).parent().attr('name');
+        } else {
+            var c_id = $('input[name=c_id]').val() > 0 ? '/c_id/' + $('input[name=c_id]').val() : '';
+            var cro_id = $('input[name=cro_id]').val() > 0 ? '/cro_id/' + $('input[name=cro_id]').val() : '';
+            location.href = '__APPURL__/Activity/edit/act_id/' + $(this).parent().attr('rel') + (c_id == '' ? cro_id : c_id);
+        }
+    })
+
+    // 单击环节下的练习，进去相关的编辑页面
+    $(document).on('click', '.temp_flex .add_blue .flex_book', function () {
+        if ($(this).parent().attr('name') != 0) {
+            location.href = '__APPURL__/Classwork/correct/ap_id/'+$(this).parent().attr('name');
+        } else {
+            var c_id = $('input[name=c_id]').val() > 0 ? '/c_id/' + $('input[name=c_id]').val() : '';
+            var cro_id = $('input[name=cro_id]').val() > 0 ? '/cro_id/' + $('input[name=cro_id]').val() : '';
+            location.href = '__APPURL__/Activity/edit/act_id/' + $(this).parent().attr('rel') + (c_id == '' ? cro_id : c_id);
+        }
+    })
+
+    // 单击环节下的活动，进去相关的编辑页面
+    $(document).on('click', '.temp_flex .add_act .flex_book', function () {
+
+        var c_id = $('input[name=c_id]').val() > 0 ? '/c_id/' + $('input[name=c_id]').val() : '';
+        var cro_id = $('input[name=cro_id]').val() > 0 ? '/cro_id/' + $('input[name=cro_id]').val() : '';
+        location.href = '__APPURL__/Activity/edit/act_id/' + $(this).parent().attr('rel') + (c_id == '' ? cro_id : c_id);
+
+    })
+
+    // 单击环节下的链接，进去相关的编辑页面
+    $(document).on('click', '.temp_flex .link .flex_book', function () {
+
+        var c_id = $('input[name=c_id]').val() > 0 ? '/c_id/' + $('input[name=c_id]').val() : '';
+        var cro_id = $('input[name=cro_id]').val() > 0 ? '/cro_id/' + $('input[name=cro_id]').val() : '';
+        location.href = '__APPURL__/Activity/edit/act_id/' + $(this).parent().attr('rel') + (c_id == '' ? cro_id : c_id);
+
+    })
+
+    // 单击环节下的拓展阅读，进去相关的编辑页面
+    $(document).on('click', '.temp_flex .res_read .flex_book', function () {
+
+        var c_id = $('input[name=c_id]').val() > 0 ? '/c_id/' + $('input[name=c_id]').val() : '';
+        var cro_id = $('input[name=cro_id]').val() > 0 ? '/cro_id/' + $('input[name=cro_id]').val() : '';
+        location.href = '__APPURL__/Activity/edit/act_id/' + $(this).parent().attr('rel') + (c_id == '' ? cro_id : c_id);
+
+    })
+})
+</script>
+<div class="warp">
+<input type="hidden" name="c_id" value="{$c_id}"/>
+<input type="hidden" name="cro_id" value="{$cro_id}"/>
+<div id="main">
+    <div class="main_hea fl">
+        <a class="back" href="__APPURL__/Lesson/index/course/{$Classhour.co_id}">返回</a>
+        <a>{$unit}</a>
+        <span>></span>
+        <a>{$lesson.l_title}</a>
+        <span>></span>
+        <a class="hea_class">{$Classhour.cl_title}</a>
+    </div>
+    <div class="clear"></div>
+    <div class="main_main">
+        <ul class="main_new">
+            <a href="javascript:void(0);" class="main_join">浏览</a>
+            <volist name="tache" id="vo">
+                <li rel="{$vo.ta_id}">
+                    <p title="{$vo.ta_title}">{$vo.ta_title}</p>
+                    <span class="flex_close"></span>
+                    <input type="text" value="{$vo.ta_title}"/>
+                    <a></a>
+                </li>
+            </volist>
+            <li class='add_exp'>添加</li>
+        </ul>
+        <div class="clear"></div>
+        <div class="new_tab">
+            <volist name="tache" id="vo">
+                <div class="temp_bottom">
+                    <span class="temp_teach fl">教学活动</span>
+                    <div class="temp_text fl">
+                        <div class="temp_flex">
+                            <div class="flex_add">
+                                <a class="flex_addone">
+                                    <div class="add_add"></div>
+                                    <span>添加教学组件</span>
+                                </a>
+                            </div>
+                            <volist name="vo.act_id" id="ho">
+                                <div name="{$ho.ap_id}" class="flex_add <if condition='$ho.act_flag eq 0'>unclick</if> <if condition='$ho.act_type eq 1'>new_work</if><if condition='$ho.act_type eq 2'>add_blue</if><if condition='$ho.act_type eq 3'>add_act</if><if condition='$ho.act_type eq 4'>link</if><if condition='$ho.act_type eq 5'>res_read</if>" rel="{$ho.act_id}" attr="{$ho.act_type}">
+                                    <a href="#" class="flex_close cDel"></a>
+                                    <a href="#" class="flex_book">
+                                        <div class="add_book">
+                                            <div class="add_ico fl"></div>
+                                            <div class="add_caption fl"></div>
+                                        </div>
+                                        <div class="add_label" title="{$ho.act_title}">{$ho.act_title}</div>
+                                    </a>
+                                </div>
+                            </volist>
+                        </div>
+                   </div>
+                </div>
+            </volist>
+        </div>
+    </div>
+    <!-- 添加教学组件弹窗 -->
+    <div class="add_link" title="教学组件">
+        <volist name="objectType" id="vo">
+            <div class="" attr="{$key}">{$vo.name}</div>
+        </volist>
+        <span class="clear"></span>
+    </div>
+</div>
+</div>
+<include file="Public:footer"/>

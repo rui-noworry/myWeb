@@ -1,0 +1,6 @@
+[ 2013-11-17T13:40:28+08:00 ] ERR: (ThinkException) 无法加载模块:favicon.ico
+[ 2013-11-17T13:48:35+08:00 ] ERR: (ThinkException) 无法加载模块:Homework
+[ 2013-11-17T21:04:22+08:00 ] ERR: (ThinkException) 无法加载模块:favicon.ico
+[ 2013-11-17T21:18:39+08:00 ] ERR: (ThinkException) 非法操作:Images
+[ 2013-11-17T21:20:24+08:00 ] ERR: (ThinkException) 非法操作:Images
+[ 2013-11-17T21:22:15+08:00 ] ERR: (ThinkException) 非法操作:Images

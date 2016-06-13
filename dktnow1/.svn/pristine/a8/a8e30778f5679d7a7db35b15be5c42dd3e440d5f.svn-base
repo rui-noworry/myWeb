@@ -1,0 +1,227 @@
+//
+//  ToolClass.m
+//  BigClassRoom
+//
+//  Created by apple  on 13-1-9.
+//
+//
+
+#import "ToolClass.h"
+
+@implementation ToolClass
++(NSString *)encodeURL:(NSString *)unescapedString{
+    
+    NSString* escapedUrlString= (NSString*) CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)unescapedString, NULL,(CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUTF8 );
+    escapedUrlString =[escapedUrlString stringByReplacingOccurrencesOfString:@"%20" withString:@"+"];
+    
+    return escapedUrlString;
+}
++(CGSize)getSizeFromText:(NSString*)str textWidth:(float)width fontSize:(float )size isBold:(BOOL)flag{
+    
+    CGSize detailSize = [str sizeWithFont:[UIFont systemFontOfSize:size] constrainedToSize:CGSizeMake(width, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+    
+    return detailSize;
+}
+
++(NSString *)getCurretDate{
+    
+    NSTimeZone *zone = [NSTimeZone defaultTimeZone];//获得当前应用程序默认的时区
+    NSInteger interval = [zone secondsFromGMTForDate:[NSDate date]];//以秒为单位返回当前应用程序与世界标准时间（格林威尼时间）的时差
+    NSDate *localeDate = [[NSDate date] dateByAddingTimeInterval:interval];
+    NSTimeInterval timeInterval2 = [localeDate timeIntervalSince1970];
+    NSString *timeString = [NSString stringWithFormat:@"%.f", timeInterval2];
+    
+    return timeString;
+}
++(NSString *)getDateFromString:(NSString *)strTime{
+    
+    NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSTimeInterval timeEnd=[strTime doubleValue];
+    NSDate *dateEnd=[NSDate dateWithTimeIntervalSince1970:timeEnd];
+    NSString *strDateEnd=[formatter stringFromDate:dateEnd];
+    [formatter release];
+
+    return strDateEnd;
+}
++(NSString *)getSign:(NSMutableDictionary*)postDict{
+    
+    NSArray *myKeys = [postDict allKeys];
+    NSArray *sortedKeys = [myKeys sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSMutableArray *sortedValues = [[NSMutableArray alloc] init];
+    
+    for(id key in sortedKeys) {
+        id object = [postDict objectForKey:key];
+        [sortedValues addObject:object];
+    }
+    
+    NSMutableString *muString=[[NSMutableString alloc]init];
+    for (int i=0; i<[sortedKeys count]; i++) {
+        NSString *strkey=[sortedKeys objectAtIndex:i];
+        strkey=[strkey stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        NSString *strValue=[sortedValues objectAtIndex:i];
+        
+        if (i==0) {
+            [muString appendFormat:@"%@=%@",strkey,strValue];
+            
+        }else{
+            [muString appendFormat:@"&%@=%@",strkey,strValue];
+            
+        }
+        
+    }
+    
+    [sortedValues release];
+    
+    return muString;
+}
++(NSString *)getPanduan:(NSString *)answer{
+    
+    if ([answer isEqualToString:@"-1"]) {
+        return @"";
+    }
+    
+    if ([answer intValue] == 0) {
+        return @"对";
+    }
+    return @"错";
+}
+//单选
++(NSString *)getAnswer:(NSString *)answer{
+
+    if ([answer isEqualToString:@"-1"]) {
+        return @"";
+    }
+    
+    int i=[answer intValue];
+    NSString *str=[NSString stringWithFormat:@"%c",'A'+i];
+
+    return str;
+    
+}
+//多选
++(NSString *)getMoreAnswer:(NSString *)answer{
+    
+    if ([answer isEqualToString:@"-1"]) {
+        return @"";
+    }
+    
+    NSArray *arr=[answer componentsSeparatedByString:@","];
+    NSMutableString *mustring=[[[NSMutableString alloc]init] autorelease];
+    for (int i=0; i<[arr count]; i++) {
+         NSString *str=[NSString stringWithFormat:@"%c",'A'+[[arr objectAtIndex:i] intValue]];
+        [mustring appendString:str];
+    }
+    return mustring;
+}
++(NSString *)getKong:(NSArray *)answer{
+    
+    NSMutableString *mustring=[[[NSMutableString alloc]init] autorelease];
+    for (int i=0; i<[answer count]; i++) {
+        NSString *str=[NSString stringWithFormat:@"%d.%@\t\t",i+1,[answer objectAtIndex:i]];
+        [mustring appendString:str];
+    }
+    return mustring;
+}
+/*  
+ 获取视频和音频的总长度，单位是秒
+ NSURL    *movieURL = [NSURL URLWithString:filePath];
+ NSDictionary *opts = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO]
+ forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+ AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:movieURL options:opts];  // 初始化视频媒体文件
+ int minute = 0, second = 0;
+ second = urlAsset.duration.value / urlAsset.duration.timescale; // 获取视频总时长,单位秒
+ //NSLog(@"movie duration : %d", second);
+ if (second >= 60) {
+ int index = second / 60;
+ minute = index;
+ second = second - index*60;
+ }
+ 
+*/
++ (UIImage *) imageFromView: (UIView *)theView {
+    // draw a view's contents into an image context
+    UIGraphicsBeginImageContext(theView.frame.size);
+    CGContextRef  context = UIGraphicsGetCurrentContext();
+    
+    [theView.layer renderInContext:context];
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
++(NSMutableDictionary *)getSocektHeadDict:(NSString *)user
+                                     pass:(NSString *)passWord
+                                auth_type:(NSString *)aType
+                             auth_version:(NSString *)version
+                            contentLength:(NSString *)length
+                               contentype:(NSString *)type
+                                 receiver:(NSString *)strReceiver
+{
+    
+    NSMutableDictionary *muDict=[[NSMutableDictionary alloc]init];
+    
+    [muDict setObject:user forKey:@"auth-user"];
+    [muDict setObject:passWord forKey:@"auth-password"];
+    [muDict setObject:aType forKey:@"auth-type"];
+    [muDict setObject:version forKey:@"auth-version"];
+    [muDict setObject:length forKey:@"content-length"];
+    if (![type isEqualToString:@""]) {
+        [muDict setObject:type forKey:@"content-type"];
+
+    }
+  //  strReceiver=@"201202001,201202002";
+    if (![strReceiver isEqualToString:@""]) {
+        [muDict setObject:strReceiver forKey:@"receiver"];
+
+    }
+    
+    
+    
+    return muDict;
+}
++(NSString *)getSocketHead:(NSMutableDictionary *)mudict{
+    
+    NSMutableString *muString=[[NSMutableString alloc]init];
+    for (int i=0; i<[[mudict allKeys] count]; i++) {
+        [muString appendFormat:@"%@:%@\n",[[mudict allKeys] objectAtIndex:i],[[mudict allValues] objectAtIndex:i]];
+    }
+    
+    [muString appendString:@"\r\n"];
+    
+    return muString;
+}
+
+
+
+
++ (void)getRGBComponents:(CGFloat [3])components forColor:(UIColor *)color {
+    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+    unsigned char resultingPixel[4];
+    CGContextRef context = CGBitmapContextCreate(&resultingPixel,
+                                                 1,
+                                                 1,
+                                                 8,
+                                                 4,
+                                                 rgbColorSpace,
+                                                 kCGImageAlphaNoneSkipLast);
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, CGRectMake(0, 0, 1, 1));
+    CGContextRelease(context);
+    CGColorSpaceRelease(rgbColorSpace);
+    
+    for (int component = 0; component < 3; component++) {
+        components[component] = resultingPixel[component] / 255.0f;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+@end

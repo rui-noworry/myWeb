@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+	
+    <RelativeLayout android:id="@+id/homework_title_layout"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@drawable/home_title_bg">
+    	
+        <Button
+	        android:id="@+id/homework_back_btn"
+	        android:layout_width="60dp"
+	        android:layout_height="37dp"
+	        android:layout_marginLeft="15dp"
+	        android:layout_marginTop="8dp"
+	        android:background="@drawable/back" />
+        
+        <TextView android:id="@+id/homework_title_text"
+           	android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:textColor="@color/white"
+    		android:textSize="25sp"
+			android:layout_centerInParent="true"
+    		android:text="@string/home_class"/>
+        <!-- 
+        <Button
+	        android:id="@+id/homework_submit_btn"
+	        android:layout_width="151dp"
+	        android:layout_height="38dp"
+	        android:layout_marginRight="15dp"
+	        android:layout_marginTop="8dp"
+	        android:layout_alignParentRight="true"
+	        android:background="@drawable/homework_submit_btn_bg" />
+         -->
+    </RelativeLayout>
+    
+    <dkt.teacher.view.MyLayout android:id="@+id/homework_change_layout_my"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@+id/homework_title_layout"
+    	android:orientation="horizontal">
+    	
+    	<android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/homework_view_pager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+ 		
+	</dkt.teacher.view.MyLayout>
+	
+    <RelativeLayout android:id="@+id/myview_change_re"
+        android:layout_width="575dp"
+   		android:layout_height="695dp"
+   		android:visibility="invisible"	
+		android:layout_below="@+id/homework_title_layout"	
+   		android:layout_alignParentRight="true"
+   		android:layout_marginRight="2dp"  
+   		android:layout_marginTop="2dp"
+   		android:layout_marginBottom="2dp" 	
+   		>
+       
+       	<dkt.teacher.view.DeputyView
+       	    android:id="@+id/homework_deputyview"
+			android:layout_width="575dp"
+			android:layout_height="695dp"
+       	    />
+       	<Button android:id="@+id/homework_pen"
+            android:layout_width="40dp"
+    		android:layout_height="40dp"
+    		android:layout_marginRight="20dp"
+    		android:layout_marginTop="30dp"
+    		android:background="@drawable/pen_bg"
+    		android:layout_alignParentRight="true"/>
+       	<Button android:id="@+id/homework_eraser"
+            android:layout_width="40dp"
+    		android:layout_height="40dp"
+    		android:layout_marginRight="20dp"
+    		android:layout_marginTop="20dp"
+    		android:background="@drawable/eraser_bg"
+    		android:layout_alignParentRight="true"
+    		android:layout_below="@+id/homework_pen"/>
+       	
+       	 <LinearLayout
+	        android:id="@+id/note_book_page_linear"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_marginRight="10dp"
+	        android:layout_marginBottom="5dp"
+	        android:layout_alignParentRight="true" >
+	
+	        <ImageButton
+	            android:id="@+id/note_book_pre_page"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/note_pre_selector"
+	            android:padding="20dp"
+	            android:background="#00000000" />
+	
+	        <TextView
+	            android:id="@+id/note_book_page_txt"
+	            android:layout_width="70dp"
+	            android:layout_height="fill_parent"
+	            android:gravity="center"
+	            android:text="第 1/1页" />
+	
+	        <ImageButton
+	            android:id="@+id/note_book_next_page"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/note_next_selector"
+	            android:padding="20dp"
+	            android:background="#00000000"  />
+	    </LinearLayout> 
+	</RelativeLayout>
+	<RelativeLayout 
+	    android:layout_width="wrap_content"
+    	android:layout_height="420dp"
+    	android:layout_below="@+id/homework_title_layout">
+       	 
+	    <RelativeLayout android:id="@+id/homework_students_re"
+	        android:layout_width="466dp"
+    		android:layout_height="420dp"
+    		android:background="@drawable/student_list_bg"
+    		android:visibility="gone">
+	        
+	        <GridView    
+			    android:id="@+id/homework_student_listview"  
+			    android:layout_width="460dp"   
+			    android:layout_height="390dp"  
+			    android:numColumns="3"  
+			    android:verticalSpacing="15dp"  
+			    android:horizontalSpacing="10dp"  
+			    android:columnWidth="140dp"  
+			    android:stretchMode="columnWidth"  
+			    android:gravity="center"  
+			    android:layout_marginLeft="2dp"
+			    android:layout_marginRight="2dp"
+			    android:layout_marginTop="20dp"
+				/>
+	        
+	    </RelativeLayout>
+	    <Button android:id="@+id/homework_students_btn"
+	        android:layout_width="44dp"
+    		android:layout_height="420dp"
+    		android:background="@drawable/student_btn"
+    		android:layout_toRightOf="@+id/homework_students_re"
+    		android:layout_centerVertical="true"/>
+	    
+	</RelativeLayout>
+	<RelativeLayout 
+        android:layout_width="703dp"
+    	android:layout_height="270dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/myshape">
+        <!-- 
+	    <dkt.student.view.HorizontalListView
+	        android:id="@+id/homework_listview"
+	        android:layout_width="695dp"
+	        android:layout_height="300dp" 
+	        android:layout_centerInParent="true"/> -->
+	    <GridView    
+		    android:id="@+id/homework_listview"  
+		    android:layout_width="703dp"   
+		    android:layout_height="270dp"  
+		    android:numColumns="5"  
+		    android:verticalSpacing="15dp"  
+		    android:horizontalSpacing="10dp"  
+		    android:columnWidth="180dp"  
+		    android:stretchMode="columnWidth"  
+		    android:gravity="center"  
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+		    android:layout_marginTop="10dp"
+		/>
+	</RelativeLayout>
+	
+	<TextView 
+	    android:id="@+id/main_focus"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="280dp"
+	    
+	    android:visibility="invisible"/>
+</RelativeLayout>

@@ -1,0 +1,99 @@
+//
+//  MenuView.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-4.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "MenuView.h"
+
+@implementation MenuView
+@synthesize mdele;
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        
+        
+        arr = [[NSArray alloc]initWithObjects:@"首页",@"资源",@"课程",@"班级",@"消息",@"作业",@"工具", nil];
+        
+              
+        
+        // Initialization code
+        imageview = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 93, 695)];
+        imageview.backgroundColor = [UIColor clearColor];
+        imageview.image = [UIImage imageNamed:@"左侧背景.png"];
+        [self addSubview:imageview];
+        [imageview release];
+        
+        selectImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 16, 93, 94)];
+        selectImage.image = [UIImage imageNamed:@"导航选择背景.png"];
+        [self addSubview:selectImage];
+        [selectImage release];
+
+        
+        preSelect = 10;
+        
+        for (int i=0; i<[arr count]; i++) {
+            UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(16, 24+90*i, 60, 60)];
+            [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@.png",[arr objectAtIndex:i]]] forState:UIControlStateNormal];
+            btn.tag = i+10;
+            [btn addTarget:self action:@selector(btnMenuAction:) forControlEvents:UIControlEventTouchDown];
+            [self addSubview:btn];
+            [btn release];
+            
+            
+            if (i==0) {
+                [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@2.png",[arr objectAtIndex:i]]] forState:UIControlStateNormal];
+
+            }
+            
+            UILabel *lbl = [[UILabel alloc]initWithFrame:CGRectMake(16, 74+90*i, 60, 30)];
+            lbl.text = [arr objectAtIndex:i];
+            lbl.font = [UIFont boldSystemFontOfSize:14];
+            lbl.textAlignment = NSTextAlignmentCenter;
+            lbl.backgroundColor = [UIColor clearColor];
+            lbl.textColor = [UIColor whiteColor];
+            [self addSubview:lbl];
+            [lbl release];
+        }
+        
+    }
+    return self;
+}
+-(void)btnMenuAction:(UIButton *)btn{
+    
+    UIButton *preBtn = (UIButton *)[self viewWithTag:preSelect];
+    [preBtn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@.png",[arr objectAtIndex:preSelect-10]]] forState:UIControlStateNormal];
+
+    [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@2.png",[arr objectAtIndex:btn.tag-10]]] forState:UIControlStateNormal];
+
+    [UIView animateWithDuration:0.1 animations:^(void){
+    
+        selectImage.frame = CGRectMake(0, (btn.tag-10)*(94-3)+16, 93, 94);
+
+        
+    }];
+    
+    
+    if (preSelect!=btn.tag) {
+        if (mdele && [mdele respondsToSelector:@selector(clickMenu:)]) {
+        
+            [mdele clickMenu:btn.tag];
+        }
+    }
+    preSelect = btn.tag;
+    
+    
+}
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect
+{
+    // Drawing code
+}
+*/
+
+@end

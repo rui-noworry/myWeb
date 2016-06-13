@@ -1,0 +1,2901 @@
+//
+//  StartViewController.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-14.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "StartViewController.h"
+#define portStr @"8888"
+
+@interface StartViewController ()
+
+@end
+
+@implementation StartViewController
+@synthesize courseDict,hourDict;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+//点击屏幕之后，让画板视图，处于subview之上。等长按之后再次激活。
+-(void)clickScreen{
+    
+
+    for (UIView *v in [self.view subviews]) {
+        
+        if ([v isKindOfClass:[SPUserResizableView class]]) {
+            [(SPUserResizableView *)v hideEditingHandles];
+            [v viewWithTag:77].hidden=YES;
+            [v viewWithTag:87].hidden=YES;
+        }
+    }
+    
+    [self.view bringSubviewToFront:smoothView];
+    [self.view bringSubviewToFront:backImageTable];
+
+    [self.view bringSubviewToFront:bottomImageview];
+    [self.view bringSubviewToFront:leftImageview];
+    [self.view bringSubviewToFront:fullBtn];
+    [self.view bringSubviewToFront:setView];
+    [self.view bringSubviewToFront:_clearView];
+    [self.view bringSubviewToFront:lblNumber];
+    [self.view bringSubviewToFront:btnNext];
+    [self.view bringSubviewToFront:btnUp];
+    [self.view bringSubviewToFront:caogaoView];
+    
+    
+
+    
+}
+#pragma mark 画图的长按事件
+-(void)pressedLongSmooth:(UILongPressGestureRecognizer *)gestureRecognizer{
+    
+    switch (gestureRecognizer.state) {
+        case UIGestureRecognizerStateBegan:
+            
+        {
+            /*
+            for (UIView *v in [self.view subviews]) {
+                if ([v isKindOfClass:[SPUserResizableView class]]||[v isKindOfClass:[AudioView class]]||[v isKindOfClass:[AvPlayer class]]) {
+                    if ([v isKindOfClass:[SPUserResizableView class]]) {
+                        
+                        [(SPUserResizableView *)v showEditingHandles];
+                        [v viewWithTag:77].hidden=NO;
+                        
+                        if (((SPUserResizableView *)v).type==0) {
+                            [v viewWithTag:87].hidden=YES;
+                        }else{
+                            [v viewWithTag:87].hidden=NO;
+                        }
+                    }
+                    
+                    [self.view bringSubviewToFront:v];
+                }
+                
+            }*/
+            
+            for (UIView *v in [self.view subviews]) {
+                
+                
+                if ([v isKindOfClass:[SPUserResizableView class]]) {
+                
+
+                    [(SPUserResizableView *)v showEditingHandles];
+                    [v viewWithTag:77].hidden=NO;
+                    
+                    if (((SPUserResizableView *)v).type==0) {
+                        [v viewWithTag:87].hidden=YES;
+                    }else{
+                        [v viewWithTag:87].hidden=NO;
+                    }
+                    
+                    [self.view bringSubviewToFront:v];
+
+                }else if([v isKindOfClass:[AudioView class]]){
+                
+                    [self.view bringSubviewToFront:v];
+
+                }
+            }
+            NSLog(@"press long began");
+            
+            
+            
+            break;
+        case UIGestureRecognizerStateEnded:
+            
+            NSLog(@"press long ended");
+            break;
+        case UIGestureRecognizerStateFailed:
+            NSLog(@"press long failed");
+            break;
+        case UIGestureRecognizerStateChanged:
+            //移动
+            
+            NSLog(@"press long changed");
+            break;
+        default:
+            NSLog(@"press long else");
+            break;
+        }
+    }
+    
+    
+}
+
+#pragma mark 删除数据库
+-(void)removeDB{
+    
+    NSString *dbName =[NSString stringWithFormat:@"%@.db",@"cl_id"];    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentDirectory stringByAppendingPathComponent:dbName];
+    
+    NSError *error;
+    NSFileManager *manager=[NSFileManager defaultManager];
+    BOOL flag = [manager removeItemAtPath:dbPath error:&error];
+    
+    NSLog(@"flag is %d",flag);
+    
+    
+    
+}
+-(void)btnBackAction{
+    [self removeDB];
+
+
+    [self removeSubViews];
+    //[[NSNotificationCenter defaultCenter]postNotificationName:@"changeNavFrame" object:@"0"];
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
+#pragma mark updateDB
+-(void)saveCurrentToDatabase{
+    
+        
+    UIImage *theImage=[ToolClass imageFromView:smoothView];
+    NSData *data=UIImagePNGRepresentation(theImage);
+    [db executeUpdate:@"INSERT OR REPLACE INTO handwriting(ha_id,ha_bitmap) VALUES (?,?)",[NSString stringWithFormat:@"%d",currentPage], data];
+    
+    for (int i=0; i<[subViewsArr count]; i++) {
+        
+        
+        NSMutableDictionary *muDict = [subViewsArr objectAtIndex:i];
+       // if ([[muDict objectForKey:@"type"] intValue] == 1) {//type是1就是图片
+            
+            SPUserResizableView *imageview = (SPUserResizableView *)[self.view viewWithTag:[[muDict objectForKey:@"tag"] intValue]];            
+            [db executeUpdate:@"UPDATE subviews SET x = ?,y = ?,width = ?,height = ? WHERE vi_id = ? ",[NSString stringWithFormat:@"%f",imageview.frame.origin.x],[NSString stringWithFormat:@"%f",imageview.frame.origin.y],[NSString stringWithFormat:@"%f",imageview.frame.size.width],[NSString stringWithFormat:@"%f",imageview.frame.size.height],[muDict objectForKey:@"vi_id"]];
+
+          
+            
+       // }
+    }
+    
+}
+
+#pragma mark 上下页
+-(void)btnUpAction{
+      
+    if (currentPage>1) {
+        
+        [self saveCurrentToDatabase];
+        
+        [self removeSubViews];
+        
+        
+        currentPage --;
+        
+        [self loadSubViews];
+        
+        lblNumber.text = [NSString stringWithFormat:@"%d/%d",currentPage,totalPage];
+
+    }
+}
+
+//释放所有的控制器
+-(void)releaseAllPlay{
+    
+    if ([playVcArr count]!=0) {
+        for (int i=0; i<[playVcArr count]; i++) {
+            MPMoviePlayerController *tempPlayer=(MPMoviePlayerController*)[playVcArr objectAtIndex:i];
+            [tempPlayer stop];
+            
+        }
+        [playVcArr removeAllObjects];
+    }
+    
+    
+}
+#pragma mark 删除板书上子视图
+-(void)removeSubViews{
+    [smoothView removeFromSuperview];
+
+    [self releaseAllPlay];
+    
+    for (int i=0; i<[subViewsArr count]; i++) {
+        NSMutableDictionary *contentDict=[subViewsArr objectAtIndex:i];
+        UIView *v=[self.view viewWithTag:[[contentDict objectForKey:@"tag"] intValue]];
+        
+       
+        
+        if ([[contentDict objectForKey:@"type"] intValue] == 3) {
+            AudioView *av = (AudioView *)v;
+            [av stopPlay];
+        }
+        
+        [v removeFromSuperview];
+    }
+}
+#pragma mark 加载板书上子视图
+-(void)loadSubViews{
+    
+    FMResultSet *rs = [db executeQuery:@"SELECT * FROM handwriting WHERE ha_id = ?",[NSString stringWithFormat:@"%d",currentPage]];
+    UIImage *Bitmap=nil;
+    
+    while ([rs next]) {
+        
+        NSData *imageData=[rs dataForColumn:@"ha_bitmap"];
+        Bitmap=[[UIImage alloc] initWithData:imageData];
+        
+    }
+
+    
+    
+    smoothView=[[SmoothLineView alloc]initWithFrame:CGRectMake(0, 0, 1024, 748)];
+    smoothView.SmoothLineViewDelegate=self;
+    [self.view addSubview:smoothView];
+    [smoothView release];
+    
+    [smoothView addLayer:Bitmap];
+    [Bitmap release];
+    
+    
+    UILongPressGestureRecognizer *longPressSmooth = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressedLongSmooth:)];
+    [smoothView addGestureRecognizer:longPressSmooth];
+    [longPressSmooth release];
+      ///加载其他的视图
+                                                        
+    FMResultSet *rs2 = [db executeQuery:@"SELECT * FROM subviews WHERE ha_id = ?",[NSString stringWithFormat:@"%d",currentPage]];
+    [subViewsArr removeAllObjects];
+
+    
+    while ([rs2 next]) {
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        if ([[rs2 stringForColumn:@"type"] intValue]==1) {
+            
+            NSData *imageData = [rs2 dataForColumn:@"vi_bitmap"];
+            UIImage *image = [[UIImage alloc] initWithData:imageData];
+
+            [dict setObject:[rs2 stringForColumn:@"vi_id"] forKey:@"vi_id"];
+            [dict setObject:[rs2 stringForColumn:@"tag"] forKey:@"tag"];
+            [dict setObject:[rs2 stringForColumn:@"type"] forKey:@"type"];
+            
+            viewTag = [[rs2 stringForColumn:@"tag"] intValue];
+            
+            CGRect rect = CGRectMake([[rs2 stringForColumn:@"x"] floatValue], [[rs2 stringForColumn:@"y"] floatValue], [[rs2 stringForColumn:@"width"] floatValue], [[rs2 stringForColumn:@"height"] floatValue]);
+            
+            
+            
+            [self addImageView:image frame:rect flag:YES tag:viewTag];
+        }else if ([[rs2 stringForColumn:@"type"] intValue]==3) {
+        
+            
+            [dict setObject:[rs2 stringForColumn:@"vi_id"] forKey:@"vi_id"];
+            [dict setObject:[rs2 stringForColumn:@"tag"] forKey:@"tag"];
+            [dict setObject:[rs2 stringForColumn:@"type"] forKey:@"type"];
+            [dict setObject:[rs2 stringForColumn:@"re_title"] forKey:@"ar_title"];
+            [dict setObject:[rs2 stringForColumn:@"re_transpath"] forKey:@"ar_savename"];
+            
+            viewTag = [[rs2 stringForColumn:@"tag"] intValue];
+            
+            CGRect rect = CGRectMake([[rs2 stringForColumn:@"x"] floatValue], [[rs2 stringForColumn:@"y"] floatValue], [[rs2 stringForColumn:@"width"] floatValue], [[rs2 stringForColumn:@"height"] floatValue]);
+            
+            [self addMP3View:dict frame:rect flag:YES tag:viewTag];
+
+        }else if ([[rs2 stringForColumn:@"type"] intValue]==2) {
+        
+            [dict setObject:[rs2 stringForColumn:@"vi_id"] forKey:@"vi_id"];
+            [dict setObject:[rs2 stringForColumn:@"tag"] forKey:@"tag"];
+            [dict setObject:[rs2 stringForColumn:@"type"] forKey:@"type"];
+            [dict setObject:[rs2 stringForColumn:@"re_title"] forKey:@"ar_title"];
+            [dict setObject:[rs2 stringForColumn:@"re_transpath"] forKey:@"ar_savename"];
+            
+            viewTag = [[rs2 stringForColumn:@"tag"] intValue];
+            
+            CGRect rect = CGRectMake([[rs2 stringForColumn:@"x"] floatValue], [[rs2 stringForColumn:@"y"] floatValue], [[rs2 stringForColumn:@"width"] floatValue], [[rs2 stringForColumn:@"height"] floatValue]);
+            
+            [self addMP4View:dict frame:rect flag:YES tag:viewTag];
+        }
+        
+        [subViewsArr addObject:dict];
+        [dict release];
+    }
+    
+    if ([subViewsArr count]==0) {
+        viewTag = 2999;
+    }
+    
+    [self.view sendSubviewToBack:smoothView];
+    //[self clickScreen];
+    
+}
+-(void)btnNextAction{
+    
+    if (currentPage == totalPage) {
+        totalPage ++;
+    }
+    [self saveCurrentToDatabase];
+    
+    [self removeSubViews];
+    
+    currentPage ++;
+    lblNumber.text = [NSString stringWithFormat:@"%d/%d",currentPage,totalPage];
+    [self loadSubViews];
+
+    
+}
+
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+    playVcArr = [[NSMutableArray alloc] init];
+    
+    act_type = -1;
+    currentPage = 1;
+    totalPage = 1;
+    subViewsArr = [[NSMutableArray alloc] init];
+    viewTag = 2999;//tag从3000开始
+    dele = [[UIApplication sharedApplication] delegate];
+    
+    NSString *dbName =[NSString stringWithFormat:@"%@.db",@"cl_id"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentDirectory stringByAppendingPathComponent:dbName];
+    db = [[FMDatabase alloc] initWithPath:dbPath];
+    if (![db open]) {
+        //NSLog(@"Could not open db.");
+    }
+    //
+    [db executeUpdate:@"CREATE TABLE IF NOT EXISTS handwriting(ha_id text PRIMARY KEY,ha_bitmap blob)"];
+    [db executeUpdate:@"CREATE TABLE IF NOT EXISTS subviews(vi_id integer PRIMARY KEY,ha_id text,type text,re_transpath text,re_savepath text,re_title text,localURL text,x text,y text,width text,height text,tag text,vi_bitmap blob)"];
+    
+
+    
+    smoothView=[[SmoothLineView alloc]initWithFrame:CGRectMake(0, 0, 1024, 748)];
+    smoothView.SmoothLineViewDelegate=self;
+    [self.view addSubview:smoothView];
+    [smoothView release];
+   
+
+    UILongPressGestureRecognizer *longPressSmooth = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressedLongSmooth:)];
+    [smoothView addGestureRecognizer:longPressSmooth];
+    [longPressSmooth release];
+    
+    float r,g,b;
+    r = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_r"] floatValue];
+    g = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_g"] floatValue];
+    b = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_b"] floatValue];
+    
+    
+    UIColor *color = [UIColor colorWithRed:r green:g blue:b alpha:1];
+    smoothView.lineColor = color;
+    smoothView.lineWidth = [[[NSUserDefaults standardUserDefaults] objectForKey:@"width"] floatValue];
+        
+    
+    backImageTable = [[SuperBackTable alloc] initWithFrame:CGRectMake(1024, 0, 770, 670)];
+    backImageTable.delegate = self;
+    [self.view addSubview:backImageTable];
+    [backImageTable release];
+    
+    
+    zhuxing = [[ZhuxingView alloc] initWithFrame:CGRectMake(90, 60, 660, 160)];
+    zhuxing.backgroundColor = [UIColor clearColor];
+    zhuxing.hidden = YES;
+    [backImageTable addSubview:zhuxing];
+    [zhuxing release];
+    
+    stuView = [[StudentsView alloc] initWithFrame:CGRectMake(90, 60, 660, 160)];
+    stuView.backgroundColor = [UIColor clearColor];
+    stuView.delegate = self;
+    stuView.hidden = YES;
+    [backImageTable addSubview:stuView];
+    [stuView release];
+    
+    //默认，柱形图，学生图都是隐藏的。220是显示学生之后的table的+y
+    
+    
+    myTable = [[UITableView alloc] initWithFrame:CGRectMake(70, 60, 660, 608)];
+    myTable.delegate = self;
+    myTable.backgroundColor = [UIColor clearColor];
+    myTable.separatorColor = [UIColor clearColor];
+    myTable.dataSource = self;
+    [myTable setShowsVerticalScrollIndicator:NO];
+    [backImageTable addSubview:myTable];
+    [myTable release];
+    
+    
+    
+    
+    btnUp = [[UIButton alloc] initWithFrame:CGRectMake(900, 690, 40, 40)];
+    btnUp.backgroundColor = [UIColor clearColor];
+    [btnUp setImage:[UIImage imageNamed:@"上.png"] forState:UIControlStateNormal];
+    [btnUp addTarget:self action:@selector(btnUpAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnUp];
+    [btnUp release];
+    
+    lblNumber = [[UILabel alloc] initWithFrame:CGRectMake(925, 690, 60, 40)];
+    lblNumber.backgroundColor = [UIColor clearColor];
+    lblNumber.textAlignment = NSTextAlignmentCenter;
+    lblNumber.text = [NSString stringWithFormat:@"%d/%d",currentPage,totalPage];
+    [self.view addSubview:lblNumber];
+    [lblNumber release];
+    
+    btnNext = [[UIButton alloc] initWithFrame:CGRectMake(970, 690, 40, 40)];
+    btnNext.backgroundColor = [UIColor clearColor];
+    [btnNext setImage:[UIImage imageNamed:@"下.png"] forState:UIControlStateNormal];
+    [btnNext addTarget:self action:@selector(btnNextAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnNext];
+    [btnNext release];
+    
+    
+    bottomImageview = [[UIImageView alloc] initWithFrame:CGRectMake(84, 748-84, 940-160, 84)];
+    bottomImageview.image = [UIImage imageNamed:@"top背景.png"];
+    bottomImageview.userInteractionEnabled = YES;
+    [self.view addSubview:bottomImageview];
+    [bottomImageview release];
+    
+    
+    leftImageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 84, 667)];
+    leftImageview.image = [UIImage imageNamed:@"right背景.png"];
+    leftImageview.userInteractionEnabled = YES;
+    [self.view addSubview:leftImageview];
+    [leftImageview release];
+    
+    
+    
+    
+    btnBack = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, 56, 32)];
+    [btnBack setBackgroundImage:[UIImage imageNamed:@"返回.png"] forState:UIControlStateNormal];
+    [btnBack addTarget:self action:@selector(btnBackAction) forControlEvents:UIControlEventTouchUpInside];
+    [leftImageview addSubview:btnBack];
+    [btnBack release];
+    
+    
+    
+    topMenuScr = [[UIScrollView alloc]initWithFrame:CGRectMake(110, 0, 820-160, 85)];
+    [topMenuScr setShowsHorizontalScrollIndicator:NO];
+    [topMenuScr setPagingEnabled:YES];
+    [bottomImageview addSubview:topMenuScr];
+    [topMenuScr release];
+    
+    
+    NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+    NSString *timeString =[ToolClass getCurretDate];
+    requestContent=[[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/Api",dele.server_Address_str]]];
+    [requestContent setDelegate:self];
+    
+    
+    NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+    //*//请求资源的
+    
+    [postDict setObject:timeString forKey:@"ts"];
+    [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+    if ([[courseDict objectForKey:@"c_id"] intValue] == 0) {
+        
+        [postDict setObject:[courseDict objectForKey:@"cro_id"] forKey:@"args[cro_id]"];
+        
+    }else{
+        [postDict setObject:[courseDict objectForKey:@"c_id"] forKey:@"args[c_id]"];
+        
+    }
+    [postDict setObject:@"JSON" forKey:@"format"];
+    /*
+    if (huanjieSelect != 100) {
+        
+        NSDictionary *dict = [huanjieArray objectAtIndex:huanjieSelect-100-1];
+        [postDict setObject:[dict objectForKey:@"ta_id"] forKey:@"args[ta_id]"];
+    }*/
+    
+    [postDict setObject:@"Activity.lists" forKey:@"method"];
+    [postDict setObject:[hourDict objectForKey:@"cl_id"] forKey:@"args[cl_id]"];
+    
+    
+    [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+    
+    
+    NSString *strSign=[ToolClass getSign:postDict];
+    [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+    
+    
+    NSLog(@"postdict is %@",postDict);
+    
+    for(int i=0;i<[[postDict allKeys] count];i++){
+        
+        [requestContent setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+    }
+    [requestContent buildPostBody];
+    [requestContent setTimeOutSeconds:30];
+    [requestContent startAsynchronous];
+    [requestContent setDidFinishSelector:@selector(mySuccessResult:)];
+    [requestContent setDidFailSelector:@selector(myError:)];
+    
+    
+    [postDict release];
+    [strSign release];
+    
+    
+    
+        
+    
+    fullBtn = [[UIButton alloc] initWithFrame:CGRectMake(22, 748-58, 43, 43)];
+    [fullBtn setBackgroundImage:[UIImage imageNamed:@"全屏.png"] forState:UIControlStateNormal];
+    [fullBtn addTarget:self action:@selector(fullBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:fullBtn];
+    [fullBtn release];
+    
+    
+    rightMenuScr = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 85, 84, 637)];
+    [rightMenuScr setShowsVerticalScrollIndicator:NO];
+    rightMenuScr.backgroundColor = [UIColor clearColor];
+    [leftImageview addSubview:rightMenuScr];
+    [rightMenuScr release];
+    
+    selectImageview = [[UIImageView alloc]initWithFrame:CGRectMake(1, 0, 82, 82)];
+    selectImageview.image = [UIImage imageNamed:@"statue.png"];
+    selectImageview.hidden = YES;
+    [rightMenuScr addSubview:selectImageview];
+    [selectImageview release];
+    
+
+    
+    arrRight = [[NSArray alloc] initWithObjects:@"锁屏",@"画笔",@"橡皮",@"草稿",@"学生",@"板书",@"保存", nil];
+
+    
+    for (int i = 0; i < [arrRight count]; i++) {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(22, i*80+10, 40, 40+20)];
+        [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@2.png",[arrRight objectAtIndex:i]]] forState:UIControlStateNormal];
+        btn.tag = i+20;
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(-20, 0, 0, 0)];
+        [btn addTarget:self action:@selector(rightMenuAction:) forControlEvents:UIControlEventTouchUpInside];
+        [rightMenuScr addSubview:btn];
+        [btn release];
+        
+        
+        UILabel *lbl = [[UILabel alloc]initWithFrame:CGRectMake(0, 40, 40, 20)];
+        lbl.text = [arrRight objectAtIndex:i];
+        lbl.textAlignment = NSTextAlignmentCenter;
+        lbl.font = [UIFont systemFontOfSize:14];
+        lbl.textColor = [UIColor blackColor];
+        lbl.tag = 30;
+        lbl.backgroundColor = [UIColor clearColor];
+        [btn addSubview:lbl];
+        [lbl release];
+        
+        
+        if (i==0) {
+            int flag = [[[NSUserDefaults standardUserDefaults] objectForKey:@"isSuoping"] intValue];
+            if (flag == 0) {
+                [btn setImage:[UIImage imageNamed:@"锁屏2.png"] forState:UIControlStateNormal];
+                lbl.text = @"锁屏";
+            }else{
+                
+                
+                [btn setImage:[UIImage imageNamed:@"开屏2.png"] forState:UIControlStateNormal];
+                lbl.text = @"解屏";
+            }
+        }else if(i==1||i==2){
+        
+        
+            UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressedLong:)];
+            [btn addGestureRecognizer:longPress];
+            [longPress release];
+        }
+    }
+    
+    setView = [[SetDrawLine alloc]initWithFrame:CGRectMake(510, 90, 420, 522)];
+    setView.setDelegate = self;
+    setView.hidden = YES;
+    setView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:setView];
+    [setView release];
+    
+
+    
+    _clearView = [[ClearView alloc]initWithFrame:CGRectMake(510, 200, 420, 217)];
+    _clearView.cleardele = self;
+    _clearView.hidden = YES;
+    [self.view addSubview:_clearView];
+    [_clearView release];
+    
+   
+    [self getStudentList];
+    
+   
+    caogaoView = [[CaoGaoView alloc] initWithFrame:CGRectMake(100, 100, 914, 514)];
+    caogaoView.hidden = YES;
+    [self.view addSubview:caogaoView];
+    [caogaoView release];
+    
+    /*
+    
+    {
+    
+    
+    }*/
+    
+    //http://192.168.7.53:81/Package/51d91274c1d33.db
+    
+}
+-(void)successDb:(ASIHTTPRequest *)request{
+    
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"板书下载成功!" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    [alert show];
+    [alert release];
+    
+    [self removeSubViews];
+    currentPage = 1;
+    
+    
+    [db release];
+    
+    NSString *dbName =[NSString stringWithFormat:@"%@.db",@"cl_id"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentDirectory stringByAppendingPathComponent:dbName];
+    db = [[FMDatabase alloc] initWithPath:dbPath];
+    if (![db open]) {
+        //NSLog(@"Could not open db.");
+    }
+    //
+    [db executeUpdate:@"CREATE TABLE IF NOT EXISTS handwriting(ha_id text PRIMARY KEY,ha_bitmap blob)"];
+    [db executeUpdate:@"CREATE TABLE IF NOT EXISTS subviews(vi_id integer PRIMARY KEY,ha_id text,type text,re_transpath text,re_savepath text,re_title text,localURL text,x text,y text,width text,height text,tag text,vi_bitmap blob)"];
+    FMResultSet *rs2 = [db executeQuery:@"SELECT COUNT(*) FROM handwriting"];
+    while ([rs2 next]) {
+        totalPage = [rs2 intForColumnIndex:0];
+    }
+    [rs2 close];
+    lblNumber.text = [NSString stringWithFormat:@"%d/%d",currentPage,totalPage];
+    [self loadSubViews];
+
+}
+-(void)failWithErrorDb:(ASIHTTPRequest *)request{
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"板书下载失败!" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    [alert show];
+    [alert release];
+
+}
+#pragma mark asihttp
+-(void)mySuccessResult:(id)sender{
+    
+    NSString *str=[sender responseString];
+    NSMutableDictionary *muDict = [str JSONValue];
+    
+    if ([[muDict objectForKey:@"status"] intValue]==1) {
+        [contentArray removeAllObjects];
+        [contentArray release];
+        contentArray = nil;
+        
+        contentArray = [[[muDict objectForKey:@"info"] objectForKey:@"list"] mutableCopy];
+        NSLog(@"contentArray is %@",contentArray);
+        [self loadContentScrollView];
+    }
+
+}
+-(void)loadContentScrollView{
+   //@"作业",@"分组探究",@"留言板",@"课堂练习",@"辩论",@"链接" 默认图片标志 +Lesson
+
+     //加载视图，活动或者资源
+     for (int i = 0; i < [contentArray count]; i++) {
+         
+         NSMutableDictionary *muDict = [contentArray objectAtIndex:i];
+         
+         
+     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(i*166, 8, 156, 70)];
+     btn.tag = i+10;
+     [btn addTarget:self action:@selector(topMenuAction:) forControlEvents:UIControlEventTouchUpInside];
+     [topMenuScr addSubview:btn];
+     [btn release];
+         
+         
+         switch ([[muDict objectForKey:@"act_type"] intValue]) {
+             case 1:
+                [btn setBackgroundImage:[UIImage imageNamed:@"Lesson作业.png"] forState:UIControlStateNormal];
+                 break;
+             case 2:
+                 [btn setBackgroundImage:[UIImage imageNamed:@"Lesson课堂练习.png"] forState:UIControlStateNormal];
+
+                 
+                 break;
+             case 3:
+                 [btn setBackgroundImage:[UIImage imageNamed:@"Lesson文本.png"] forState:UIControlStateNormal];
+
+                 break;
+             case 4:
+                 [btn setBackgroundImage:[UIImage imageNamed:@"Lesson链接.png"] forState:UIControlStateNormal];
+
+                 break;
+             case 5:
+                 [btn setBackgroundImage:[UIImage imageNamed:@"Lesson拓展阅读.png"] forState:UIControlStateNormal];
+
+                 break;
+             default:
+                 break;
+         }
+     
+     
+     UILabel *lbl = [[UILabel alloc]initWithFrame:CGRectMake(5, 45, 146, 20)];
+     lbl.text = [muDict objectForKey:@"act_title"];
+     lbl.textAlignment = NSTextAlignmentLeft;
+     lbl.font = [UIFont systemFontOfSize:14];
+     lbl.textColor = MYCOLOR;
+     lbl.backgroundColor = [UIColor clearColor];
+     [btn addSubview:lbl];
+     [lbl release];
+     }
+     
+    [topMenuScr setContentSize:CGSizeMake([contentArray count]*166, 70)];
+     
+
+}
+
+
+
+-(void)addCommentAction:(UIButton *)btn{
+    
+    LiuyanView *liuyan = [[LiuyanView alloc] initWithFrame:CGRectMake(0, 0, 1024, 748)];
+    [self.view addSubview:liuyan];
+    [liuyan release];
+}
+
+
+
+- (void) pressedLong:(UILongPressGestureRecognizer *) gestureRecognizer{
+    
+    switch (gestureRecognizer.state) {
+        case UIGestureRecognizerStateBegan:
+            
+        {
+            if (gestureRecognizer.view.tag == 21) {
+                [setView setNeedsDisplayView];
+                setView.hidden = NO;
+            }else if(gestureRecognizer.view.tag == 22){
+                [_clearView setNeedsDisplayMyView];
+                _clearView.hidden = NO;
+            }
+            [self rightMenuAction:(UIButton*)[rightMenuScr viewWithTag:gestureRecognizer.view.tag]];
+            NSLog(@"press long began");
+            break;
+        case UIGestureRecognizerStateEnded:
+            
+            NSLog(@"press long ended");
+            break;
+        case UIGestureRecognizerStateFailed:
+            NSLog(@"press long failed");
+            break;
+        case UIGestureRecognizerStateChanged:
+            //移动
+            
+            NSLog(@"press long changed");
+            break;
+        default:
+            NSLog(@"press long else");
+            break;
+        }
+    }
+    
+    
+}
+
+#pragma mark superBackTableDelegate
+-(void)pushWorkAction{
+    
+    //推送练习过去。
+    NSDictionary *tempDict = [contentArray objectAtIndex:pretopselect-10];
+    NSString *strBody=[NSString stringWithFormat:@"{\"type\":\"4\",\"content\":\"%@\"}",[tempDict objectForKey:@"ap_id"]];
+    NSInvocationOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(handelScreen:) object:strBody];
+    [dele._queue addOperation:operation];
+    [operation release];
+    
+    
+}
+-(void)getTongjiTu{
+    
+    if (requestOther) {
+        [requestOther cancel];
+        requestOther.delegate=nil;
+        [requestOther release];
+        requestOther = nil;
+    }
+    NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+    NSString *timeString =[ToolClass getCurretDate];
+    requestOther=[[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/Api",dele.server_Address_str]]];
+    [requestOther setDelegate:self];
+    
+    NSDictionary *tempDict = [contentArray objectAtIndex:pretopselect-10];
+    
+    NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+    [postDict setObject:timeString forKey:@"ts"];
+    [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+    [postDict setObject:[tempDict objectForKey:@"act_id"] forKey:@"args[act_id]"];
+    [postDict setObject:@"JSON" forKey:@"format"];
+    if (act_type == 1) {
+         [postDict setObject:@"Homework.stats" forKey:@"method"];
+    }else{
+        [postDict setObject:@"Classwork.stats" forKey:@"method"];
+    }
+   
+    [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+    if ([[courseDict objectForKey:@"c_id"] intValue] == 0) {
+        
+        [postDict setObject:[courseDict objectForKey:@"cro_id"] forKey:@"args[cro_id]"];
+        
+    }else{
+        [postDict setObject:[courseDict objectForKey:@"c_id"] forKey:@"args[c_id]"];
+        
+    }
+    NSString *strSign=[ToolClass getSign:postDict];
+    [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+    
+    
+    NSLog(@"postdict is %@",postDict);
+    
+    for(int i=0;i<[[postDict allKeys] count];i++){
+        
+        [requestOther setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+    }
+    [requestOther buildPostBody];
+    [requestOther setTimeOutSeconds:30];
+    [requestOther startAsynchronous];
+    [requestOther setDidFinishSelector:@selector(mySuccessTongji:)];
+    [requestOther setDidFailSelector:@selector(myError:)];
+    
+    
+    [postDict release];
+    [strSign release];
+}
+-(void)chakanWorkContent{
+    
+    [backImageTable showUI:3];
+    
+    zhuxing.hidden = NO;
+    stuView.hidden = YES;
+    myTable.frame = CGRectMake(70, 60+220, 660, 608-220);
+    
+    [zhuxing clearScrollView];
+    
+    [self getTongjiTu];
+    
+}
+-(void)mySuccessTongji:(id)sender{
+    
+    NSString *str = [sender responseString];
+    NSMutableDictionary *mudict = [str JSONValue];
+    
+    NSLog(@"mudict s %@",mudict);
+    if (mudict) {
+        if ([mudict isKindOfClass:[NSArray class]]) {
+            return;
+        }else if([mudict isKindOfClass:[NSDictionary class]]){
+        
+            if (![mudict objectForKey:@"errCode"]) {
+                
+                for (int i= 0; i<[dataMuarr count]; i++) {
+                    NSMutableDictionary *dict111 = [dataMuarr objectAtIndex:i];
+                    NSMutableDictionary *dict222 =[mudict objectForKey:[dict111 objectForKey:@"to_id"]];
+                    [dict222 setObject:[NSString stringWithFormat:@"%d",i+1] forKey:@"num"];
+                }
+                [zhuxing changUI:studentTotal data:mudict];
+            }
+        }
+    }
+
+    
+    
+    NSLog(@"mudict s %@",mudict);
+}
+-(void)clickTongji{
+    if (zhuxing.hidden == NO) {
+        
+        zhuxing.hidden = YES;
+        stuView.hidden = NO;
+        
+        if (requestOther) {
+            [requestOther cancel];
+            requestOther.delegate=nil;
+            [requestOther release];
+            requestOther = nil;
+        }
+        NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+        NSString *timeString =[ToolClass getCurretDate];
+        requestOther=[[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/Api",dele.server_Address_str]]];
+        [requestOther setDelegate:self];
+        
+        NSDictionary *tempDict = [contentArray objectAtIndex:pretopselect-10];
+        
+        NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+        [postDict setObject:timeString forKey:@"ts"];
+        [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+        [postDict setObject:[tempDict objectForKey:@"ap_id"] forKey:@"args[ap_id]"];
+        [postDict setObject:@"JSON" forKey:@"format"];
+        if (act_type == 1) {
+            [postDict setObject:@"Homework.listsAuth" forKey:@"method"];
+        }else{
+            [postDict setObject:@"Classwork.listsAuth" forKey:@"method"];
+        }
+        
+        [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+        if ([[courseDict objectForKey:@"c_id"] intValue] == 0) {
+            
+            [postDict setObject:[courseDict objectForKey:@"cro_id"] forKey:@"args[cro_id]"];
+            
+        }else{
+            [postDict setObject:[courseDict objectForKey:@"c_id"] forKey:@"args[c_id]"];
+            
+        }
+        NSString *strSign=[ToolClass getSign:postDict];
+        [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+        
+        
+        NSLog(@"postdict is %@",postDict);
+        
+        for(int i=0;i<[[postDict allKeys] count];i++){
+            
+            [requestOther setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+        }
+        [requestOther buildPostBody];
+        [requestOther setTimeOutSeconds:30];
+        [requestOther startAsynchronous];
+        [requestOther setDidFinishSelector:@selector(mySuccessStuList:)];
+        [requestOther setDidFailSelector:@selector(myError:)];
+        
+        
+        [postDict release];
+        [strSign release];
+        
+    }else{
+        zhuxing.hidden = NO;
+        stuView.hidden = YES;
+        
+        [zhuxing clearScrollView];
+        [self getTongjiTu];
+        
+    }
+}
+-(void)mySuccessStuList:(id)sender{
+    
+    NSString *str = [sender responseString];
+    NSMutableArray *muArr = [str JSONValue];
+    if ([muArr isKindOfClass:[NSDictionary class]]) {
+        
+    }else{
+        [muWorkStuentList removeAllObjects];
+        [muWorkStuentList release];
+        muWorkStuentList = nil;
+        
+        muWorkStuentList = [muArr mutableCopy];
+        [stuView loadScroll:muWorkStuentList];
+    }
+    NSLog(@"muArr222 is  %@",muArr);
+       
+}
+#pragma mark 选择学生代理
+-(void)teacherSelectStudent:(int)index{
+    
+    NSDictionary *dictPara = [muWorkStuentList objectAtIndex:index];
+    //hd_status
+    NSLog(@"dictpara is %@",dictPara);
+    
+    if ([[dictPara objectForKey:@"hd_status"] intValue]==0) {
+        return;
+    }
+    [backImageTable changeTitle2:[NSString stringWithFormat:@"%@的作业",[dictPara objectForKey:@"a_nickname"]]];
+    if (requestOther) {
+        [requestOther cancel];
+        requestOther.delegate=nil;
+        [requestOther release];
+        requestOther = nil;
+    }
+    NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+    NSString *timeString =[ToolClass getCurretDate];
+    requestOther=[[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/Api",dele.server_Address_str]]];
+    [requestOther setDelegate:self];
+    
+    
+    NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+    [postDict setObject:timeString forKey:@"ts"];
+    [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+    [postDict setObject:[dictPara objectForKey:@"a_id"] forKey:@"args[stu_id]"];
+
+    [postDict setObject:@"JSON" forKey:@"format"];
+    if (act_type == 1) {
+        [postDict setObject:@"Homework.correct" forKey:@"method"];
+        [postDict setObject:[dictPara objectForKey:@"h_id"] forKey:@"args[h_id]"];
+
+    }else{
+        [postDict setObject:@"Classwork.correct" forKey:@"method"];
+        [postDict setObject:[dictPara objectForKey:@"h_id"] forKey:@"args[cw_id]"];
+
+    }
+    
+    [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+    NSString *strSign=[ToolClass getSign:postDict];
+    [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+    
+    
+    NSLog(@"postdict is %@",postDict);
+    
+    for(int i=0;i<[[postDict allKeys] count];i++){
+        
+        [requestOther setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+    }
+    [requestOther buildPostBody];
+    [requestOther setTimeOutSeconds:30];
+    [requestOther startAsynchronous];
+    [requestOther setDidFinishSelector:@selector(mySuccessJiancha:)];
+    [requestOther setDidFailSelector:@selector(myError:)];
+    
+    
+    [postDict release];
+    [strSign release];
+}
+-(void)mySuccessJiancha:(id)sender{
+    
+    NSString *str = [sender responseString];
+    NSMutableDictionary *muDict = [str JSONValue];
+    NSLog(@"mudict is %@",muDict);
+    if (stuAnswerDict) {
+        [stuAnswerDict removeAllObjects];
+        [stuAnswerDict release];
+        stuAnswerDict = nil;
+    }
+    if (stuPicAnsDict) {
+        [stuPicAnsDict removeAllObjects];
+        [stuPicAnsDict release];
+        stuPicAnsDict = nil;
+    }
+    
+    
+    if (act_type == 1) {
+        if (![[muDict objectForKey:@"hd_answer"] isEqual:[NSNull null]]) {
+            NSString *str2 = [muDict objectForKey:@"hd_answer"];
+            stuAnswerDict = [[str2 JSONValue] mutableCopy];
+            
+            if ([muDict objectForKey:@"picture_answer"]) {
+                
+                if ([[muDict objectForKey:@"picture_answer"] isKindOfClass:[NSDictionary class]]) {
+                    stuPicAnsDict = [[muDict objectForKey:@"picture_answer"] mutableCopy];
+                    
+                }else{
+                    
+                    NSLog(@"这个作业没有图片");
+                }
+                
+            }
+        }
+    }else{
+        
+        if (![[muDict objectForKey:@"cd_answer"] isEqual:[NSNull null]]) {
+        
+            NSString *str2 = [muDict objectForKey:@"cd_answer"];
+            NSLog(@"str2 is %@",str2);
+            
+            stuAnswerDict = [[str2 JSONValue] mutableCopy];
+            
+            if ([muDict objectForKey:@"picture_answer"]) {
+                
+                if ([[muDict objectForKey:@"picture_answer"] isKindOfClass:[NSDictionary class]]) {
+                    stuPicAnsDict = [[muDict objectForKey:@"picture_answer"] mutableCopy];
+                                        
+                }else{
+                    
+                    NSLog(@"这个作业没有图片");
+                }
+            }
+        }
+       
+    }
+   
+
+    NSLog(@"得到学生答案 is %@",stuAnswerDict);
+
+    [myTable reloadData];
+    
+}
+
+#pragma mark cleardelegate
+-(void)changeClearWidth:(float)width{
+    
+    smoothView.lineWidth=width;
+    [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithFloat:width] forKey:@"clear_width"];
+
+}
+-(void)clearScreen{
+    
+    for (int i=0; i<[subViewsArr count]; i++) {
+        NSMutableDictionary *dict = [subViewsArr objectAtIndex:i];
+        
+        NSString *str = [NSString stringWithFormat:@"DELETE FROM subviews WHERE vi_id = %@",[dict objectForKey:@"vi_id"]];
+        [db executeUpdate:str];
+
+    }
+    [self removeSubViews];
+    [subViewsArr removeAllObjects];
+    
+    [smoothView removeFromSuperview];
+    
+    smoothView=[[SmoothLineView alloc]initWithFrame:CGRectMake(0, 0, 1024, 748)];
+    smoothView.SmoothLineViewDelegate=self;
+    [self.view addSubview:smoothView];
+    [smoothView release];
+    
+    
+    smoothView.lineWidth=_clearView.width;
+    smoothView.lineColor=[UIColor clearColor];
+    
+    [self.view sendSubviewToBack:smoothView];
+    
+    
+    UILongPressGestureRecognizer *longPressSmooth = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressedLongSmooth:)];
+    [smoothView addGestureRecognizer:longPressSmooth];
+    [longPressSmooth release];
+    
+    [self clickScreen];
+    
+     
+}
+#pragma mark setDrawDelegate
+-(void)changeWidth:(float)width{
+    
+    
+    smoothView.lineWidth = width;
+    
+    [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithFloat:width] forKey:@"width"];
+    
+}
+-(void)changeColor:(UIColor *)color{
+    
+    smoothView.lineColor=color;
+    
+    
+    CGFloat components[3];
+    [ToolClass getRGBComponents:components forColor:color];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:components[0]] forKey:@"color_r"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:components[1]] forKey:@"color_g"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:components[2]] forKey:@"color_b"];
+
+    
+}
+-(void)fullBtnAction{
+    
+    if (isFullScreen==NO) {
+        [fullBtn setBackgroundImage:[UIImage imageNamed:@"全屏2.png"] forState:UIControlStateNormal];
+
+        [UIView animateWithDuration:0.2 animations:^(void){
+        
+            
+            bottomImageview.frame = CGRectMake(84, 748-84+100, 940-160, 84);
+            leftImageview.frame = CGRectMake(0-100, 0, 84, 667);
+
+        }];
+        
+        isFullScreen=YES;
+    }else{
+        [fullBtn setBackgroundImage:[UIImage imageNamed:@"全屏.png"] forState:UIControlStateNormal];
+
+        [UIView animateWithDuration:0.2 animations:^(void){
+            
+            
+            bottomImageview.frame = CGRectMake(84, 748-84, 940-160, 84);
+            leftImageview.frame = CGRectMake(0, 0, 84, 667);
+
+            
+        }];
+        
+        isFullScreen=NO;
+    }
+}
+//获取活动详情
+-(void)getActDetail{
+    
+    
+    if (requestOther) {
+        [requestOther cancel];
+        requestOther.delegate=nil;
+        [requestOther release];
+        requestOther = nil;
+    }
+    NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+    NSString *timeString =[ToolClass getCurretDate];
+    requestOther=[[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/Api",dele.server_Address_str]]];
+    [requestOther setDelegate:self];
+    
+    NSDictionary *tempDict = [contentArray objectAtIndex:pretopselect-10];
+    
+    NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+    [postDict setObject:timeString forKey:@"ts"];
+    [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+    [postDict setObject:[tempDict objectForKey:@"act_id"] forKey:@"args[act_id]"];
+    [postDict setObject:@"JSON" forKey:@"format"];
+    [postDict setObject:@"Activity.detail" forKey:@"method"];
+    [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+    if ([[courseDict objectForKey:@"c_id"] intValue] == 0) {
+        
+        [postDict setObject:[courseDict objectForKey:@"cro_id"] forKey:@"args[cro_id]"];
+        
+    }else{
+        [postDict setObject:[courseDict objectForKey:@"c_id"] forKey:@"args[c_id]"];
+        
+    }
+    NSString *strSign=[ToolClass getSign:postDict];
+    [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+    
+    
+    NSLog(@"postdict is %@",postDict);
+    
+    for(int i=0;i<[[postDict allKeys] count];i++){
+        
+        [requestOther setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+    }
+    [requestOther buildPostBody];
+    [requestOther setTimeOutSeconds:30];
+    [requestOther startAsynchronous];
+    [requestOther setDidFinishSelector:@selector(mySuccessDetail2:)];
+    [requestOther setDidFailSelector:@selector(myError:)];
+    
+    
+    [postDict release];
+    [strSign release];
+
+
+}
+
+
+#pragma mark 活动详情
+-(void)mySuccessDetail2:(id)sender{
+    NSString *str=[sender responseString];
+    NSMutableDictionary *tempDict = [str JSONValue];
+    
+    if (dataMuarr) {
+        [dataMuarr removeAllObjects];
+        [dataMuarr release];
+        dataMuarr = nil;
+        
+    }
+    [myTable reloadData];
+    
+    if (act_type == 1 || act_type == 2) {
+        if ([[tempDict objectForKey:@"status"] intValue] == 1) {
+            
+            dataMuarr = [[[[tempDict objectForKey:@"info"] objectForKey:@"list"] objectForKey:@"topic"] mutableCopy];
+            //先用线程下载图片，然后再刷新table
+            [NSThread detachNewThreadSelector:@selector(DownImage:) toTarget:self withObject:dataMuarr];
+        }
+       
+
+
+    }else if(act_type ==3){
+        
+        if ([[tempDict objectForKey:@"status"] intValue] == 1) {
+            
+            dataMuarr = [[NSMutableArray alloc] init];
+            
+            [dataMuarr addObject:[[tempDict objectForKey:@"info"] objectForKey:@"list"]];
+            [NSThread detachNewThreadSelector:@selector(DownImageAct_Note:) toTarget:self withObject:dataMuarr];
+            
+            NSLog(@"dataMuarr is %@",dataMuarr);
+        }
+       
+        
+    }
+    else if(act_type == 4){
+        if ([[tempDict objectForKey:@"status"] intValue] == 1) {
+        
+            dataMuarr = [[[[tempDict objectForKey:@"info"] objectForKey:@"list"] objectForKey:@"link"] mutableCopy];
+            
+            [myTable reloadData];
+        }
+        
+    }else if(act_type == 5){
+        
+        if ([[tempDict objectForKey:@"status"] intValue] == 1) {
+        
+            
+            if ([[[[tempDict objectForKey:@"info"] objectForKey:@"list"] objectForKey:@"resource"] isEqual:[NSNull null]]== NO) {
+                dataMuarr = [[[[tempDict objectForKey:@"info"] objectForKey:@"list"] objectForKey:@"resource"] mutableCopy];
+                
+                
+            }else{
+                dataMuarr = [[NSMutableArray alloc] init];
+            }
+            [myTable reloadData];
+        }
+       
+        
+    }
+    NSLog(@"tempDict is %@",tempDict);
+
+}
+//下载文本图片
+-(void)DownImageAct_Note:(NSMutableArray *)tempArr{
+    
+    NSAutoreleasePool *pool=[[NSAutoreleasePool alloc]init];
+    
+    
+    
+    for (int i=0; i<[tempArr count]; i++) {
+        
+        NSMutableDictionary *dict=[tempArr objectAtIndex:i];
+        
+        NSString *strImgURL=[dict objectForKey:@"act_note"];
+        
+        NSString *strFile=[FileManageUnit getFile:strImgURL];
+        
+        if([FileManageUnit fileIsExist:strFile]==NO){
+            
+            NSData *imgData = [[[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:strImgURL]] autorelease];
+            
+            UIImage *image=[[UIImage alloc]initWithData:imgData];
+            if(image){
+                [dict setObject:image forKey:@"image"];
+                [image release];
+            }
+            if (strFile) {
+                [imgData writeToFile:strFile atomically:YES];
+                
+            }
+            
+        }else{
+            NSData *imgData = [[[NSData alloc] initWithContentsOfFile:strFile] autorelease];
+            
+            UIImage *image=[[UIImage alloc]initWithData:imgData];
+            if(image){
+                [dict setObject:image forKey:@"image"];
+                [image release];
+            }
+        }
+        
+    }
+    
+    [self performSelectorOnMainThread:@selector(flushTable) withObject:nil waitUntilDone:NO];
+    
+    
+    [pool drain];
+}
+//下载作业，练习图片
+-(void)DownImage:(NSMutableArray *)tempArr{
+    
+    NSAutoreleasePool *pool=[[NSAutoreleasePool alloc]init];
+    
+    
+    
+    for (int i=0; i<[tempArr count]; i++) {
+        
+        NSMutableDictionary *dict=[tempArr objectAtIndex:i];
+        
+        NSString *strImgURL=[dict objectForKey:@"path"];
+        
+        NSString *strFile=[FileManageUnit getFile:strImgURL];
+        
+        if([FileManageUnit fileIsExist:strFile]==NO){
+            
+            NSData *imgData = [[[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:strImgURL]] autorelease];
+            
+            UIImage *image=[[UIImage alloc]initWithData:imgData];
+            if(image){
+                [dict setObject:image forKey:@"image"];
+                [image release];
+            }
+            if (strFile) {
+                [imgData writeToFile:strFile atomically:YES];
+                
+            }
+            
+        }else{
+            NSData *imgData = [[[NSData alloc] initWithContentsOfFile:strFile] autorelease];
+            
+            UIImage *image=[[UIImage alloc]initWithData:imgData];
+            if(image){
+                [dict setObject:image forKey:@"image"];
+                [image release];
+            }
+        }
+        
+    }
+    
+    [self performSelectorOnMainThread:@selector(flushTable) withObject:nil waitUntilDone:NO];
+    
+    
+    [pool drain];
+}
+-(void)flushTable{
+    
+    [myTable reloadData];
+}
+
+#pragma mark 点击活动
+-(void)topMenuAction:(UIButton *)btn{
+    
+    if (stuAnswerDict) {
+        
+        [stuAnswerDict removeAllObjects];
+        [stuAnswerDict release];
+        stuAnswerDict = nil;
+        
+        if (stuPicAnsDict) {
+            [stuPicAnsDict removeAllObjects];
+            [stuPicAnsDict release];
+            stuPicAnsDict = nil;
+        }
+    }
+    
+    pretopselect = btn.tag;
+    act_type = [[[contentArray objectAtIndex:btn.tag - 10] objectForKey:@"act_type"] intValue];
+    
+    backImageTable.isDisplay = NO;
+    [backImageTable lrBtnAction:backImageTable.lrBtn];
+    [backImageTable changeTitle:[[contentArray objectAtIndex:btn.tag - 10] objectForKey:@"act_title"]];
+    if (act_type == 1) {
+        
+        [backImageTable showUI:4];
+
+    }else if(act_type ==2){
+    
+        [backImageTable showUI:2];
+        
+    }else{
+        [backImageTable showUI:1];
+
+    }
+    zhuxing.hidden = YES;
+    stuView.hidden = YES;
+    myTable.frame = CGRectMake(70, 60, 660, 608);
+    
+    
+    
+    [self getActDetail];
+   
+    
+    
+        
+}
+#pragma mark 请求学生列表
+-(void)getStudentList{
+    
+    if (requestOther) {
+        [requestOther cancel];
+        requestOther.delegate=nil;
+        [requestOther release];
+        requestOther = nil;
+    }
+    NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+    NSString *timeString =[ToolClass getCurretDate];
+    requestOther=[[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/Api",dele.server_Address_str]]];
+    [requestOther setDelegate:self];
+        
+    NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+    [postDict setObject:timeString forKey:@"ts"];
+    [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+    [postDict setObject:@"JSON" forKey:@"format"];
+    [postDict setObject:@"Class.students" forKey:@"method"];
+    [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+    if ([[courseDict objectForKey:@"c_id"] intValue] == 0) {
+        
+        [postDict setObject:[courseDict objectForKey:@"cro_id"] forKey:@"args[cro_id]"];
+        
+    }else{
+        [postDict setObject:[courseDict objectForKey:@"c_id"] forKey:@"args[c_id]"];
+        
+    }
+    NSString *strSign=[ToolClass getSign:postDict];
+    [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+    
+    
+    NSLog(@"postdict is %@",postDict);
+    
+    for(int i=0;i<[[postDict allKeys] count];i++){
+        
+        [requestOther setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+    }
+    [requestOther buildPostBody];
+    [requestOther setTimeOutSeconds:30];
+    [requestOther startAsynchronous];
+    [requestOther setDidFinishSelector:@selector(mySuccessTudent:)];
+    [requestOther setDidFailSelector:@selector(myError:)];
+    
+    
+    [postDict release];
+    [strSign release];
+}
+#pragma mark 得到学生列表
+-(void)mySuccessTudent:(id)sender{
+    
+    NSString *str = [sender responseString];
+    NSMutableArray *muArr = [str JSONValue];
+    
+    if (dataMuarr) {
+        [dataMuarr removeAllObjects];
+        [dataMuarr release];
+        dataMuarr = nil;
+        
+    }
+    
+    dataMuarr = [muArr mutableCopy];
+    
+    NSMutableString *muStr=[[NSMutableString alloc]init];
+    NSMutableArray  *studentArr=[muArr mutableCopy];
+    studentTotal = [studentArr count];
+    for (int i=0; i<[studentArr count]; i++) {
+        NSMutableDictionary *muDict=[studentArr objectAtIndex:i];
+        if (i<[studentArr count]-1) {
+            [muStr appendFormat:@"%@,",[muDict objectForKey:@"a_account"]];
+        }else{
+            [muStr appendFormat:@"%@",[muDict objectForKey:@"a_account"]];
+            
+        }
+    }
+    NSLog(@"muStr is %@",muStr);
+    //把当前的在线用户，以zhangsan,lis,分割开来。
+    [[NSUserDefaults standardUserDefaults] setObject:muStr forKey:@"muStr"];
+    
+    
+    if (requestOnline) {
+        [requestOnline cancel];
+        requestOnline.delegate=nil;
+        [requestOnline release];
+        requestOnline=nil;
+    }
+    
+    NSString *strURL=[NSString stringWithFormat:@"http://%@:%@/onlines?unames=%@",dele.push_server_Address,portStr,muStr];
+    
+    requestOnline=[[ASIHTTPRequest alloc]initWithURL:[NSURL URLWithString:strURL]];
+    [requestOnline setDelegate:self];
+    [requestOnline setTimeOutSeconds:20];
+    [requestOnline setDidFinishSelector:@selector(requestOnlineSuccess:)];
+    [requestOnline setDidFailSelector:@selector(requestOnlineError:)];
+    [requestOnline startAsynchronous];
+    
+    
+    [muStr release];
+    muStr = nil;
+    
+    //[myTable reloadData];
+    NSLog(@"muArr is %@",muArr);
+}
+-(void)requestOnlineSuccess:(id)sender{
+    
+    NSString *str=[sender responseString];
+    NSMutableDictionary *onLineDict = [str JSONValue];
+    
+    
+    NSLog(@"ondict is %@",onLineDict);
+
+    
+    
+    for (int i=0; i<[dataMuarr count]; i++) {
+        NSMutableDictionary *dict=[dataMuarr objectAtIndex:i];
+
+        
+        if ([[onLineDict objectForKey:[dict objectForKey:@"a_account"]] intValue]==1) {
+            
+            [dict setObject:@"YES" forKey:@"onLine"];
+        }else{
+
+             [dict setObject:@"NO" forKey:@"onLine"];
+        }
+        
+    }
+    [myTable reloadData];
+}
+-(void)requestOnlineError:(id)sender{
+    
+}
+
+-(void)aouthStudent:(NSMutableDictionary *)muDict{
+    
+    [UIView animateWithDuration:0.3 animations:^(void){
+        
+        backImageTable.frame = CGRectMake(960, 0, 770, 740);
+    }];
+    [backImageTable.lrBtn setImage:[UIImage imageNamed:@"n展开.png"] forState:UIControlStateNormal];
+    backImageTable.isDisplay = NO;
+    
+    UIImage *screenImage = [ToolClass imageFromView:self.view];
+    NSData *data=UIImageJPEGRepresentation(screenImage, 1);
+    theStuDict = muDict;
+    [theStuDict setObject:screenImage forKey:@"image"];
+    
+    NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+    if (requestOther) {
+        [requestOther cancel];
+        requestOther.delegate=nil;
+        [requestOther release];
+        requestOther=nil;
+    }
+    requestOther = [[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/Api",dele.server_Address_str]]];
+    [requestOther setDelegate:self];
+    
+    
+    NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+    
+    NSString *timeString =[ToolClass getCurretDate];
+    [postDict setObject:timeString forKey:@"ts"];
+    [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+
+    [postDict setObject:@"JSON" forKey:@"format"];
+    [postDict setObject:@"Auth.picture" forKey:@"method"];
+    [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+    
+    NSString *strSign=[ToolClass getSign:postDict];
+    //NSLog(@"strSign is %@",strSign);
+    [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+    for(int i=0;i<[[postDict allKeys] count];i++){
+        
+        [requestOther setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+    }
+    NSLog(@"postdict is %@",postDict);
+     
+    [requestOther addData:data withFileName:[NSString stringWithFormat:@"%@.png",[dict objectForKey:@"auth_id"]] andContentType:@"image/png" forKey:@"picture"];
+    
+    
+    [requestOther buildPostBody];
+    [requestOther setTimeOutSeconds:30];
+    [requestOther startAsynchronous];
+    [requestOther setDidFinishSelector:@selector(mySuccessImage:)];
+    [requestOther setDidFailSelector:@selector(myError:)];
+    
+    [postDict release];
+    [strSign release];
+
+    
+
+}
+//授权学生或者截屏的请求。
+-(void)autoToStudent:(NSString *)strBody{
+    //theStuDict
+    
+    NSString *strUser=[[NSUserDefaults standardUserDefaults] objectForKey:@"textUserName"];
+    NSString *strPass=[[NSUserDefaults standardUserDefaults] objectForKey:@"textPassword"];
+    NSString *contentLength=[NSString stringWithFormat:@"%d",[strBody length]];
+    
+    
+    NSMutableDictionary *mudict=[ToolClass getSocektHeadDict:strUser pass:strPass auth_type:@"2" auth_version:IOS_VERSION contentLength:contentLength contentype:@"" receiver:[theStuDict objectForKey:@"a_account"]];
+    
+    NSString *strHead=[ToolClass getSocketHead:mudict];
+    
+    NSString *reqestString=[NSString stringWithFormat:@"%@%@",strHead,strBody];
+    
+    [[StreamSocket sharedStream] requestData:reqestString whoRequest:nil condition:0];
+
+    [mudict release];
+    [strHead release];
+}
+-(void)mySuccessImage:(id)sender{
+    
+    NSString *str = [sender responseString];
+    NSMutableDictionary *tempDict = [str JSONValue];
+    if (tempDict) {
+        NSString *strURL = [tempDict objectForKey:@"url"];
+        if (strURL) {
+            
+            NSString *strUser=[[NSUserDefaults standardUserDefaults] objectForKey:@"textUserName"];
+
+            NSString *strBody=[NSString stringWithFormat:@"{\"type\":\"11\",\"content\":\"%@\",\"teacher\":\"%@\"}",strURL,strUser];
+
+            
+            NSInvocationOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(autoToStudent:) object:strBody];
+            [dele._queue addOperation:operation];
+            [operation release];
+            
+            
+            AouthViewController *nextVc = [[AouthViewController alloc]init];
+            nextVc.autoDict = theStuDict;
+            [self.navigationController pushViewController:nextVc animated:YES];
+            [nextVc release];
+        }
+
+    }
+        
+    NSLog(@"str is %@",str);
+}
+
+-(void)checkStudentStatue:(NSDictionary *)muDict{
+    
+    theStuDict = (NSMutableDictionary *)muDict;
+    //让学生截屏
+    NSString *strUser=[[NSUserDefaults standardUserDefaults] objectForKey:@"textUserName"];
+    NSString *strBody=[NSString stringWithFormat:@"{\"type\":\"13\",\"teacher\":\"%@\"}",strUser];
+    
+    
+    NSInvocationOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(autoToStudent:) object:strBody];
+    [dele._queue addOperation:operation];
+    [operation release];
+}
+
+#pragma mark 请求板书列表
+-(void)getBanshuList{
+    
+    NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+    if (requestOther) {
+        [requestOther cancel];
+        requestOther.delegate=nil;
+        [requestOther release];
+        requestOther=nil;
+    }
+    requestOther = [[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/Api",dele.server_Address_str]]];
+    [requestOther setDelegate:self];
+    
+    
+    NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+    
+    NSString *timeString =[ToolClass getCurretDate];
+    [postDict setObject:timeString forKey:@"ts"];
+    [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+    [postDict setObject:[hourDict objectForKey:@"cl_id"] forKey:@"args[cl_id]"];
+    [postDict setObject:@"JSON" forKey:@"format"];
+    [postDict setObject:@"ClasshourPackage.lists" forKey:@"method"];
+    [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+    
+    NSString *strSign=[ToolClass getSign:postDict];
+    //NSLog(@"strSign is %@",strSign);
+    [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+    for(int i=0;i<[[postDict allKeys] count];i++){
+        
+        [requestOther setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+    }
+    NSLog(@"postdict is %@",postDict);
+    
+    
+    
+    [requestOther buildPostBody];
+    [requestOther setTimeOutSeconds:30];
+    [requestOther startAsynchronous];
+    [requestOther setDidFinishSelector:@selector(mySuccessPacketList:)];
+    [requestOther setDidFailSelector:@selector(myError:)];
+    
+    [postDict release];
+    [strSign release];
+}
+
+//控制屏幕
+-(void)handelScreen:(NSString *)strBody{
+    
+    
+    NSString *strUser=[[NSUserDefaults standardUserDefaults] objectForKey:@"textUserName"];
+    NSString *strPass=[[NSUserDefaults standardUserDefaults] objectForKey:@"textPassword"];
+    NSString *contentLength=[NSString stringWithFormat:@"%d",[strBody length]];
+    
+    NSString *strReceiver=[[NSUserDefaults standardUserDefaults]objectForKey:@"muStr"];
+    
+    NSMutableDictionary *mudict=[ToolClass getSocektHeadDict:strUser pass:strPass auth_type:@"2" auth_version:IOS_VERSION contentLength:contentLength contentype:@"" receiver:strReceiver];
+    
+    NSString *strHead=[ToolClass getSocketHead:mudict];
+    
+    NSString *reqestString=[NSString stringWithFormat:@"%@%@",strHead,strBody];
+    
+    [[StreamSocket sharedStream] requestData:reqestString whoRequest:nil condition:0];
+    
+    [mudict release];
+    [strHead release];
+    
+    
+}
+#pragma mark 左侧工具栏
+-(void)rightMenuAction:(UIButton *)btn{
+    
+    selectImageview.hidden = NO;
+    selectImageview.frame = CGRectMake(1, (btn.tag-20)*80, 82, 82);
+    
+    if (btn.tag == 20) {
+        
+        //1为锁屏，0为解屏
+        int flag = [[[NSUserDefaults standardUserDefaults] objectForKey:@"isSuoping"] intValue];
+        if (flag == 0) {
+            
+           
+            [btn setImage:[UIImage imageNamed:@"开屏2.png"] forState:UIControlStateNormal];
+            ((UILabel *)[btn viewWithTag:30]).text = @"解屏";
+             flag = 1;
+            
+            NSString *strBody=@"{\"type\":\"5\",\"content\":\"\"}";
+            NSInvocationOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(handelScreen:) object:strBody];
+            [dele._queue addOperation:operation];
+            [operation release];
+        
+        }else{
+            
+            [btn setImage:[UIImage imageNamed:@"锁屏2.png"] forState:UIControlStateNormal];
+            ((UILabel *)[btn viewWithTag:30]).text = @"锁屏";
+            flag = 0;
+            
+            NSString *strBody=@"{\"type\":\"6\",\"content\":\"\"}";
+            NSInvocationOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(handelScreen:) object:strBody];
+            [dele._queue addOperation:operation];
+            [operation release];
+        }
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:flag] forKey:@"isSuoping"];
+        NSLog(@"fage is %d",flag);
+    }else if(btn.tag == 21){
+    
+        float r,g,b;
+        r = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_r"] floatValue];
+        g = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_g"] floatValue];
+        b = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_b"] floatValue];        
+        UIColor *color = [UIColor colorWithRed:r green:g blue:b alpha:1];
+        smoothView.lineColor = color;
+        smoothView.lineWidth = [[[NSUserDefaults standardUserDefaults] objectForKey:@"width"] floatValue];
+        smoothView.isNeedDraw = YES;
+    }else if(btn.tag == 22){
+        smoothView.lineWidth = [[[NSUserDefaults standardUserDefaults] objectForKey:@"clear_width"] floatValue];
+        smoothView.lineColor = [UIColor clearColor];
+        smoothView.isNeedDraw = YES;
+    }else if(btn.tag == 23){
+        
+        caogaoView.hidden = NO;
+        [self.view bringSubviewToFront:caogaoView];
+        
+    }else if(btn.tag == 24){
+    
+        
+        
+        [UIView animateWithDuration:0.3 animations:^(void){
+            backImageTable.frame = CGRectMake(1024-770, 0, 770, 748);
+            backImageTable.isDisplay = YES;
+        }];
+
+       
+        [backImageTable showUI:1];
+        [backImageTable changeTitle:@"学生列表"];
+        zhuxing.hidden = YES;
+        stuView.hidden = YES;
+        myTable.frame = CGRectMake(70, 60, 660, 608);
+        
+        
+        
+        act_type = -1;//表示是学生列表
+        
+        rightSelect = btn.tag;
+        
+        [self getStudentList];
+    }
+    else if(btn.tag == 25){
+     
+        [backImageTable showUI:1];
+        [backImageTable changeTitle:@"板书列表"];
+        zhuxing.hidden = YES;
+        stuView.hidden = YES;
+        myTable.frame = CGRectMake(70, 60, 660, 608);
+        
+        [UIView animateWithDuration:0.3 animations:^(void){
+            backImageTable.frame = CGRectMake(1024-770, 0, 770, 748);
+            backImageTable.isDisplay = YES;
+        }];
+
+        
+        act_type = 0; //表示是板书列表
+        
+    
+        rightSelect = btn.tag;
+        
+        [self getBanshuList];
+
+    
+        
+    }else if(btn.tag == 26){
+    
+        rightSelect = btn.tag;
+        
+        save  = [[SaveView alloc] initWithFrame:CGRectMake(0, 0, 1024, 748)];
+        save.delegate = self;
+        [self.view addSubview:save];
+        [save release];
+        
+        [self getBanshuList];
+    }
+   
+}
+#pragma mark 板书列表
+-(void)mySuccessPacketList:(id)sender{
+    
+    NSString *str = [sender responseString];
+    NSMutableArray *muarr = [str JSONValue];
+    
+    if (rightSelect == 25) {
+        
+        [dataMuarr removeAllObjects];
+        [dataMuarr release];
+        dataMuarr = nil;
+        
+        dataMuarr = [muarr mutableCopy];
+        [myTable reloadData];
+    }else if(rightSelect == 26){
+    
+    
+        [save flushMytabel:muarr];
+    }
+    
+   
+    
+    
+    NSLog(@"muarr is %@",muarr);
+    
+}
+#pragma mark 板书代理
+-(void)handleBanshu:(CCButton *)btn{
+    
+    
+    intMessage = btn.tag;
+
+    
+    
+    if (btn.tag == 10) {
+        
+        NSString *dbName =[NSString stringWithFormat:@"%@.db",@"cl_id"];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentDirectory = [paths objectAtIndex:0];
+        NSString *dbPath = [documentDirectory stringByAppendingPathComponent:dbName];
+        
+        
+        
+        NSString *strURL=[btn.btnDict objectForKey:@"cpa_path"];
+        NSURL *url=[NSURL URLWithString:strURL];
+        ASIHTTPRequest *requestBanshu = [ASIHTTPRequest requestWithURL:url];
+        requestBanshu.delegate = self;
+        [requestBanshu setTimeOutSeconds:50];
+        [requestBanshu setDownloadDestinationPath:dbPath];
+        [requestBanshu setDidFailSelector:@selector(failWithErrorDb:)];
+        [requestBanshu setDidFinishSelector:@selector(successDb:)];
+        [requestBanshu startAsynchronous];
+        
+        
+        
+    }else if(btn.tag == 11){//设置为膜版。
+        
+    
+        NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+        if (requestOther) {
+            [requestOther cancel];
+            requestOther.delegate=nil;
+            [requestOther release];
+            requestOther=nil;
+        }
+        requestOther = [[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/Api",dele.server_Address_str]]];
+        [requestOther setDelegate:self];
+        
+        
+        NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+        NSString *timeString =[ToolClass getCurretDate];
+        [postDict setObject:timeString forKey:@"ts"];
+        [postDict setObject:[btn.btnDict objectForKey:@"cpa_id"] forKey:@"args[cpa_id]"];
+        [postDict setObject:[courseDict objectForKey:@"co_id"] forKey:@"args[co_id]"];
+        [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+        [postDict setObject:[hourDict objectForKey:@"cl_id"] forKey:@"args[cl_id]"];
+        [postDict setObject:[ToolClass encodeURL:[btn.btnDict objectForKey:@"cpa_title"]] forKey:@"args[cpa_title]"];
+        [postDict setObject:@"2" forKey:@"args[cpa_status]"];
+        [postDict setObject:@"JSON" forKey:@"format"];
+        [postDict setObject:@"ClasshourPackage.update" forKey:@"method"];
+        [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+        NSString *strSign=[ToolClass getSign:postDict];
+        [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+        
+        for(int i=0;i<[[postDict allKeys] count];i++){
+            
+            [requestOther setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+        }
+        NSLog(@"postdict is %@",postDict);
+        
+        [requestOther buildPostBody];
+        [requestOther setTimeOutSeconds:30];
+        [requestOther startAsynchronous];
+        [requestOther setDidFinishSelector:@selector(mySuccessPacket:)];
+        [requestOther setDidFailSelector:@selector(myError:)];
+        
+        
+        [postDict release];
+        [strSign release];
+        
+    }else{
+        needDeleDict = (NSMutableDictionary *)btn.btnDict;
+        
+        NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+        if (requestOther) {
+            [requestOther cancel];
+            requestOther.delegate=nil;
+            [requestOther release];
+            requestOther=nil;
+        }
+        requestOther = [[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/Api",dele.server_Address_str]]];
+        [requestOther setDelegate:self];
+        
+        
+        NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+        NSString *timeString =[ToolClass getCurretDate];
+        [postDict setObject:timeString forKey:@"ts"];
+        [postDict setObject:[btn.btnDict objectForKey:@"cpa_id"] forKey:@"args[cpa_id]"];
+        [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+        [postDict setObject:@"JSON" forKey:@"format"];
+        [postDict setObject:@"ClasshourPackage.remove" forKey:@"method"];
+        [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+        NSString *strSign=[ToolClass getSign:postDict];
+        [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+        
+        for(int i=0;i<[[postDict allKeys] count];i++){
+            
+            [requestOther setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+        }
+        NSLog(@"postdict is %@",postDict);
+        
+        [requestOther buildPostBody];
+        [requestOther setTimeOutSeconds:30];
+        [requestOther startAsynchronous];
+        [requestOther setDidFinishSelector:@selector(mySuccessDeleate:)];
+        [requestOther setDidFailSelector:@selector(myError:)];
+        
+        
+        [postDict release];
+        [strSign release];
+    }
+}
+-(void)mySuccessDeleate:(id)sender{
+    
+    NSString *str=[sender responseString];
+    NSMutableDictionary *muDict = [str JSONValue];
+    if ([[muDict objectForKey:@"status"] intValue] == 1) {
+        
+        NSString *strMessage = @"删除成功!";
+        
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:strMessage delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+        
+        [dataMuarr removeObject:needDeleDict];
+        [myTable reloadData];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"操作失败!" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+    }
+}
+
+#pragma mark uitabledelegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+   
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    
+    if (act_type == -1) {
+        return 1;
+    }
+    
+    return [dataMuarr count];
+    
+    
+    
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    return nil;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    return 0;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+   
+
+    if (act_type == 1 || act_type == 2) {
+        
+        NSDictionary *dict=[dataMuarr objectAtIndex:indexPath.row];
+        
+        UIImage *myImage=[dict objectForKey:@"image"];
+        float height=0;
+        
+        if (myImage) {
+            
+            height+=myImage.size.height;
+            
+        }
+        height += 40;
+        
+        if (stuAnswerDict) {//如果学生答案存在的话，同时也显示正确答案。
+            
+            if ([[dict objectForKey:@"to_type"] intValue] == 5) {
+                
+                NSString *answer1 = [[[dict objectForKey:@"to_answer"] JSONValue] objectAtIndex:0];
+               CGSize size1= [ToolClass getSizeFromText:[NSString stringWithFormat:@"正确答案:\t\t%@",answer1] textWidth:620 fontSize:16 isBold:YES];
+                height += size1.height;
+                
+                
+                NSString *answer2 = [stuAnswerDict objectForKey:[dict objectForKey:@"to_id"]];
+                CGSize size2 = [ToolClass getSizeFromText:[NSString stringWithFormat:@"学生答案:\t\t%@",answer2] textWidth:620 fontSize:16 isBold:YES];
+                height += size2.height;
+                
+                
+                height +=40;
+                
+                if (stuPicAnsDict) {
+                    height +=40;//如果有图片了，再加上个40
+                }
+            }else{
+                 height +=90;
+            }
+            
+            
+        }else{
+            height +=90;
+        }
+        
+        return height;
+    }
+    if (act_type ==3) {
+        NSDictionary *dict=[dataMuarr objectAtIndex:indexPath.row];
+        
+        UIImage *myImage=[dict objectForKey:@"image"];
+        float height=0;
+        
+        if (myImage) {
+            
+            height+=myImage.size.height;
+            
+        }
+        height += 10;
+        
+        return height;
+    }
+    if (act_type == 4) {
+        return 80;
+    }
+    if (act_type == 5) {
+        return 135;
+    }
+    if (act_type == -1) {
+        
+        return 125*([dataMuarr count]/2+1);
+    }
+    if (act_type == 0) {
+        return 80;
+    }
+    
+    return 0;
+}
+
+#pragma mark homeworkDelegate
+-(void)clickImagesToBroad:(CCButton *)btn{
+    
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.5;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [transition setType:@"zoomyIn"];
+    transition.subtype = kCATransitionFromRight;
+    [self.navigationController.view.layer addAnimation:transition forKey:nil];
+    
+    
+    
+    NSLog(@"btn %@,%d",btn.btnDict,btn.tag);
+    AnsImageViewController *ansView = [[AnsImageViewController alloc] init];
+    ansView.startVc = self;
+    ansView.whichOne = btn.tag - 10;
+    ansView.muArr = [stuPicAnsDict objectForKey:[btn.btnDict objectForKey:@"to_id"]];
+    //[ansView setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    [self.navigationController pushViewController:ansView animated:NO];
+    //[self presentModalViewController:ansView animated:YES];
+    [ansView release];
+    
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    /*
+     cell
+     
+     BianlunCell *cell = [tableView dequeueReusableCellWithIdentifier:strCell];
+     if (cell == nil) {
+     cell = [[BianlunCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:strCell];
+     
+     }
+     [cell hideUI:YES];
+     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+     return cell;
+     
+     
+     LiuyanCell *cell = [tableView dequeueReusableCellWithIdentifier:strCell];
+     if (cell == nil) {
+     cell = [[LiuyanCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:strCell];
+     
+     }
+     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+     return cell;
+     */
+
+    NSString *strCell = [NSString stringWithFormat:@"cell%d",act_type];
+    if (act_type == 1 || act_type == 2) {
+        NSMutableDictionary *dict = [dataMuarr objectAtIndex:indexPath.row];
+        
+        HomeWorkCell *cell = [tableView dequeueReusableCellWithIdentifier:strCell];
+        if (cell == nil) {
+            cell = [[[HomeWorkCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:strCell] autorelease];
+            
+        }
+        cell.delegate = self;
+        NSString *answer1 = @"";
+        NSString *answer2 = @"";
+        
+        
+        if (stuAnswerDict) {
+            
+            answer2 = [stuAnswerDict objectForKey:[dict objectForKey:@"to_id"]];
+            
+            if ([[dict objectForKey:@"to_type"] intValue] == 1) {
+                answer1 = [[[dict objectForKey:@"to_answer"] JSONValue] objectAtIndex:0];
+
+                
+                answer1 = [ToolClass getAnswer:answer1];
+                answer2 = [ToolClass getAnswer:answer2];
+                
+            }else if([[dict objectForKey:@"to_type"] intValue] == 2){
+                
+                answer1 = [[[dict objectForKey:@"to_answer"] JSONValue] objectAtIndex:0];
+                answer1 = [ToolClass getMoreAnswer:answer1];
+    
+                answer2 = [ToolClass getMoreAnswer:answer2];
+                
+            }else if([[dict objectForKey:@"to_type"] intValue] == 3){
+
+                answer1 = [ToolClass getKong:[[dict objectForKey:@"to_answer"] JSONValue]];
+                answer2 = [ToolClass getKong:[answer2 JSONValue]];
+                
+            }else if([[dict objectForKey:@"to_type"] intValue] == 4){
+                
+                answer1 = [[[dict objectForKey:@"to_answer"] JSONValue] objectAtIndex:0];
+                
+                answer1 = [ToolClass getPanduan:answer1];
+                answer2 = [ToolClass getPanduan:answer2];
+                
+                
+            }else if([[dict objectForKey:@"to_type"] intValue] == 5){
+                
+                answer1 = [[[dict objectForKey:@"to_answer"] JSONValue] objectAtIndex:0];
+            
+            }
+            
+           
+        }
+        NSArray *array = [stuPicAnsDict objectForKey:[dict objectForKey:@"to_id"]];
+        [cell updateCell:dict index:indexPath.row answer1:answer1 answer2:answer2 picArray:array];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+        
+    }else if(act_type == 3){
+        NSMutableDictionary *dict = [dataMuarr objectAtIndex:indexPath.row];
+        
+        
+        ActNoteCell *cell = [tableView dequeueReusableCellWithIdentifier:strCell];
+        if (cell == nil) {
+            cell = [[ActNoteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:strCell];
+            
+        }
+        [cell updateCell:dict];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+        
+    }else if(act_type == 4){
+        NSMutableDictionary *dict = [dataMuarr objectAtIndex:indexPath.row];
+        
+        
+        LianjieCell *cell = [tableView dequeueReusableCellWithIdentifier:strCell];
+        if (cell == nil) {
+            cell = [[LianjieCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:strCell];
+            
+        }
+        [cell updateCell:dict];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+        
+    }else if(act_type == 5){
+        NSMutableDictionary *dict = [dataMuarr objectAtIndex:indexPath.row];
+        
+        
+        ZiyuanCell *cell = [tableView dequeueReusableCellWithIdentifier:strCell];
+        if (cell == nil) {
+            cell = [[ZiyuanCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:strCell];
+            
+        }
+        [cell changeUI:dict];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+        
+    }else if(act_type == -1){
+        
+
+        
+        StudentCell *cell = [tableView dequeueReusableCellWithIdentifier:strCell];
+        if (cell == nil) {
+            cell = [[StudentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:strCell];
+
+        }
+        cell.delegate = self;
+        [cell changUIFromDict:dataMuarr];
+
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+        return cell;
+        
+    }else if(act_type == 0){
+        NSMutableDictionary *dict = [dataMuarr objectAtIndex:indexPath.row];
+
+        BanshuListCell *cell = [tableView dequeueReusableCellWithIdentifier:strCell];
+        if (cell == nil) {
+            cell = [[BanshuListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:strCell];
+            
+        }
+        cell.delegate = self;
+        [cell updateCell:dict];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+        return cell;
+    }
+    
+    
+       
+    
+    /*
+    
+   
+     */
+   
+    return nil;
+}
+
+#pragma mark 删除编辑subview
+-(void)removeMyselfAudioView:(AudioView *)view{
+    
+    for (int i=0; i<[subViewsArr count]; i++) {
+        NSMutableDictionary *dict = [subViewsArr objectAtIndex:i];
+        if ([[dict objectForKey:@"tag"] intValue] == view.tag) {
+            
+            NSString *str = [NSString stringWithFormat:@"DELETE FROM subviews WHERE vi_id = %@",[dict objectForKey:@"vi_id"]];
+            NSLog(@"str is %@",str);
+            [db executeUpdate:str];
+            [view stopPlay];
+        
+            
+            [subViewsArr removeObject:dict];
+            [view removeFromSuperview];
+            
+            
+            break;
+        }
+    }
+}
+
+-(void)editSelf:(SPUserResizableView *)v ccbtn:(CCButton*)btn{
+    
+    
+}
+
+-(void)removeSelf:(SPUserResizableView *)v{
+    
+    for (int i=0; i<[playVcArr count]; i++) {
+        MPMoviePlayerController *tempPlayer=(MPMoviePlayerController*)[playVcArr objectAtIndex:i];
+        if (tempPlayer.view==v.contentView) {
+            [tempPlayer stop];
+            [playVcArr removeObject:tempPlayer];
+        }
+    }
+    
+    for (int i=0; i<[subViewsArr count]; i++) {
+        NSMutableDictionary *dict = [subViewsArr objectAtIndex:i];
+        if ([[dict objectForKey:@"tag"] intValue] == v.tag) {
+            
+            NSString *str = [NSString stringWithFormat:@"DELETE FROM subviews WHERE vi_id = %@",[dict objectForKey:@"vi_id"]];
+            NSLog(@"str is %@",str);
+            [db executeUpdate:str];
+        
+            
+            [subViewsArr removeObject:dict];
+            [v removeFromSuperview];
+            
+            
+            break;
+        }
+    }
+    
+}
+//插入学生答案图片
+-(void)insert:(NSString *)strURL{
+    
+    [NSThread detachNewThreadSelector:@selector(downStuAnswerImage:) toTarget:self withObject:strURL];
+    
+}
+-(void)downStuAnswerImage:(NSString *)strURL{
+    
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    NSString *strImgURL = strURL;
+    NSString *strFile=[FileManageUnit getFile:strImgURL];
+    
+    UIImage *image;
+    if([FileManageUnit fileIsExist:strFile]==NO){
+        
+        NSData *imgData = [[[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:strImgURL]] autorelease];
+        image=[[UIImage alloc]initWithData:imgData];
+        [imgData writeToFile:strFile atomically:YES];
+            
+        
+    }else{
+        NSData *imgData = [[[NSData alloc] initWithContentsOfFile:strFile] autorelease];
+        image=[[UIImage alloc]initWithData:imgData];
+    }
+    
+    [self performSelectorOnMainThread:@selector(addImage:) withObject:image waitUntilDone:NO];
+    
+    [pool drain];
+}
+-(void)addImage:(UIImage *)image{
+    
+    
+    viewTag++;
+    [self addImageView:image frame:CGRectMake(0, 0, 0, 0) flag:NO tag:viewTag];
+    [image release];
+    //type 为1 图片
+    
+    NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+    [imageDict setObject:@"1" forKey:@"type"];
+    [imageDict setObject:[NSString stringWithFormat:@"%d",viewTag] forKey:@"tag"];
+    
+    //默认进来就插入数据库
+    
+    SPUserResizableView *imageview = (SPUserResizableView *)[self.view viewWithTag:[[imageDict objectForKey:@"tag"] intValue]];
+    UIImage *theImage = ((UIImageView *)imageview.contentView).image;
+    NSData *data = UIImagePNGRepresentation(theImage);
+    [db executeUpdate:@"INSERT INTO subviews(ha_id,type,x,y,width,height,tag,vi_bitmap) VALUES (?,?,?,?,?,?,?,?)",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"type"],[NSString stringWithFormat:@"%f",imageview.frame.origin.x],[NSString stringWithFormat:@"%f",imageview.frame.origin.y],[NSString stringWithFormat:@"%f",imageview.frame.size.width],[NSString stringWithFormat:@"%f",imageview.frame.size.height],[imageDict objectForKey:@"tag"], data];
+    
+    FMResultSet *rs = [db executeQuery:@"SELECT * FROM subviews WHERE ha_id = ? AND tag = ?",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"tag"]];
+    while ([rs next]) {
+        
+        NSLog(@"%@",[rs stringForColumn:@"vi_id"]);
+        [imageDict setObject:[rs stringForColumn:@"vi_id"] forKey:@"vi_id"];
+    }
+    
+    [subViewsArr addObject:imageDict];
+    [imageDict release];
+}
+
+#pragma mark addView
+-(void)addImageView:(UIImage *)imagePic frame:(CGRect)myFrame flag:(BOOL)isUserMyFrame tag:(int)view_tag{
+    
+    CGRect gripFrame=CGRectMake(100, 100, imagePic.size.width, imagePic.size.height);
+    if (isUserMyFrame == YES) {
+        gripFrame = myFrame;
+    }
+    UIImageView *imageView=[[UIImageView alloc]initWithImage:imagePic];
+    imageView.frame=CGRectMake(0, 0, gripFrame.size.width, gripFrame.size.height);
+    
+    SPUserResizableView *userResizableView = [[SPUserResizableView alloc] initWithFrame:gripFrame];
+    userResizableView.type = 0;
+    userResizableView.delegate=self;
+    userResizableView.contentView = imageView;
+    userResizableView.tag = view_tag;
+    [imageView release];
+    [self.view addSubview:userResizableView];
+    [userResizableView release];
+    
+}
+-(void)addMP3View:(NSDictionary *)dict frame:(CGRect)myFrame flag:(BOOL)isUserMyFrame tag:(int)view_tag{
+
+    CGRect gripFrame=CGRectMake(100, 100, 430, 100);
+    if (isUserMyFrame == YES) {
+        gripFrame = myFrame;
+    }
+    AudioView *viewPlay = [[AudioView alloc]initWithFrame:gripFrame];
+    viewPlay.deleDelegate = self;
+    viewPlay.backgroundColor = [UIColor clearColor];
+    viewPlay.tag = view_tag;
+    [self.view addSubview:viewPlay];
+    [viewPlay release];
+    
+    [viewPlay setStrURL:[dict objectForKey:@"ar_savename"]];
+    [viewPlay setlblTitle:[dict objectForKey:@"ar_title"]];
+
+}
+-(void)addMP4View:(NSDictionary *)dict frame:(CGRect)myFrame flag:(BOOL)isUserMyFrame tag:(int)view_tag{
+
+    CGRect gripFrame=CGRectMake(100, 100, 480, 300);
+    if (isUserMyFrame == YES) {
+        gripFrame = myFrame;
+    }
+    MPMoviePlayerController *player;
+    player = [[MPMoviePlayerController alloc]initWithContentURL:[NSURL URLWithString:[dict objectForKey:@"ar_savename"]]];
+    player.view.frame =CGRectMake(0, 0, gripFrame.size.width, gripFrame.size.height);
+    player.view.backgroundColor=[UIColor blackColor];
+    [player setControlStyle:MPMovieControlStyleDefault];
+    [player play];
+    [playVcArr addObject:player];
+    [player release];
+    
+    SPUserResizableView *userResizableView = [[SPUserResizableView alloc] initWithFrame:gripFrame];
+    userResizableView.contentView = player.view;
+    userResizableView.delegate=self;
+    userResizableView.tag  = view_tag;
+    [self.view addSubview:userResizableView];
+    [userResizableView release];
+    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    
+    NSDictionary *dict = [dataMuarr objectAtIndex:indexPath.row];
+    NSLog(@"dict is %@",dict);
+    if(act_type == 1 || act_type == 2 || act_type == 3){
+    
+        if ([dict objectForKey:@"image"]) {
+            
+            
+            //type 为1 图片
+            
+            UIImage *imagePic=[dict objectForKey:@"image"];
+            viewTag++;
+            [self addImageView:imagePic frame:CGRectMake(0, 0, 0, 0) flag:NO tag:viewTag];
+            
+            //type 为1 图片
+            
+            NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+            [imageDict setObject:@"1" forKey:@"type"];
+            [imageDict setObject:[NSString stringWithFormat:@"%d",viewTag] forKey:@"tag"];
+            
+            //默认进来就插入数据库
+            
+            SPUserResizableView *imageview = (SPUserResizableView *)[self.view viewWithTag:[[imageDict objectForKey:@"tag"] intValue]];
+            UIImage *theImage = ((UIImageView *)imageview.contentView).image;
+            NSData *data = UIImagePNGRepresentation(theImage);
+            [db executeUpdate:@"INSERT INTO subviews(ha_id,type,x,y,width,height,tag,vi_bitmap) VALUES (?,?,?,?,?,?,?,?)",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"type"],[NSString stringWithFormat:@"%f",imageview.frame.origin.x],[NSString stringWithFormat:@"%f",imageview.frame.origin.y],[NSString stringWithFormat:@"%f",imageview.frame.size.width],[NSString stringWithFormat:@"%f",imageview.frame.size.height],[imageDict objectForKey:@"tag"], data];
+            
+            FMResultSet *rs = [db executeQuery:@"SELECT * FROM subviews WHERE ha_id = ? AND tag = ?",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"tag"]];
+            while ([rs next]) {
+                
+                NSLog(@"%@",[rs stringForColumn:@"vi_id"]);
+                [imageDict setObject:[rs stringForColumn:@"vi_id"] forKey:@"vi_id"];
+            }
+            
+            [subViewsArr addObject:imageDict];
+            [imageDict release];
+        }
+        
+        
+        
+        
+        [UIView animateWithDuration:0.3 animations:^(void){
+            
+            backImageTable.frame = CGRectMake(960, 0, 770, 740);
+        }];
+        [backImageTable.lrBtn setImage:[UIImage imageNamed:@"n展开.png"] forState:UIControlStateNormal];
+        backImageTable.isDisplay = NO;
+        
+        
+    }else if(act_type == 5){
+    
+        if ([[dict objectForKey:@"m_id"] intValue] == 1) {//图片
+            [NSThread detachNewThreadSelector:@selector(loadOneImage:) toTarget:self withObject:dict];
+            
+        }else if([[dict objectForKey:@"m_id"]intValue] == 2){//视频
+        
+            if ([playVcArr count]==0) {
+                
+                [self addMP4View:dict frame:CGRectZero flag:NO tag:viewTag];
+                
+                NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+                [imageDict setObject:@"2" forKey:@"type"];
+                [imageDict setObject:[NSString stringWithFormat:@"%d",viewTag] forKey:@"tag"];
+                
+                
+                //默认进来就插入数据库
+                SPUserResizableView *imageview = (SPUserResizableView *)[self.view viewWithTag:[[imageDict objectForKey:@"tag"] intValue]];
+                
+                [db executeUpdate:@"INSERT INTO subviews(ha_id,type,x,y,width,height,tag,re_transpath,re_title) VALUES (?,?,?,?,?,?,?,?,?)",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"type"],[NSString stringWithFormat:@"%f",imageview.frame.origin.x],[NSString stringWithFormat:@"%f",imageview.frame.origin.y],[NSString stringWithFormat:@"%f",imageview.frame.size.width],[NSString stringWithFormat:@"%f",imageview.frame.size.height],[imageDict objectForKey:@"tag"],[dict objectForKey:@"ar_savename"],[dict objectForKey:@"ar_title"]];
+                
+                FMResultSet *rs = [db executeQuery:@"SELECT * FROM subviews WHERE ha_id = ? AND tag = ?",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"tag"]];
+                while ([rs next]) {
+                    
+                    NSLog(@"ididid=====    %@",[rs stringForColumn:@"vi_id"]);
+                    [imageDict setObject:[rs stringForColumn:@"vi_id"] forKey:@"vi_id"];
+                }
+                
+                [subViewsArr addObject:imageDict];
+                [imageDict release];
+            }else{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"视频只能添加一个！" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alert show];
+                [alert release];
+            }
+            
+            
+        }else if([[dict objectForKey:@"m_id"]intValue] == 3){//音频
+            
+            [self addMP3View:dict frame:CGRectZero flag:NO tag:viewTag];
+            
+            NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+            [imageDict setObject:@"3" forKey:@"type"];
+            [imageDict setObject:[NSString stringWithFormat:@"%d",viewTag] forKey:@"tag"];
+            
+            
+            //默认进来就插入数据库
+            SPUserResizableView *imageview = (SPUserResizableView *)[self.view viewWithTag:[[imageDict objectForKey:@"tag"] intValue]];
+
+            [db executeUpdate:@"INSERT INTO subviews(ha_id,type,x,y,width,height,tag,re_transpath,re_title) VALUES (?,?,?,?,?,?,?,?,?)",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"type"],[NSString stringWithFormat:@"%f",imageview.frame.origin.x],[NSString stringWithFormat:@"%f",imageview.frame.origin.y],[NSString stringWithFormat:@"%f",imageview.frame.size.width],[NSString stringWithFormat:@"%f",imageview.frame.size.height],[imageDict objectForKey:@"tag"],[dict objectForKey:@"ar_savename"],[dict objectForKey:@"ar_title"]];
+            
+            FMResultSet *rs = [db executeQuery:@"SELECT * FROM subviews WHERE ha_id = ? AND tag = ?",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"tag"]];
+            while ([rs next]) {
+                
+                NSLog(@"ididid=====    %@",[rs stringForColumn:@"vi_id"]);
+                [imageDict setObject:[rs stringForColumn:@"vi_id"] forKey:@"vi_id"];
+            }
+            
+            [subViewsArr addObject:imageDict];
+            [imageDict release];
+        }
+        
+        
+        
+        [UIView animateWithDuration:0.3 animations:^(void){
+            
+            backImageTable.frame = CGRectMake(960, 0, 770, 740);
+        }];
+        [backImageTable.lrBtn setImage:[UIImage imageNamed:@"n展开.png"] forState:UIControlStateNormal];
+        backImageTable.isDisplay = NO;
+        
+    }
+   
+
+}
+-(void)loadOneImage:(NSMutableDictionary *)dict{
+    
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    NSString *strImgURL = [dict objectForKey:@"ar_savename"];
+    NSString *strFile=[FileManageUnit getFile:strImgURL];
+    
+    if([FileManageUnit fileIsExist:strFile]==NO){
+        
+        NSData *imgData = [[[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:strImgURL]] autorelease];
+        
+        UIImage *image=[[UIImage alloc]initWithData:imgData];
+        if(image){
+            [dict setObject:image forKey:@"image"];
+            [image release];
+        }
+        if (strFile) {
+            [imgData writeToFile:strFile atomically:YES];
+            
+        }
+        
+    }else{
+        NSData *imgData = [[[NSData alloc] initWithContentsOfFile:strFile] autorelease];
+        
+        UIImage *image=[[UIImage alloc]initWithData:imgData];
+        if(image){
+            [dict setObject:image forKey:@"image"];
+            [image release];
+        }
+    }
+    
+    [self performSelectorOnMainThread:@selector(addResourImage:) withObject:dict waitUntilDone:NO];
+    
+    [pool drain];
+}
+-(void)addResourImage:(NSMutableDictionary *)dict{
+    
+    UIImage *imagePic=[dict objectForKey:@"image"];
+    viewTag++;
+    [self addImageView:imagePic frame:CGRectMake(0, 0, 0, 0) flag:NO tag:viewTag];
+    
+    //type 为1 图片
+    
+    NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+    [imageDict setObject:@"1" forKey:@"type"];
+    [imageDict setObject:[NSString stringWithFormat:@"%d",viewTag] forKey:@"tag"];
+    
+    //默认进来就插入数据库
+    
+    SPUserResizableView *imageview = (SPUserResizableView *)[self.view viewWithTag:[[imageDict objectForKey:@"tag"] intValue]];
+    UIImage *theImage = ((UIImageView *)imageview.contentView).image;
+    NSData *data = UIImagePNGRepresentation(theImage);
+    [db executeUpdate:@"INSERT INTO subviews(ha_id,type,x,y,width,height,tag,vi_bitmap) VALUES (?,?,?,?,?,?,?,?)",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"type"],[NSString stringWithFormat:@"%f",imageview.frame.origin.x],[NSString stringWithFormat:@"%f",imageview.frame.origin.y],[NSString stringWithFormat:@"%f",imageview.frame.size.width],[NSString stringWithFormat:@"%f",imageview.frame.size.height],[imageDict objectForKey:@"tag"], data];
+    
+    FMResultSet *rs = [db executeQuery:@"SELECT * FROM subviews WHERE ha_id = ? AND tag = ?",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"tag"]];
+    while ([rs next]) {
+        
+        NSLog(@"%@",[rs stringForColumn:@"vi_id"]);
+        [imageDict setObject:[rs stringForColumn:@"vi_id"] forKey:@"vi_id"];
+    }
+    
+    [subViewsArr addObject:imageDict];
+    [imageDict release];
+}
+#pragma mark saveDelegate
+-(void)sureSaveAction:(NSString *)cpaId cpaTitle:(NSString *)string{
+    
+    [self saveCurrentToDatabase];
+    
+    NSDictionary *dict=[[NSUserDefaults standardUserDefaults]objectForKey:@"loginInfo"];
+    if (requestOther) {
+        [requestOther cancel];
+        requestOther.delegate=nil;
+        [requestOther release];
+        requestOther=nil;
+    }
+    requestOther = [[ASIFormDataRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/Api",dele.server_Address_str]]];
+    [requestOther setDelegate:self];
+    
+    
+    NSMutableDictionary *postDict=[[NSMutableDictionary alloc]init ];
+    
+    
+    if (![cpaId isEqualToString:@"0"]) {
+        
+        intMessage = 11; //板书更新成功
+        
+        NSString *timeString =[ToolClass getCurretDate];
+        [postDict setObject:timeString forKey:@"ts"];
+        [postDict setObject:cpaId forKey:@"args[cpa_id]"];
+        [postDict setObject:[courseDict objectForKey:@"co_id"] forKey:@"args[co_id]"];
+        [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+        [postDict setObject:[hourDict objectForKey:@"cl_id"] forKey:@"args[cl_id]"];
+        [postDict setObject:[ToolClass encodeURL:string] forKey:@"args[cpa_title]"];
+        [postDict setObject:@"1" forKey:@"args[cpa_status]"];
+        [postDict setObject:@"JSON" forKey:@"format"];
+        [postDict setObject:@"ClasshourPackage.update" forKey:@"method"];
+        [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+        
+    }else{
+        
+        intMessage = 1;//板书上传成功
+        
+        NSString *timeString =[ToolClass getCurretDate];
+        [postDict setObject:timeString forKey:@"ts"];
+        [postDict setObject:[courseDict objectForKey:@"co_id"] forKey:@"args[co_id]"];
+        [postDict setObject:[dict objectForKey:@"auth_id"] forKey:@"args[a_id]"];
+        [postDict setObject:[hourDict objectForKey:@"cl_id"] forKey:@"args[cl_id]"];
+        [postDict setObject:[ToolClass encodeURL:string] forKey:@"args[cpa_title]"];
+        [postDict setObject:@"1" forKey:@"args[cpa_status]"];
+        [postDict setObject:@"JSON" forKey:@"format"];
+        [postDict setObject:@"ClasshourPackage.insert" forKey:@"method"];
+        [postDict setObject:[dict objectForKey:@"skey"] forKey:@"skey"];
+    }
+    
+    NSString *strSign=[ToolClass getSign:postDict];
+    //NSLog(@"strSign is %@",strSign);
+    [postDict setObject:[MyMD5 md5:strSign] forKey:@"sign"];
+    for(int i=0;i<[[postDict allKeys] count];i++){
+        
+        [requestOther setPostValue:[[postDict allValues]objectAtIndex:i] forKey:[[postDict allKeys]objectAtIndex:i]];
+    }
+    NSLog(@"postdict is %@",postDict);
+    
+    NSString *dbName =[NSString stringWithFormat:@"%@.db",@"cl_id"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentDirectory stringByAppendingPathComponent:dbName];
+    [requestOther setFile:dbPath forKey:@"cpa_file"];
+    
+    [requestOther buildPostBody];
+    [requestOther setTimeOutSeconds:30];
+    [requestOther startAsynchronous];
+    [requestOther setDidFinishSelector:@selector(mySuccessPacket:)];
+    [requestOther setDidFailSelector:@selector(myError:)];
+    
+    
+    [postDict release];
+    [strSign release];
+    
+}
+-(void)mySuccessPacket:(id)sender{
+    
+    NSString *str=[sender responseString];
+    NSMutableDictionary *muDict = [str JSONValue];
+    if ([[muDict objectForKey:@"status"] intValue] == 1) {
+        NSString *strMessage = @"";
+        if (intMessage == 1) {
+            strMessage = @"板书上传成功!";
+            
+            [save removeFromSuperview];
+
+        }else if(intMessage == 11){
+            strMessage = @"板书设置膜版成功!";
+
+        }
+                 
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:strMessage delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+        
+        
+
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"操作失败!" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+    }
+    NSLog(@"jieguo is %@",muDict);
+}
+-(void)myError:(id)sender{
+    NSString *str=[sender responseString];
+
+    NSLog(@"str error is %@",str);
+}
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+#endif
+-(void)dealloc{
+    
+    [muWorkStuentList release];
+    [stuAnswerDict release];
+    [stuPicAnsDict release];
+    
+    
+    [playVcArr release];
+    
+    [requestContent cancel];
+    requestContent.delegate = nil;
+    [requestContent release];
+    
+    [requestOther cancel];
+    requestOther.delegate = nil;
+    [requestOther release];
+    
+    
+    [contentArray release];
+    [subViewsArr release];
+    [courseDict release];
+    [hourDict release];
+    [db release];
+    [dataMuarr release];
+    [arrRight release];
+     
+    [super dealloc];
+}
+
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft  ||
+            interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+    
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end

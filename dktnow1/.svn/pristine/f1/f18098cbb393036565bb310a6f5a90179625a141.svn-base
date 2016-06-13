@@ -1,0 +1,18 @@
+<include file="../Public/header" />
+<script>
+    $(function(){
+
+        $(document).on('click','.right_submenu li dl',function(){
+            t_return = true;
+            var li_attr = $(this).parent().index();
+            var this_attr = $(this).attr('attr');
+            var new_num = this_attr;
+            var src = $(this).attr('rel');
+            new_pop(new_num, src);
+        })
+
+    })
+
+</script>
+<include file="../Public/main"/>
+<include file="../Public/footer"/>

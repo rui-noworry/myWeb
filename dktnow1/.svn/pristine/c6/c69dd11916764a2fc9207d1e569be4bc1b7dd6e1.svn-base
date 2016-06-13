@@ -1,0 +1,518 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/index.css"/>
+<script type="text/javascript">
+<!--
+    $(function() {
+
+        // 资源封面随机匹配
+        $('.mould li').each(function(){
+            $(this).find('.res_cover').children().attr('src' ,'__APPURL__/Public/Images/Tmp/' + Math.floor(Math.random()*10) + '.png');
+        })
+
+        // 显示高级搜索
+        $('.common_search .gj').click(function(){
+
+            $('.high_search').slideToggle();
+        })
+
+        // 高级搜索 点击确定 收起
+        $('.confirm').click(function(){
+
+            $(this).parent().parent().slideUp();
+        })
+
+        // 选中资源类型
+        $('.resType span').click(function(){
+
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+
+        // 选中年级
+        $('.resGrade span').click(function(){
+
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+
+        // 选中学科
+        $('.resSubject span').click(function(){
+
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+
+        // 选中版本
+        $('.resVersion span').click(function(){
+
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+
+        // 资源模块切换
+        $(".res_tab li").click(function(){
+
+            $(this).addClass("current").siblings().removeClass("current");
+            var index =  $(".res_tab li").index(this);
+            $(".res_box div.mould").eq(index).show().siblings().hide();
+        })
+
+    })
+//-->
+</script>
+<div class="warp">
+    <include file="Public:leftSider"/>
+        <div class="res_right">
+        <p class="file_num">当前已有<cite>59,135,686</cite>份文档</p>
+        <!-- 搜索开始 -->
+        <div class="search_box">
+            <div class="common_search">
+                <input type="text" placeHolder="资源栏目一">
+                <a class="ks"></a>
+                <a class="gj"></a>
+                <a class="upload_file"></a>
+            </div>
+            <div class="high_search hide">
+                <div class="filter fl">
+                    <input type="checkbox" name=""><span>系统资源</span>
+                    <input type="checkbox" name=""><span>北京数字学校</span>
+                    <input type="checkbox" name=""><span>学科网</span>
+                </div>
+                <ul>
+                    <li class="resType">
+                        <label>资源类型</label>
+                        <div>
+                            <span class="hand on">多媒体</span>
+                            <span class="hand">题库</span>
+                            <span class="hand">课件</span>
+                            <span class="hand">素材</span>
+                        </div>
+                    </li>
+                    <li class="resGrade">
+                        <label>年级</label>
+                        <div>
+                            <span class="hand on">全部</span>
+                            <span class="hand">一年级</span>
+                            <span class="hand">二年级</span>
+                            <span class="hand">三年级</span>
+                            <span class="hand">四年级</span>
+                        </div>
+                    </li>
+                    <li class="resSubject">
+                        <label>学科</label>
+                        <div>
+                            <span class="hand on">所有</span>
+                            <span class="hand">语文</span>
+                            <span class="hand">数学</span>
+                            <span class="hand">英语</span>
+                        </div>
+                    </li>
+                    <li class="resVersion">
+                        <label>版本</label>
+                        <div>
+                            <span class="hand on">所有</span>
+                            <span class="hand">人教版</span>
+                            <span class="hand">北师大</span>
+                            <span class="hand">苏教版</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="btn">
+                    <a class="confirm">确定</a>
+                    <a class="cancel">取消</a>
+                </div>
+            </div>
+        </div>
+        <!-- 搜索结束 -->
+        <!-- 资源列表开始 -->
+        <div class="res_list fl">
+            <ul class="res_tab">
+                <li>本校资源</li>
+                <li class="current">最新资源</li>
+                <li>最热资源</li>
+                <li>推荐资源</li>
+            </ul>
+            <div class="res_box fl">
+                <div class="mould hide">
+                    <a class="more fr" href="__APPURL__/Home/Tmp/more_res1">更多</a>
+                    <ul>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学趣味心理学趣味心理学趣味心理学">趣味心理学趣味心理学趣味心理学趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mould">
+                    <a class="more fr" href="/Home/Tmp/more_res1">更多</a>
+                    <ul>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学趣味心理学趣味心理学趣味心理学">趣味心理学趣味心理学趣味心理学趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                    </ul>
+                    <!-- 资源栏目一开始 -->
+                    <ul class="column1">
+                        <div class="column_title">资源栏目一<a class="more fr" href="/Home/Tmp/more_res1">更多</a></div>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                    </ul>
+                    <!-- 资源栏目一结束 -->
+                    <!-- 资源栏目二开始 -->
+                    <ul class="column2">
+                        <p class="column_title">资源栏目二</p>
+                        <span class="alert">本栏目下暂无资源</span>
+                    </ul>
+                    <!-- 资源栏目二结束 -->
+                </div>
+                <div class="mould hide">    <!-- 最新资源 -->
+                    <a class="more fr" href="/Home/Tmp/more_res1">更多</a>
+                    <ul>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学趣味心理学趣味心理学趣味心理学">趣味心理学趣味心理学趣味心理学趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mould hide">    <!-- 推荐资源 -->
+                    <a class="more fr" href="/Home/Tmp/more_res1">更多</a>
+                    <ul>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学趣味心理学趣味心理学趣味心理学">趣味心理学趣味心理学趣味心理学趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                        <li>
+                            <a class="res_cover" href="#"><img src=""/></a>
+                            <a class="res_title" href="#" title="趣味心理学">趣味心理学</a>
+                            <span>李老师</span>
+                            <span><i>2</i>积分</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 资源列表结束 -->
+    </div>
+
+<div class="clear"></div>
+</div>
+<include file="Public:footer"/>

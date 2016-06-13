@@ -1,0 +1,136 @@
+//
+//  ImgDownSelf.m
+//  DrRana
+//
+//  Created by ifoer on 10-12-18.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//
+
+#import "ImgDownSelf.h"
+#import "FileManageUnit.h"
+#define WIDTH 134.0
+#define HEIGHT 160.0
+
+@implementation ImgDownSelf
+
+@synthesize imgUrl;
+@synthesize muDict;
+@synthesize myImgDelegate;
+
+- (id)initWithFrame:(CGRect)frame {
+    if ((self = [super initWithFrame:frame])) {
+        // Initialization code
+		self.userInteractionEnabled=YES;
+    }
+    return self;
+}
+
+
+-(void)downloadSelf{
+	
+
+    
+	NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(threadGetData) object:nil];
+	[thread start];
+	[thread release];
+
+}
+-(void)setImgUrl:(NSString *)_imgUrl{
+    AppDelegate *dele = [[UIApplication sharedApplication]delegate];
+    _imgUrl = [NSString stringWithFormat:@"%@%@",dele.server_Address_str,_imgUrl];
+    
+    imgUrl=[_imgUrl mutableCopy];
+    NSLog(@"imgURL is %@",imgUrl);
+    NSString *strFile=[FileManageUnit getFile:imgUrl];
+    
+    if ([FileManageUnit fileIsExist:strFile]==YES) {
+        [self setMyimage:strFile];
+    }else{
+        [self downloadSelf];
+    }
+    
+   
+    
+}
+
+
+-(void)setMyimage:(NSString *)fileName{
+    
+   
+    UIImage *image = [[UIImage alloc] initWithContentsOfFile:fileName];
+    self.image=image;
+    [self setScacleToImage];
+    [image release];
+    
+}
+    
+
+-(void)threadGetData{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+	NSData *imgData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:imgUrl]];
+    NSString *strFile=[FileManageUnit getFile:imgUrl];
+    if (strFile) {
+        [imgData writeToFile:strFile atomically:YES];
+
+    }
+    
+	UIImage *img = [[UIImage alloc] initWithData:imgData];
+
+    if (img) {
+        [self setImage:img];
+        [self setScacleToImage];
+    }
+    
+
+    
+	[imgData release];
+    [img release];
+    
+	[pool drain];
+
+	
+}
+
+
+-(void)setScacleToImage{
+    /*
+    UIImage *img=self.image;
+    CGPoint center=self.center;
+    float scale=0.0;
+    if (img.size.width/self.frame.size.width>img.size.height/self.frame.size.height) {
+        scale=img.size.width/self.frame.size.width;
+    }else {
+        scale=img.size.width/self.frame.size.height;
+    }
+    self.frame=CGRectMake(0, 0, img.size.width/scale, img.size.height/scale);
+    self.center=center;
+     */
+}
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+
+    if (myImgDelegate && [myImgDelegate respondsToSelector:@selector(singeclick:)]){
+        
+    
+    
+        [myImgDelegate singeclick:muDict];
+        
+    }
+}
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
+}
+*/
+
+- (void)dealloc {
+    
+    [muDict release];
+    [imgUrl release];
+    [super dealloc];
+}
+
+
+@end

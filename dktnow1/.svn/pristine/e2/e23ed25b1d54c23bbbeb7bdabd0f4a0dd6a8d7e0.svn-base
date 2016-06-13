@@ -1,0 +1,104 @@
+//
+//  LiuyanCell.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-26.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "LiuyanCell.h"
+#define HEIGHT 0
+@implementation LiuyanCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+        
+        
+        
+        headImage = [[ImgDownSelf alloc] initWithFrame:CGRectMake(20+HEIGHT, 15, 48, 48)];
+        headImage.backgroundColor = [UIColor clearColor];
+        [self addSubview:headImage];
+        [headImage release];
+        
+        
+        lblName = [[UILabel alloc] initWithFrame:CGRectMake(75+HEIGHT, 20, 80, 25)];
+        lblName.text = @"王燕英子";
+        lblName.backgroundColor = [UIColor clearColor];
+        lblName.textColor = MYCOLOR;
+        lblName.textAlignment = NSTextAlignmentLeft;
+        lblName.font = [UIFont systemFontOfSize:16];
+        [self addSubview:lblName];
+        [lblName release];
+        
+        
+        lblTime = [[UILabel alloc] initWithFrame:CGRectMake(155+HEIGHT, 20, 80, 25)];
+        lblTime.text = @"2013-7-9";
+        lblTime.textAlignment = NSTextAlignmentLeft;
+        lblTime.textColor = [UIColor lightGrayColor];
+        lblTime.font = [UIFont systemFontOfSize:14];
+        lblTime.backgroundColor = [UIColor clearColor];
+        [self addSubview:lblTime];
+        [lblTime release];
+        
+       
+        
+        lblContent = [[UILabel alloc] initWithFrame:CGRectMake(75+HEIGHT, 55, 560-HEIGHT, 50)];
+        lblContent.text = @"“测评-定计划-学习”三位一体，大课堂网校提供不同学科、针对性的获得学习的支持和服务。";
+        lblContent.textColor = [UIColor blackColor]; 
+        lblContent.backgroundColor = [UIColor clearColor];
+        lblContent.numberOfLines = 0;
+        lblContent.font = [UIFont systemFontOfSize:20];
+        [self addSubview:lblContent];
+        [lblContent release];
+        
+        
+        backImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 640, 35+188+15+30+30+10)];
+        backImage.layer.borderWidth = 1.0;
+        backImage.layer.cornerRadius = 5.0;
+        backImage.alpha = 0.3;
+        backImage.layer.borderColor = [UIColor grayColor].CGColor;
+        backImage.layer.masksToBounds = YES;
+        [self addSubview:backImage];
+        [backImage release];
+        
+        
+//        btnComment = [[UIButton alloc] initWithFrame:CGRectMake(600, 105, 30, 30)];
+//        btnComment.backgroundColor = [UIColor clearColor];
+//        [btnComment setImage:[UIImage imageNamed:@"bl评论.png"] forState:UIControlStateNormal];
+//        [btnComment addTarget:self action:@selector(btnCommentAction:) forControlEvents:UIControlEventTouchUpInside];
+//        [self addSubview:btnComment];
+//        [btnComment release];
+        
+        
+    }
+    return self;
+}
+-(void)changeCellContent:(NSMutableDictionary *)muDict{
+    
+    [headImage setImgUrl:[muDict objectForKey:@"a_avatar"]];
+    lblName.text = [muDict objectForKey:@"a_nickname"];
+    lblTime.text = [ToolClass getDateFromString:[muDict objectForKey:@"at_created"]];
+    lblContent.text = [muDict objectForKey:@"at_content"];
+    
+    
+    CGSize content_size = [ToolClass getSizeFromText:[muDict objectForKey:@"at_content"] textWidth:560 fontSize:20 isBold:NO];
+    lblContent.frame = CGRectMake(75+HEIGHT, 55, 560-HEIGHT, content_size.height);
+    backImage.frame = CGRectMake(10, 0, 640, 65+content_size.height);
+    
+}
+-(void)btnCommentAction:(UIButton *)btn{
+    
+
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

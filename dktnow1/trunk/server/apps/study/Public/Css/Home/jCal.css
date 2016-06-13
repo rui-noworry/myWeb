@@ -1,0 +1,173 @@
+/* default dimensions and justification for each month including title */
+.jCal {
+    /* each day width + border-left + border-right */
+	width:225px;
+	height:38px;
+	text-align:center;
+	vertical-align:top;
+    background:#E9C08E;
+    position:relative;
+}
+/* default dimensions and justification for each month not including title */
+.jCalMo {
+	width:225px;        /* each day width + border-left + border-right */
+	float:left;
+	overflow:visible;
+	height:100%;
+
+	white-space:nowrap;
+}
+/* top month display block - i.e. January */
+.jCal .month, .jCal .monthSelect, .jCal .monthName, .jCal .monthYear {
+	line-height:16px;
+	height:16px;
+	text-align:center;
+	vertical-align:bottom;
+	font-family:Tahoma;
+	font-size:8pt;
+	color:#000000;
+	cursor:pointer;
+	float:left;
+}
+.jCal .monthName ,.jCal .monthYear{
+    margin-top:10px;
+    font-size: 15px;
+    color: white;
+}
+/* month name per calendar style - includes left/right padding and alignment */
+.jCal .monthName {
+	padding-left:2px;
+	padding-right:2px;
+	text-align:right;
+}
+/* year per calendar style - includes left/right padding and alignment */
+.jCal .monthYear {
+	float:right;
+	padding-left:2px;
+	padding-right:2px;
+	text-align:left;
+}
+/* hilight style for new month combobox pulldown for hover */
+.jCal .monthSelect {
+	background:#EEE url(eeGrad2.gif) bottom repeat-x;
+}
+/* do not edit - this enables the new month combobox selector */
+.jCal .monthSelector {
+	position:absolute;
+}
+/* do not edit - this enables the new month combobox selector "shadow" for capturing auto-hide */
+.jCal .monthSelectorShadow {
+	position:absolute;
+	background:#808080;
+	padding:0px;
+}
+/* this is the hover for the month name */
+.jCal .monthNameHover {
+    /*background:#EDEDED url(double-arrow-vert.gif) center left no-repeat;*/
+	color:#fff;
+}
+/* this is the hover for the year */
+.jCal .monthYearHover {
+    /*background:#EDEDED url(double-arrow-vert.gif) center right no-repeat;*/
+	color:#fff;
+}
+/* this is the hover for the new month or year hover in the new combobox selection */
+.jCal .monthSelectHover {
+	background:#069;
+	color:#FFF;
+}
+/* day block dimensions and style - for all day blocks */
+.jCalMo .dow, .jCalMo .day, .jCalMo .pday, .jCalMo .aday, .jCalMo .overDay, .jCalMo .invday, .jCalMo .selectedDay {
+	width:30px;
+	font-family: "Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei","Î¢ÈíÑÅºÚ",tahoma,arial,simhei,"ºÚÌå";
+	border-right:1px solid #EBE8E5;
+	border-bottom:1px solid #EBE8E5;
+	border-left:1px solid #EBE8E5;
+	text-align:center;
+	cursor:default;
+	float:left;
+}
+/* day of week header specific style */
+.jCalMo .dow {
+	background:#EEE url("/apps/study/Public/Images/Home/eeGrad.gif") bottom repeat-x;
+	border-bottom:0px;
+    height:23px;
+    line-height:23px;
+    font-size:8px;
+    color:#6c7174;
+    font-family: OFont;
+}
+/* actual calendar day default style */
+.jCalMo .day, .jCalMo .invday {
+	height:30px;
+    line-height:30px;
+	text-align:center;
+}
+/* selectable calendar day specific style */
+.jCalMo .day {
+	cursor:pointer;
+	background:#F6F3EF;
+    font-size:13px;
+    color:#6c7174;
+}
+/* blacked-out calendar day specific style */
+.jCalMo .invday {
+	color:#808080;
+	background:#eeeeee;
+	text-decoration:line-through;
+}
+/* previous and subsequent months calendar day specific style */
+.jCalMo .pday, .jCalMo .aday {
+	height:30px;
+    line-height:30px;
+	background:#F6F3EF;
+	color:#CCC;
+    font-size:13px;
+}
+/* selected day */
+.jCalMo .selectedDay {
+	color:#FFF;
+    /* must use rgb() syntax for jquery.color.js compliance */
+	background:#E9C08E;
+    font-weight:bold;
+    border: 1px solid #E1AD73;
+}
+/* mouseover hilighted selectable day */
+.jCalMo .overDay {
+	color:#FFF;
+    /* must use rgb() syntax for jquery.color.js compliance */
+	background:#E9C08E;
+}
+/* left month navigation button - no need to change */
+.jCal .left {
+	background:url("/apps/study/Public/Images/Home/teacher_space.png") no-repeat -210px -76px;
+	width:8px;
+	height:13px;
+	vertical-align:middle;
+	cursor:pointer;
+	float:left;
+    margin-top: 14px;
+    position:absolute;
+    left:15px;
+}
+/* right month navigation button - no need to change */
+.jCal .right {
+	background:url("/apps/study/Public/Images/Home/teacher_space.png") no-repeat -220px -76px;
+	width:8px;
+	height:13px;
+	vertical-align:middle;
+	cursor:pointer;
+	float:right;
+    margin-top: 14px;
+    position:absolute;
+    right:15px;
+}
+/* no need to change - this is for carousel opacity */
+.jCalMask, .jCalMove {
+	position:absolute;
+	overflow:hidden;
+}
+.calendar td {
+    position:relative;
+    left:-2px;
+}

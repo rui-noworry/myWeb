@@ -1,0 +1,118 @@
+<load href="__PUBLIC__/Css/Ilc/header.css,__PUBLIC__/Css/Ilc/public.css"/>
+<load file="/Public/Css/Ilc/resource_index.css"/>
+<load href="__PUBLIC__/Js/Public/jquery-1.9.1.js,__PUBLIC__/Js/Public/jquery-ui.js,__PUBLIC__/Js/Public/public.js"/>
+<!--多文件上传plupload插件开始-->
+<link rel="stylesheet" href="__PUBLIC__/Js/Public/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css">
+<script type="text/javascript" src="__PUBLIC__/Js/Public/plupload/plupload.full.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/Public/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/Public/plupload/i18n/zh-cn.js"></script>
+<script type="text/javascript">
+$(function(){
+    //资源多文件上传
+    reloadFileUpload();
+
+    // 添加资源
+    $('.finish_btn').click(function(){
+
+        // 如果用户上传了附件，但忘了点击上传按钮，自动点击上传
+        if ($('.plupload_buttons').css('display') != 'none' && $('#uploader_filelist').children().size() > 0) {
+            $('.plupload_start').click();
+            var uploader = $('#uploader').pluploadQueue();
+            // Files in queue upload them first
+            if (uploader.files.length > 0) {
+                // When all files are uploaded submit form
+                uploader.bind('UploadComplete', function() {
+                    if (uploader.files.length === (uploader.total.uploaded + uploader.total.failed)) {
+                        urlTurn();
+                    }
+                });
+                uploader.start();
+            }
+        } else {
+            urlTurn();
+        }
+
+    });
+})
+function urlTurn() {
+
+    $.post('__URL__/insert', '', function(json){
+
+        if (json) {
+
+            var str = '';
+                for (var i = 0; i < json.length; i ++) {
+                    str += ','+json[i];
+                }
+
+            str = str.substr(1);
+
+            location.href="__URL__/resourcePublish/ids/"+str;
+
+        } else {
+            showMessage('上传文件失败');
+        }
+
+    }, 'json');
+}
+
+// 初始化多文件上传
+function reloadFileUpload(){
+
+    $("#uploader").pluploadQueue({
+        // General settings
+        runtimes : 'html4,html5,flash,silverlight,gears,browserplus',
+        url : '__URL__/uploadAttach',
+        max_file_size : '100mb',
+        chunk_size : '10mb',
+        unique_names : true,
+
+        // Resize images on clientside if we can
+        resize : {width : 320, height : 240, quality : 90},
+        dragdrop : true,
+        // Specify what files to browse for
+        filters : [
+            {title : "Image files", extensions : "png,jpg,gif,bmp,jpeg"},
+            {title : "Zip files", extensions : "zip,rar"},
+            {title : "Audio files", extensions : "mp3,m4a,m4v"},
+            {title : "Mindmark files", extensions : "db"},
+            {title : "Video files", extensions : "mpeg,mp4,avi,rmvb,rm,wmv,fla,3gp,flv"},
+            {title : "Docs files", extensions : "txt,doc,xls,ppt,docx,xlsx,pptx,pdf"}
+        ],
+
+        // Flash settings
+        flash_swf_url : '__PUBLIC__/Js/Public/plupload/plupload.flash.swf',
+
+        // Silverlight settings
+        silverlight_xap_url : '__PUBLIC__/Js/Public/plupload/plupload.silverlight.xap',
+        init: {
+            FileUploaded: function(up, file, info) {
+                var reg = /error(.*)<\/p>/ig;
+                var res = info.response.match(reg);
+                if (res) {
+                    var str = res.toString();
+                    alert(str.slice(7,-4));
+                    location.reload(true);
+                }
+            }
+        }
+    });
+}
+</script>
+<h2 class="res study_add">新增资源</h2>
+<a href="" class="stydy_return fr">返回列表</a>
+<div class="clear"></div>
+<div class="upload_top">
+    <div id="uploader">
+        <p>上传资源控件加载错误，可能是您的浏览器不支持 Flash, Silverlight, Gears, BrowserPlus 或 HTML5，请检查</p>
+    </div>
+    <div class="warn_word">
+        资源上传须知：<br/>
+        1.请不要上传侵犯他人版权的文件<br/>
+        2.每份文档不超过100M<br/>
+    </div>
+    <div class="clear"></div>
+    <div class="finish">
+        <button class="finish_btn">保存</button>
+    </div>
+</div>

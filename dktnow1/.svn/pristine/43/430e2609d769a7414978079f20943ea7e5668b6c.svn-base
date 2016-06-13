@@ -1,0 +1,632 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="/Public/Js/Home/jquery-ui.js"/>
+<load href="__PUBLIC__/Css/Home/hour.css"/>
+
+<script type="text/javascript" language="javascript">
+
+    // 这里是为了页面默认加载处于最下方的单元、课文、课时
+    var onloadNum = 0;
+
+    $(function () {
+
+        // 隐藏课文和课时title
+        $('.main_top_1').hide();
+
+        // 资源上翻看
+        $(document).on('click', '.pageUp', function(){
+            var page = parseInt($(this).attr('page'));console.log(page);
+            if (page && page > 0) {
+                getPage(page, 'up');
+            }
+        })
+
+        // 资源下翻看
+        $(document).on('click', '.pageDown', function(){
+            var page = parseInt($(this).attr('page'));
+            if (page && page > 1) {
+                getPage(page, 'down');
+            }
+        })
+
+        // 下载课时资源
+        $(document).on('click', '.res_dw', function () {
+            location.href = "__APPURL__/Activity/download/?id=" + $(this).parents('.res_cover').attr('rel');
+        })
+
+        // 浏览课时资源
+        $(document).on('click', '.res_scan', function () {
+            var obj = $(this).parents('.res_cover');
+            var id = obj.attr('rel');
+            if (obj.attr('trans') != 1) {
+                showMessage('该附件未转码，暂时不能预览');
+                return;
+            } else {
+                $(this).attr({'target':'_blank', 'href':'__APPURL__/AuthResource/show/ar_id/' + id});
+            }
+        })
+
+        // 单元展开与收缩
+        $(document).on('click','.unit_switch',function(){
+
+            var _this = $(this);
+            if(_this.hasClass('tree_switch_plus')){
+                _this.removeClass('tree_switch_plus').addClass('tree_switch_sub');
+            } else {
+                _this.removeClass('tree_switch_sub').addClass('tree_switch_plus');
+            }
+
+            if (_this.hasClass('tree_switch_sub')) {
+                if (_this.next().next().find('li').size() == 0) {
+                    $.post('__URL__/lists', 'co_id=' + $('input[name=co_id]').val() + '&l_id=' + _this.parent().attr('rel'), function (json) {
+                        var htm = '';
+                        if (json) {
+                            for (var i=0, len=json.length; i<len; i++) {
+                                htm += "<li rel='" + json[i]['l_id'] + "'>"
+                                    +"<span class='tree_switch tree_switch_plus kw_switch'></span>"
+                                    +"<a class='tree_unit_a child_node_a' rel='" + json[i]['l_id'] + "'>"
+                                    +"<span class='tree_branch child_node_span' rel='" + json[i]['l_id'] + "' title='" + json[i]['l_title'] + "'>" + json[i]['l_title'] + "</span>"
+                                    +"</a>"
+                                    +"<ul class='stree stree_drag ui-sortable'></ul>"
+                                    +"</li>"
+                            }
+                        }
+                        _this.parent().children('.ctree').html(htm);
+                        _this.siblings('.ctree').slideToggle();
+                    }, 'json')
+                }
+                _this.siblings('.ctree').slideToggle();
+            } else {
+                _this.siblings('.ctree').slideToggle();
+            }
+        })
+
+        // 课文展开与收缩
+        $(document).on('click','.kw_switch',function(){
+
+            var _this = $(this);
+
+            if(_this.hasClass('tree_switch_plus')){
+                _this.removeClass('tree_switch_plus').addClass('tree_switch_sub');
+            } else {
+                _this.removeClass('tree_switch_sub').addClass('tree_switch_plus');
+            }
+
+            if (_this.hasClass('tree_switch_sub')) {
+                if (_this.next().next().find('li').size() == 0) {
+                    $.post('__APPURL__/Classhour/lists', 'co_id=' + $('input[name=co_id]').val() + '&l_id=' + _this.parent().attr('rel'), function (json) {
+                        var htm = '';
+                        if (json) {
+                            for (var i=0, len=json.length; i<len; i++) {
+                                htm += '<li rel="' + json[i]['cl_id'] + '" c_id="' + json[i]['c_id'] + '" cro_id="' + json[i]['cro_id'] + '">'
+                                    +'<a class="tree_unit_a grandchild_node_a">'
+                                    +'<span class="tree_branch grandchild_node_span" title="' + json[i]['cl_title'] + '" rel="' + json[i]['cl_id'] + '" ar_id="' + json[i]['ar_id'] + '">' + json[i]['cl_title'] + '</span>'
+                                    +'</a>'
+                                    +'</li>'
+                            }
+                        }
+                        _this.parent().children('.stree').html(htm);
+                        _this.siblings('.stree').slideToggle();
+                        // 这里需要做个判断，如果是页面一开始加载，同时此元素是最下方的单元
+                        if (onloadNum == 2) {
+                            if ($('.stree li').size()) {
+                                $('.stree li').last().find('.grandchild_node_span').click();
+                                onloadNum++;
+                            }
+                        }
+                    }, 'json')
+                }
+                _this.siblings('.stree').slideToggle();
+            } else {
+                _this.siblings('.stree').slideToggle();
+            }
+        })
+
+        // 点击单元题目 展开子节点
+        $(document).on('click', '.tree_branch', function(){
+            var _this = $(this);
+            if (!_this.hasClass('child_node_span') && _this.html() != '<input class="edit_node" onkeydown="keydown(event)">') {
+                if(_this.parent().prev().hasClass('tree_switch_plus')){
+                    _this.parent().prev().removeClass('tree_switch_plus').addClass('tree_switch_sub');
+                } else {
+                    _this.parent().prev().removeClass('tree_switch_sub').addClass('tree_switch_plus');
+                }
+
+                if (_this.parent().prev().hasClass('tree_switch_sub')) {
+                    if (_this.parent().next().find('li').size() < 1) {
+                        syncLesson(_this);
+                    }
+                    _this.parent().siblings('.ctree').slideToggle();
+                } else {
+                    _this.parent().siblings('.ctree').slideToggle();
+                }
+            }
+        })
+
+        // 点击课文题目 展开课时
+        $(document).on('click', '.child_node_span', function(){
+            var _this = $(this);
+            if (_this.html() != '<input class="edit_node" onkeydown="keydown(event)">') {
+                if(_this.parent().prev().hasClass('tree_switch_plus')){
+                    _this.parent().prev().addClass('tree_switch_sub').removeClass('tree_switch_plus');
+                } else {
+                    _this.parent().prev().removeClass('tree_switch_sub').addClass('tree_switch_plus');
+                }
+
+                if (_this.parent().prev().hasClass('tree_switch_sub')) {
+                    if (_this.parent().next().find('li').size() < 1) {
+                        syncClasshour(_this);
+                    }
+                    _this.parent().siblings('.stree').slideToggle();
+                } else {
+                    _this.parent().siblings('.stree').slideToggle();
+                }
+            }
+        })
+
+        // 环节展开与收缩
+        $(document).on('click','.tache_arrow',function(){
+
+            var _arrow = $(this);
+            if(_arrow.hasClass("tache_up")){
+                _arrow.removeClass('tache_up').addClass('tache_down');
+            }else {
+                _arrow.removeClass('tache_down').addClass('tache_up');
+            }
+
+            _arrow.parent().siblings().slideToggle();
+        })
+
+        // 教学活动的展开与收缩
+        $(document).on('click','.topic_arrow',function(){
+
+            var _arrow = $(this);
+        })
+
+        // 点击未转码的资源，自动下载
+        $(document).on('click', '.ListFiles', function () {
+            var rel = $(this).attr('rel');
+            if ($(this).attr('trans') != 1) {
+                if (confirm('该附件未转码，是否下载该附件？')) {
+                    location.href = "/Activity/download/?id=" + rel;
+                }
+            } else {
+                $(this).find('a').each(function () {
+                    $(this).attr({'target':'_blank', 'href':'__APPURL__/AuthResource/show/ar_id/' + rel});
+                })
+            }
+        })
+
+        // 右侧资源tab切换
+        $(document).on('click', '.res_tab li', function(){
+
+            $(this).addClass("on").siblings().removeClass("on");
+            var index =  $(".res_tab li").index(this);
+            $(".resBox .res_box").eq(index).show().siblings().hide();
+        })
+
+        // 鼠标移上资源 显示资源操作按钮
+        $(document).on('mouseover', '.res_cover', function(){
+            $(this).children('.tools_cover').show();
+        })
+        $(document).on('mouseout', '.res_cover', function(){
+            $(this).children('.tools_cover').hide();
+        })
+
+        // 点击课时
+        $(document).on('click','.grandchild_node_span',function(){
+
+            var _this = $(this);
+
+            // 选中的课时加亮显示
+            $('.grandchild_node_span').each(function () {
+                if (_this.attr('rel') == $(this).attr('rel')) {
+                    $(this).addClass('on')
+                } else {
+                    $(this).removeClass('on')
+                }
+            })
+
+            // 在编辑课时标题时或是当前环节是该课时下时，禁止加载内容
+            if (_this.html() != '<input class="edit_node" onkeydown="keydown(event)">' && $('input[name=cl_id]').val() != _this.attr('rel')) {
+
+                // 存储课时ID，避免重复加载
+                $('input[name=cl_id]').val(_this.attr('rel'));
+
+                // 存储课时资源ID
+                $('input[name=ar_id]').val(_this.attr('ar_id'));
+
+                // 存储课文ID
+                $('input[name=l_id]').val(_this.parents('.stree').parent().attr('rel'));
+
+                // 动态显示课文 >> 课时
+                var courseTitle = "{$title}"
+                $('.courseTitle').html('');
+                $('.courseTitle').html(courseTitle + ' >> ' + _this.parents('.ctree').prev().find('.tree_branch').text());
+                $('.title').html(_this.parents('.stree').prev().find('.tree_branch').text() + ' >> ' + _this.text());
+
+                // 异步加载环节、活动
+                $.post('__APPURL__/Tache/lists', 'cl_id=' + _this.attr('rel') + '&c_id=' + $('input[name=c_id]').val() + '&cro_id=' + $('input[name=cro_id]').val(), function (json) {
+                    $('.order_switch .thumb').click();
+                    var htm='';
+                    if (json && json['tache']) {
+                        for (var i=0, len=json['tache'].length; i<len; i++) {
+                            htm += '<div class="tache fl" rel="' + json['tache'][i]['ta_id'] + '">'
+                                +'<div class="act_top" rel="' + json['tache'][i]['ta_id'] + '">'
+                                +'<label class="node_name snode_name" rel="' + json['tache'][i]['ta_id'] + '" title="' + json['tache'][i]['ta_title'] + '">' + json['tache'][i]['ta_title'] + '</label>'
+                                +'<a class="tache_arrow tache_up"></a>'
+                                +'</div>'
+                                +'<div class="act_box fl">'
+                                +'<ul class="act_box_ul">';
+                            if (json['tache'][i]['act_id'] && json['tache'][i]['act_id'].length) {
+                                var obj = json['tache'][i]['act_id'];
+                                for (var j=0, l=obj.length; j<l; j++) {
+                                    htm += '<div class="liliObj" rel="' + obj[j]['act_id'] + '">'
+                                        +'<li class="lili flex_add homework">';
+                                    if (obj[j]['act_type'] == 1 || obj[j]['act_type'] == 2) {
+                                        htm +='<a target="_blank" href="__APPURL__/ActivityData/doActivity/ap_id/' + obj[j]['ap_id'] + '/ad_id/' + obj[j]['ad_id'] + '" class="flex_book">';
+                                    } else if (obj[j]['act_type'] == 3 || obj[j]['act_type'] == 4 || obj[j]['act_type'] == 5) {
+                                        htm += '<a target="_blank" href="__APPURL__/ActivityData/activity/ap_id/' + obj[j]['ap_id'] + '/type/' + obj[j]['act_type'] + '" class="flex_book">';
+                                    } else if (obj[j]['act_type'] == 6) {
+                                        htm += '<a target="_blank" href="__APPURL__/ActivityTalk/index/ap_id/' + obj[j]['ap_id'] + '/type/' + obj[j]['act_type'] + '" class="flex_book">';
+                                    }
+                                    htm += '<div class="thumbAct" act_type="' + obj[j]['act_type'] +'">'
+                                        +'<div class="' + getTypeById(obj[j]['act_type']) + '"></div>'
+                                        +'<span title="' + obj[j]['act_title'] + '" rel="' + obj[j]['act_id'] + '">' + obj[j]['act_title'] + '</span>'
+                                        +'</div>'
+                                        +'</a>'
+                                        +'</li>'
+                                        +'</div>';
+                                }
+                            }
+                            htm +='</ul>'
+                                +'</div>'
+                                +'</div>';
+                        }
+                    }
+                    $('.tacheList').html(htm);
+                    $('.main_top_1').show();
+                }, 'json')
+                $('.res_box_ul').html('');
+                getPage();
+            }
+        })
+
+        var line = 1;
+        var speed = 300;
+
+        var m = 1;    //用于计算的变量
+        var lineB = 5;    //一屏显示的个数
+        var step = 30;
+
+        // 资源上翻看
+        $(document).on('click', '.pageUp', function(){
+            var lineH = $('.res_box_ul').find("li:first").height();
+            if (!$('.res_box').is(":animated")) {
+                if (m > line) {
+                    m -= line;
+                    $('.res_box').animate({top: "+=" + (lineH + step) +"px" }, speed);
+                }
+            }
+        })
+
+        // 资源下翻看
+        $(document).on('click', '.pageDown', function(){
+        var count = $('.res_box_ul li').length;    //总共的<li>元素的个数
+        var lineH = $('.res_box_ul').find("li:first").height();
+            if (!$('.res_box').is(":animated")) {
+                if (m <= count - lineB) {
+                    m += line;
+                    $('.res_box').animate({top: "-=" + (lineH + step) +"px" }, speed);
+                }
+            }
+        })
+
+        // 页面加载完毕，默认打开最下面的单元、课文、课时
+        if ($('.tree li').size()) {console.log($('.tree li').last().find('.tree_branch').html());
+            $('.tree li').last().find('.tree_branch').click();
+            // 页面加载时，此变量加1
+            onloadNum++;
+        }
+    });
+
+    // 点击网络或是列表的活动模块，进入相对应的iframe里
+    function editIframe(obj) {
+
+        // 如果有活动在添加或编辑时就禁止在编辑
+        if ($('#actIframe').css('display') != 'none') {
+            return;
+        }
+
+        // 标识当前的环节
+        var rel = obj.parents('.tache').attr('rel');
+        $('.act_box').each(function () {
+            if (rel == $(this).prev().find('.node_name').attr('rel')) {
+                $(this).attr('rel', 1);
+            } else {
+                $(this).attr('rel', 0);
+            }
+        })
+
+        // 标识当前的活动
+        var id = obj.parents('.liliObj').attr('rel');
+        $('input[name=resourceFlag]').val(obj.attr('act_type'));
+        $('.liliObj').each(function () {
+            if (id == $(this).attr('rel')) {
+                $(this).addClass('activityType');
+            } else {
+                $(this).removeClass('activityType');
+            }
+        })
+
+        $('.act_box[rel=1]').children('iframe').show();
+
+        var c_id = $('.tree .on').parent().parent().attr('c_id');
+        var cro_id = $('.tree .on').parent().parent().attr('cro_id');
+        var inputCid = $('input[name=c_id]').val();
+        var inputCroid = $('input[name=cro_id]').val();
+        var moduleTag = '__APPURL__/Activity/edit?act_id=' + obj.parents('.liliObj').attr('rel');
+        if (inputCid == 0 && inputCroid == 0) {
+            $('.act_box[rel=1]').children('iframe').attr('src',moduleTag);
+        } else if (c_id == '' && cro_id == '') {
+            moduleTag = '__APPURL__/Activity/edit?act_id=' + obj.parents('.liliObj').attr('rel') + '&flag=1';
+            $('.act_box[rel=1]').children('iframe').attr('src',moduleTag);
+        } else if ((inputCid != 0 && c_id.indexOf(',' + inputCid + ',') == -1) || (inputCroid != 0 && cro_id.indexOf(',' + inputCroid + ',') == -1)) {
+            console.log(inputCid && c_id.indexOf(',' + inputCid + ',') == -1);
+            console.log(inputCroid && cro_id.indexOf(',' + inputCroid + ',') == -1);
+            moduleTag = '__APPURL__/Activity/edit?act_id=' + obj.parents('.liliObj').attr('rel') + '&flag=1';
+            $('.act_box[rel=1]').children('iframe').attr('src',moduleTag);
+        } else {
+            $.post('__APPURL__/Classhour/validateInfo', 'cl_id=' + $('input[name=cl_id]').val() + '&c_id=' + $('input[name=c_id]').val() + '&cro_id=' + $('input[name=cro_id]').val(), function (json) {
+                if (json == 0) {
+                    moduleTag = '__APPURL__/Activity/edit?act_id=' + obj.parents('.liliObj').attr('rel');
+                } else {
+                    moduleTag = '__APPURL__/Activity/edit?act_id=' + obj.parents('.liliObj').attr('rel')+ '&c_id=' + inputCid + '&cro_id=' + inputCroid;
+                }
+                $('.act_box[rel=1]').children('iframe').attr('src',moduleTag);
+            }, 'json')
+        }
+    }
+
+    // 异步查询该单元下的课文
+    function syncLesson(_this) {
+        $.post('__URL__/lists', 'co_id=' + $('input[name=co_id]').val() + '&l_id=' + _this.attr('rel') + '&l_title=' + $('input[name=l_title]').val(), function (json) {
+            var htm = '';
+            if (json) {
+                for (var i=0, len=json.length; i<len; i++) {
+                    htm += "<li rel='" + json[i]['l_id'] + "'>"
+                        +"<span class='tree_switch tree_switch_plus kw_switch'></span>"
+                        +"<a class='tree_unit_a child_node_a' rel='" + json[i]['l_id'] + "'>"
+                        +"<span class='tree_branch child_node_span' rel='" + json[i]['l_id'] + "' title='" + json[i]['l_title'] + "'>" + json[i]['l_title'] + "</span>"
+                        +"</a>"
+                        +"<ul class='stree stree_drag ui-sortable'></ul>"
+                        +"</li>"
+                }
+            }
+            $('input[name=l_title]').val('')
+            _this.parent().next().html(htm);
+            _this.parent().siblings('.ctree').slideToggle();
+            // 这里需要做个判断，如果是页面一开始加载，同时此元素是最下方的单元
+            if (onloadNum == 1) {
+                if ($('.ctree li').size()) {
+                    $('.ctree li').last().find('.kw_switch').click();
+                    onloadNum++;
+                }
+            }
+        }, 'json')
+    }
+
+    // 异步查询该课文下的课时
+    function syncClasshour(_this) {
+        $.post('__APPURL__/Classhour/lists', 'co_id=' + $('input[name=co_id]').val() + '&l_id=' + _this.attr('rel') + '&cl_title=' + $('input[name=cl_title]').val(), function (json) {
+            var htm = '';
+            if (json) {
+                for (var i=0, len=json.length; i<len; i++) {
+                    htm += '<li rel="' + json[i]['cl_id'] + '" c_id="' + json[i]['c_id'] + '" cro_id="' + json[i]['cro_id'] + '">'
+                           +'<a class="tree_unit_a grandchild_node_a">'
+                           +'<span class="tree_branch grandchild_node_span" rel="' + json[i]['cl_id'] + '" title="' + json[i]['cl_title'] + '" ar_id="' + json[i]['ar_id'] + '">' + json[i]['cl_title'] + '</span>'
+                           +'</a>'
+                           +'</li>'
+                }
+            }
+            $('input[name=cl_title]').val('');
+            _this.parent().next().html(htm);
+            _this.parent().siblings('.stree').slideToggle();
+        }, 'json')
+    }
+
+    // 依据活动类型，返回活动样式
+    function getTypeById(id) {
+        var arr = ['', 'add_homework', 'add_execrise', 'add_text', 'add_link', 'add_read', 'add_talk'];
+        return arr[id];
+    }
+
+    // 课时分页
+    function getPage(p, flag) {
+        var p = p ? p : 1;
+        var flag = flag ? flag : 'down';
+        $.post('__APPURL__/Classhour/getPage', 'cl_id=' + $('input[name=cl_id]').val() + '&p=' + p, function (json) {
+            var ht = ''
+            if (json && json.list) {
+                var res = json.list;
+                for (var i=0, len=json.list.length; i<len; i++) {
+                    ht += '<li rel="' + json.list[i]['ar_id'] + '">'
+                       +'<div class="res_cover" trans="' + json.list[i]['ar_is_transform'] + '" rel="' + json.list[i]['ar_id'] + '">'
+                       +'<img src="' + json.list[i]['ar_upload'] + '" width="100" height="75">'
+                       +'<div class="tools_cover">'
+                       +'<div class="fr">'
+                       +'<a href="javascript:void(0)" class="res_dw"></a>'
+                       +'<a href="javascript:void(0)" class="res_scan scan"></a>'
+                       +'</div>'
+                       +'</div>'
+                       +'</div>'
+                       +'<a class="res_title" href="javascript:void(0)" title="' + json.list[i]['ar_title'] + '">' + json.list[i]['ar_title'] + '</a>'
+                       +'</li>'
+                }
+
+                if (p != parseInt(json.totalPage)) {
+                    // 上一页
+                    $('.pageUp').attr('page', p);
+
+                    // 下一页
+                    $('.pageDown').attr('page', parseInt(p)+1);
+                    if (flag == 'up' && p > 1) {
+                        // 上一页
+                        $('.pageUp').attr('page', $('.pageUp').attr('page')-1);
+
+                        // 下一页
+                        $('.pageDown').attr('page', $('.pageDown').attr('page')-1);
+                    }
+                }
+            }
+            if (ht != '') {
+                $('.res_box_ul').html(ht);
+            }
+        }, 'json');
+    }
+</script>
+<div class="warp">
+        <!-- 存储上次单击的课时名称-->
+        <input type="hidden" autocomplete="off" name="inputName" value=""/>
+        <!-- 存储上次单击的环节名称-->
+        <input type="hidden" autocomplete="off" name="tacheInput" value=""/>
+        <!-- 存储上次单击的环节ID-->
+        <input type="hidden" autocomplete="off" name="ta_id" value=""/>
+        <!-- 课程ID -->
+        <input type="hidden" autocomplete="off" name="co_id" value="{$course.co_id}">
+        <!-- 课文所属科目名称-->
+        <input type="hidden" autocomplete="off" name="subjectName" value="{$course.co_subject}"/>
+        <!-- 课文名称，异步加载课文 -->
+        <input type="hidden" autocomplete="off" name="l_title" value="">
+        <!-- 课时名称，异步加载课时-->
+        <input type="hidden" autocomplete="off" name="cl_title" value="">
+        <!-- 当前课文ID，为环节、活动准备-->
+        <input type="hidden" autocomplete="off" name="l_id" value="">
+        <!-- 当前课时ID，为环节、活动准备-->
+        <input type="hidden" autocomplete="off" name="cl_id" value="">
+        <!-- 当前课时的资源ID，为课时添加资源准备-->
+        <input type="hidden" autocomplete="off" name="ar_id" value="">
+        <!-- 左侧树形结构开始 -->
+        <div class="lesson_left fl">
+            <ul class="tree fl tree_drag" id="">
+                <volist name="lesson" id="vo">
+                <li rel='{$vo.l_id}'>
+                    <span class='tree_switch tree_switch_plus unit_switch'></span>
+                    <a class='tree_unit_a parent_node_a' rel='{$vo.l_id}'>
+                        <span class='tree_branch' rel='{$vo.l_id}' title="{$vo.l_title}">{$vo.l_title}</span>
+                    </a>
+                    <ul class='ctree ctree_drag ui-sortable'></ul>
+                </li>
+                </volist>
+            </ul>
+            <!-- 收缩按钮 -->
+            <a class="left-shrink l-shrink-open"></a>
+        </div>
+        <!-- 左侧树形结构结束 -->
+        <!-- 中部开始 -->
+        <div class="lesson_main fl">
+            <div class="main_top">
+                <p class="courseTitle">{$title}</p>
+                <a class="back" href="javascript:history.go(-1)">返回</a>
+            </div>
+            <div class="main_top main_top_1">
+                <p class="title"></p>
+            </div>
+            <div class="tache_box fl">
+                <div class="tacheList">
+                </div>
+            </div>
+        </div>
+        <!-- 中部结束 -->
+        <!-- 右侧开始 -->
+        <div class="lesson_right fl">
+            <!-- <p class="title">最新资源</p> -->
+            <ul class="res_tab">
+                <li class="on">
+                    <span>资源</span>
+                </li>
+                <!-- <li>推荐资源</li> -->
+            </ul>
+            <div class="resBox">
+                <span class="arrowPage pageUp"></span>
+                <span class="arrowPage pageDown"></span>
+                <div class="scrollArea">
+                    <div class="res_box">
+                        <ul class="res_box_ul"></ul>
+                    </div>
+                </div>
+            </div>
+            <!-- 收缩按钮 -->
+            <a class="right-shrink r-shrink-open"></a>
+        </div>
+        <!-- 右侧结束 -->
+    </div>
+</div>
+<include file="Public:footer"/>
+<style>
+.warp {overflow:hidden;}
+.editResource {cursor:pointer};
+</style>
+<script type="text/javascript">
+
+$(function(){
+
+    var _widthL = $('.lesson_left').width();
+    var _widthMid = $('.lesson_main').width();
+    var _widthR = $('.lesson_right').width();
+
+     // 左侧收起
+     $(document).on('click', '.l-shrink-open', function () {
+
+        var _widthL1 = $('.lesson_left').width();
+        var _widthMid1 = $('.lesson_main').width();
+        $('.lesson_left').animate({width:"0%"});
+        $('.lesson_left .l-shrink-open').animate({left:"0"});
+        $('.lesson_main').animate({width:_widthMid1 + _widthL1});
+
+        $(this).removeClass('l-shrink-open').addClass('l-shrink-close');
+
+        // 控制网格间隙比例
+        $('.act_box_ul').css('margin-left','25px');
+    })
+
+    // 左侧展开
+    $(document).on('click', '.l-shrink-close', function () {
+
+        var _widthMid3 = $('.lesson_main').width();
+
+        $('.lesson_left').animate({width:_widthL});
+        $('.lesson_left .l-shrink-close').animate({left:"200px"});
+        $('.lesson_main').animate({width:_widthMid3 - _widthL});
+
+        $(this).removeClass('l-shrink-close').addClass('l-shrink-open');
+
+        // 控制网格间隙比例
+        $('.act_box_ul').css('margin-left','10px');
+    })
+
+    // 右侧收起
+    $(document).on('click', '.r-shrink-open', function () {
+
+        var _widthR1 = $('.lesson_right').width();
+        var _widthMid2 = $('.lesson_main').width();
+        $('.lesson_right').animate({width:"0%"});
+        $('.lesson_left .r-shrink-open').animate({left:"0"});
+        $('.lesson_main').animate({width:_widthMid2 + _widthR1});
+
+        $(this).removeClass('r-shrink-open').addClass('r-shrink-close');
+    })
+
+    // 右侧展开
+    $(document).on('click', '.r-shrink-close', function () {
+
+        var _widthMid4 = $('.lesson_main').width();
+
+        $('.lesson_right').animate({width:_widthR});
+        $('.lesson_right .l-shrink-close').animate({left:"-11px"});
+        $('.lesson_main').animate({width:_widthMid4 - _widthR});
+
+        $(this).removeClass('r-shrink-close').addClass('r-shrink-open');
+    })
+})
+</script>

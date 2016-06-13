@@ -1,0 +1,16 @@
+客户端：
+	老师端：DktForteacher0912.apk
+
+	学生端：DktForStudent0912.apk
+
+数字签名：
+
+	老师端：加密包为 teacher.keystore 密码为  dktforteacher
+
+	学生端：加密包为 student.keystore 密码为  dktforstudent
+
+	
+客户端版本号：20130809
+客户端打包日期：2013年09月12日
+         
+         

@@ -1,0 +1,177 @@
+<load file="__PUBLIC__/Css/Ilc/resource_index.css"/>
+<load href="/Public/Js/Public/jquery-1.9.1.js,/Public/Js/Public/jquery-ui.js,/Public/Js/Public/public.js"/>
+<!--多文件上传plupload插件开始-->
+<link rel="stylesheet" href="/Public/Js/Public/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css">
+<script type="text/javascript" src="/Public/Js/Public/plupload/plupload.full.js"></script>
+<script type="text/javascript" src="/Public/Js/Public/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+<script type="text/javascript" src="/Public/Js/Public/plupload/i18n/zh-cn.js"></script>
+<script type="text/javascript">
+$(function(){
+    //资源多文件上传
+    reloadFileUpload();
+
+    // 栏目选择
+    $('.choose').click(function(){
+        getChild(0, 1);
+    });
+
+    // 获取子栏目
+    $(document).on('click', '.listCategory li', function(){
+        var level = $(this).attr('level');
+        $('.listCategory li').each(function() {
+            if ($(this).attr('level') > level) {
+                $(this).remove();
+            }
+        })
+        $(this).addClass('on').siblings().removeClass('on');
+        getChild($(this).attr('attr'));
+    });
+})
+
+// 初始化多文件上传
+function reloadFileUpload(){
+    var maxSize = {$maxSize};
+    $("#uploader").pluploadQueue({
+        // General settings
+        runtimes : 'html4,html5,flash,silverlight,gears,browserplus',
+        url : '__URL__/uploadAttach',
+        max_file_size : maxSize+'mb',
+        chunk_size : '10mb',
+        unique_names : true,
+
+        // Resize images on clientside if we can
+        resize : {width : 320, height : 240, quality : 90},
+        dragdrop : true,
+        // Specify what files to browse for
+        filters : [
+            {title : "Image files", extensions : "png,jpg,gif,bmp,jpeg"},
+            {title : "Zip files", extensions : "zip,rar"},
+            {title : "Audio files", extensions : "mp3,m4a,m4v"},
+            {title : "Mindmark files", extensions : "db"},
+            {title : "Video files", extensions : "mpeg,mp4,avi,rmvb,rm,wmv,fla,3gp,flv"},
+            {title : "Docs files", extensions : "txt,doc,xls,ppt,docx,xlsx,pptx,pdf"}
+        ],
+
+        // Flash settings
+        flash_swf_url : '/Public/Js/Public/plupload/plupload.flash.swf',
+
+        // Silverlight settings
+        silverlight_xap_url : '/Public/Js/Public/plupload/plupload.silverlight.xap',
+        init: {
+            FileUploaded: function(up, file, info) {
+                var reg = /error(.*)<\/p>/ig;
+                var res = info.response.match(reg);
+                if (res) {
+                    var str = res.toString();
+                    alert(str.slice(7,-4));
+                    location.reload(true);
+                }
+            }
+        }
+    });
+}
+
+    function getChild(id, type) {
+
+        var str = '';
+
+        if (type == 1) {
+            if ($('.listCategory li').size() == 0) {
+                str += '<li attr="0" level="0" type="0">系统栏目</li>';
+                $('.listCategory ul').html(str);return;
+
+            }
+        } else {
+
+            if ($('.listCategory').css('display') == 'none') {
+                $('.listCategory').show();
+            } else {
+                $.post('__URL__/findSub', 'id='+id, function(json) {
+                    var str = '';
+
+                    if (json) {
+                        $.each(json, function(i, data){
+
+                            if (data['rc_pid'] == id && data['s_id'] == $('.listCategory li.on').attr('type')) {
+                                str += '<li attr="' + data['rc_id'] + '" level="' + data['rc_level'] + '" type="' + data['s_id'] + '">' + getLevel(data['rc_level']) + data['rc_title'] + '</li>';
+                            }
+                        })
+                    }
+
+                    if (!str) {
+                        var t_val = $('.listCategory li.on').html();
+                        var reg=/&nbsp;/g;
+                        var new_val = t_val.replace(reg,'');
+                        $('.choose').html(new_val);
+                        $('input[name=rc_id]').val($('.listCategory li.on').attr('attr'));
+                        $('.listCategory.on').removeClass('on');
+                        $('.listCategory').hide();
+                    } else {
+                        $(str).insertAfter($('.listCategory li.on'));
+                        $('.listCategory').show();
+                    }
+
+                }, 'json')
+            }
+        }
+    }
+
+    function getLevel(level) {
+
+        var result = '';
+        for (var i = 0; i < level; i ++) {
+
+            result += '&nbsp;&nbsp;&nbsp;&nbsp;';
+        }
+
+        return result;
+    }
+
+    // 提交验证
+    function check() {
+
+        if ($('input[name=rc_id]').val() == '') {
+            alert('请选择栏目');
+            return false;
+        }
+
+        if ($('input[name=uploader_count]').val() == 0) {
+            alert('请选择资源');
+            return false;
+        }
+
+        //Loading();
+        $("form:first").attr({'action': '__URL__/insert', 'method': 'post'}).submit();
+    }
+
+</script>
+<div class="res_add">
+    <h2 class="res study_add">新增资源</h2>
+    <a href="__URL__/" class="stydy_return">返回列表</a>
+</div>
+<div class="clear"></div>
+<form method="post" onsubmit="return check();">
+    <input type="hidden" value="" name="rc_id" />
+    <div class="upload_top fl">
+        <a class="upload_add">栏目：</a>
+        <span class="choose">选择</span>
+        <div class="listCategory list_add">
+            <ul>
+
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <div id="uploader" class="fl">
+            <p>上传资源控件加载错误，可能是您的浏览器不支持 Flash, Silverlight, Gears, BrowserPlus 或 HTML5，请检查</p>
+        </div>
+        <div class="warn_word fl">
+            资源上传须知：<br/>
+            1.请不要上传侵犯他人版权的文件<br/>
+            2.每份文档不超过{$maxSize}M<br/>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="finish">
+        <button class="finish_btn fin">保存</button>
+    </div>
+</form>

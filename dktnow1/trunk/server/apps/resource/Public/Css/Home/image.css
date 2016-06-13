@@ -1,0 +1,491 @@
+/* 资源详情页 图片 */
+.pic_box .main-box {
+    float: left;
+    width: 1000px;
+    height: auto;
+    margin-top:25px;
+    margin-bottom:20px;
+    background-color: #F9F9F9;
+    border: 1px solid #EEE;
+    box-shadow: 0 1px 3px 0 rgba(180, 180, 180, 0.4);
+    border-radius:3px;
+}
+/* 左侧 */
+.pic_box .main-box .main-left {
+    float: left;
+    width: 745px;
+    height: auto;
+    background: #fff;
+    border: 1px solid #E5E5E5;
+    border-top: none;
+    box-shadow: 2px 0 3px 0 rgba(180, 180, 180, 0.4);
+    border-width: 1px;
+    border-style: solid;
+    position: relative;
+    border-color: white;
+    border-radius:3px;
+    overflow:hidden;
+}
+.pic-top-bar {
+    float:left;
+    width:100%;
+}
+.breadcrumb {
+    float: left;
+    height:47px;
+    line-height:47px;
+    padding: 0 0 12px 15px;
+}
+.pic-top-bar .breadcrumb li {
+    float: left;
+    margin-right: .5em;
+    color: #666;
+    word-break: keep-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.pic-top-bar .breadcrumb li a {
+    margin-right:5px;
+    font: 12px arial,宋体,sans-serif;
+}
+.pic-top-bar .breadcrumb li a:hover {
+    color:#E96356;
+}
+.title-btns {
+    float: right;
+    overflow: hidden;
+    margin: 14px 0 15px 0;
+    padding-right: 6px;
+}
+.title-btns a {
+    float: left;
+    width:60px;
+    height: 29px;
+    line-height: 29px;
+    _height: 28px;
+    _line-height: 28px;
+    text-decoration: none;
+    overflow: visible;
+    position: relative;
+    border-radius:3px;
+    margin-right:5px;
+}
+.addfav-btn,.btn-download:hover ,.full-screen:hover{
+    border:1px solid #D8483A;
+    color: #fff;
+    background:#E96356;
+}
+.btn-download {
+    border:1px solid #E0E0E0;
+    color: #606060;
+    background:#fff;
+}
+.full-screen {
+    border:1px solid #E0E0E0;
+    color: #606060;
+    background:#fff;
+}
+.title-btns a span.button-label {
+    padding-left:26px;
+    text-align: center;
+    line-height: 30px;
+    _line-height: 28px;
+    font: 12px arial,宋体,sans-serif;
+}
+.title-btns a .button-right,.title-btns a .button-right:hover {
+    position: absolute;
+    top: 11px;
+    right: 38px;
+    overflow: hidden;
+}
+.addfav-btn .button-right {
+    width: 17px;
+    height: 8px;
+    background:url('/apps/resource/Public/Images/Home/pic-tool.png') -1px -24px;
+}
+.btn-download .button-right {
+    width: 11px;
+    height:11px;
+    background:url('/apps/resource/Public/Images/Home/pic-tool.png') 0px 0px;
+}
+.full-screen .button-right {
+    width: 11px;
+    height: 11px;
+    background:url('/apps/resource/Public/Images/Home/pic-tool.png') -11px 0px;
+}
+/* 图片展示区域 */
+.pic_show {
+    float:left;
+    width: 760px;
+    height: 645px;
+    margin-top:15px;
+    position:relative;
+}
+.pic_show .bigPics {
+    position:relative;
+}
+.pic_show .bigPics .to-left {
+    position: absolute;
+    width: 50px;
+    height: 100%;
+    top: 0;
+    left:0;
+    display: block;
+}
+.pic_show .bigPics .to-left span {
+    float:left;
+    width:20px;
+    height:46px;
+    margin-top:200px;
+    margin-left:15px;
+    background:url('/apps/resource/Public/Images/Home/page_button.png') no-repeat 0px 0px;
+    cursor:pointer;
+}
+.pic_show .bigPics .to-left span:hover {
+    background:url('/apps/resource/Public/Images/Home/page_button.png') no-repeat -40px 0px;
+}
+.pic_show .bigPics .to-right {
+    position: absolute;
+    width: 50px;
+    height: 100%;
+    top: 0;
+    right:0;
+    display: block;
+}
+.pic_show .bigPics .to-right span {
+    float:left;
+    width:20px;
+    height:46px;
+    margin-top:200px;
+    margin-right:15px;
+    background:url('/apps/resource/Public/Images/Home/page_button.png') no-repeat -20px 0px;
+    cursor:pointer;
+}
+.pic_show .bigPics .to-right span:hover {
+    background:url('/apps/resource/Public/Images/Home/page_button.png') no-repeat -60px 0px;
+}
+.pic_show .bigPics .picWarp {
+    margin: 0 auto;
+    background-color: transparent;
+    height: 500px;
+    width: 760px;
+    text-align:center;
+}
+.pic_show .smallPics {
+    float:left;
+    width:100%;
+    height:100px;
+    position:relative;
+    overflow:hidden;
+}
+.smallPics .slidePre {
+    height: 92px;
+    width: 30px;
+    margin: 0;
+    position: absolute;
+    left: 0px;
+    top: 6px;
+    background-image: url('/apps/resource/Public/Images/Home/album-arrow.png');
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    cursor:pointer;
+    z-index:100;
+}
+.smallPics .slidePre:hover {
+    background-image: url('/apps/resource/Public/Images/Home/album-arrow.png');
+    background-position: -30px 0px;
+}
+.smallPics .slideNext {
+    height: 92px;
+    width: 30px;
+    margin: 0;
+    position: absolute;
+    right: 15px;
+    top: 6px;
+    background-image: url('/apps/resource/Public/Images/Home/album-arrow.png');
+    background-repeat: no-repeat;
+    background-position: 0 -94px;
+    cursor:pointer;
+}
+.smallPics .slideNext:hover {
+    background-image: url('/apps/resource/Public/Images/Home/album-arrow.png');
+    background-position: -30px -94px;
+}
+.smallPics .smallImgs {
+    width:680px;    /* 动态 */
+    position: relative;
+    /*overflow: hidden;*/
+    height: 76px;
+    padding: 10px 0 14px 0;
+    margin: 0 auto;
+}
+.smallPics .smallImgs .imgList {
+    width: 9999px;    /* 动态 */
+    height:75px;
+    padding: 5px 0 0 0;
+    z-index:9999;
+}
+.smallPics .smallImgs .imgList li {
+    width: 100px;
+    margin-right: 13px;
+    height: 75px;
+    float: left;
+    cursor: pointer;
+    position: relative;
+    _display: inline;
+}
+/* 评论区域 */
+.main-left-center {
+    float:left;
+    width:745px;
+}
+.main-left-center .res_comment {
+    float: left;
+    width: 745px;
+    height: auto;
+    margin-top: 15px;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.05);
+}
+.main-left-center .res_comment .title {
+    width: 725px;
+    height: 45px;
+    line-height: 45px;
+    color: #666;
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+.main-left-center .res_comment .topic_input {
+    float: left;
+    width:745px;
+}
+.main-left-center .res_comment .topic_input textarea {
+    width: 682px;
+    height: 80px;
+    background-color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    line-height: 20px;
+    overflow: auto;
+    border: 1px solid #D5D5D5;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    box-shadow: inset 1px 1px 2px #DFDFDF;
+}
+.main-left-center .res_comment .topic_input .sendbox {
+    height: 24px;
+    line-height: 24px;
+    padding-right: 20px;
+}
+.topic_input button {
+    width: 66px;
+    height: 24px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    background: url('/apps/resource/Public/Images/Home/sprite.png');
+    border: none;
+    float: right;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.scommentInputCount, .innerCount {
+    color: #969696;
+    float: right;
+    margin-left: 20px;
+    line-height: 24px;
+    font-size: 14px;
+}
+.res_comment ul.tabbox {
+    float: left;
+    width:730px;
+    margin-top: 20px;
+    margin-left: 15px;
+}
+.res_comment ul.tabbox li {
+    float: left;
+    display: inline-block;
+    width: 61px;
+    height: 20px;
+    background: white;
+    margin-left: 5px;
+    color: #333;
+    line-height: 20px;
+    text-align: center;
+    border: solid #E7E7E7 1px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.res_comment ul.tabbox li.on {
+    width: 64px;
+    height: 25px;
+    background: url('/apps/resource/Public/Images/Home/sprite_tt.png');
+    background-position: -46px 0px;
+    color: white;
+    line-height: 22px;
+    border: none;
+}
+.res_comment .comment_box {
+    width: 725px;
+    height: auto;
+    margin-left: 20px;
+}
+.res_comment .comment_box ul {
+    margin-top: 5px;
+    float: left;
+}
+.res_comment .comment_box ul li {
+    float: left;
+    width: 705px;
+    padding: 13px 0;
+    line-height: 24px;
+    border-bottom: dotted #CCC 1px;
+}
+.res_comment .comment_box ul li.hf {
+    float: left;
+    width: 680px;
+    padding: 13px 0;
+    line-height: 24px;
+    border-bottom: dotted #CCC 1px;
+}
+.res_comment .comment_box ul li .des {
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.res_comment .comment_box ul li .fun {
+    position: relative;
+    height: 24px;
+}
+.res_comment .comment_box ul li .fun .from {
+    float: left;
+    color: #999;
+}
+.res_comment .comment_box ul li .fun .from a {
+    color: #00AC4F;
+    margin-right: 10px;
+}
+.res_comment .comment_box ul li .fun .ope {
+    color: #CCC;
+    float: right;
+}
+.res_comment .comment_box ul li .fun .ope a {
+    color: #999;
+    margin: 0px 5px;
+}
+.replyList {
+    display: block;
+    margin-left: 20px;
+}
+.innerText {
+    float: left;
+    display: block;
+    width: 658px;
+    height: 80px;
+    background-color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    line-height: 20px;
+    overflow: auto;
+    border: 1px solid #D5D5D5;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    margin-top: 10px;
+    box-shadow: inset 1px 1px 2px #DFDFDF;
+}
+.innerButton {
+    width: 66px;
+    height: 24px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    background: url('/apps/resource/Public/Images/Home/sprite.png');
+    border: none;
+    float: right;
+    margin-left: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+.scommentInputCount, .innerCount {
+    color: #969696;
+    float: right;
+    margin-left: 20px;
+    line-height: 24px;
+    font-size: 14px;
+}
+.scommentInputCount.overWord, .innerCount.overWord{
+    color:red;
+}
+.innerDiv {
+    display:none;
+}
+.res_comment .comment_box .moreArea {
+    float: right;
+    padding: 15px 25px 15px 0;
+    text-align: right;
+}
+.res_comment .comment_box .moreArea a {
+    color: #797979;
+    margin-left: 10px;
+}
+.res_comment .comment_box .moreArea a:hover {
+    color:#00AC4F;
+    text-decoration:underline;
+}
+/* 右侧 */
+.main-right {
+    float:left;
+    width:250px;
+}
+.main-right .res_ranking .title {
+    width: 230px;
+    height: 45px;
+    line-height: 45px;
+    color: #666;
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+.main-right .res_ranking ul {
+    float: left;
+}
+.main-right .res_ranking ul li {
+    float: left;
+    width: 220px;
+    height: 22px;
+    line-height: 22px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    display: inline;
+}
+.main-right .res_ranking ul li span.good, .main-right .res_ranking ul li span.normal {
+    float: left;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    margin-right: 10px;
+}
+.main-right .res_ranking ul li span.normal {
+    color: #3B3B3B;
+    background: url('/apps/resource/Public/Images/Home/serialNum.png') no-repeat;
+}
+.main-right .res_ranking ul li span.good {
+    color: white;
+    background: url('/apps/resource/Public/Images/Home/serialNum_good.png') no-repeat;
+}
+.main-right .res_ranking ul li label {
+    float: left;
+    width: 160px;
+    font-size: 13px;
+    color: #3B3B3B;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.main-right .res_ranking ul li .scro {
+    float: right;
+    font-size: 11px;
+    color: #F60;
+    font-family: "Tahoma";
+}

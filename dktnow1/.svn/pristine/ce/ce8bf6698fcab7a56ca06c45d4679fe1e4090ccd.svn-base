@@ -1,0 +1,58 @@
+//
+//  ZiyuanCell.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-7-7.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "ZiyuanCell.h"
+
+@implementation ZiyuanCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+        
+        
+        backImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 610, 120)];
+        backImage.userInteractionEnabled = YES;
+        backImage.layer.borderWidth = 1.0;
+        backImage.layer.cornerRadius = 5.0;
+        backImage.alpha = 0.3;
+        backImage.layer.borderColor = [UIColor grayColor].CGColor;
+        backImage.layer.masksToBounds = YES;
+        [self addSubview:backImage];
+        [backImage release];
+        
+        headImage = [[ImgDownSelf alloc] initWithFrame:CGRectMake(20, 10,  115, 90)];
+        [self addSubview:headImage];
+        [headImage release];
+        
+        lblName = [[UILabel alloc] initWithFrame:CGRectMake(230, 20, 300, 30)];
+        lblName.text = @"资源名称";
+        lblName.textColor = [UIColor colorWithRed:74.0/255 green:74.0/255 blue:74.0/255 alpha:1];
+        lblName.backgroundColor = [UIColor clearColor];
+        lblName.textAlignment = NSTextAlignmentLeft;
+        [self addSubview:lblName];
+        [lblName release];
+    }
+    return self;
+}
+-(void)changeUI:(NSMutableDictionary *)muDict{
+    
+    [headImage setImgUrl:[muDict objectForKey:@"img_path"]];
+    lblName.text = [muDict objectForKey:@"ar_title"];
+    
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

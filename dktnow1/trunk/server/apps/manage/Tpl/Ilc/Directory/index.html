@@ -1,0 +1,158 @@
+<include file="../Public/header_main" />
+<load file="__PUBLIC__/Css/Ilc/resource_index.css"/>
+<script type="text/javascript">
+$(function(){
+
+    var listObj = {"data_check": "2%","data_id": "8%" ,"data_name": "10%","data_type": "8%","data_major": "12%","data_grade": "8%","data_sem": "10%","data_version": "8%","data_subject": "6%","data_status": "6%","data_hand": "4%","data_edit": "4%","data_add": "4%","data_child": "8%"};
+    setWidth(listObj);
+
+    // 选中学制，年级
+    if ('{$choose_type}') {
+        listGradeOption('', '{$choose_type}', 'd_grade', '{$choose_grade}');
+    }
+
+    // 根据学制选择年级
+    $("select[name=d_type]").change(function() {
+        listGradeOption('', $(this).val(), 'd_grade');
+    })
+})
+
+function check() {
+
+    if ($("select[name=d_type]").val() != 0 || $("select[name=d_grade]").val() != 0 || $("select[name=d_semester]").val() != 0) {
+        if ($("select[name=d_type]").val() == 0) {
+                alert('请选择学制', 0);
+                return false;
+        }
+
+        if ($("select[name=d_grade]").val() == 0) {
+                alert('请选择年级', 0);
+                return false;
+        }
+    }
+
+}
+
+function child(id){
+    location.href = URL+"/index/d_pid/"+id;
+}
+
+function points(id){
+
+    location.href = '__APPURL__/Ilc/TagRelation/index/d_id/'+id;
+}
+
+function add(id) {
+    location.href = URL+"/add/d_pid/"+id;
+}
+
+</script>
+    <h2 class="res"><eq name="d_level" value="1">单元列表<else/>课文列表<a href="javascript:history.go(-1);" class="fr">返回上一级</a></eq></h2>
+    <form name="form" method="post" action="__URL__">
+        <div id="mode_ind" class="model_search">
+            <a>学制：</a>
+            <select name="d_type" class="fl">
+                <option value="0">请选择</option>
+                <volist name="d_type" id="type" key="tk">
+                    <option value="{$tk}" <eq name="choose_type" value="$tk">selected</eq>>{$type}</option>
+                </volist>
+            </select>
+            <a>年级：</a>
+            <select name="d_grade" class="fl">
+                <option value="0">请选择</option>
+            </select>
+            <a>学期：</a>
+            <select name="d_semester" class="fl">
+                <volist name = "d_semester" id = "semester">
+                    <option value="{$key}" <eq name="choose_semester" value="$key">selected</eq>>{$semester}</option>
+                </volist>
+            </select>
+            <a>学科：</a>
+            <select name="d_subject" class="fl">
+                <option value="">请选择</option>
+                <volist name = "d_course" id = "course" key= "ck">
+                    <option value="{$ck}" <eq name="choose_subject" value="$ck">selected</eq>>{$course}</option>
+                </volist>
+            </select>
+            <a>版本：</a>
+            <select name="d_version" class="fl">
+                <option value="">请选择</option>
+                <volist name = "d_version" id = "version" key= "vk">
+                    <option value="{$vk}" <eq name="choose_version" value="$vk">selected</eq>>{$version}</option>
+                </volist>
+            </select>
+            <a class="search" class="fl">搜索</a>
+        </div>
+    </form>
+    <div class="tools fl">
+        <a class="add">
+            <i></i>
+            新增
+        </a>
+        <a class="edit">
+            <i></i>
+            编辑
+        </a>
+        <a class="del">
+            <i></i>
+            删除
+        </a>
+        <a class="forbidden">
+            <i></i>
+            禁用
+        </a>
+        <a class="resume">
+            <i></i>
+            启用
+        </a>
+    </div>
+    <div id="system_list">
+        <div>
+            <ul class="list_hea">
+                <li>
+                    <input class="data_check" type="checkbox" name="allcheck" onclick="CheckAll('system_list')"/>
+                    <span class="data_id">编号</span>
+                    <span class="data_name">名称</span>
+                    <span class="data_type">所属学制</span>
+                    <span class="data_major">所属专业</span>
+                    <span class="data_grade">所属年级</span>
+                    <span class="data_sem">学期</span>
+                    <span class="data_version">版本</span>
+                    <span class="data_subject">所属学科</span>
+                    <span class="data_status">状态</span>
+                    <span class="data_hand">操作</span>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <ul class="list_list list_hea" id="list_main">
+
+                <volist name="list" id="list">
+                    <li>
+                        <input class="data_check" type="checkbox" value="{$list.d_id}" name="key"/>
+                        <span class="data_id">{$list.d_id}</span>
+                        <span class="data_name">{$list.d_name}</span>
+                        <span class="data_type">{$list.d_code|showNameByDirectoryCode=1}</span>
+                        <span class="data_major">{$list.ma_title}</span>
+                        <span class="data_grade">{$list.d_code|showNameByDirectoryCode=2}</span>
+                        <span class="data_sem">{$list.d_code|showNameByDirectoryCode=3}</span>
+                        <span class="data_version">{$list.d_version|getTypeNameById='VERSION_TYPE'}</span>
+                        <span class="data_subject">{$list.d_subject|getTypeNameById='COURSE_TYPE'}</span>
+                        <span class="data_status">{$list.d_status|getStatus}</span>
+                        <span class="data_hand">{$list.d_status|showStatus=$list['d_id']}</span>
+                        <span class="data_edit"><a href="javascript:edit({$list.d_id})">编辑</a></span>
+                        <span class="data_add"><a href="javascript:add({$list.d_id})">新增</a></span>
+                        <lt name="d_level" value="2">
+                            <span class="data_child"><a href="javascript:child({$list.d_id})">子节点</a></span>
+                        <else />
+                            <span class="data_child"><a href="javascript:points({$list.d_id})">知识点</a></span>
+                        </lt>
+                    </li>
+                </volist>
+
+            </ul>
+        </div>
+        <div class="page">
+            {$page}
+        </div>
+    </div>

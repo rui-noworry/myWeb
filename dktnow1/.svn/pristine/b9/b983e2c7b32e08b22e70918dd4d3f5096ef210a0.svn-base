@@ -1,0 +1,40 @@
+//
+//  HomeWorkCell.h
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-25.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@protocol HomeWorkCellDelegate;
+@interface HomeWorkCell : UITableViewCell
+{
+
+    
+    UILabel *label;
+    UIImageView *imageview;
+    UIView *lineView;
+    UILabel *stuAnswer;
+    UILabel *rightAnswer;
+    
+    
+   
+    id<HomeWorkCellDelegate>delegate;
+    
+    
+    UIImageView *backImage;
+}
+@property(nonatomic,assign)id<HomeWorkCellDelegate>delegate;
+-(void)updateCell:(NSMutableDictionary *)muDict index:(int)indexRow;
+-(void)updateCell:(NSMutableDictionary *)muDict index:(int)indexRow answer1:(NSString *)strAnswer1 answer2:(NSString *)strAnswer2 picArray:(NSArray *)arrImages;
+@end
+
+
+@protocol HomeWorkCellDelegate <NSObject>
+
+@optional
+-(void)clickImagesToBroad:(CCButton *)btn;
+
+@end

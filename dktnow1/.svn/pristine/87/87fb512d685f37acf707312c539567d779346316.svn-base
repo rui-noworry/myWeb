@@ -1,0 +1,76 @@
+//
+//  PlayWordViewController.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-8-1.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "PlayWordViewController.h"
+
+@interface PlayWordViewController ()
+
+@end
+
+@implementation PlayWordViewController
+@synthesize strURL;
+@synthesize type;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+- (void)hideGradientBackground:(UIView*)theView
+
+{
+    
+    for(UIView* subview in theView.subviews)
+        
+    {
+        
+        if([subview isKindOfClass:[UIImageView class]])
+            
+            subview.hidden = YES;
+        [self hideGradientBackground:subview];
+        
+    }
+    
+}
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+
+    NSURL *url;
+    if (type==1) {
+       url = [NSURL fileURLWithPath:strURL];
+
+    }else{
+        url = [NSURL URLWithString:strURL];
+    }
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    
+    
+    webView = [[UIWebView alloc]init];
+    webView.backgroundColor = [UIColor clearColor];
+    [webView loadRequest:request];
+    [webView setScalesPageToFit:YES];
+    webView.frame = CGRectMake(0, 53, 1024, 748-53);
+    [self.view addSubview:webView];
+    [webView release];
+    
+    [self hideGradientBackground:webView];
+	// Do any additional setup after loading the view.
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end

@@ -1,0 +1,178 @@
+/* 注册 */
+.load_area {
+    float:left;
+    width:1024px;
+    border:1px solid #D1CEC9;
+    margin:25px 0 45px 0;
+    background:#fff;
+}
+.load_area .load_top {
+    height:31px;
+    line-height:31px;
+    padding-left:20px;
+    background:url('/apps/nr/Public/Images/Home/load_top_bg.png');
+    border-bottom:1px solid #9caf9d;
+}
+.load_area .load_top p {
+    font-size:14px;
+}
+.main_left {
+    float:left;
+    width:650px;
+}
+.main_left .list_rg {
+    float:left;
+    width:650px;
+    margin-top:35px;
+    margin-bottom:10px;
+}
+.main_left .list_rg li.cf {
+    float:left;
+    width:100%;
+    line-height:30px;
+    margin-bottom:30px;
+}
+.main_left .list_rg li.cf label {
+    float:left;
+    width:130px;
+    text-align:right;
+    padding-right: 10px;
+    font-size:14px;
+    color:#858585;
+}
+.main_left .list_rg li.cf label i {
+    position:relative;
+    top:2px;
+    margin-right:3px;
+    color:#2889ed;
+    font-weight:bold;
+}
+.main_left .list_rg li.cf .w_r {
+    float:left;
+    width:505px;
+}
+.main_left .list_rg li.cf .w_r input {
+    float:left;
+    width:239px;
+    height:30px;
+}
+.main_left .list_rg li.cf .yzm input {
+    width:85px;
+}
+.main_left .list_rg li.cf .w_r .bubble {
+    float:right;
+    width:195px;
+    height:32px;
+    padding:0 15px;
+    margin-right:15px;
+    border:1px dashed #dcdcdc;
+    background:#F8F8F7;
+    color:#e9691e;
+    font-size:12px;
+    word-wrap: break-word;
+    word-break: normal;
+    display:none;
+}
+.main_left .list_rg li.cf .w_r .bubble img {
+    position:relative;
+    top:3px;
+    margin-right:3px;
+}
+.main_left .list_rg li.cf .w_r .bubble cite {
+    color:#33a0fe;
+}
+.main_left .list_rg li.cf .btn_zc {
+    float:left;
+    width:87px;
+    height:32px;
+    background:url('/apps/nr/Public/Images/Home/reg_btn.png');
+    margin-left:80px;
+    cursor:pointer;
+}
+.main_right {
+    margin-top:25px;
+}
+.main_right .fgr {
+    float:left;
+    width:1px;
+    height:258px;
+    background:url('/apps/nr/Public/Images/Home/fgr.png');
+}
+.main_right .login_area {
+    float:left;
+    width:279px;
+    height:268px;
+    background:url('/apps/nr/Public/Images/Home/login_area_bg.png');
+    margin-top:10px;
+    margin-left:46px;
+}
+.main_right .login_area  .login_link {
+    width:160px;
+    margin:100px auto;
+    font-size:14px;
+    text-align:center;
+    color:#858585;
+}
+.main_right .login_area  .login_link .llink {
+    float:left;
+    width:87px;
+    height:33px;
+    background:url('/apps/nr/Public/Images/Home/login_btn.png');
+    margin-top:20px;
+    margin-left:35px;
+}
+.verifyImg {
+    float:left;
+    cursor:pointer;
+    width:100px;
+    height:35px;
+    margin-left:20px;
+}
+/* 登陆 */
+.login_btn {
+    float: left;
+    width: 87px;
+    height: 33px;
+    background: url('/apps/nr/Public/Images/Home/login_btn.png');
+    cursor:pointer;
+}
+.main_left .list_rg li.cf .w_r input.remember {
+    float: left;
+    width: 25px;
+    height: 30px;
+    margin-left:135px;
+}
+.rem_pwd {
+    color:#3b3b3b;
+}
+.forget_pwd {
+    margin-left:80px;
+}
+.reg_link {
+    margin-left:25px;
+    color:#3b3b3b;
+}
+.reg_link:hover {
+    color:#3b3b3b;
+}
+.reg_link i {
+    color:#0780ea;
+    cursor:pointer;
+}
+.main_left .list_rg li.yzm {
+    margin-bottom: 10px;
+}
+.main_left .list_rg li.remember {
+    margin-bottom: 20px;
+}
+.main_left .list_rg li.btn {
+    margin-bottom: 50px;
+}
+.main_right .ad {
+    float:left;
+    width:266px;
+    height:266px;
+    background:url('/apps/nr/Public/Images/Home/ad.png');
+    margin-top: 10px;
+    margin-left: 46px;
+}

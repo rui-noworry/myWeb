@@ -1,0 +1,53 @@
+.course {
+    width: 840px;
+    height: auto;
+    margin-top: 25px;
+    margin-left: 28px;
+    overflow:hidden;
+}
+.course .filter {
+    float: left;
+    width: 780px;
+    height: auto;
+    margin-bottom: 20px;
+    background: #F5F5F3;
+    padding: 5px 20px 10px 20px;
+}
+.course .filter .search {
+    width: 100%;
+    height: auto;
+    margin-top: 12px;
+}
+.course .filter .search .more_search {
+    width: 100%;
+    height: auto;
+}
+.course .filter .search .more_search li {
+    float: left;
+    margin-bottom: 10px;
+}
+.course .filter .search .more_search li label {
+    float: left;
+    width: 50px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;
+    margin-top: 5px;
+}
+.course .filter .search .more_search li div {
+    float: left;
+    width: 680px;
+}
+.course .filter .search .more_search li span.on {
+    background: #93E5BD;
+}
+.course .addOption li span, .filter .search .more_search li span {
+    margin-bottom: 10px;
+}
+.course .filter .search .more_search li span {
+    display: inline-block;
+    margin: 0 10px 10px 10px;
+    padding: 5px 20px;
+    border: 1px solid #20D691;
+    cursor: pointer;
+}

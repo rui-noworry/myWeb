@@ -1,0 +1,123 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Ilc/system.css"/>
+<div class="warp">
+    <include file="Public:left"/>
+    <div class="addBox">
+        <div class="title"><i class="fl">年级课程配置</i><a href="__URL__/index" class="fr">返回列表</a></div>
+        <ul class="addOption">
+            <li class="gcType">
+                <label>学制：</label>
+                <div>
+                    <volist name="gc_type" id="type">
+                        <span class="hand" rel="{$key}">{$type}</span>
+                    </volist>
+                </div>
+            </li>
+            <li class="gcMajor"></li>
+            <li class="gcGrade"></li>
+            <li class="gcSubject">
+                <label>学科：</label>
+                <div></div>
+            </li>
+            <li class="coBtn">
+                <button type="button" value="" class="save button">保存</button>
+            </li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <include file="Public:footer"/>
+</div>
+<script type="text/javascript">
+$(function(){
+
+    $(document).on('click','.gcSubject .hand',function(){
+
+        if ($(this).hasClass('on') && $(this).attr('rel') > 0) {
+            $(this).removeClass('on');
+        } else {
+            $(this).addClass('on');
+        }
+    })
+
+    // 根据学制选择年级
+    $(".gcType span").click(function() {
+        $(this).addClass('on').siblings().removeClass('on');
+        if ($(this).attr('rel') == 4) {
+            $('.gcGrade').html('');
+            listGrade($(this).attr('rel'), 'gcMajor', 1);
+        } else {
+            $('.gcMajor').html('');
+            listGrade($(this).attr('rel'), 'gcGrade', 1);
+            var ma_id = $('.gcMajor').html() == '' ? 0 : $(".gcMajor .hand.on").attr('rel');
+            listSubject(ma_id, $(this).attr('rel'), 1, 'gcSubject')
+        }
+    }).eq(0).click();
+
+    var gc_type = $(".gcType .hand.on").attr('attr');
+    var gc_grade = $(".gcGrade .hand.on").attr('attr');
+
+    // 依据专业选择年级
+    $(document).on('click', '.gcMajor span', function () {
+        $(this).addClass('on').siblings().removeClass('on');
+        var ma_id = $(this).attr('rel');
+        listGrade($(this).attr('rel'), 'gcGrade', 1, 'major');
+        listSubject(ma_id, $(".gcType .hand.on").attr('rel'), 1, 'gcSubject')
+    })
+
+    // 根据年级选择学科
+    $(document).on('click',".gcGrade span",function(){
+        if ($(this).hasClass('on') && $('.gcSubject div').html() != '') {
+            return false;
+        }
+        $(this).addClass('on').siblings().removeClass('on');
+        var ma_id = $('.gcMajor').html() == '' ? 0 : $(".gcMajor .hand.on").attr('rel');
+        var gc_type = $(".gcType .hand.on").attr('rel');
+        var gc_grade = $(".gcGrade .hand.on").attr('rel');
+        listSubject(ma_id, gc_type, gc_grade, 'gcSubject');
+    })
+
+    // 保存
+    $('.save').click(function() {
+        var ma_id = $('.gcMajor').html() == '' ? 0 : $(".gcMajor .hand.on").attr('rel');
+        var str = 'ma_id='+ma_id+'&gc_type='+$(".gcType .hand.on").attr('rel')+'&gc_grade='+$(".gcGrade .hand.on").attr('rel')+'&gc_course=';
+        var tmp = ''
+        $('.gcSubject .hand.on').each(function() {
+            if ($(this).attr('rel')) {
+                tmp += ',' + $(this).attr('rel');
+            }
+        })
+        str += tmp.slice(1);
+        $.post('__URL__/insert', str, function(json) {
+            if (json.status == 1) {
+                showMessage('操作成功', 1);
+            } else {
+                showMessage(json.info);
+            }
+        }, 'json')
+    })
+})
+
+function listSubject(ma_id, gc_type, gc_grade, objId) {
+    $.post('__URL__/getSubjects', 'gc_type='+gc_type+'&gc_grade='+gc_grade+'&ma_id='+ma_id, function(json){
+
+        if (json) {
+
+            var str = '';
+            $('.'+objId + '>div').html('');
+
+            for (var i = 0; i < json.length; i++) {
+                str += '<span class="hand';
+
+                if (json[i]['checked']) {
+                    str += ' on"';
+                } else {
+                    str += '" rel="'+json[i]['id']+'"';
+                }
+                str += '>'+json[i][0]+'</span>';
+            }
+
+            $('.'+objId +'>div').html(str);
+        }
+    }, 'json');
+}
+</script>

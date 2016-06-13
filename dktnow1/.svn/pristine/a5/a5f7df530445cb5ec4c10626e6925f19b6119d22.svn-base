@@ -1,0 +1,491 @@
+//
+//  Stream.m
+//  TestSocket
+//
+//  Created by apple  on 13-4-9.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "Stream.h"
+
+
+
+static Stream *shareface=nil;
+@implementation Stream
+@synthesize _currentObject;
+@synthesize isFirst;
++(Stream *)sharedStream{
+	
+	
+	//cc ? 如何实现单例request
+	if (shareface==nil) {
+		//NSLog(@"mainRoot");
+		shareface = [[Stream alloc] init];
+        
+
+	}
+	return shareface;
+    
+}
+
++(id)allocWithZone:(NSZone *)zone
+{
+	
+	
+    @synchronized(self) {
+        if (shareface == nil) {
+            shareface = [super allocWithZone:zone];
+            return shareface;  // assignment and return on first allocation
+        }
+    }
+    return nil; //on subsequent allocation attempts return nil
+	
+	
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
+- (id)retain
+{
+    return self;
+}
+
+- (unsigned)retainCount
+{
+    return UINT_MAX;  //denotes an object that cannot be released
+}
+
+-(void)release
+{
+    //do nothing
+}
+
+- (id)autorelease
+{
+	return self;
+}
+
+-(void)startClient
+{
+    dele=[[UIApplication sharedApplication]delegate];
+
+    
+    _hasEstablished = YES;
+    CFReadStreamRef     readStream = NULL;
+    CFWriteStreamRef    writeStream = NULL;
+   // NSString            *server = @"192.168.0.113";/*你的服务器地址，比如我公司服务器地址[url]www.javista.com[/url]*/;
+    //这里没有用NSStream的getStreamsToHost，是因为真机编译时有黄色提示说不存在这个函数。
+    //虽然真机能用，但我担心上传到APP Store时会被reject，所以就用了更底层的CFStreamCreatePairWithSocketToHost。
+    //其实一点都不难，一样用的~
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
+                                       (CFStringRef)dele.push_server_Address,
+                                       socket_port,//服务器接收数据的端口
+                                       &readStream,
+                                       &writeStream);
+    if(readStream && writeStream)
+    {
+        inStream = (NSInputStream *)readStream;
+        outStream = (NSOutputStream *)writeStream;
+        
+        
+
+    }
+    else
+    {
+        //Error Control
+    }
+}
+
+-(void)closeStreams{
+
+    [inStream close];
+    [outStream close];
+    [inStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [inStream setDelegate:nil];
+    [outStream setDelegate:nil];
+    [inStream release];
+    [outStream release];
+    inStream = nil;
+    outStream = nil;
+}
+
+-(void)openStreams{
+    [inStream retain];
+    [outStream retain];
+   // [inStream setProperty:NSStreamSocketSecurityLevelSSLv3 forKey:NSStreamSocketSecurityLevelKey];
+   // [outStream setProperty:NSStreamSocketSecurityLevelSSLv3 forKey:NSStreamSocketSecurityLevelKey];
+    //不需要SSL的话，下面这行可以去掉。
+    //CFWriteStreamSetProperty((CFWriteStreamRef)outStream, kCFStreamPropertySSLSettings, [NSMutableDictionary dictionaryWithObjectsAndKeys:(id)kCFBooleanFalse,kCFStreamSSLValidatesCertificateChain,kCFBooleanFalse,kCFStreamSSLIsServer,nil]);
+    [inStream setDelegate:self];
+    [outStream setDelegate:self];
+    [inStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    
+    [outStream open];
+    [inStream open];
+    
+    
+
+    
+}
+-(NSMutableDictionary *)praseHead:(NSString *)strHead{
+    
+    NSMutableDictionary *muDict=[[NSMutableDictionary alloc]init];
+
+    strHead=[strHead substringToIndex:[strHead length]-2];
+    NSArray *arr=[strHead componentsSeparatedByString:@"\n"];
+
+    if ([arr count]>0) {
+        for (int i=0; i<[arr count]; i++) {
+            NSString *keyValue=[arr objectAtIndex:i];
+            NSArray *arr2=[keyValue componentsSeparatedByString:@":"];
+            if ([arr2 count]>1) {
+                [muDict setObject:[arr2 objectAtIndex:1] forKey:[arr2 objectAtIndex:0]];
+
+            }else{
+                return nil;
+            }
+            
+        }
+    }else{
+        return nil;
+    }
+    
+
+    return muDict;
+}
+- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
+{
+
+    switch(eventCode) {
+        case NSStreamEventHasBytesAvailable:
+        {
+           
+            if (_isFirstFourBytes) {
+                uint8_t bufferLen[1];
+                
+                if (dataHead==nil) {
+                    dataHead = [[NSMutableData alloc] init];
+                }
+               
+                
+                [inStream read:bufferLen maxLength:1];
+                [dataHead appendBytes:bufferLen length:1];
+                NSString *str=[[[NSString alloc]initWithBytes:bufferLen length:1 encoding:NSUTF8StringEncoding] autorelease];
+
+                if ([str isEqualToString:@"\r"]) {
+                    uint8_t bufferLen[1];
+                    [inStream read:bufferLen maxLength:1];
+                    NSString *str=[[[NSString alloc]initWithBytes:bufferLen length:1 encoding:NSUTF8StringEncoding] autorelease];
+                    if ([str isEqualToString:@"\n"]) {                        
+                        NSString *strHead=[[NSString alloc]initWithBytes:[dataHead bytes] length:[dataHead length] encoding:NSUTF8StringEncoding];
+
+                        
+                        NSMutableDictionary *tempDict=[self praseHead:strHead];
+                        
+                        if (tempDict) {
+                            NSLog(@"head is %@",tempDict);
+                            remainingToRead=[[tempDict objectForKey:@"content-length"] intValue];
+                           
+                            
+                            [tempDict release];
+                            [strHead release];
+                            if (remainingToRead == 0) {
+                                _isFirstFourBytes=YES;
+
+                            }else{
+                                _isFirstFourBytes=NO;
+
+                            }
+                            
+                            
+                            [dataHead release];
+                            dataHead=nil;
+                        }
+                        
+                       
+                    }
+                }
+            }else{
+                int actuallyRead;
+                uint8_t buffer[1024];//32KB的缓冲区，缓冲区太小的话会明显影响真机上的通信速度
+                
+                if (dataBuffer==nil) {
+                    dataBuffer=[[NSMutableData alloc]init];
+                }
+               
+                if (sizeof(buffer)>remainingToRead) {
+                    
+                    actuallyRead=[inStream read:buffer maxLength:remainingToRead];
+                }else{
+                    actuallyRead = [inStream read:buffer maxLength:sizeof(buffer)];
+                    
+                }
+                NSLog(@"actuallyRead %d",actuallyRead);
+                if(actuallyRead == -1){
+                    [self closeStreams];
+                    //Error Control
+                }else if(actuallyRead == 0){
+                    //Do something if you want
+                }else{
+                    [dataBuffer appendBytes:buffer length:actuallyRead];
+                    remainingToRead -= actuallyRead;
+                }
+               
+                if(remainingToRead == 0)
+                {
+                    _isFirstFourBytes = YES;
+                    [self manageData:dataBuffer];//数据接收完毕，把数据送回调用sream的函数
+                }
+            }
+            //NSLog(@"NSStreamEventHasBytesAvailable");
+
+            break;
+        }
+        case NSStreamEventEndEncountered://连接断开或结束
+        {
+           //  NSLog(@"NSStreamEventEndEncountered");
+            [self closeStreams];
+            break;
+        }
+        case NSStreamEventErrorOccurred://无法连接或断开连接
+        {
+           //NSLog(@"NSStreamEventErrorOccurred");
+            if([[aStream streamError] code])//确定code不是0……有时候正常使用时会跳出code为0的错误，但其实一点问题都没有，可以继续使用，很奇怪……
+            {
+                [self closeStreams];
+                break;
+            }
+        }
+        case NSStreamEventOpenCompleted:
+        {
+            //NSLog(@"NSStreamEventOpenCompleted");
+
+            _hasEstablished = YES;
+            break;
+        }
+        case NSStreamEventHasSpaceAvailable:
+        {
+            // NSLog(@"NSStreamEventHasSpaceAvailable");
+            break;
+        }
+        case NSStreamEventNone:
+        default:
+            break;
+    }
+}
+
+//判断是否能连接到服务器。这个函数用来判断网络是否连通还好，要真的判断服务器上对应的端口是否可以连接，不是很好用来着……
+-(BOOL)isServerAvailable{
+    //NSString *addressString =@"192.168.0.113" /*你的服务器地址，比如我公司地址[url]www.javista.com[/url]*/;
+//    if (!addressString) {
+//        return NO;
+//    }
+
+    dele=[[UIApplication sharedApplication]delegate];
+
+   // NSString *strPush=[NSString stringWithFormat:@"http://%@:8888/onlines",dele.push_server_Address];
+
+    
+    SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, [dele.push_server_Address UTF8String]);
+    SCNetworkReachabilityFlags flags;
+    
+    BOOL didRetrieveFlags = SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);
+    CFRelease(defaultRouteReachability);
+    
+    if (!didRetrieveFlags)
+    {
+        return NO;
+    }
+    
+    BOOL isReachable = flags & kSCNetworkFlagsReachable;
+    BOOL needsConnection = flags & kSCNetworkFlagsConnectionRequired;
+    return (isReachable && !needsConnection) ? YES : NO;
+}
+-(void)start{
+    
+    
+    if(inStream == nil || outStream == nil)
+    {
+        dataBuffer=[[NSMutableData alloc]init];
+        dataHead=[[NSMutableData alloc]init];
+        [self startClient];
+        [self openStreams];
+        _isFirstFourBytes = YES;
+        
+
+    }
+    /*
+    dataBuffer=[[NSMutableData alloc]init];
+    dataHead=[[NSMutableData alloc]init];
+    [self startClient];
+    [self openStreams];
+    _isFirstFourBytes = YES;
+     */
+}
+-(void)requestData:(NSString *)requestString whoRequest:(id)currentObject condition:(int)numCondition
+{
+    if(![self isServerAvailable])//如果无法连通到服务器
+    {
+        //Error Control
+        NSLog(@"error control");
+        
+//        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"提示" message:@"连接不成功!" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//        [alert show];
+//        [alert release];
+    }
+    else
+    {
+        if(inStream == nil || outStream == nil)
+        {
+            dataBuffer=[[NSMutableData alloc]init];
+            dataHead=[[NSMutableData alloc]init];
+            [self startClient];
+            [self openStreams];
+            _isFirstFourBytes = YES;
+        }
+        
+        if(inStream != nil && outStream != nil)
+        {
+            //_currentObject = currentObject;//记下是谁调用了requestData（记下了它的指针）
+            _numCondition = numCondition;//参数，以便有时候需要区分同一个类里发来的不同请求
+            if(_hasEstablished)
+            {
+                
+                
+                if (isFirst==NO) {
+                    NSLog(@"requestString is %@",requestString);
+                    NSData *requestData = [requestString dataUsingEncoding:NSUTF8StringEncoding];
+                    int dataLength = [requestData length];
+                    /*
+                     //创建前4个字节用来表示数据包长度
+                     uint8_t len[4];
+                     for(int i = 0;i<4;i++)
+                     {
+                     len[i] = (Byte)(dataLength>>8*(3-i)&0xff);
+                     }
+                     */
+                    // [/i]
+                    //将这4个字节添加到数据的开头
+                    // NSMutableData *dataToSend = [NSMutableData dataWithBytes:len length:4];
+                    // [dataToSend appendData:requestData];
+                    
+                    int remainingToWrite = dataLength;
+                    void * marker = (void *)[requestData bytes];
+                    int actuallyWritten;
+
+                    while ([outStream hasSpaceAvailable]) {
+                        if (remainingToWrite > 0) {
+                            
+                            actuallyWritten = 0;
+                            
+                            if(remainingToWrite < 1024)
+                                actuallyWritten = [outStream write:marker maxLength:remainingToWrite];//不足32KB数据时发送剩余部分
+                            else
+                                actuallyWritten = [outStream write:marker maxLength:1024];//每次32KB数据
+                            
+
+                            if ((actuallyWritten == -1) || (actuallyWritten == 0))
+                            {
+                                [self closeStreams];
+                                //Error control
+                            }
+                            else
+                            {
+                                remainingToWrite -= actuallyWritten;
+                                marker += actuallyWritten;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                }else{
+                    
+                 NSLog(@"requestString is %@",requestString);
+                    NSData *requestData = [requestString dataUsingEncoding:NSUTF8StringEncoding];
+                    int dataLength = [requestData length];
+                    /*
+                     //创建前4个字节用来表示数据包长度
+                     uint8_t len[4];
+                     for(int i = 0;i<4;i++)
+                     {
+                     len[i] = (Byte)(dataLength>>8*(3-i)&0xff);
+                     }
+                     */
+                    // [/i]
+                    //将这4个字节添加到数据的开头
+                    // NSMutableData *dataToSend = [NSMutableData dataWithBytes:len length:4];
+                    // [dataToSend appendData:requestData];
+                    
+                    int remainingToWrite = dataLength;
+                    void * marker = (void *)[requestData bytes];
+                    int actuallyWritten;
+
+                    
+                    
+                    //while ([outStream hasSpaceAvailable]) {
+                        if (remainingToWrite > 0) {
+                            
+                            actuallyWritten = 0;
+                            
+                            if(remainingToWrite < 1024)
+                                actuallyWritten = [outStream write:marker maxLength:remainingToWrite];//不足32KB数据时发送剩余部分
+                            else
+                                actuallyWritten = [outStream write:marker maxLength:1024];//每次32KB数据
+                            
+
+                            if ((actuallyWritten == -1) || (actuallyWritten == 0))
+                            {
+                                [self closeStreams];
+                                //Error control
+                            }
+                            else
+                            {
+                                remainingToWrite -= actuallyWritten;
+                                marker += actuallyWritten;
+                            }
+                        }
+                        else
+                        {
+                     //       break;
+                        }
+                    //}
+
+                }
+                
+            }
+            else
+            {
+                //Error Control
+            }
+        }
+    }
+}
+-(void)dealloc{
+
+    [dataBuffer release];
+
+    [self closeStreams];
+    [super dealloc];
+}
+-(void)manageData:(NSData *)receivedData{
+
+    
+    [_currentObject performSelectorOnMainThread:@selector(getData:) withObject:receivedData waitUntilDone:NO];
+    [dataBuffer release];
+    dataBuffer=nil;
+  
+    
+}  
+
+
+
+
+@end

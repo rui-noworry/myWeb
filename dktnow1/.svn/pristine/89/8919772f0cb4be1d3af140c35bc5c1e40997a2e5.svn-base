@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout 
+        android:layout_width="80dp"
+    	android:layout_height="80dp"
+    	android:id="@+id/homework_change_re"
+    	android:layout_marginLeft="10dp"
+    	android:layout_centerInParent="true"
+    	android:background="@drawable/course_listview_item_bg_click">
+        
+        <TextView 
+            android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_centerInParent="true"
+    		android:textColor="@color/white"
+    		android:id="@+id/homework_text"
+    		android:textSize="18sp"/>
+        
+    </RelativeLayout>
+
+</RelativeLayout>

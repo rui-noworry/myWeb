@@ -1,0 +1,49 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="/Public/Js/Home/jquery-ui.js"/>
+<load href="__PUBLIC__/Css/Home/adviser.css"/>
+<script>
+$(function(){
+    $('.tab_return').click(function() {
+        location.href = "__URL__";
+    })
+})
+</script>
+<div class="warp">
+    <include file="Public:leftSider"/>
+    <ul class="top_tab_menu fl">
+        <li class="tab_return">返回</li>
+        <li class="tab_name">{$class.s_id|replaceClassTitle=$class['c_type'],$class['c_grade'],$class['c_title'],$class['is_graduation']}</li>
+        <li onclick="javascript:location.href='__URL__/student/id/{$class.c_id}'">同学们</li>
+        <li onclick="javascript:location.href='__URL__/group/id/{$class.c_id}'">小组</li>
+        <eq name="isBeanOpen" value="1">
+            <li onclick="javascript:location.href='__URL__/honor/id/{$class.c_id}'">光荣榜</li>
+        </eq>
+        <li class="selected">通知</li>
+        <li onclick="javascript:location.href='__URL__/syllabus/id/{$class.c_id}'">课程表</li>
+    </ul>
+    <div class="creat_c_mainBox stu_crere">
+        <div class="notice_hea">
+        </div>
+        <div class="notice_over">
+            <neq name="notice.list" value="">
+                <volist name="notice.list" id="vo">
+                    <div class="notice_cen" attr="{$vo.no_id}">
+                        <p class="stu_bold">
+                            <span>对</span>
+                            <span class="hon_content">{$vo.show}</span>
+                            <span>通知：</span>
+                        </p>
+                        <p class="stu_cen" title="{$vo.no_content}">{$vo.no_content}</p>
+                        <p class="stu_click"><eq name="vo.no_published" value="0">{$vo.no_created|toDate='Y-m-d H:i'}<else/>{$vo.no_published|toDate='Y-m-d H:i'}</eq>
+                        </p>
+                    </div>
+                </volist>
+            <else/>
+                <div class="font">暂无通知</div>
+            </neq>
+        </div>
+        <div class="page">{$notice.page}</div>
+    </div>
+</div>
+<include file="Public:footer"/>

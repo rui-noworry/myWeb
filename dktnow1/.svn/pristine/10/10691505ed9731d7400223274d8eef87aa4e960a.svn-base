@@ -1,0 +1,182 @@
+<!--左部-->
+    <div class="m_left fl">
+        <ul>
+            <li title="首页">首页</li>
+            <li class="on" title="资源">资源管理</li>
+            <li title="课程">课程管理</li>
+            <li title="用户">用户管理</li>
+            <li title="配置">配置管理</li>
+            <li title="系统">系统管理</li>
+        <ul>
+    </div>
+    <!--右部-->
+    <div class="m_right fl">
+        <ul class="right_submenu fl">
+            <li>
+
+            </li>
+            <li class="on">
+                <dl attr="1">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m2.png"/>
+                        </a>
+                    </dt>
+                    <dd>资源管理</dd>
+                </dl>
+                <dl attr="2">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m3.png"/>
+                        </a>
+                    </dt>
+                    <dd>资源审核</dd>
+                </dl>
+                <dl attr="3">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m2.png"/>
+                        </a>
+                    </dt>
+                    <dd>资源栏目</dd>
+                </dl>
+            </li>
+            <li>
+                <dl attr="1">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m4.png"/>
+                        </a>
+                    </dt>
+                    <dd>年级课程</dd>
+                </dl>
+                <dl attr="2">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m5.png"/>
+                        </a>
+                    </dt>
+                    <dd>班级管理</dd>
+                </dl>
+                 <dl attr="3">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m5.png"/>
+                        </a>
+                    </dt>
+                    <dd>学校管理</dd>
+                </dl>
+                <dl attr="4">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m6.png"/>
+                        </a>
+                    </dt>
+                    <dd>学校审核</dd>
+                </dl>
+                <dl attr="5">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m7.png"/>
+                        </a>
+                    </dt>
+                    <dd>学校节点</dd>
+                </dl>
+            </li>
+            <li>
+                <dl attr="1">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m8.png"/>
+                        </a>
+                    </dt>
+                    <dd>学生管理</dd>
+                </dl>
+                <dl attr="2">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m9.png"/>
+                        </a>
+                    </dt>
+                    <dd>教师管理</dd>
+                </dl>
+                <dl attr="3">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m8.png"/>
+                        </a>
+                    </dt>
+                    <dd>后台角色</dd>
+                </dl>
+                <dl attr="4">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m9.png"/>
+                        </a>
+                    </dt>
+                    <dd>后台用户</dd>
+                </dl>
+            </li>
+            <li>
+                <dl attr="1">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m5.png"/>
+                        </a>
+                    </dt>
+                    <dd>知识点管理</dd>
+                </dl>
+                <dl attr="2">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m6.png"/>
+                        </a>
+                    </dt>
+                    <dd>课文目录</dd>
+                </dl>
+            </li>
+            <li>
+                <dl attr="3">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m2.png"/>
+                        </a>
+                    </dt>
+                    <dd>属性管理</dd>
+                </dl>
+                <dl attr="4">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m3.png"/>
+                        </a>
+                    </dt>
+                    <dd>类型管理</dd>
+                </dl>
+                <dl attr="5">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m4.png"/>
+                        </a>
+                    </dt>
+                    <dd>分组管理</dd>
+                </dl>
+                <dl attr="6">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m5.png"/>
+                        </a>
+                    </dt>
+                    <dd>节点管理</dd>
+                </dl>
+                <dl attr="7">
+                    <dt>
+                        <a href="#">
+                            <img src="/Public/Images/Ilc/m6.png"/>
+                        </a>
+                    </dt>
+                    <dd>缓存管理</dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div class="footer_submenu"></div>

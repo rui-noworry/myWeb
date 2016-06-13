@@ -1,0 +1,44 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Ilc/user.css"/>
+<div class="warp">
+    <include file="Public:left"/>
+    <div id="AuthImport" class="AuthImport fl" >
+        <div class="user fl">
+            <div class="user_menu">
+                <volist name="secondList" id="selist">
+                    <a href="__APPURL__{$selist['sn_url']}" <eq name="selist.sn_name" value="TeacherImport">class="selected"</eq>>{$selist['sn_title']}</a>
+                </volist>
+            </div>
+            <div class="filter">
+                <div class="operate">
+                    <div class="xin_ope">
+                        <h3>第一步：获取excel文件模板，并填写内容</h3>
+                        <div id="opearte-one" class="fl">
+                            <a href="../Uploads/AuthImport/{$template.template}">{$template.authType}数据导入模板下载（Excel格式为：Excel 97—2003 工作簿)</a>
+                            <a href="../Uploads/AuthImport/{$template.example}">{$template.authType}参照表</a>
+                        </div>
+                        <div id="notice">
+                            <div id="notice-con">
+                                <span class="fl"><div>注意事项：</div></span>
+                                <ol>
+                                    <li>请将{$template.authType}信息填写至DataImport表中。</li>
+                                    <li>如不清楚如何填写，请点击下载查看{$template.authType}参照表。</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <h3>第二步：导入文件</h3>
+                        <span>注意：只允许xls文件上传，不支持高版本xlsx</span>
+                        <form  METHOD="POST" action="__URL__/upload/" enctype="multipart/form-data" onsubmit='return check()'>
+                            教师数据来源&nbsp&nbsp&nbsp&nbsp<input type="file" name="file">
+                            <button class="submitBtn" type="submit" value="">确定</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<include file="Public:footer"/>

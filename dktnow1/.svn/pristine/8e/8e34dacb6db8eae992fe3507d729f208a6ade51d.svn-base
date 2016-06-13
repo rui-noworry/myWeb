@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	
+    <LinearLayout android:id="@+id/ex_f_li"
+        android:layout_width="703dp"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical">
+        
+        <TextView
+	        android:id="@+id/exercise_style"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="15sp"
+	        android:layout_marginTop="10dp"
+	        android:text="单项选择题:"
+	        android:textColor="#ff375c6c"
+	        android:textSize="18sp" />
+	
+	    <ImageView
+	        android:id="@+id/exercise_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/exercise_style"
+	        android:layout_marginLeft="17dp"
+	        android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/divider1"
+        android:layout_width="1dp"
+        android:layout_height="695dp"
+        android:layout_toRightOf="@+id/ex_f_li"
+        android:background="#ffe0e0e0" />
+	
+    <LinearLayout android:id="@+id/ex_s_li"
+        android:layout_width="575dp"
+    	android:layout_height="wrap_content"
+    	android:layout_toRightOf="@+id/divider1"
+    	android:orientation="vertical">
+        
+        
+        <RadioGroup
+	        android:id="@+id/exercise_single_radiogroup"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="30dp"
+	        android:layout_marginTop="45dp"
+	        android:orientation="vertical" >
+	
+	        <RadioButton
+	            android:id="@+id/exercise_single_radiobtn1"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:button="@null"
+	            android:drawableRight="@drawable/radio_check_selector"
+	            android:text="A" />
+	
+	        <RadioButton
+	            android:id="@+id/exercise_single_radiobtn2"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:button="@null"
+	            android:drawableRight="@drawable/radio_check_selector"
+	            android:drawablePadding="10dp"
+	            android:paddingLeft="5dp"
+	            android:text="B" />
+	
+	        <RadioButton
+	            android:id="@+id/exercise_single_radiobtn3"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:button="@null"
+	            android:drawableRight="@drawable/radio_check_selector"
+	            android:drawablePadding="10dp"
+	            android:paddingLeft="5dp"
+	            android:text="C" />
+	        
+	        <RadioButton
+	            android:id="@+id/exercise_single_radiobtn4"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:button="@null"
+	            android:drawableRight="@drawable/radio_check_selector"
+	            android:drawablePadding="10dp"
+	            android:paddingLeft="5dp"
+	            android:text="D" />
+	    </RadioGroup>
+        
+    </LinearLayout>
+ 
+</RelativeLayout>

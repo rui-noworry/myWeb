@@ -1,0 +1,267 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/upgrade.css"/>
+    <script type="text/javascript">
+    <!--
+        $(function(){
+
+            // 添加学生
+            var sorderNum = 21;
+            var _max_count = 100;
+            var sj = 7;
+            var zj = 12;
+            var _step = '';
+            $('.addStudent a').click(function(){
+
+                if($('.add_students .add li').length + 7 >= _max_count){
+                    _step = sj;
+                }else {
+                    _step = zj;
+                }
+                if($('.add_students .add li').length >= _max_count){
+                    showMessage('一个班最多只能有100个学生');
+                    return false;
+                }else {
+                    var student = '';
+                    for(var i=0; i < _step; i++){
+                        sorderNum++;
+                        student += "<li><label><em>"+sorderNum+"、</em><input name='uname' value='' type='text' class='inp0_tj'></label></li>";
+                    }
+                    $('.add_students .add ul').append(student);
+                }
+            })
+
+            // 提交注册表单
+            $('.tjBtn').click(function(){
+
+                // 学生不能为空
+                if($('input[name=uname]').val() == ''){
+
+                    showMessage("对不起，请填写相应的教师或者学生信息.");
+                    return false;
+                }
+
+                // 学生姓名必须为2~8个中文字符
+                var regname = /[^\u4E00-\u9FA5]/g;
+                formatname = $('input[name=uname]').val().length;
+                if(regname.test($('input[name=uname]').val()) == true || formatname > 8){
+
+                    showMessage("教师和学生姓名只能包含中文字符,且不能查过8个中文字符");
+                    return false;
+                }
+
+                // 提交数据
+                var as_id = $('input[name=as_id]').val();
+                var ac_id = $('input[name=ac_id]').val();
+                var s_id = $('input[name=s_id]').val();
+
+                var studentName = '';
+                $('input[name=uname]').each(function(){
+                    if ($(this).val()) {
+                        studentName += ','+$(this).val();
+                    }
+                });
+                studentName = studentName.substr(1);
+
+                $.post('__APPURL__/ApplyAuth/insert', 'as_id='+as_id+'&ac_id='+ac_id+'&studentName='+studentName+'&s_id='+s_id, function(json){
+
+                    if (json.status) {
+                        showMessage('添加成功', 1);
+                        location.href = '/Index';
+                    } else {
+                        showMessage('添加失败');
+                    }
+
+                }, 'json');
+
+            })
+
+            // 快速导入学生名单
+            $('.importBtn').click(function(){
+
+                $(".manualload li input").each(function(){
+                    $(this).val('');
+                })
+                var text = $.trim($('.fastload textarea').val());
+                var arr = text.split("\n");
+                if (arr.length > 0) {
+                    var arrayObj = new Array();
+                    for (var i = 0; i < arr.length; i++) {
+                        var sname = $.trim(arr[i]).replace(/\s+/, " ");
+                        sname=sname.replace(/[ ]/g,"");
+                         if (sname.length > 6) {
+                            showMessage('名称不能超过6个字符，请重新输入');
+                            return false;
+                        }
+                        arrayObj.push(sname);
+                    }
+                    // 插入
+                    for(var j = 0;j < arrayObj.length;j++){
+                        var _cnum =  $(".manualload li:eq("+j+") em").html();
+                        _cnum = _cnum.replace(/[^\d]*/ig,"");
+                        $(".manualload li:eq("+(_cnum-1)+") input").val(arrayObj[j]);
+
+                    }
+                }
+            })
+
+        })
+
+    //-->
+    </script>
+
+    <div class="warp">
+    <input type="hidden" name="as_id" value="{$as_id}" />
+    <input type="hidden" name="s_id" value="{$s_id}" />
+    <input type="hidden" name="ac_id" value="{$ac_id}" />
+        <div class="add_school">
+            <div class="tit">
+                <span>批量注册学生</span>
+                <a href="javascript:history.go(-1)">返回</a>
+            </div>
+
+            <div class="mt_box">
+                <div class="step_by reg_person">
+                    <p class="school_class">
+                        <span>{$schoolTitle}<cite>{$classTitle}</cite></span>
+                    </p>
+
+                    <div class="add_students">
+                        <p class="title">添加学生</p>
+                        <div class="add fl">
+                            <p class="top left">快读导入学生名单</p>
+                            <p class="top right">新增学生名单（在输入框中填写老师姓名）</p>
+                            <div class="fastload">
+                                <textarea name="" cols="" rows="" value=""></textarea>
+                                <a class="importBtn"></a>
+                            </div>
+                            <div class="manualload">
+                                <ul>
+                                    <li>
+                                        <label><em>1、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>2、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>3、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>4、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>5、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>6、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>7、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>8、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>9、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>10、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>11、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>12、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>13、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>14、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>15、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>16、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>17、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>18、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>19、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>20、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label><em>21、</em>
+                                            <input name="uname" value="" type="text" class="inp0_tj">
+                                        </label>
+                                    </li>
+                                </ul>
+                                <p class="addStudent">
+                                    <a>+再添加12个</a>（一个班最多100个学生）
+                                </p>
+
+                                <a class="tjBtn fl">提交注册名单</a>
+                            </div>
+                        </div>
+                        <div class="added fl">
+                            本班还没有学生
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="clear"></div>
+    </div>
+
+<include file="Public:footer"/>

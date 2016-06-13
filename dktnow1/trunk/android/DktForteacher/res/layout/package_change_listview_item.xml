@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="80dp">
+
+    <ImageView android:id="@+id/package_img"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="5dp"
+    	android:src="@drawable/package_bg"/>
+    
+    <TextView android:id="@+id/package_name"
+        android:layout_width="450dp"
+    	android:layout_height="wrap_content"
+    	android:textSize="20sp"
+    	android:layout_toRightOf="@+id/package_img"
+    	android:layout_marginLeft="15dp"
+    	android:layout_centerVertical="true"
+    	android:textColor="@color/black"/>
+    <TextView 
+	    android:layout_width="720dp"
+    	android:layout_height="1dp"
+    	android:layout_centerHorizontal="true"
+    	android:layout_below="@+id/package_img"
+    	android:id="@+id/package_dis_text"
+    	android:background="@color/el"/>
+    
+	<Button android:id="@+id/pachage_load"
+	    android:layout_toRightOf="@+id/package_name"
+	    android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="5dp"
+    	android:text="载入"/>
+	<Button android:id="@+id/pachage_sten"
+	    android:layout_toRightOf="@+id/pachage_load"
+	    android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="5dp"
+    	android:text="模版"/>
+	<Button android:id="@+id/pachage_delete"
+	    android:layout_toRightOf="@+id/pachage_sten"
+	    android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="5dp"
+    	android:text="删除"/>
+</RelativeLayout>

@@ -1,0 +1,33 @@
+//
+//  ClearView.h
+//  BigClassRoom
+//
+//  Created by apple  on 13-1-11.
+//
+//
+
+#import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+@protocol ClearViewDelegate ;
+@interface ClearView : UIView
+{
+
+    
+    float width;
+    UIImageView *moveImage;
+    UIImageView *yuanImage;
+    
+    id<ClearViewDelegate>cleardele;
+}
+@property(nonatomic,assign)id<ClearViewDelegate>cleardele;
+@property float width;
+-(void)setNeedsDisplayMyView;
+@end
+
+@protocol ClearViewDelegate <NSObject>
+
+-(void)changeClearWidth:(float)width;
+@optional
+-(void)clearScreen;
+
+@end

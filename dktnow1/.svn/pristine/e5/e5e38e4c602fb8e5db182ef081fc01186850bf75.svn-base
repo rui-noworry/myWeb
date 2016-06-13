@@ -1,0 +1,17 @@
+//
+//  CaoGaoView.h
+//  BigClassRoom
+//
+//  Created by apple  on 13-1-10.
+//
+//
+
+#import <UIKit/UIKit.h>
+#import "SmoothLineView.h"
+@interface CaoGaoView : UIView
+{
+    
+    SmoothLineView *palette;
+    
+}
+@end

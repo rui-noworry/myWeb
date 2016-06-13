@@ -1,0 +1,154 @@
+.sys_add {
+    width:780px;
+    height:100%;
+    margin:0 auto;
+}
+.title_hea {
+    border-radius: 2px 2px 2px 2px;
+    color: #1D1D1D;
+    float: left;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    padding: 5px 0 5px 10px;
+    text-align: left;
+    width: 97%;
+}
+.title_hea a {
+    float: right;
+    font-weight: 500;
+}
+.title_hea a:hover {
+    color:#53829e;
+}
+.add_option {
+    padding: 10px 10px 0;
+}
+.add_option li {
+    float: left;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.add_option li label {
+    color: #494949;
+    float: left;
+    font-size: 14px;
+    line-height: 29px;
+    padding-right: 10px;
+    text-align: right;
+    width: 90px;
+}
+.add_option li input {
+    float: left;
+    height: 25px;
+    line-height:25px;
+    margin: 0;
+    text-indent: 5px;
+    width: 200px;
+}
+.add_option li textarea {
+    font-size: 14px;
+    height: 120px;
+    text-indent: 5px;
+    width: 400px;
+}
+.add_option li select {
+    float:left;
+    height: 25px;
+    margin-top: 2px;
+    width: 80px;
+}
+.add_option li p {
+    float:left;
+    height: 25px;
+    line-height: 29px;
+    color: #494949;
+}
+.add_option li p span {
+    float:left;
+    line-height:29px;
+    font-size:14px;
+    padding:0px 8px;
+    cursor:pointer;
+}
+.add_option li p span:hover {
+    color:#53829e;
+}
+.add_option .coBtn {
+    margin: 10px 0 0 10px;
+}
+.coBtn .save, .coBtn .reset {
+    cursor: pointer;
+    font-size: 14px;
+    height: 38px;
+    width: 174px;
+}
+.coBtn .save {
+    margin:0px 5px 0px 70px;
+}
+.add_option li label i {
+    color: red;
+    margin-right: 5px;
+}
+.fin {
+    width:150px;
+    height:38px;
+    background: url("/apps/manage/Public/Images/Ilc/button_bg.jpg") repeat-x;
+    border: 1px solid #58A9D4;
+    text-align:center;
+    font-size:16px;
+    color:#fff;
+    cursor:pointer;
+}
+.fin:hover {
+    background: url("/apps/manage/Public/Images/Ilc/button_hover.jpg") repeat-x;
+}
+#subjects {
+    float:left;
+    width:88%;
+}
+#subjects input {
+    float:left;
+    height:29px;
+}
+#subjects span {
+    font-size:16px;
+    height:29px;
+    line-height:29px;
+    color:#666;
+}
+.examine_edit input {
+    float:left;
+}
+.examine_edit span {
+    float:left;
+    font-size: 16px;
+    line-height: 25px;
+    margin: 0 5px;
+    color:#666;
+}
+#mode_edit {
+    float:left;
+    cursor:pointer;
+    width:70px;
+    height:25px;
+    line-height:25px;
+    text-align:center;
+    background:url("/apps/manage/Public/Images/Ilc/but_bg.jpg") repeat-x;
+    border:1px solid #c6c7c9;
+    margin-left:20px;
+    color:#494949;
+    font-size:14px;
+}
+#mode_edit:hover {
+    background:url("/apps/manage/Public/Images/Ilc/but_hover.jpg") repeat-x;
+}
+h2 a {
+    color:#494949;
+}
+
+.add_option .roleRight a{
+    font-weight:bold;
+    font-size:16px;
+
+}

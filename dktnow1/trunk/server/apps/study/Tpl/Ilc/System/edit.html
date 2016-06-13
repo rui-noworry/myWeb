@@ -1,0 +1,129 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Ilc/system.css"/>
+<div class="warp">
+    <include file="Public:left"/>
+    <div class="addBox">
+        <div class="title"><i class="fl">年级课程配置</i><a href="__URL__/index" class="fr">返回列表</a></div>
+        <ul class="addOption">
+            <li class="gcType">
+                <label>学制：</label>
+                <div>
+                    <volist name="gc_type" id="type">
+                        <eq name="vo.gc_type" value="$key">
+                        <span class="hand" rel="{$key}">{$type}</span>
+                        </eq>
+                    </volist>
+                </div>
+            </li>
+            <!--if condition="$major"-->
+            <li class="gcMajor">
+                <!--span class="hand on" rel="{$major.ma_id}">{$major.ma_title}</span-->
+            </li>
+            <!--/if-->
+            <li class="gcGrade">
+            </li>
+            <li class="gcSubject">
+                <label>学科：</label>
+                <div></div>
+            </li>
+            <li class="coBtn">
+                <input type="button" value="保存" class="save button"/>
+                <input type="reset" value="取消" class="reset button"/>
+            </li>
+        </ul>
+    </div>
+</div>
+<include file="Public:footer"/>
+<script type="text/javascript">
+$(function(){
+
+    // 选中
+    $(document).on('click','.gcSubject .hand',function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+
+    $(".gcType span").each(function() {
+        if ($(this).attr('rel') == {$vo.gc_type}) {
+            $(this).addClass('on');
+            if ({$vo.gc_type} == 4) {
+                listGrade($(this).attr('rel'), 'gcMajor', {$vo.ma_id});
+            } else {
+                listGrade($(this).attr('rel'), 'gcGrade', {$vo.gc_grade});
+            }
+        }
+    })
+
+    var gc_type = $(".gcType .hand.on").attr('attr');
+    var gc_grade = $(".gcGrade .hand.on").attr('attr');
+
+    // 根据年级选择学科
+    $(document).on('click',".gcGrade span",function(){
+
+        if ($(this).hasClass('on') && $('.gcSubject div').html() != '') {
+            return false;
+        }
+        var gc_type = $(".gcType .hand.on").attr('rel');
+        var gc_grade = $(".gcGrade .hand.on").attr('rel');
+
+        $('.gcGrade span.on').siblings('span').remove();
+
+        listSubject(gc_type, gc_grade, 'gcSubject');
+    })
+
+    var count = 0;
+
+    // 依据专业选择年级
+    $(document).on('click', '.gcMajor span', function () {
+        if (count > 0) {
+            return;
+        }
+        $(this).addClass('on').siblings().removeClass('on');
+        $('.gcMajor span.on').siblings('span').remove();
+        var ma_id = $(this).attr('rel');
+        listGrade($(this).attr('rel'), 'gcGrade', 1, 'major');
+        count++;
+    })
+
+    // 保存
+    $('.save').click(function() {
+        var str = 'gc_id={$vo.gc_id}&gc_type='+$(".gcType .hand.on").attr('rel')+'&gc_grade='+$(".gcGrade .hand.on").attr('rel')+'&gc_course=';
+        var tmp = ''
+        $('.gcSubject .hand.on').each(function() {
+            if ($(this).attr('rel')) {
+                tmp += ',' + $(this).attr('rel');
+            }
+        })
+        str += tmp.slice(1);
+        $.post('__URL__/update', str, function(json) {
+            if (json.status == 1) {
+                showMessage('操作成功', 1);
+            } else {
+                showMessage(json.info);
+            }
+        }, 'json')
+    })
+})
+
+function listSubject(gc_type, gc_grade, objId){
+
+    $.post('__URL__/getSubjects', 'gc_type='+gc_type+'&gc_grade='+gc_grade, function(json){
+
+        if (json) {
+
+            var str = '';
+            $('.'+objId + '>div').html('');
+
+            for (var i = 0; i < json.length; i++) {
+                str += '<span class="hand';
+
+                if (json[i]['id'] == {$vo.gc_course}) {
+                    str += ' on';
+                }
+                str += '" rel="'+json[i]['id']+'" >'+json[i][0]+'</span>';
+            }
+
+            $('.'+objId +'>div').html(str);
+        }
+    }, 'json');
+}
+</script>

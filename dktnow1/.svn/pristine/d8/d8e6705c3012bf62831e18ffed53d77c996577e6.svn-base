@@ -1,0 +1,49 @@
+<include file="../Public/header_main" />
+
+<load file="__PUBLIC__/Css/Ilc/system_add.css"/>
+<script type="text/javascript">
+ function check() {
+
+    if ($("input[name=con_name]").val() == '') {
+            alert('请输入名称', 0);
+            return false;
+    }
+
+    if ($("input[name=con_title]").val() == '') {
+            alert('请输入说明', 0);
+            return false;
+    }
+}
+</script>
+    <div class="title_hea">
+        新增配置
+        <a href="__URL__/">返回列表</a>
+    </div>
+    <form method="post" action="__URL__/insert/" onsubmit="return check();" enctype="multipart/form-data">
+        <ul class="add_option">
+            <li>
+                <label>名称：</label>
+                <input class="fl" type="text" name="con_name" value=""/>
+            </li>
+            <li>
+                <label>说明：</label>
+                <input class="fl" type="text" name="con_title" value=""/>
+            </li>
+            <li>
+                <label>配置：</label>
+                <textarea name="con_value" ROWS="5" COLS="35"></textarea>
+            </li>
+            <li>
+                <label>附件：</label>
+                <input type="file" name="file">
+            </li>
+            <li>
+                <label>备注：</label>
+                <textarea name="con_note" ROWS="5" COLS="35"></textarea>
+            </li>
+            <li class="coBtn">
+                <button class="save fin" value="" type="submit">保存</button>
+                <button class="reset fin" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>

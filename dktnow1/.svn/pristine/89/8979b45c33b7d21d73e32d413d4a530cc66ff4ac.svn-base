@@ -1,0 +1,52 @@
+<include file="../Public/header_main" />
+
+<load file="__PUBLIC__/Css/Ilc/system_add.css"/>
+<script type="text/javascript">
+function check() {
+
+    if ($("input[name=t_name]").val() == '') {
+            alert('标签名不能为空', 0);
+            return false;
+    }
+
+    if ($("select[name=t_subject]").val() == 0) {
+            alert('请选择学科', 0);
+            return false;
+    }
+}
+</script>
+    <div class="title_hea">
+        <i class="fl">新增标签</i>
+        <a href="__URL__/">返回列表</a>
+    </div>
+    <form method="post" action="__URL__/insert/" onsubmit="return check();">
+        <ul class="add_option">
+            <li>
+                <label>标签名称：</label>
+                <input class="fl" type="text" name="t_name" value=""/>
+            </li>
+
+            <li>
+                <label>所属学科：</label>
+                <select  name="t_subject"  >
+                     <option value="0">请选择</option>
+                     <volist name="t_subject" id="course" key="ck">
+                        <option value="{$ck}">{$course}</option>
+                     </volist>
+                </select>
+            </li>
+            <li>
+                <label>状态：</label>
+                <select class="fl" name="t_status">
+                    <option value="1">启用</option>
+                    <option value="9">禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <input type="hidden"  name="t_pid" value="{$t_pid}">
+                <input type="hidden"  name="t_level" value="{$t_level}">
+                <button class="save fin" value="" type="submit">保存</button>
+                <button class="reset fin" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>

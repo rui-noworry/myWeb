@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/discuss_msg_bg">
+
+    <Button android:id="@+id/discuss_close"
+        android:layout_width="55dp"
+    	android:layout_height="30dp"
+    	android:layout_marginTop="30dp"
+    	android:layout_marginLeft="20dp"
+    	android:background="@drawable/discuss_close_btn"
+    	android:layout_alignParentLeft="true"
+    	android:text="关闭"
+    	android:textColor="#ff375c6c"/>
+	<Button android:id="@+id/discuss_msg"
+        android:layout_width="55dp"
+    	android:layout_height="30dp"
+    	android:layout_marginTop="30dp"
+    	android:layout_toRightOf="@+id/discuss_close"
+    	android:layout_marginLeft="430dp"
+    	android:background="@drawable/discusss_msg_btn"
+    	android:text="留言"
+    	android:textColor="#ff375c6c"/>
+	<EditText android:id="@+id/correct_popu_edit"
+        android:layout_width="580dp"
+    	android:layout_height="335dp"
+    	android:layout_marginLeft="40dp"
+    	android:lineSpacingExtra="20dp"
+    	android:textSize="20sp"
+    	android:layout_below="@+id/discuss_close"
+    	android:layout_centerHorizontal="true"
+    	android:layout_marginTop="35dp"
+    	android:textColor="#ff375c6c"
+    	android:gravity="top"
+    	android:background="@null"/>
+</RelativeLayout>

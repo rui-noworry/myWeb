@@ -1,0 +1,36 @@
+//
+//  AppDelegate.h
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-6-3.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@class ViewController;
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+{
+
+    
+    NSString *server_Address_str;
+    NSString *push_server_Address;
+    
+    //socket 相关东西
+    NSTimer *timer;
+    NSOperationQueue *_queue;
+    UINavigationController *navController;
+    BOOL flag;
+}
+@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) ViewController *viewController;
+@property(nonatomic,retain) NSString *server_Address_str;
+@property(nonatomic,retain) NSString *push_server_Address;
+
+
+
+@property(nonatomic,retain) NSOperationQueue *_queue;
+-(void)loginSocket;
+
+@end

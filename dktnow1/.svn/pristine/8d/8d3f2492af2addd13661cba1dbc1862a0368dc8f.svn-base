@@ -1,0 +1,54 @@
+//
+//  SuperBackTable.h
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-7-3.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+@protocol SuperBackTableDelegate;
+
+@interface SuperBackTable : UIView
+{
+    UIImageView *backTable;
+    UILabel *lblTitle;//弹出框列表
+
+    BOOL isDisplay;
+    UIButton *lrBtn;
+    
+    UIButton *btnPush;
+    
+    UIImageView *imgView;
+    UIImageView *imgView2;
+    UIButton *showTongjiBtn;
+    UILabel *lblTitle2;//谁的作业
+    BOOL showtongji;
+    
+    id<SuperBackTableDelegate>delegate;
+}
+@property(nonatomic,assign)id<SuperBackTableDelegate>delegate;
+
+@property(nonatomic,assign)UIButton *btnPush;
+@property(nonatomic,assign)UILabel *lblTitle;//弹出框列表
+@property(nonatomic,assign)UIImageView *imgView2;
+@property(nonatomic,assign)UILabel *lblTitle2;//谁的作业
+@property(nonatomic,assign)UIButton *showTongjiBtn;
+@property(nonatomic,assign)UIButton *lrBtn;
+
+@property BOOL isDisplay;
+@property BOOL showtongji;
+
+@end
+
+
+
+
+
+@protocol SuperBackTableDelegate <NSObject>
+
+
+-(void)pushAction;
+-(void)handleDisplayTongji:(BOOL)flag;
+
+@end

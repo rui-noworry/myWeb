@@ -1,0 +1,154 @@
+<include file="../Public/header_main" />
+<load href="/Public/Js/Public/provincesCity.js,/Public/Js/Public/provincesdata.js,/Public/Js/Public/Ymd/WdatePicker.js"/>
+<load file="__PUBLIC__/Css/Ilc/system_add.css"/>
+<load file="__PUBLIC__/Css/Ilc/resource_index.css"/>
+<script type="text/javascript">
+        <!--
+        // 验证
+
+    function check() {
+
+        if ($("input[name=a_account]").val() == '') {
+
+            showMessage("帐号必须填写");
+            $("input[name=a_account]").focus();
+            return false;
+
+            if($("input[name=a_account]").val().length>20){
+                showMessage("帐号必须20个字符以内");
+                $("input[name=a_account]").focus();
+                return false;
+            }
+        }
+
+        if ($("input[name=a_nickname]").val() == '') {
+            showMessage("姓名必须填写");
+            $("input[name=a_nickname]").focus();
+            return false;
+        }
+
+        if ($("select[name=s_id]").val() == '') {
+            showMessage("必须选择学校");
+            $("select[name=s_id]").focus();
+            return false;
+        }
+
+        if ($("select[name=a_year]").val() == '') {
+            showMessage("必须选择入学年份");
+            $("select[name=a_year]").focus();
+            return false;
+        }
+
+        if($('#province select:eq(0)').val() == ''){
+            showMessage("必须选择籍贯");
+            $('#province select:eq(0)').focus();
+            return false;
+        }
+
+
+        if($("input[name=a_tel]").val() != ''){
+
+            mobile_phone = $("input[name=a_tel]").val();
+            var reg = /^0?1[358]\d{9}$/;
+            if (!reg.test(mobile_phone)){
+                showMessage("请检查手机号");
+                $("input[name=a_tel]").focus();
+                return false;
+            }
+        }
+
+    }
+
+
+
+
+
+        $(function(){
+            // 籍贯
+            setProvince("province", "a_region", {$vo.a_region2});
+        })
+    //-->
+    </script>
+    <div class="title_hea">
+        <i class="fl">教师编辑</i>
+        <a href="__URL__/">返回列表</a>
+    </div>
+    <form method="post" action="__URL__/update/" onsubmit="return check();"  enctype="multipart/form-data">
+        <ul class="add_option">
+            <li>
+                <label>账号：</label>
+                <input class="fl" type="text" name="a_account" value="{$vo.a_account}"/>
+            </li>
+            <li>
+                <label>姓名：</label>
+                <input class="fl" type="text" name="a_nickname" value="{$vo.a_nickname}"/>
+            </li>
+            <li>
+                <label>所属学校：</label>
+                <select name="s_id">
+                    <option value="0">请选择</option>
+                    <volist name="school" id="school">
+                        <option value="{$school.s_id}" <eq name="vo.s_id" value="$school.s_id">selected</eq>>{$school.s_name}</option>
+                    </volist>
+                </select>
+            </li>
+            <li>
+                <label>入校时间：</label>
+                <select name="a_year">
+                    <option value="0">请选择</option>
+                    <volist name="year" id="year">
+                        <option value="{$year}" <eq name="vo.a_year" value="$year">selected</eq>>{$year}</option>
+                    </volist>
+                </select>
+            </li>
+            <li class="course_name">
+                <label><i></i>教授课程：</label>
+                <div id="subjects">
+                    <volist name="course" id="co">
+                        <input class="radio_sex" type="checkbox" <in name="key" value="$teacher">checked</in>  value="{$key}" name="Courses[]"><span class="fl">{$co}</span>
+                    </volist>
+                </div>
+
+            </li>
+            <li class="rad_sex examine_edit">
+                <label><i></i>性别：</label>
+                <input type="radio" name="a_sex" style="width:auto; margin-top:2px;" value="1" <eq name="vo.a_sex" value="1">checked</eq>>
+                <span>男</span>
+                <input type="radio" name="a_sex" style="width:auto; margin-top:2px;" value="2" <eq name="vo.a_sex" value="2">checked</eq>>
+                <span>女</span>
+            </li>
+            <li>
+                <label><i></i>生日：</label>
+                <input type="text" name="a_birthday" onclick="WdatePicker();" value="{$vo.a_birthday|toDate='Y-m-d'}">
+            </li>
+            <li>
+                <label><i></i>籍贯：</label>
+                <span id="province"></span>
+                <input type="hidden" name="a_region" value="{$vo.a_region}"/>
+            </li>
+            <li>
+                <label><i></i>手机：</label>
+                <input type="text" name="a_tel" value="{$vo.a_tel}">
+            </li>
+            <li>
+                <label><i></i>头像：</label>
+                <img src="{$vo.a_avatar|getAuthAvatar=$vo.a_type,$vo.a_sex,96}"><input type="file" name="a_avatar">
+            </li>
+            <li>
+                <label>简介：</label>
+                <textarea placeholder="内容不能超过300字符" name="a_note">{$vo.a_note}</textarea>
+            </li>
+            <li>
+                <label><i></i>状态：</label>
+                <select name="a_status">
+                    <option value="1" <eq name="vo.a_status" value="1">checked</eq>>启用</option>
+                    <option value="9" <eq name="vo.a_status" value="9">checked</eq>>禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <input type="hidden" name="a_id" value="{$vo.a_id}">
+                <button class="save fin" value="" type="submit">添加</button>
+                <button class="reset fin" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>

@@ -1,0 +1,248 @@
+/* 系统配置 */
+.system{
+    width: 840px;
+    height: auto;
+    margin-top: 25px;
+    margin-left: 28px;
+}
+.system .sys_menu a{
+    display:inline;
+    height:60px;
+    line-height:60px;
+    margin: 0px 20px 0px 20px;
+    color: #99999D;
+    font-size: 18px;
+    cursor: pointer;
+}
+.system .sys_menu a.selected{
+    color: #080808;
+    font-weight: 400;
+}
+.system .filter {
+    float:left;
+    width:803px;
+    height:auto;
+    margin-bottom:20px;
+    background:#F5F5F3;
+    padding:10px 20px 10px 20px;
+}
+.system .filter .tools {
+    width:100%;
+    height:auto;
+    margin-top:10px;
+}
+.filter .search .more_search {
+    width: 100%;
+    height: auto;
+}
+.filter .search .more_search li.gcType li.gcMajor li.gcGrade {
+    float: left;
+    margin-top: 10px;
+}
+.filter .search .more_search li.gcMajor {
+    float: left;
+    margin-top: 10px;
+}
+.filter .search .more_search li.gcGrade {
+    clear:both;
+    float: left;
+    margin-top: 10px;
+}
+.filter .search .more_search li label {
+    float: left;
+    width: 50px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;
+    margin-top: 5px;
+}
+.filter .search .more_search li div {
+    float: left;
+    width: 680px;
+}
+.filter .search .more_search li span {
+    display: inline-block;
+    margin: 0 10px 3px 10px;
+    padding: 5px 20px;
+    border: 1px solid #20D691;
+    cursor: pointer;
+}
+.filter .search .more_search li span.on {
+    background: #93E5BD;
+}
+
+/* 新增---年级课程设置 */
+.addBox {
+    float: left;
+    width: 780px;
+    height: auto;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    background: #F5F5F3;
+    padding: 10px 20px 20px 20px;
+}
+.addBox .title {
+    padding: 5px 0 5px 10px;
+    width: 97%;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 400;;
+    letter-spacing: 4px;
+    border-radius: 2px;
+    color: #1D1D1D;
+    font-size: 16px;
+}
+.addOption {
+    float:left;
+    padding:10px 10px 0 10px;
+}
+.addOption li {
+    float:left;
+    width:750px;
+    line-height:29px;
+    margin-bottom: 10px;
+}
+.addOption li label {
+    float: left;
+    width: 60px;
+    line-height: 29px;
+    padding-right: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;
+    text-align:right;
+}
+.addOption li span.on {
+    background: #93E5BD;
+}
+.addOption li span {
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    padding: 5px 20px;
+    border: 1px solid #20D691;
+    cursor: pointer;
+}
+.addOption li div {
+    float:left;
+    width: 680px;
+}
+.addOption li select {
+    width:80px;
+    height:25px;
+}
+.addOption li.coBtn .saveBtn{
+    float:left;
+    width:174px;
+    height:38px;
+    margin-top:20px;
+    margin-right:10px;
+    background:url('/apps/resource/Public/Images/Ilc/save.png') no-repeat;
+}
+.addOption li.coBtn .clearBtn{
+    float:left;
+    width:174px;
+    height:38px;
+    margin-top:20px;
+    background:url('/apps/resource/Public/Images/Ilc/clear.png') no-repeat;
+}
+/* 新增学年 */
+.addOption li {
+    margin-bottom:10px;
+}
+.addOption li.xyear select{
+    margin-left:10px;
+    _margin-top:4px;
+}
+.addOption li button {
+    margin-right:10px;
+    text-indent:5px;
+}
+li.sxy input ,li.xxq input {
+    width:180px;
+    height:26px;
+    line-height:26px;
+    text-indent:5px;
+    margin:0 10px;
+}
+/*专业设置*/
+.model_cor ,.model_cor  li {
+    float:left;
+    width:470px;
+}
+.model_cor ul {
+    float:left;
+}
+.model_cor li {
+    margin-left:5px;
+    margin-bottom:5px;
+}
+.model_cor li label,.model_cor li textarea,.model_cor li div span,.model_cor input.model_name,.model_cor .model_english {
+    color: #393939;
+    font-size: 14px;
+}
+.model_cor li label {
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 5px;
+    margin-top: 10px;
+    text-align: right;
+    width: 70px;
+}
+.model_cor input.model_name,.model_cor .model_english {
+    height: 30px;
+    margin-left: 0;
+    margin-top: 10px;
+    width: 250px;
+}
+.model_cor li textarea {
+    float:left;
+    display:block;
+    width:340px;
+    height:80px;
+    padding-top:5px;
+    text-indent:5px;
+}
+.model_cor li div {
+    float:left;
+    width:390px;
+}
+.model_cor li div input {
+    float:left;
+    width:14px;
+    height:14px;
+    margin:13px 3px 0px 0px;
+    cursor:pointer;
+}
+.model_cor li div span {
+    float:left;
+    padding-right:10px;
+    line-height:37px;
+}
+.model_cor li p {
+    float:left;
+    line-height:37px;
+    padding-left:10px;
+    color:#393939;
+    font-size:14px;
+}
+.model_cor li.mod_type span {
+    float: left;
+    display: block;
+    line-height: 37px;
+    color: #393939;
+    font-size: 14px;
+    cursor: pointer;
+}
+.model_cor li.mod_tyy span {
+    padding:0px 15px;
+    border:1px solid #20D691;
+    margin-right:5px;
+}
+.model_cor li.mod_type span.on {
+    background:#93E5BD;
+}
+.model_cor li p.cor_red {
+    color:red;
+}

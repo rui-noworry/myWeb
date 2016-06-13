@@ -1,0 +1,61 @@
+<include file="../Public/header_main" />
+<load file="__PUBLIC__/Css/Ilc/resource_index.css"/>
+<script type="text/javascript">
+    $(function(){
+        var listObj = {"data_check": "2%","data_id": "8%" ,"data_name": "20%","data_explain": "24%","data_default": "14%","data_sort": "12%","data_hand": "20%"};
+     setWidth(listObj);
+    })
+
+</script>
+<style>
+.listCategory li{ list-style:none; cursor:pointer;}
+.choose{ cursor:pointer;}
+</style>
+
+    <div class="tools fl">
+        <a class="add">
+            <i></i>
+            新增
+        </a>
+        <a class="edit">
+            <i></i>
+            编辑
+        </a>
+        <a class="del">
+            <i></i>
+            删除
+        </a>
+    </div>
+    <div id="system_list">
+        <div>
+            <ul class="list_hea">
+                <li>
+                    <input class="data_check" type="checkbox" name="allcheck" onclick="CheckAll('system_list')"/>
+                    <span class="data_id">编号</span>
+                    <span class="data_name">名称</span>
+                    <span class="data_explain">上级</span>
+                    <span class="data_sort">是否显示</span>
+                    <span class="data_hand">操作</span>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <ul class="list_list list_hea" id="list_main">
+
+                <volist name="list" id="list">
+                    <li>
+                        <input class="data_check" type="checkbox" value="{$list.rc_id}" name="key"/>
+                        <span class="data_id">{$list.rc_id}</span>
+                        <span class="data_name">{$list.rc_title}</span>
+                        <span class="data_explain">{$list.pid_name}</span>
+                        <span class="data_sort">{$list.is_show}</span>
+                        <span class="data_hand"><a href="javascript:edit({$list.rc_id})">编辑</a></span>
+                    </li>
+                </volist>
+
+            </ul>
+        </div>
+        <div class="page">
+            {$page}
+        </div>
+    </div>

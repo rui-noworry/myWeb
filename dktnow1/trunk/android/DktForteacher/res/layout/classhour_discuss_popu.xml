@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/classhour_popu_bg">
+
+    <Button android:id="@+id/discuss_btn"
+        android:layout_width="95dp"
+    	android:layout_height="35dp"
+    	android:background="@drawable/discuss_btn_bg"
+    	android:layout_marginTop="15dp"
+    	android:layout_marginRight="25dp"
+    	android:layout_alignParentRight="true"
+    	android:text="发表讨论"/>
+    
+	<ListView android:id="@+id/discuss_listview"
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_marginLeft="20dp"
+    	android:layout_marginRight="20dp"
+    	android:layout_marginTop="20dp"
+    	android:layout_marginBottom="20dp"
+    	android:layout_below="@+id/discuss_btn">
+	</ListView>
+</RelativeLayout>

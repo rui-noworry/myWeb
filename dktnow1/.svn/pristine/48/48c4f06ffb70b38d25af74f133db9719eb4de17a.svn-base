@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dkt.student"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="15" />
+
+    <application
+        android:name=".MyApp"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name" >
+        <activity
+            android:label="@string/app_name"
+            android:name=".DktForstudentActivity" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+         <activity
+            android:name=".activity.HomeActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".activity.GraffitiActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".activity.CourseActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".activity.ResourceActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+       	<activity
+            android:name=".activity.ClassHourActivity"
+            android:screenOrientation="landscape" >
+        </activity>     
+        <activity
+            android:name=".activity.BlackboardActivity"
+            android:screenOrientation="landscape" >
+        </activity>  
+       	<activity
+            android:name=".activity.DoHomeWorkActivity"
+            android:screenOrientation="landscape" >
+        </activity>  
+        <activity
+            android:name=".activity.LockScreenActivity"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="lockscreen" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.DoExerciseActivity"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="exerciseactivity" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".activity.ExplainActivity"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="explain" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+ 		<activity
+            android:name=".activity.ShowImageActivity"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="showimage" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>           
+        <service android:enabled="true"
+			android:name="dkt.student.socket.SocketPushService"
+			android:label="NotificationService">
+			<intent-filter>
+				<action android:name="dkt.student.socket.SocketPushService" />
+			</intent-filter>
+		</service>
+    </application>
+	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        
+</manifest>

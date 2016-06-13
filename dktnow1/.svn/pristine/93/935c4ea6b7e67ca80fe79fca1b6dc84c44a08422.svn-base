@@ -1,0 +1,826 @@
+//
+//  NoteViewController.m
+//  ClassRoomStudent
+//
+//  Created by apple  on 13-8-8.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "TuyaViewController.h"
+
+@interface TuyaViewController ()
+
+@end
+
+@implementation TuyaViewController
+@synthesize myDict;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+//点击屏幕之后，让画板视图，处于subview之上。等长按之后再次激活。
+-(void)clickScreen{
+    
+    
+    for (UIView *v in [self.view subviews]) {
+        
+        if ([v isKindOfClass:[SPUserResizableView class]]) {
+            [(SPUserResizableView *)v hideEditingHandles];
+            [v viewWithTag:77].hidden=YES;
+            [v viewWithTag:87].hidden=YES;
+        }
+    }
+    
+    [self.view bringSubviewToFront:smoothView];
+    
+    
+    [self.view bringSubviewToFront:stateImage];
+    [self.view bringSubviewToFront:btnBack];
+    [self.view bringSubviewToFront:infoLabel];
+    [self.view bringSubviewToFront:setView];
+    [self.view bringSubviewToFront:_clearView];
+  
+    
+    
+}
+#pragma mark 画图的长按事件
+-(void)pressedLongSmooth:(UILongPressGestureRecognizer *)gestureRecognizer{
+    
+    switch (gestureRecognizer.state) {
+        case UIGestureRecognizerStateBegan:
+            
+        {
+            /*
+             for (UIView *v in [self.view subviews]) {
+             if ([v isKindOfClass:[SPUserResizableView class]]||[v isKindOfClass:[AudioView class]]||[v isKindOfClass:[AvPlayer class]]) {
+             if ([v isKindOfClass:[SPUserResizableView class]]) {
+             
+             [(SPUserResizableView *)v showEditingHandles];
+             [v viewWithTag:77].hidden=NO;
+             
+             if (((SPUserResizableView *)v).type==0) {
+             [v viewWithTag:87].hidden=YES;
+             }else{
+             [v viewWithTag:87].hidden=NO;
+             }
+             }
+             
+             [self.view bringSubviewToFront:v];
+             }
+             
+             }*/
+            
+            for (UIView *v in [self.view subviews]) {
+                
+                
+                if ([v isKindOfClass:[SPUserResizableView class]]) {
+                    
+                    
+                    [(SPUserResizableView *)v showEditingHandles];
+                    [v viewWithTag:77].hidden=NO;
+                    
+                    if (((SPUserResizableView *)v).type==0) {
+                        [v viewWithTag:87].hidden=YES;
+                    }else{
+                        [v viewWithTag:87].hidden=NO;
+                    }
+                    
+                    [self.view bringSubviewToFront:v];
+                    
+                }
+            }
+            NSLog(@"press long began");
+            
+            
+            
+            break;
+        case UIGestureRecognizerStateEnded:
+            
+            NSLog(@"press long ended");
+            break;
+        case UIGestureRecognizerStateFailed:
+            NSLog(@"press long failed");
+            break;
+        case UIGestureRecognizerStateChanged:
+            //移动
+            
+            NSLog(@"press long changed");
+            break;
+        default:
+            NSLog(@"press long else");
+            break;
+        }
+    }
+    
+    
+}
+
+#pragma mark 删除数据库
+-(void)removeDB{
+    
+    NSString *dbName =[NSString stringWithFormat:@"%@.db",@"tempNote"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentDirectory stringByAppendingPathComponent:dbName];
+    
+    NSError *error;
+    NSFileManager *manager=[NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:dbPath]) {
+        
+        BOOL flag = [manager removeItemAtPath:dbPath error:&error];
+        
+        NSLog(@"flag is %d",flag);
+    }
+    
+    
+    
+    
+}
+-(void)btnBackAction{
+    [self removeDB];
+    
+    
+    [self removeSubViews];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+#pragma mark updateDB
+-(void)saveCurrentToDatabase{
+    
+    
+    UIImage *theImage=[ToolClass imageFromView:smoothView];
+    NSData *data=UIImagePNGRepresentation(theImage);
+    [db executeUpdate:@"INSERT OR REPLACE INTO handwriting(ha_id,ha_bitmap) VALUES (?,?)",[NSString stringWithFormat:@"%d",currentPage], data];
+    
+    for (int i=0; i<[subViewsArr count]; i++) {
+        
+        
+        NSMutableDictionary *muDict = [subViewsArr objectAtIndex:i];
+        // if ([[muDict objectForKey:@"type"] intValue] == 1) {//type是1就是图片
+        
+        SPUserResizableView *imageview = (SPUserResizableView *)[self.view viewWithTag:[[muDict objectForKey:@"tag"] intValue]];
+        [db executeUpdate:@"UPDATE subviews SET x = ?,y = ?,width = ?,height = ? WHERE vi_id = ? ",[NSString stringWithFormat:@"%f",imageview.frame.origin.x],[NSString stringWithFormat:@"%f",imageview.frame.origin.y],[NSString stringWithFormat:@"%f",imageview.frame.size.width],[NSString stringWithFormat:@"%f",imageview.frame.size.height],[muDict objectForKey:@"vi_id"]];
+        
+        
+        
+        // }
+    }
+    
+}
+
+
+#pragma mark 删除编辑subview
+
+
+
+-(void)editSelf:(SPUserResizableView *)v ccbtn:(CCButton*)btn{
+    
+    
+}
+
+-(void)removeSelf:(SPUserResizableView *)v{
+    
+    
+    for (int i=0; i<[subViewsArr count]; i++) {
+        NSMutableDictionary *dict = [subViewsArr objectAtIndex:i];
+        if ([[dict objectForKey:@"tag"] intValue] == v.tag) {
+            
+            NSString *str = [NSString stringWithFormat:@"DELETE FROM subviews WHERE vi_id = %@",[dict objectForKey:@"vi_id"]];
+            NSLog(@"str is %@",str);
+            [db executeUpdate:str];
+            
+            
+            [subViewsArr removeObject:dict];
+            [v removeFromSuperview];
+            
+            
+            break;
+        }
+    }
+    
+}
+#pragma mark 删除板书上子视图
+-(void)removeSubViews{
+    [smoothView removeFromSuperview];
+    
+    
+    for (int i=0; i<[subViewsArr count]; i++) {
+        NSMutableDictionary *contentDict=[subViewsArr objectAtIndex:i];
+        UIView *v=[self.view viewWithTag:[[contentDict objectForKey:@"tag"] intValue]];
+        
+        [v removeFromSuperview];
+    }
+}
+#pragma mark 加载板书上子视图
+-(void)loadSubViews{
+    
+    FMResultSet *rs = [db executeQuery:@"SELECT * FROM handwriting WHERE ha_id = ?",[NSString stringWithFormat:@"%d",currentPage]];
+    UIImage *Bitmap=nil;
+    
+    while ([rs next]) {
+        
+        NSData *imageData=[rs dataForColumn:@"ha_bitmap"];
+        Bitmap=[[UIImage alloc] initWithData:imageData];
+        
+    }
+    
+    
+    
+    smoothView=[[SmoothLineView alloc]initWithFrame:CGRectMake(0, 0, 1024, 748)];
+    smoothView.SmoothLineViewDelegate=self;
+    smoothView.isNeedDraw = YES;
+    [self.view addSubview:smoothView];
+    [smoothView release];
+    
+    [smoothView addLayer:Bitmap];
+    [Bitmap release];
+    
+    
+    
+    UILongPressGestureRecognizer *longPressSmooth = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressedLongSmooth:)];
+    [smoothView addGestureRecognizer:longPressSmooth];
+    [longPressSmooth release];
+    
+    
+    [self updateNoteColorAndWidht];
+    ///加载其他的视图
+    
+    FMResultSet *rs2 = [db executeQuery:@"SELECT * FROM subviews WHERE ha_id = ?",[NSString stringWithFormat:@"%d",currentPage]];
+    [subViewsArr removeAllObjects];
+    
+    
+    while ([rs2 next]) {
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        if ([[rs2 stringForColumn:@"type"] intValue]==1) {
+            
+            NSData *imageData = [rs2 dataForColumn:@"vi_bitmap"];
+            UIImage *image = [[UIImage alloc] initWithData:imageData];
+            
+            [dict setObject:[rs2 stringForColumn:@"vi_id"] forKey:@"vi_id"];
+            [dict setObject:[rs2 stringForColumn:@"tag"] forKey:@"tag"];
+            [dict setObject:[rs2 stringForColumn:@"type"] forKey:@"type"];
+            
+            viewTag = [[rs2 stringForColumn:@"tag"] intValue];
+            
+            CGRect rect = CGRectMake([[rs2 stringForColumn:@"x"] floatValue], [[rs2 stringForColumn:@"y"] floatValue], [[rs2 stringForColumn:@"width"] floatValue], [[rs2 stringForColumn:@"height"] floatValue]);
+            
+            
+            
+            [self addImageView:image frame:rect flag:YES tag:viewTag];
+        }
+        
+        [subViewsArr addObject:dict];
+        [dict release];
+    }
+    
+    if ([subViewsArr count]==0) {
+        viewTag = 2999;
+    }
+    
+    [self.view sendSubviewToBack:smoothView];
+    [self clickScreen];
+    
+}
+
+
+-(void)updateNoteColorAndWidht{
+    
+    float r,g,b;
+    r = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_r"] floatValue];
+    g = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_g"] floatValue];
+    b = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_b"] floatValue];
+    
+    
+    UIColor *color = [UIColor colorWithRed:r green:g blue:b alpha:1];
+    smoothView.lineColor = color;
+    smoothView.lineWidth = [[[NSUserDefaults standardUserDefaults] objectForKey:@"width"] floatValue];
+    
+    
+    
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    headBackImage.hidden  = YES;
+    infoLabel.textAlignment = NSTextAlignmentCenter;
+    infoLabel.text = @"涂鸦";
+    nameLabel.hidden = YES;
+    
+    arrBtns = [[NSArray alloc ] initWithObjects:@"画笔",@"橡皮",@"图片", nil];
+    for (int i = 0; i < [arrBtns count]; i++) {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(600+i*52, 20, 52, 38)];
+        [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"note%@.png",[arrBtns objectAtIndex:i]]] forState:UIControlStateNormal];
+        [btn setTitle:[arrBtns objectAtIndex:i] forState:UIControlStateNormal];
+        btn.tag = i+20;
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(-20, 0, 0, 0)];
+        [btn addTarget:self action:@selector(toolMenuAction:) forControlEvents:UIControlEventTouchUpInside];
+        [stateImage addSubview:btn];
+        [btn release];
+        if (i == 0) {
+            [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"note%@1.png",[arrBtns objectAtIndex:i]]] forState:UIControlStateNormal];
+            
+        }
+        if(i==0||i==1){
+            
+            UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressedLong:)];
+            [btn addGestureRecognizer:longPress];
+            [longPress release];
+        }
+    }
+    
+    UIButton *btnShare = [[UIButton alloc] initWithFrame:CGRectMake(780, 10, 101, 38)];
+    [btnShare setImage:[UIImage imageNamed:@"note分享.png"] forState:UIControlStateNormal];
+    //[btnSave addTarget:self action:@selector(btnSaveAction) forControlEvents:UIControlEventTouchUpInside];
+    [stateImage addSubview:btnShare];
+    [btnShare release];
+    
+    UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(900, 10, 101, 38)];
+    [btnSave setImage:[UIImage imageNamed:@"note保存.png"] forState:UIControlStateNormal];
+    [btnSave addTarget:self action:@selector(btnSaveAction) forControlEvents:UIControlEventTouchUpInside];
+    [stateImage addSubview:btnSave];
+    [btnSave release];
+    
+    
+    
+    currentPage = 1;
+    totalPage = 1;
+    subViewsArr = [[NSMutableArray alloc] init];
+    viewTag = 2999;//tag从3000开始
+    
+    
+    if (myDict) {
+        
+        
+        
+        
+        [self removeSubViews];
+        currentPage = 1;
+        
+        
+        [db release];
+        
+        NSString *dbName =[NSString stringWithFormat:@"%@",[myDict objectForKey:@"localURL"]];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentDirectory = [paths objectAtIndex:0];
+        NSString *dbPath = [documentDirectory stringByAppendingPathComponent:dbName];
+        db = [[FMDatabase alloc] initWithPath:dbPath];
+        if (![db open]) {
+            //NSLog(@"Could not open db.");
+        }
+        [db executeUpdate:@"CREATE TABLE IF NOT EXISTS handwriting(ha_id text PRIMARY KEY,ha_bitmap blob)"];
+        [db executeUpdate:@"CREATE TABLE IF NOT EXISTS subviews(vi_id integer PRIMARY KEY,ha_id text,type text,re_transpath text,re_savepath text,re_title text,localURL text,x text,y text,width text,height text,tag text,vi_bitmap blob)"];
+        FMResultSet *rs2 = [db executeQuery:@"SELECT COUNT(*) FROM handwriting"];
+        while ([rs2 next]) {
+            totalPage = [rs2 intForColumnIndex:0];
+        }
+        [rs2 close];
+
+        [self loadSubViews];
+        
+        
+        
+        
+    }else{
+        //新建画板。
+        
+        //临时数据库，保存之后，删除掉。
+        NSString *dbName =[NSString stringWithFormat:@"%@.db",@"tempNote"];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentDirectory = [paths objectAtIndex:0];
+        NSString *dbPath = [documentDirectory stringByAppendingPathComponent:dbName];
+        db = [[FMDatabase alloc] initWithPath:dbPath];
+        if (![db open]) {
+            //NSLog(@"Could not open db.");
+        }
+        //
+        [db executeUpdate:@"CREATE TABLE IF NOT EXISTS handwriting(ha_id text PRIMARY KEY,ha_bitmap blob)"];
+        [db executeUpdate:@"CREATE TABLE IF NOT EXISTS subviews(vi_id integer PRIMARY KEY,ha_id text,type text,re_transpath text,re_savepath text,re_title text,localURL text,x text,y text,width text,height text,tag text,vi_bitmap blob)"];
+        
+        
+        
+        smoothView=[[SmoothLineView alloc]initWithFrame:CGRectMake(0, 0, 1024, 748)];
+        smoothView.SmoothLineViewDelegate=self;
+        smoothView.isNeedDraw = YES;
+        [self.view addSubview:smoothView];
+        [smoothView release];
+        
+        
+        UILongPressGestureRecognizer *longPressSmooth = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressedLongSmooth:)];
+        [smoothView addGestureRecognizer:longPressSmooth];
+        [longPressSmooth release];
+        
+        
+        [self updateNoteColorAndWidht];
+    }
+    
+    
+    
+    
+    
+    preselect = 20;
+    
+      
+    
+    setView = [[SetDrawLine alloc]initWithFrame:CGRectMake(510, 90, 420, 522)];
+    setView.setDelegate = self;
+    setView.hidden = YES;
+    setView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:setView];
+    [setView release];
+    
+    
+    
+    _clearView = [[ClearView alloc]initWithFrame:CGRectMake(510, 200, 420, 217)];
+    _clearView.cleardele = self;
+    _clearView.hidden = YES;
+    [self.view addSubview:_clearView];
+    [_clearView release];
+    
+    
+    [self clickScreen];
+    
+    
+    
+	// Do any additional setup after loading the view.
+}
+//显示警告窗体
+-(void)showAlertView{
+    
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入文件保存名字" message:@"\n\n\n" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    
+    
+    UITextField *textField3 = [[UITextField alloc]initWithFrame:CGRectMake(10, 70, 260, 30)];
+    [textField3 setBorderStyle:UITextBorderStyleRoundedRect];
+    textField3.tag = 10;
+    textField3.text = @"";
+    textField3.backgroundColor = [UIColor clearColor];
+    [alert addSubview:textField3];
+    [textField3 release];
+    
+    [textField3 becomeFirstResponder];
+    
+    [alert show];
+    [alert release];
+}
+-(void)btnSaveAction{
+    
+    [self saveCurrentToDatabase];
+    [self showAlertView];
+    
+    
+    
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if (buttonIndex == 1) {
+        
+        NSString *strTitle = ((UITextField *)[alertView viewWithTag:10]).text;
+        NSLog(@"str is %@",strTitle);
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSError *error;
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        
+        if (self.myDict == nil) {
+            
+            
+            NSString *strName = [NSString stringWithFormat:@"%@.db",[ToolClass getCurretDate]];
+            NSString *imageFile = [documentsDirectory stringByAppendingPathComponent:strName];
+            
+            NSString *beforeFile = [documentsDirectory stringByAppendingPathComponent:@"tempNote.db"];
+            
+            NSData *fileData = [[NSData alloc] initWithContentsOfFile:beforeFile];
+            BOOL isWrite = [fileData writeToFile:imageFile atomically:YES];
+            NSLog(@"isWrite is %d",isWrite);
+            [fileData release];
+            
+            BOOL deleteBefore = [fileManager removeItemAtPath:beforeFile error:&error];
+            NSLog(@"deleteBefore is %d",deleteBefore);
+            
+            
+            
+            NSString *dbName =[NSString stringWithFormat:@"%@.db",@"local"];
+            NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:dbName];
+            FMDatabase *db3 = [FMDatabase databaseWithPath:dbPath];
+            if (![db3 open]) {
+                //NSLog(@"Could not open db.");
+            }
+            [db3 executeUpdate:@"INSERT INTO resour_table(re_id,type,re_title,localURL) VALUES (?,?,?,?)",@"",[NSString stringWithFormat:@"%d",19],strTitle,strName];
+            
+            FMResultSet *reslut = [db3 executeQuery:@"SELECT * FROM resour_table WHERE localURL = ?",strName];
+            
+            NSMutableDictionary *mudict = [[NSMutableDictionary alloc]init];
+            self.myDict = mudict;
+            [mudict release];
+            
+            while ([reslut next]) {
+                
+                [self.myDict setObject:[reslut stringForColumn:@"r_id"] forKey:@"r_id"];
+                [self.myDict setObject:[reslut stringForColumn:@"type"] forKey:@"type"];
+                [self.myDict setObject:[reslut stringForColumn:@"localURL"] forKey:@"localURL"];
+                [self.myDict setObject:[reslut stringForColumn:@"re_title"] forKey:@"re_title"];
+                
+            }
+            NSLog(@"self.mydict1 is %@",self.myDict);
+            
+        }else{
+            
+            NSLog(@"self.mydict2 is %@",self.myDict);
+            
+            //临时数据库，保存之后，删除掉。
+            NSString *dbName =[NSString stringWithFormat:@"%@",[myDict objectForKey:@"localURL"]];
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *documentDirectory = [paths objectAtIndex:0];
+            NSString *dbPath = [documentDirectory stringByAppendingPathComponent:dbName];
+            
+            [db release];
+            db = [[FMDatabase alloc] initWithPath:dbPath];
+            if (![db open]) {
+                //NSLog(@"Could not open db.");
+            }//这个是之前的数据库，是存放笔记的。
+            
+            NSString *dbNameLocal =[NSString stringWithFormat:@"%@.db",@"local"];
+            NSString *dbPathLocal = [documentsDirectory stringByAppendingPathComponent:dbNameLocal];
+            FMDatabase *dbLocal = [FMDatabase databaseWithPath:dbPathLocal];
+            if (![dbLocal open]) {
+                //NSLog(@"Could not open db.");
+            }
+            [dbLocal executeUpdate:@"UPDATE resour_table SET re_title = ? WHERE r_id = ?",strTitle,[self.myDict objectForKey:@"r_id"]];
+            
+        }
+    }
+    
+}
+
+
+#pragma mark 左侧工具栏
+-(void)toolMenuAction:(UIButton *)btn{
+    
+    UIButton *preBtn = (UIButton *)[stateImage viewWithTag:preselect];
+    
+    [preBtn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"note%@.png",[arrBtns objectAtIndex:preselect-20]]] forState:UIControlStateNormal];
+    
+    [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"note%@1.png",[arrBtns objectAtIndex:btn.tag-20]]] forState:UIControlStateNormal];
+    
+    preselect = btn.tag;
+    
+    if (btn.tag == 20) {
+        
+        float r,g,b;
+        r = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_r"] floatValue];
+        g = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_g"] floatValue];
+        b = [[[NSUserDefaults standardUserDefaults]objectForKey:@"color_b"] floatValue];
+        UIColor *color = [UIColor colorWithRed:r green:g blue:b alpha:1];
+        smoothView.lineColor = color;
+        smoothView.lineWidth = [[[NSUserDefaults standardUserDefaults] objectForKey:@"width"] floatValue];
+        smoothView.isNeedDraw = YES;
+    }else if(btn.tag == 21){
+        
+        smoothView.lineWidth = [[[NSUserDefaults standardUserDefaults] objectForKey:@"clear_width"] floatValue];
+        smoothView.lineColor = [UIColor clearColor];
+        smoothView.isNeedDraw = YES;
+    }else{
+        
+        if (popover) {
+            [popover release];
+        }
+        
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        if ([UIImagePickerController isSourceTypeAvailable:
+             UIImagePickerControllerSourceTypePhotoLibrary]) {
+            
+            //[imagePicker setVideoQuality:UIImagePickerControllerQualityTypeLow];
+            imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            imagePicker.delegate = self;
+            [imagePicker setAllowsEditing:NO];
+            
+            popover = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+            [imagePicker release];
+            [popover presentPopoverFromRect:CGRectMake(675, 0, 110, 50) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"Error accessing photo library!" delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
+    }
+    
+}
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+	NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    
+    
+    
+	if ([mediaType isEqualToString:@"public.image"])
+	{
+		
+        
+		//type 为1 图片
+		UIImage *imagePic = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+		
+        
+        
+        viewTag++;
+        [self addImageView:imagePic frame:CGRectMake(0, 0, 0, 0) flag:NO tag:viewTag];
+        
+        //type 为1 图片
+        
+        NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+        [imageDict setObject:@"1" forKey:@"type"];
+        [imageDict setObject:[NSString stringWithFormat:@"%d",viewTag] forKey:@"tag"];
+        
+        //默认进来就插入数据库
+        
+        SPUserResizableView *imageview = (SPUserResizableView *)[self.view viewWithTag:[[imageDict objectForKey:@"tag"] intValue]];
+        UIImage *theImage = ((UIImageView *)imageview.contentView).image;
+        NSData *data = UIImagePNGRepresentation(theImage);
+        [db executeUpdate:@"INSERT INTO subviews(ha_id,type,x,y,width,height,tag,vi_bitmap) VALUES (?,?,?,?,?,?,?,?)",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"type"],[NSString stringWithFormat:@"%f",imageview.frame.origin.x],[NSString stringWithFormat:@"%f",imageview.frame.origin.y],[NSString stringWithFormat:@"%f",imageview.frame.size.width],[NSString stringWithFormat:@"%f",imageview.frame.size.height],[imageDict objectForKey:@"tag"], data];
+        
+        FMResultSet *rs = [db executeQuery:@"SELECT * FROM subviews WHERE ha_id = ? AND tag = ?",[NSString stringWithFormat:@"%d",currentPage],[imageDict objectForKey:@"tag"]];
+        while ([rs next]) {
+            
+            NSLog(@"%@",[rs stringForColumn:@"vi_id"]);
+            [imageDict setObject:[rs stringForColumn:@"vi_id"] forKey:@"vi_id"];
+        }
+        
+        [subViewsArr addObject:imageDict];
+        [imageDict release];
+        
+        
+        
+		
+	}
+    
+    [popover dismissPopoverAnimated:YES];
+    
+    
+}
+
+
+- (void) pressedLong:(UILongPressGestureRecognizer *) gestureRecognizer{
+    
+    switch (gestureRecognizer.state) {
+        case UIGestureRecognizerStateBegan:
+            
+        {
+            NSLog(@"gestureRecognizer.view.tag %d",gestureRecognizer.view.tag);
+            if (gestureRecognizer.view.tag == 20) {
+                [setView setNeedsDisplayView];
+                setView.hidden = NO;
+            }else if(gestureRecognizer.view.tag == 21){
+                [_clearView setNeedsDisplayMyView];
+                _clearView.hidden = NO;
+            }
+            [self toolMenuAction:(UIButton*)[stateImage viewWithTag:gestureRecognizer.view.tag]];
+            NSLog(@"press long began");
+            break;
+        case UIGestureRecognizerStateEnded:
+            
+            NSLog(@"press long ended");
+            break;
+        case UIGestureRecognizerStateFailed:
+            NSLog(@"press long failed");
+            break;
+        case UIGestureRecognizerStateChanged:
+            //移动
+            
+            NSLog(@"press long changed");
+            break;
+        default:
+            NSLog(@"press long else");
+            break;
+        }
+    }
+    
+    
+}
+#pragma mark addView
+-(void)addImageView:(UIImage *)imagePic frame:(CGRect)myFrame flag:(BOOL)isUserMyFrame tag:(int)view_tag{
+    
+    CGRect gripFrame=CGRectMake(100, 100, imagePic.size.width, imagePic.size.height);
+    if (isUserMyFrame == YES) {
+        gripFrame = myFrame;
+    }
+    UIImageView *imageView=[[UIImageView alloc]initWithImage:imagePic];
+    imageView.frame=CGRectMake(0, 0, gripFrame.size.width, gripFrame.size.height);
+    
+    SPUserResizableView *userResizableView = [[SPUserResizableView alloc] initWithFrame:gripFrame];
+    userResizableView.type = 0;
+    userResizableView.delegate=self;
+    userResizableView.contentView = imageView;
+    userResizableView.tag = view_tag;
+    [imageView release];
+    [self.view addSubview:userResizableView];
+    [userResizableView release];
+    
+}
+
+#pragma mark cleardelegate
+-(void)changeClearWidth:(float)width{
+    
+    smoothView.lineWidth=width;
+    [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithFloat:width] forKey:@"clear_width"];
+    
+}
+-(void)clearScreen{
+    
+    for (int i=0; i<[subViewsArr count]; i++) {
+        NSMutableDictionary *dict = [subViewsArr objectAtIndex:i];
+        
+        NSString *str = [NSString stringWithFormat:@"DELETE FROM subviews WHERE vi_id = %@",[dict objectForKey:@"vi_id"]];
+        [db executeUpdate:str];
+        
+    }
+    [self removeSubViews];
+    [subViewsArr removeAllObjects];
+    
+    [smoothView removeFromSuperview];
+    
+    smoothView=[[SmoothLineView alloc]initWithFrame:CGRectMake(0, 0, 1024, 748)];
+    smoothView.SmoothLineViewDelegate=self;
+    smoothView.isNeedDraw = YES;
+    [self.view addSubview:smoothView];
+    [smoothView release];
+    
+    [self.view sendSubviewToBack:smoothView];
+    
+    UILongPressGestureRecognizer *longPressSmooth = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(pressedLongSmooth:)];
+    [smoothView addGestureRecognizer:longPressSmooth];
+    [longPressSmooth release];
+    
+    [self updateNoteColorAndWidht];
+    
+    
+    [self clickScreen];
+    
+    
+}
+#pragma mark setDrawDelegate
+-(void)changeWidth:(float)width{
+    
+    
+    smoothView.lineWidth = width;
+    
+    [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithFloat:width] forKey:@"width"];
+    
+}
+-(void)changeColor:(UIColor *)color{
+    
+    smoothView.lineColor=color;
+    
+    
+    CGFloat components[3];
+    [ToolClass getRGBComponents:components forColor:color];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:components[0]] forKey:@"color_r"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:components[1]] forKey:@"color_g"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:components[2]] forKey:@"color_b"];
+    
+    
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+#endif
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft  ||
+            interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+    
+}
+
+-(void)dealloc{
+    self.myDict = nil;
+    
+    [arrBtns release];
+    [popover release];
+    [db release];
+    [subViewsArr release];
+    [super dealloc];
+}
+@end

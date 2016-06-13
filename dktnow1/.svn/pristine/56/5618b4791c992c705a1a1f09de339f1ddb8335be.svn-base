@@ -1,0 +1,50 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/class.css"/>
+<div class="warp">
+    <include file="Public:leftSider"/>
+    <div class="war_top">
+        <a>班级列表</a>
+        <a href="__URL__/apply/flag/1" class="fr">申请加入班级</a>
+    </div>
+    <ul class="class_box fl">
+        <volist name="class" id="vo">
+            <eq name="authInfo.a_type" value="2">
+                <eq name="vo.a_id" value="$authInfo.a_id">
+                    <php>$vo['url'] = '__URL__/teachers/id/'.$vo['c_id'];</php>
+                <else />
+                    <php>$vo['url'] = '__URL__/student/id/'.$vo['c_id'];</php>
+                </eq>
+            <else />
+                <php>$vo['url'] = '__URL__/teachers/id/'.$vo['c_id'];</php>
+            </eq>
+            <li>
+                <a href="{$vo.url}"><img src='{$vo.c_logo|getClassLogo}'></a>
+                <div class="className">
+                    <a href="{$vo.url}" class="app_class" title={$vo.s_id|replaceClassTitle=$vo['c_type'],$vo['c_grade'],$vo['c_title'],$vo['is_graduation']}>{$vo.s_id|replaceClassTitle=$vo['c_type'],$vo['c_grade'],$vo['c_title'],$vo['is_graduation']}</a>
+                    <a href="{$vo.url}" title={$vo.s_id|getSchoolNameById}>{$vo.s_id|getSchoolNameById}</a>
+                </div>
+                <div class="class_tools">
+                    <a href="{$vo.url}"><i class="manage_group"></i>进入班级</a>
+                    <eq name="authInfo.a_type" value="2">
+                    <a href="javascript:void(0);" class="enterCourse" co_id="{$vo.co_id}" c_id="{$vo.c_id}"><i class="create_group"></i>班级课程</a>
+                    </eq>
+                    <!--a href="{$vo.url}"><i class="goin_class"></i></a>
+                    <a href="{$vo.url}"><i class="edit_class"></i></a-->
+                </div>
+            </li>
+        </volist>
+    </ul>
+    <div class="clear"></div>
+</div>
+<include file="Public:footer"/>
+<script>
+$(function () {
+    $(document).on('click', '.enterCourse', function () {
+        if ($(this).attr('co_id') == 0) {
+            showMessage('请为该班级指定课程');
+        } else {
+            $(this).attr({'href': '__APPURL__/Lesson/index/course/' + $(this).attr('co_id') + '/c_id/' + $(this).attr('c_id')})
+        }
+    })
+})
+</script>

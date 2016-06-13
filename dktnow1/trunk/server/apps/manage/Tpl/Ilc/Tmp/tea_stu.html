@@ -1,0 +1,218 @@
+<load href="__PUBLIC__/Css/Home/jquery-ui.css"/>
+<load href="__PUBLIC__/Css/Ilc/header.css,__PUBLIC__/Css/Ilc/public.css"/>
+<load file="/Public/Css/Ilc/resource_index.css"/>
+<load href="__PUBLIC__/Js/Public/jquery-1.9.1.js,__PUBLIC__/Js/Public/jquery-ui.js,__PUBLIC__/Js/Public/public.js"/>
+<script type="text/javascript">
+$(function(){
+
+     //删除学生
+     $(document).on('click','.tea_stu li',function(){
+        onClass($(this));
+     })
+    //选择课程老师选中状态
+    $(document).on('click','.tea_set li',function(){
+        onClass($(this));
+    })
+    //设置课程老师弹窗
+    $('.tea_main .cour').click(function(){
+        $('.tea_main li').removeClass('on');
+        $(this).parent().addClass('on');
+        $(".tea_set").dialog("open");
+    })
+
+    //设置课程老师弹窗
+    $(".tea_set").dialog({
+        draggable: true,        // 是否允许拖动,默认为 true
+        resizable: true,        // 是否可以调整对话框的大小,默认为 true
+        autoOpen: false,        // 初始化之后,是否立即显示对话框,默认为 true
+        position :'center',       // 用来设置对话框的位置
+        stack : true,       // 对话框是否叠在其他对话框之上。默认为 true
+        modal: true,       // 是否模式对话框,默认为 false(模式窗口打开后，页面其他元素将不能点击，直到关闭模式窗口)
+        bgiframe: true,         // 在IE6下,让后面遮罩层盖住select
+        width: '500',
+        height: '350',
+
+        show: {     // 对话框打开效果
+            effect: "blind",
+            duration: 400
+        },
+        hide: {     // //对话框关闭效果
+          effect: "explode",
+          duration: 400
+        },
+        overlay: {
+            backgroundColor: '#000',
+            opacity: 0.5
+        },
+        buttons: {
+            确定: function() {
+                var str=",";
+                var tex="";
+                $('.tea_set li').each(function(){
+                    var n_text = $(this).text();
+                    if ($(this).hasClass('on')) {
+                        tex += str + n_text;
+                    }
+                })
+                var new_tex = tex.replace(',',"");
+                $('.tea_main .on').children('span').eq(1).text(new_tex);
+                $(this).dialog('close');
+            },
+            取消: function() {
+                $(this).dialog('close');
+            }
+        }
+    })
+    //添加学生选中状态
+    $(document).on('click','.add_right li',function(){
+        onClass($(this));
+    })
+    //添加学生
+    $('.stu_add').click(function(){
+        $(".tea_add").dialog("open");
+    })
+    //添加学生弹框
+    $(".tea_add").dialog({
+        draggable: true,        // 是否允许拖动,默认为 true
+        resizable: true,        // 是否可以调整对话框的大小,默认为 true
+        autoOpen: false,        // 初始化之后,是否立即显示对话框,默认为 true
+        position :'center',       // 用来设置对话框的位置
+        stack : true,       // 对话框是否叠在其他对话框之上。默认为 true
+        modal: true,       // 是否模式对话框,默认为 false(模式窗口打开后，页面其他元素将不能点击，直到关闭模式窗口)
+        bgiframe: true,         // 在IE6下,让后面遮罩层盖住select
+        width: '500',
+        height: '350',
+
+        show: {     // 对话框打开效果
+            effect: "blind",
+            duration: 400
+        },
+        hide: {     // //对话框关闭效果
+          effect: "explode",
+          duration: 400
+        },
+        overlay: {
+            backgroundColor: '#000',
+            opacity: 0.5
+        },
+        buttons: {
+            确定: function() {
+                $(this).dialog('close');
+            },
+            取消: function() {
+                $(this).dialog('close');
+            }
+        }
+    })
+
+    //删除学生
+    $('.stu_del').click(function(){
+        $('.tea_stu li').each(function(){
+            if ($(this).hasClass('on')) {
+                $(this).remove();
+            }
+        })
+    })
+
+})
+
+function onClass(now) {
+    if (now.hasClass('on')) {
+        now.removeClass('on');
+    } else {
+        now.addClass('on');
+    }
+}
+</script>
+<h2 class="res study_add">学生添加</h2>
+<span class="class_name">初二(1)班师生</span>
+<a href="" class="stydy_return fr">返回列表</a>
+<div class="clear"></div>
+<h2 class="res">课程管理</h2>
+<ul class="tea_main">
+    <li>
+        <span>语文</span>
+        <span>语文</span>
+        <span class="cour">设置</span>
+    </li>
+    <li>
+        <span>语文</span>
+        <span>语文</span>
+        <span class="cour">设置</span>
+    </li>
+    <li>
+        <span>语文</span>
+        <span>语文</span>
+        <span class="cour">设置</span>
+    </li>
+    <li>
+        <span>语文</span>
+        <span>语文</span>
+        <span class="cour">设置</span>
+    </li>
+</ul>
+<h2 class="res">学生列表</h2>
+<span class="cour stu_add">添加</span>
+<span class="cour stu_del">删除</span>
+<ul class="tea_stu">
+    <li>学生甲</li>
+    <li>学生已</li>
+    <li>学生丙</li>
+    <li>学生丁</li>
+</ul>
+<!-- 设置 -->
+<div class="tea_set" title="设置课程">
+    <ul>
+        <li class="cour">景山</li>
+        <li class="cour">语文</li>
+        <li class="cour">数学</li>
+        <li class="cour">英语</li>
+        <li class="cour">化学</li>
+        <li class="cour">生物</li>
+    </ul>
+</div>
+<div class="tea_add" title="设置学生">
+    <div class="add_left">
+        <ul>
+            <li>
+                <label><i></i>学制：</label>
+                <select name="">
+                    <option value="0">请选择</option>
+                    <option value="2">初中</option>
+                    <option value="3">高中</option>
+                </select>
+            </li>
+            <li>
+                <label><i></i>年纪：</label>
+                <select name="">
+                    <option value="0">请选择</option>
+                    <option value="2">一年级</option>
+                    <option value="3">二年级</option>
+                </select>
+            </li>
+            <li>
+                <label><i></i>班级：</label>
+                <select name="">
+                    <option value="0">请选择</option>
+                    <option value="2">1班</option>
+                    <option value="3">2班</option>
+                </select>
+            </li>
+            <li>
+                <label><i></i>名称：</label>
+                <input class="fl" type="text" name="sys_name" value=""/>
+            </li>
+            <li>
+                <button class="save" value="" type="submit">提交</button>
+            </li>
+        </ul>
+    </div>
+    <div class="add_right">
+        <ul>
+            <li>学生甲</li>
+            <li>学生乙</li>
+            <li>学生丙</li>
+            <li>学生丁</li>
+        </ul>
+    </div>
+</div>

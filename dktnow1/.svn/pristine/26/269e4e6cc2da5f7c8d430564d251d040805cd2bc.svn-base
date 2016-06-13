@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <load href="__PUBLIC__/Css/Ilc/header.css,__PUBLIC__/Css/Ilc/public.css"/>
+    <load href="__PUBLIC__/Js/Public/jquery-1.9.1.js,__PUBLIC__/Js/Public/jquery-ui.js,__PUBLIC__/Js/Public/public.js"/>
+    <script type="text/javascript">
+        $(function(){
+
+            //前端 Li 滑过事件
+            $(".m_header li").hover(function(){
+
+                if (!$(this).hasClass("on")) {
+                    var s_index = $(this).index();
+                    $(this).addClass("lii" + s_index);
+                }
+            },function(){
+
+                var s_index = $(this).index();
+                $(this).removeClass("lii" + s_index);
+            })
+
+            //头部 li切换
+            $(".m_header li").click(function(){
+
+                var s_index = $(this).index();
+                show(s_index);
+            })
+
+            //左侧 li切换
+            $(".m_left li").click(function(){
+
+                var s_index = $(this).index();
+                show(s_index);
+            })
+
+            //头部拖动
+            $(".m_header").draggable({containment:'parent'});
+
+            //左侧高度设置
+            $('.m_left').height(window.innerHeight);
+
+            //右部分宽度设置
+            $('.m_right').width(document.body.scrollWidth-100);
+
+            //子菜单互换位置
+            $( ".right_submenu li" ).sortable();
+            $( ".right_submenu li" ).disableSelection();
+
+            //头像点击
+            $('.hea a').click(function(){
+                var new_num = "img";
+                new_pop(new_num);
+            })
+
+            //弹窗拖拽
+            $(".drag").draggable({containment: '.warp', scroll: false });
+            //弹窗定义 left，top 值
+            var mar_top = (document.documentElement.clientHeight - $('.drag').height()) / 2;
+            var mar_left = (document.documentElement.clientWidth - $('.drag').width()) / 2;
+            $('.drag').css({'left':mar_left,'top':mar_top});
+
+            //弹窗最小化
+            $(document).on('click','.drag .a_min',function(){
+
+                 //alert(l_html);
+                $(this).parents('.drag').hide();
+            })
+            //弹窗最大化
+            $(document).on('click','.drag .a_max',function(){
+
+                left = $(this).parents('.drag').css('left');
+                topp = $(this).parents('.drag').css('top');
+                max(this);
+            })
+            //弹窗还原
+            $(document).on('click','.drag .a_revert',function(){
+
+                revert(this);
+            })
+            //弹窗关闭
+            $(document).on('click','.a_close',function(){
+
+                $(this).parents('.drag').remove();
+                var new_num = $(this).parents('.drag').attr('attr');
+                $('.footer_submenu dl').each(function(){
+                    if ($(this).attr('attr') == new_num) {
+                        $(this).remove();
+                    }
+                })
+            })
+            //弹窗头部点击 最大化 还原
+            $(document).on('dblclick','.drag .title',function(){
+
+                if($(this).parent('div').hasClass('drag_on')) {
+                    revert($(this).children('.a_revert'));
+                }else{
+                    left = $(this).parents('.drag').css('left');
+                    topp = $(this).parents('.drag').css('top');
+                    max($(this).children('.a_max'));
+                }
+            })
+
+            //弹窗点击在最上面
+            $(document).on('mousedown','.warp .drag',function(){
+                $('.warp .drag').css({'z-index':1});
+                $(this).css({'z-index':3});
+            })
+
+            //左下角最小化 点击
+            $(document).on('click','.footer_submenu dl',function(){
+
+                var n_num = $(this).attr('attr');
+                if ($('.drag'+n_num+'').hide()){
+                    $('.warp .drag').css({'z-index':1});
+                    $('.drag'+n_num+'').css({'z-index':4}).show();
+                }
+            })
+
+        })
+
+        function show(index) {
+
+            $('.warp .drag').remove();
+            $('.footer_submenu').html('');
+            $('.m_header li').eq(index).addClass("on").siblings().removeClass("on");
+            $('.m_left li').eq(index).addClass("on").siblings().removeClass("on");
+            var r_index = $('.right_submenu .on').index();
+            if (r_index > index) {
+                $('.right_submenu li').eq(r_index).animate({left: document.body.scrollWidth-65},500);
+                $('.right_submenu li').eq(index).css('left','-600' + 'px');
+                $('.right_submenu li').eq(index).animate({left: 0 , opacity: '1'},500);
+            } else {
+                if (r_index != index) {
+                    $('.right_submenu li').eq(r_index).animate({left: -600},500);
+                    $('.right_submenu li').eq(index).css('left',document.body.scrollWidth-65);
+                    $('.right_submenu li').eq(index).animate({left: 0},500);
+                }
+            }
+            $('.right_submenu li').eq(index).addClass("on").siblings().removeClass("on");
+        }
+    </script>
+</head>
+
+<body>
+    <div class="warp fl">
+    <!--头部-->
+    <div class="m_header">
+        <div class="hea">
+            <a class="fl">
+                <img src="http://pic.dkt.com/AuthAvatar/96/default.jpg"/>
+            </a>
+            <ul class="fl">
+                <li class="li0"><i></i></li>
+                <li class="li1 on"><i></i></li>
+                <li class="li2"><i></i></li>
+                <li class="li3"><i></i></li>
+                <li class="li4"><i></i></li>
+                <li class="li5"><i></i></li>
+            </ul>
+            <span class="fr"></span>
+        </div>
+    </div>

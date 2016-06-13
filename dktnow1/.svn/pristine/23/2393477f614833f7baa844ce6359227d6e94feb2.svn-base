@@ -1,0 +1,292 @@
+//
+//  LocalViewController.m
+//  ClassRoomStudent
+//
+//  Created by apple  on 13-8-7.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "LocalViewController.h"
+#import "NoteViewController.h"
+#import "TuyaViewController.h"
+#import "ImageViewController.h"
+#import "PlayViewController.h"
+#import "PlayWordViewController.h"
+#import "AvPlayer.h"
+
+@interface LocalViewController ()
+
+@end
+
+@implementation LocalViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+-(void)selectGate:(UIButton *)btn{
+    
+    if (btn.tag == 10) {
+        
+        gate = 1;
+    }
+    if (btn.tag == 11) {
+        
+        gate = 2;
+    }
+    if (btn.tag == 12) {
+        
+        gate = 3;
+    }
+    if (btn.tag == 13) {
+        
+        gate = 4;
+    }
+    
+    if (btn.tag == 14) {
+        
+        gate = 19;
+    }
+    if (btn.tag == 15) {
+        
+        gate = 20;
+    }
+    
+    [self getResourceData];
+}
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+    headBackImage.hidden = YES;
+    infoLabel.text = @"本地资源";
+    nameLabel.hidden = YES;
+    
+    toolArr = [[NSArray alloc] initWithObjects:@"图片",@"视频",@"音频",@"文档",@"涂鸦",@"记事本", nil];
+    
+    gate = 1;
+    /*
+     数据库中type类型
+     1 图片
+     2 视频
+     3 音频
+     4 文档
+     19 涂鸦
+     20 记事本
+     */
+    
+    for (int i = 0; i<[toolArr count]; i++) {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(500+i*80, 10, 70, 30)];
+        [btn setTitle:[toolArr objectAtIndex:i] forState:UIControlStateNormal];
+        btn.tag = 10+i;
+        [btn addTarget:self action:@selector(selectGate:) forControlEvents:UIControlEventTouchUpInside];
+        [stateImage addSubview:btn];
+        [btn release];
+    }
+    
+    //CREATE TABLE IF NOT EXISTS resour_table(r_id integer PRIMARY KEY,re_id text,type text,re_title text,localURL text)
+    
+    NSString *dbName =[NSString stringWithFormat:@"%@.db",@"local"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentDirectory stringByAppendingPathComponent:dbName];
+    db = [[FMDatabase alloc] initWithPath:dbPath];
+    if (![db open]) {
+        //NSLog(@"Could not open db.");
+    }
+   
+    muArrdata = [[NSMutableArray alloc] init];
+   
+    
+    mainScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 55, 1024, 748-55)];
+    [mainScroll setShowsVerticalScrollIndicator:NO];
+    [self.view addSubview:mainScroll];
+    [mainScroll release];
+    
+    [self getResourceData];
+    
+//    NSString *dbPath2 = [documentDirectory stringByAppendingPathComponent:@"1375874747.jpg"];
+//  
+//    UIImageView *testImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 60, 1024, 508)];
+//    testImageView.backgroundColor = [UIColor redColor];
+//    testImageView.image = [[UIImage alloc] initWithContentsOfFile:dbPath2];
+//    [self.view addSubview:testImageView];
+//    [testImageView release];
+//    
+//    NSString *dbPat3 = [documentDirectory stringByAppendingPathComponent:@"1375890033.aac"];
+//    NSLog(@"dbPat3 i %@",dbPat3);
+//
+//    
+//    
+//    NSURL *urlPlay = [NSURL fileURLWithPath:dbPat3];
+//    AVAudioPlayer *player = [[AVAudioPlayer alloc]initWithContentsOfURL:urlPlay error:nil];
+//    [player play];
+
+	// Do any additional setup after loading the view.
+}
+-(void)getResourceData{
+    
+    [muArrdata removeAllObjects];
+    
+    FMResultSet *reslut = [db executeQuery:@"SELECT * FROM resour_table where type = ?",[NSString stringWithFormat:@"%d",gate]];
+    while ([reslut next]) {
+        
+        NSMutableDictionary *muDict = [[NSMutableDictionary alloc] init];
+        [muDict setObject:[reslut stringForColumn:@"r_id"] forKey:@"r_id"];
+        [muDict setObject:[reslut stringForColumn:@"type"] forKey:@"type"];
+        [muDict setObject:[reslut stringForColumn:@"localURL"] forKey:@"localURL"];
+        [muDict setObject:[reslut stringForColumn:@"re_title"] forKey:@"re_title"];
+        
+        [muArrdata addObject:muDict];
+        [muDict release];
+        
+    }
+    NSLog(@"muarrdata is %@",muArrdata);
+
+    
+    [self loadMainScrollView];
+}
+-(void)loadMainScrollView{
+    
+    for (UIView *v in [mainScroll subviews]) {
+        [v removeFromSuperview];
+    }
+    for (int i=0; i<[muArrdata count]; i++) {
+        
+        NSMutableDictionary *muDict = [muArrdata objectAtIndex:i];
+        
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(i%4*230+70, i/4*170+20, 200, 150)];
+        btn.backgroundColor = [UIColor redColor];
+        [btn addTarget:self action:@selector(lookContent:) forControlEvents:UIControlEventTouchUpInside];
+        btn.tag = 100+i;
+        [mainScroll addSubview:btn];
+        [btn release];
+        
+        [btn setTitle:[muDict objectForKey:@"re_title"] forState:UIControlStateNormal];
+        
+        
+    }
+    
+    [mainScroll setContentSize:CGSizeMake(1024, ([muArrdata count]/4+1)*170+20)];
+}
+-(void)lookContent:(UIButton *)btn{
+    
+    if (gate == 20) {
+        NoteViewController *noteVc = [[NoteViewController alloc] init];
+        noteVc.myDict = [muArrdata objectAtIndex:btn.tag -100];
+        [self.navigationController pushViewController:noteVc animated:YES];
+        [noteVc release];
+    }else if(gate == 19){
+    
+        TuyaViewController *noteVc = [[TuyaViewController alloc] init];
+        noteVc.myDict = [muArrdata objectAtIndex:btn.tag -100];
+        [self.navigationController pushViewController:noteVc animated:YES];
+        [noteVc release];
+    }else if(gate == 1){
+    
+        NSString *strURL = [[muArrdata objectAtIndex:btn.tag -100] objectForKey:@"localURL"];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentDirectory = [paths objectAtIndex:0];
+        NSString *dbPath = [documentDirectory stringByAppendingPathComponent:strURL];
+        
+        ImageViewController *imageVc = [[ImageViewController alloc]init];
+        imageVc.strURL = dbPath;
+        imageVc.type = 1;
+        [self.navigationController pushViewController:imageVc animated:YES];
+        [imageVc release];
+    }else if(gate == 2){
+    
+        NSString *strURL = [[muArrdata objectAtIndex:btn.tag -100] objectForKey:@"localURL"];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentDirectory = [paths objectAtIndex:0];
+        NSString *dbPath = [documentDirectory stringByAppendingPathComponent:strURL];
+        
+        PlayViewController *playVc = [[PlayViewController alloc]init];
+        playVc.strURL = dbPath;
+        playVc.type = 1;
+        [self.navigationController pushViewController:playVc animated:YES];
+        [playVc release];
+    }else if(gate == 3){
+    
+        
+        if ([self.view viewWithTag:7]) {
+            AvPlayer *playTest = (AvPlayer *)[self.view viewWithTag:7];
+            [playTest stopPlay];
+            [playTest removeFromSuperview];
+        }
+        
+        NSMutableDictionary *mudict = [muArrdata objectAtIndex:btn.tag -100];
+        
+        AvPlayer *viewPlay = [[AvPlayer alloc]initWithFrame:CGRectMake(10, 748-110, 430, 100)];
+        viewPlay.backgroundColor=[UIColor clearColor];
+        viewPlay.tag = 7;
+        [self.view addSubview:viewPlay];
+        [viewPlay release];
+        
+        NSString *strURL = [mudict objectForKey:@"localURL"];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentDirectory = [paths objectAtIndex:0];
+        NSString *dbPath = [documentDirectory stringByAppendingPathComponent:strURL];
+        
+        [viewPlay initPlayer:dbPath];
+        [viewPlay setlblTitle:[mudict objectForKey:@"re_title"]];
+        [viewPlay startPlay];
+        
+
+    }else if(gate == 4){
+        
+        NSString *strURL = [[muArrdata objectAtIndex:btn.tag -100] objectForKey:@"localURL"];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentDirectory = [paths objectAtIndex:0];
+        NSString *dbPath = [documentDirectory stringByAppendingPathComponent:strURL];
+        
+        PlayWordViewController *playWord = [[PlayWordViewController alloc]init];
+        playWord.type = 1;
+        playWord.strURL =  dbPath;
+        [self.navigationController pushViewController:playWord animated:YES];
+        [playWord release];
+    }
+    
+}
+-(void)btnBackAction{
+    
+    if ([self.view viewWithTag:7]) {
+        AvPlayer *playTest = (AvPlayer *)[self.view viewWithTag:7];
+        [playTest stopPlay];
+        [playTest removeFromSuperview];
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+#endif
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft  ||
+            interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+    
+}
+
+@end

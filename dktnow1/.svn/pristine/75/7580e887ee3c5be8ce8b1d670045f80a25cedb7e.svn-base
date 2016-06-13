@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <load href="__PUBLIC__/Js/Public/jquery-1.9.1.js,__PUBLIC__/Js/Public/new_public.js"/>
+    <load href="__PUBLIC__/Css/Ilc/new_public.css,__PUBLIC__/Css/Ilc/login.css"/>
+    <title>大课堂互动教学大后台</title>
+    <script>
+        $(function(){
+
+            //前端 登录界面颜色选择
+            $(".main h2 span").click(function() {
+
+                var s_attr = $(this).attr('attr');
+                $(this).closest('div').attr('class','main' + " " + s_attr);
+
+            })
+
+            $('.bo_name input').focus();
+
+            // 前端 用户名 获取焦点 
+            $('.bo_name input').keyup(function() {
+
+                var s_val = $(this).val();
+                if (s_val == "") {
+                    $(this).next().hide();
+                }else {
+                    $(this).next().show();
+                }
+
+            })
+
+            //前端 清空用户名
+            $('.main_bottom div span').click(function(){
+                $(this).hide().prev().val('');
+            })
+
+        })
+
+        //表单验证
+        function check(){
+
+            var t_val = true;
+            var name_val = $('.bo_name input').val();
+            var pass_val = $('.bo_password input').val();
+            var code_val = $('.code input').val();
+            var new_name = name_val.replace(/[ ]/g,'');
+            var new_pass = pass_val.replace(/[ ]/g,'');
+            var new_code = code_val.replace(/[ ]/g,'');
+
+            //验证 用户名
+            if (new_name == "") {
+                $('.main_bottom p').show().text('请输入用户名');
+                return false;
+
+            }
+
+            //验证 密码
+            if (new_pass == "") {
+                $('.main_bottom p').show().text('请输入密码').show();
+                return false;
+            }
+
+            //验证 验证码
+            if (new_code == "") {
+                $('.main_bottom p').show().text('为了保证你的帐号安全，请输入验证码').show();
+                return false;
+            }
+
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="main">
+        <form name="" action="" method="post" onsubmit="return check();" enctype="multipart/form-data">
+            <h2>
+                <span class="red fl" attr="ma_red"></span>
+                <span class="yellow fl" attr="ma_yellow"></span>
+                <span class="green fl" attr="ma_green"></span>
+                <i class="fl">后台登录</i>
+            </h2>
+            <div class="main_bottom">
+                <div class="bo_name">
+                    <i class="fl">
+                        <label></label>
+                    </i>
+                    <input type="text" name="username" class="" placeholder="用户名" value=""/>
+                    <span class="fl"></span>
+                </div>
+                <div class="bo_password">
+                    <i class="fl">
+                        <label></label>
+                    </i>
+                    <input type="password" name="password" class="" placeholder="密码"/>
+                </div>
+                <div class="code">
+                    <input type="text" name="verfidy" class="" placeholder="验证码"/>
+                </div>
+                <p></p>
+                <button class="login" >登录</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

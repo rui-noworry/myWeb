@@ -1,0 +1,75 @@
+<include file="../Public/header_main" />
+<load file="__PUBLIC__/Css/Ilc/resource_index.css"/>
+<script type="text/javascript">
+$(function(){
+ var listObj = {"data_check": "2%","data_id": "8%" ,"data_name": "10%","data_explain": "14%","data_default": "10%","data_sort": "12%","data_status": "15%","data_hand": "10%","data_tel": "10%","data_time": "15%"};
+ setWidth(listObj);
+})
+
+function apply(id) {
+    if (confirm('确认通过吗？')) {
+        location.href = '__URL__/apply/id/'+id;
+    }
+}
+</script>
+    <form name="form" method="post" action="__URL__/index">
+        <div class="model_search">
+            <a>学校名称：</a>
+            <input TYPE="text" title="名称查询" name="as_name" >
+            <a class="search">搜索</a>
+        </div>
+    </form>
+    <div class="tools fl">
+        <a class="del">
+            <i></i>
+            删除
+        </a>
+
+    </div>
+    <div id="system_list">
+        <div>
+            <ul class="list_hea">
+                <li>
+                    <input class="data_check" type="checkbox" name="allcheck" onclick="CheckAll('system_list')"/>
+                    <span class="data_id">编号</span>
+                    <span class="data_name">学校名</span>
+                    <span class="data_explain">地区</span>
+                    <span class="data_default">地址</span>
+                    <span class="data_status">校长电话</span>
+                    <span class="data_time">申请人</span>
+                    <span class="data_tel">申请人电话</span>
+                    <span class="data_hand">操作</span>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <ul class="list_list list_hea" id="list_main">
+
+                <volist name="list" id="list">
+                    <li>
+                        <input class="data_check" type="checkbox" value="{$list.as_id}" name="key"/>
+                        <span class="data_id">{$list.as_id}</span>
+                        <span class="data_name">{$list.as_title}</span>
+                        <span class="data_explain">{$list.as_region}</span>
+                        <span class="data_default">{$list.as_address}</span>
+                        <span class="data_status">{$list.as_header_tel}</span>
+                        <span class="data_time">{$list.a_id|getAuthNameById}</span>
+                        <span class="data_tel">{$list.as_my_tel}</span>
+                        <span class="data_hand"><a href="javascript:apply({$list.as_id})">通过</a></span>
+                        <span class="data_del"><a href="javascript:del({$list.as_id})">删除</a></span>
+                    </li>
+                </volist>
+
+            </ul>
+
+        </div>
+        <div class="page">
+            {$page}
+        </div>
+    </div>
+
+    <div class="schoolType" style="display:none;">
+        <volist name="schoolType" id="schoolType">
+            <span>{$schoolType}</span>
+        </volist>
+    </div>

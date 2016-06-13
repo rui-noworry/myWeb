@@ -1,0 +1,120 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/adviser.css"/>
+<script>
+$(function(){
+    // 窗口隐藏
+    $('.hon_message').hide();
+
+    // 窗口显示
+    $('.group_content').mouseover(function(){
+        $(this).children('.hon_message').show();
+        $(this).css('z-index', '99');
+    })
+
+    // 窗口隐藏
+    $('.group_content').mouseout(function(){
+        $(this).children('.hon_message').hide();
+        $(this).css('z-index', '0');
+    })
+
+    //周，月，总切换
+    $('.honor_among li').click(function(){
+        $(this).addClass('honor_click').siblings().removeClass('honor_click');
+        $('.hon_tab').children('.hon_center').eq($(this).index()).show().siblings().hide();
+    }).eq(0).click();
+
+    $('.tab_return').click(function() {
+        location.href = "__URL__";
+    })
+})
+</script>
+<div class="warp">
+    <include file="Public:leftSider"/>
+    <ul class="top_tab_menu fl">
+        <li class="tab_return">返回</li>
+        <li class="tab_name">{$class.s_id|replaceClassTitle=$class['c_type'],$class['c_grade'],$class['c_title'],$class['is_graduation']}</li>
+        <li onclick="javascript:location.href='__URL__/student/id/{$class.c_id}'">同学们</li>
+        <li onclick="javascript:location.href='__URL__/group/id/{$class.c_id}'">小组</li>
+        <eq name="isBeanOpen" value="1">
+            <li class="selected">光荣榜</li>
+        </eq>
+        <li onclick="javascript:location.href='__URL__/syllabus/id/{$class.c_id}'">课程表</li>
+    </ul>
+    <div class="creat_c_mainBox">
+        <ul class="honor_among">
+            <li class="honor_click">
+                <span>本周排行</span>
+            </li>
+            <li>
+                <span>月排行</span>
+            </li>
+            <li>
+                <span>总排行</span>
+            </li>
+        </ul>
+        <div class="clear"></div>
+        <div class="hon_tab">
+            <!--tab1-->
+            <div class="hon_center">
+                <volist name="weekBean" id="wb">
+                    <div class="group_content">
+                        <div class="hon_message">
+                            <div class="group_con">
+                                <h3><span>{$wb.a_nickname}</span>在本周：</h3>
+                                <volist name="wb.list" id="wl">
+                                <p>{$wl}</p>
+                                </volist>
+                            </div>
+                        </div>
+                        <img src="{$wb.a_avatar|getAuthAvatar=$wb['a_type'],$wb['a_sex'],96}" class="fl"/>
+                        <div class="hon_stu">
+                            <p class="stu_bold">{$wb.a_nickname}</p>
+                            <p>本周新增：<span class="hon_content">{$wb.total}颗</span>&nbsp;智慧豆</p>
+                        </div>
+                    </div>
+                </volist>
+            </div>
+            <!--tab2-->
+            <div class="hon_center">
+                <volist name="monthBean" id="mb">
+                    <div class="group_content">
+                        <div class="hon_message">
+                            <div class="group_con">
+                                <h3><span>{$mb.a_nickname}</span>在本月：</h3>
+                                <volist name="mb.list" id="ml">
+                                <p>{$ml}</p>
+                                </volist>
+                            </div>
+                        </div>
+                        <img src="{$mb.a_avatar|getAuthAvatar=$mb['a_type'],$mb['a_sex'],96}" class="fl"/>
+                        <div class="hon_stu">
+                            <p class="stu_bold">{$mb.a_nickname}</p>
+                            <p>本月新增：<span class="hon_content">{$mb.total}颗</span>&nbsp;智慧豆</p>
+                        </div>
+                    </div>
+                </volist>
+            </div>
+            <!--tab3-->
+            <div class="hon_center">
+                <volist name="allBean" id="ab">
+                    <div class="group_content">
+                        <div class="hon_message">
+                            <div class="group_con">
+                                <h3><span>{$ab.a_nickname}</span></h3>
+                                <volist name="ab.list" id="al">
+                                    <p>{$al}</p>
+                                </volist>
+                            </div>
+                        </div>
+                        <img src="{$ab.a_avatar|getAuthAvatar=$ab['a_type'],$ab['a_sex'],96}" class="fl"/>
+                        <div class="hon_stu">
+                            <p class="stu_bold">{$ab.a_nickname}</p>
+                            <p>共新增：<span class="hon_content">{$ab.total}颗</span>&nbsp;智慧豆</p>
+                        </div>
+                    </div>
+                </volist>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Public:footer"/>

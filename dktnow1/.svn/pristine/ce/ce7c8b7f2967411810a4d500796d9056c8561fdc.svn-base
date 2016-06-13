@@ -1,0 +1,30 @@
+//
+//  RecordViewController.h
+//  ClassRoomStudent
+//
+//  Created by apple  on 13-8-7.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+@interface RecordViewController : BaseViewController<AVAudioRecorderDelegate,UIAlertViewDelegate>
+{
+    AVAudioRecorder *recorder;
+    NSTimer *timer;
+
+    UIImageView *imageView;
+    UIButton *btnPlay ;
+    
+    int isRecord;
+    
+    
+    UILabel *timerLab;
+
+    BOOL needStart;
+    BOOL isSaved;
+    
+
+}
+@end

@@ -1,0 +1,149 @@
+<include file="../Public/header_main" />
+
+<load file="__PUBLIC__/Css/Ilc/system_add.css"/>
+<script type="text/javascript">
+$(function() {
+
+    // 隐藏专业ID
+    var ma_id = {$vo.ma_id};
+    if (ma_id == 0) {
+        $('.major').hide();
+    }
+
+    // 通过学校获取学段
+    $('select[name=s_id]').change(function() {
+
+        // 复原
+        $('select[name=gc_type]').val(0);
+        $('.major').hide();
+        $('select[name=gc_grade]').html('<option value="0">请选择</option>');
+        $('select[name=gc_course]').val(0);
+
+        // 获取学段
+        var sType = $('select[name=s_id] option:selected').attr('attr');
+
+
+        var str = '<option value="0">请选择</option>';
+        if (sType != '') {
+            var typeArr = sType.split(',');
+
+            for (var p in typeArr) {
+
+                str += '<option value="'+typeArr[p]+'">'+$('.schoolType span').eq(typeArr[p] - 1).html()+'</option>';
+            }
+        }
+        $('select[name=gc_type]').html(str);
+    })
+
+    // 通过学段获取年级
+    $('select[name=gc_type]').change(function() {
+        if ($(this).val() == 4) {
+            $('.major').show();
+            listGradeOption($('select[name=s_id]').val(), $(this).val(), 'gc_major');
+        } else {
+            $('.major').hide();
+            listGradeOption($('select[name=s_id]').val(), $(this).val(), 'gc_grade');
+        }
+    })
+
+    // 通过专业获取年级
+    $(document).on('change', 'select[name=gc_major]', function () {
+        listGradeOption($('select[name=s_id]').val(), $(this).val(), 'gc_grade', 0, 'major');
+    })
+})
+function check() {
+
+    if ($("select[name=gc_type]").val() == 0) {
+        alert('请选择学制');
+        return false;
+    }
+
+    if ($('.major').css('display') != 'none' && $("select[name=gc_major]").val() == 0) {
+        alert('请选择专业');
+        return false;
+    }
+
+    if ($("select[name=gc_grade]").val() == 0) {
+        alert('请选择年级');
+        return false;
+    }
+
+    if ($("select[name=gc_course]").val() == 0) {
+        alert('请选择课程');
+        return false;
+    }
+}
+</script>
+    <div class="title_hea">
+        <i class="fl">年级课程配置</i>
+        <a href="__URL__/">返回列表</a>
+    </div>
+    <form method="post" action="__URL__/update/" onsubmit="return check();">
+        <ul class="add_option">
+            <li>
+                <label>学校：</label>
+                <select name="s_id" >
+                    <option attr="" value="0">请选择</option>
+                    <volist name="school" id="school">
+                        <option value="{$school.s_id}" attr="{$school.s_type}"  <eq name="vo.s_id" value="$school.s_id">selected</eq> >{$school.s_name}</option>
+                    </volist>
+                </select>
+            </li>
+            <li>
+                <label>学制：</label>
+                <select name="gc_type"  >
+                    <option value="0">请选择</option>
+                    <foreach name="csType" item="type" key="typekey">
+                        <option value="{$typekey}"  <eq name="vo.gc_type" value="$typekey">selected</eq> >{$type}</option>
+                    </foreach>
+                </select>
+            </li>
+            <li class="major">
+                <label>专业：</label>
+                 <select name="gc_major">
+                    <option value="0">请选择</option>
+                    <volist name="major" id="vos">
+                    <option value="{$vos.ma_id}" <if condition="$vos.ma_id eq $vo.ma_id ">selected</if> >{$vos.ma_title}</option>
+                    </volist>
+                </select>
+            </li>
+            <li>
+                <label>年级：</label>
+                <select name="gc_grade"   >
+                    <option value="0">请选择</option>
+                    <foreach name="grade" item="gradeName" key="gradekey">
+                        <option value="{$gradekey}"  <eq name="vo.gc_grade" value="$gradekey">selected</eq> >{$gradeName}</option>
+                    </foreach>
+                </select>
+
+            </li>
+
+            <li>
+                <label>课程：</label>
+                 <select name="gc_course">
+                    <option value="0">请选择</option>
+                    <volist name="gc_course" id="course" key="ck">
+                        <option value="{$ck}" <eq name="vo.gc_course" value="$ck">selected</eq>>{$course}</option>
+                    </volist>
+                </select>
+            </li>
+            <li>
+                <label>状态：</label>
+                 <select class="small bLeft"  name="gc_status">
+                    <option value="1" <eq name="vo.gc_status" value="1">selected</eq>>启用</option>
+                    <option value="9" <eq name="vo.gc_status" value="9">selected</eq>>禁用</option>
+                </select>
+            </li>
+            <li class="coBtn">
+                <input type="hidden" name="gc_id" value="{$vo.gc_id}">
+                <button class="save fin" value="" type="submit">保存</button>
+                <button class="reset fin" value="" type="reset">清除</button>
+            </li>
+        </ul>
+    </form>
+
+    <div class="schoolType" style="display:none;">
+        <volist name="schoolType" id="schoolType">
+            <span>{$schoolType}</span>
+        </volist>
+    </div>

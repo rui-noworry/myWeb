@@ -1,0 +1,153 @@
+body{
+    background:#fff;
+}
+.body_left{
+    position:relative;
+    width:142px;
+    height:430px;
+    background:#f7f7f7;
+    border-right:1px solid #e7e7e7;
+}
+.body_left .info{
+    position:absolute;
+    top:40px;
+}
+.body_left .info li{
+    width:142px;
+    height:42px;
+    margin-bottom:5px;
+    background:url("/apps/resource/Public/Images/Home/info.png") no-repeat -3px -96px;
+    cursor:pointer;
+}
+.body_left .info li:hover{
+    background-position:-3px -54px;
+}
+.body_left .info li.info_password{
+    background-position:-3px -232px;
+}
+.body_left .info li.info_password:hover{
+    background-position:-3px -190px;
+}
+.info li.info_text,.info li.info_pass{
+    width:173px;
+    height:50px;
+}
+.info li.info_text{
+    background-position:-0px -2px;
+}
+.info li.info_text:hover{
+    background-position:-0px -2px;
+}
+.info li.info_pass{
+    background-position:0px -138px;
+}
+.info li.info_pass:hover{
+    background-position:0px -138px;
+}
+.body_right .title{
+    width:855px;
+    height:50px;
+    border-bottom:1px solid #f3f3f3;
+    overflow:hidden;
+}
+.body_right .title h2{
+    line-height:50px;
+    font-size: 16px;
+    color: #595959;
+    margin-left: 60px;
+    font-weight:500;
+}
+.body_right .title h2 i{
+    float:left;
+    display:block;
+    width:20px;
+    height:20px;
+    background:url("/apps/resource/Public/Images/Home/info.png") no-repeat -149px -102px;
+    margin:17px 5px 0px 0px;
+}
+.info_center{
+    float:left;
+    width:100%;
+}
+.info_myTmg{
+    float:left;
+    margin:24px 0px 0px 60px;
+    cursor:pointer;
+}
+.info_myTmg img {
+    width:96px;
+    height:96px;
+}
+.userList{
+    float:left;
+    padding:12px 0px 0px 10px;
+}
+.infolist{
+    width:650px;
+}
+.infoposs{
+    margin:20px 0px 0px 50px;
+}
+.infolist li{
+    width:630px;
+    float:left;
+    margin-top:5px;
+}
+.infolist li label,.infolist li input,.infolist li span{
+    float:left;
+    height:25px;
+    line-height:25px;
+    margin-right:5px;
+    color:#6D6B66;
+}
+.infolist li input{
+    padding-left:5px;
+    border:1px solid #e7e7e7;
+    border-top-color:#ababab;
+    border-left-color:#ababab;
+}
+.infolist li span.info_phoc{
+    color:#f00;
+}
+.infolist li span.info_phod{
+    color:#007b09;
+}
+.infolist li .ila{
+    width:80px;
+    height:35px;
+    text-align:right;
+    color:#3e3e3e;
+    font-weight:600;
+}
+.infolist li.sub input{
+    display:inline;
+    margin:20px 0px 0px 83px;
+    width:106px;
+    height:32px;
+    line-height:32px;
+    border:0px;
+    background:url("/apps/resource/Public/Images/Home/info.png") no-repeat -2px -313px;
+    color:#fff;
+    text-align:center;
+    cursor:pointer;
+}
+.infolist li.sub input.sub_cancel{
+    margin-left:20px;
+}
+/*返回添加 5-22*/
+.title a{
+    display:inline;
+    margin-right:30px;
+    color:#595959;
+}
+.title a:hover {
+    color:#22a558;
+}
+/*个人信息验证*/
+.infolist li input.new_red {
+    border:1px solid red;
+}
+.libox textarea{
+    font-size:12px;
+    text-indent:5px;
+}

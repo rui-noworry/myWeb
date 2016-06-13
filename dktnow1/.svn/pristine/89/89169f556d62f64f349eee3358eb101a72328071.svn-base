@@ -1,0 +1,19 @@
+//
+//  CCButton.h
+//  BigClassRoom
+//
+//  Created by apple  on 13-1-18.
+//
+//
+
+#import <UIKit/UIKit.h>
+
+@interface CCButton : UIButton
+{
+    
+    NSDictionary *btnDict;
+    BOOL iszhezhao;
+}
+@property(nonatomic,assign)BOOL iszhezhao;
+@property(nonatomic,retain)NSDictionary *btnDict;
+@end

@@ -1,0 +1,627 @@
+<include file="Public:header"/>
+<load href="__PUBLIC__/Css/Home/vedio.css"/>
+<load href="/Public/Js/Home/ckplayer/ckplayer.js"/>
+<script type="text/javascript">
+<!--
+    $(function() {
+
+        String.prototype.trim = function() {
+            return this.replace(/[ ]/g, '');
+        }
+
+        // 视频播放区域背景设置
+        $('.r_play_bg').width($(window).width());
+
+        // 保存笔记点和笔记内容
+        $(document).on('click','.saveNotes',function(){
+            var dot = $('#currentTime').text();
+            var noteContent = $('#notespace').val();
+
+            // 判断笔记内容是否为空
+            if (noteContent.trim() == '') {
+                swfobject.getObjectById('ckplayer_a1').ckplayer_pause();
+                $('.alarm').show();
+                return false;
+            } else {
+
+                // 弹出登录框
+                if (!$('.exit').html()) {
+                    popCenterWindow();
+                    return;
+                }
+
+                swfobject.getObjectById('ckplayer_a1').ckplayer_pause();
+                $('.alarm').hide();
+                $.post('__APPURL__/ResourceNote/insert', {rn_time_point: dot, rn_content: noteContent, re_id: $('input[name=re_id]').val()}, function (json) {
+                    if (json.status == 1) {
+                        var notedot = '<div class="eachNote fl" attr="' + json.info +'">'+
+                              '<a class="play fl"></a><label class="currentNote">'+dot+'</label>'+
+                              '<div class="noteWord"><span class="word">'+noteContent+'</span>'+
+                              '<div class="noteopt">'+
+                              '<a class="editNote"><img src="__APPURL__/Public/Images/Home/eachEdit.png">编辑</a>'+
+                              '<a class="delNote"><img src="__APPURL__/Public/Images/Home/eachDel.png">删除</a>'+
+                              '</div>'+
+                              '</div>';
+                        $('.noteList').append(notedot);
+                        swfobject.getObjectById('ckplayer_a1').ckplayer_play();
+                        $('#notespace').val('');
+                    } else {
+                        showMessage(json.info);
+                    }
+                }, 'json')
+            }
+        })
+
+        // 续播
+        $(document).on('click','.eachNote .play',function(){
+
+            var format = $(this).next('.currentNote').text();
+            var strs = new Array();
+            strs = format.split(":");
+            var OH = parseInt(strs[0]);
+            var OM = parseInt(strs[1]);
+            var OS = parseInt(strs[2]);
+            var Otime = OH * 3600 + OM *60 + (OS+1);
+            // alert(Otime);
+            swfobject.getObjectById('ckplayer_a1').ckplayer_pause();
+            swfobject.getObjectById('ckplayer_a1').ckplayer_seek(Otime);
+
+        })
+
+        // 播放状态
+        $(document).on('mouseover','.eachNote .play',function(){
+            $(this).addClass('on');
+        }).on('mouseout','.eachNote .play',function(){
+            $(this).removeClass('on');
+        })
+
+        // 编辑、删除笔记点
+        // 显示
+        $(document).on('mouseover','.eachNote',function(){
+
+            $(this).find('.noteopt').show();
+        }).on('mouseout','.eachNote',function(){
+
+            $(this).find('.noteopt').hide();
+        })
+
+        // 编辑
+        $(document).on('click','.editNote',function(){
+
+            // 弹出登录框
+            if (!$('.exit').html()) {
+                popCenterWindow();
+                return;
+            }
+
+            var editArea = '<div class="editArea"><textarea class="editContent"></textarea><input class="updateNotes" type="button" value="保存"><p class="alarm2"><img src="__APPURL__/Public/Images/Home/warn.png" width="13" height="13">请输入笔记内容</p><span>取消</span><input type="hidden" name="unModify"></div>';
+            $(this).parent().parent().siblings('.play').before(editArea);
+
+            var con = $(this).parent().prev('.word').text();
+            //$('.editContent').val(con);
+            $(this).parent().parent().siblings('.editArea').find('.editContent').val(con);
+            $('input[name="unModify"]').val(con);
+            $(this).parent().parent().hide();
+
+        })
+
+        // 取消编辑
+        $(document).on('click','.editArea span',function(){
+            
+            $(this).parent().siblings('.noteWord').show();
+            $(this).parent().siblings('.noteWord').find('.noteopt').hide();
+            $(this).parent().remove();
+        })
+
+        // 保存编辑
+        $(document).on('click','.updateNotes',function(){
+
+            // 判断是否为空
+            if ($(this).prev().val() == '') {
+                $('.alarm2').show();
+                return false;
+            } else {
+                var newContent = $(this).prev().val();
+                var rn_id = $(this).parents('.eachNote').attr('attr');
+                var obj = $(this).parent();
+                $.post('__APPURL__/ResourceNote/update', {rn_id:rn_id, rn_content:newContent}, function(json) {
+                    if (json.status == 1) {
+                        obj.siblings('.noteWord').show();
+                        obj.siblings('.noteWord').find('.noteopt').hide();
+                        obj.siblings('.noteWord').find('.word').text(newContent);
+                        obj.remove();
+                    }
+                }, 'json')
+            }
+        })
+
+        // 删除
+        $(document).on('click','.delNote',function(){
+
+
+            // 弹出登录框
+            if (!$('.exit').html()) {
+                popCenterWindow();
+                return;
+            }
+
+            if(confirm("确认删除此条笔记？")) {
+                var obj = $(this).parents('.eachNote');
+                var rn_id = obj.attr('attr');
+                $.post('__APPURL__/ResourceNote/delete', 'rn_id=' + rn_id, function(json) {
+                    if (json.status == 1) {
+                        obj.remove();
+                    } else {
+                        showMessage(json.info);
+                    }
+                }, 'json')
+            }
+        })
+
+        // 短评输入框字数计算
+        var maxSize = 140;
+        $(".scommentInput").keyup(function(){
+            var str = $(".scommentInput").val().trimLeft().length;
+            var canInput = maxSize - str;
+            if(canInput >= 0){
+                $(".scommentInputCount").html("还能输入"+canInput+"个字符");
+                $(".scommentInputCount").removeClass('overWord');
+            }else{
+                $(".scommentInputCount").addClass('overWord');
+                $(".scommentInputCount").html("已经超过"+(-canInput)+"个字符");
+            }
+        })
+
+        // 回复输入框字数计算
+        $(document).on('keyup', ".innerText", function(){
+
+            var str = $(this).val().trimLeft().length;
+            var canInput = maxSize - str;
+            if(canInput >= 0){
+                $(this).next().children('.innerCount').html("还能输入"+canInput+"个字符");
+                $(this).next().children('.innerCount').removeClass('overWord');
+            }else{
+                $(this).next().children('.innerCount').addClass('overWord');
+                $(this).next().children('.innerCount').html("已经超过"+(-canInput)+"个字符");
+            }
+        })
+
+        // 添加评论
+        $('.scommentSubmit').click(function(){
+
+            // 弹出登录框
+            if (!$('.exit').html()) {
+                popCenterWindow();
+                return;
+            }
+
+            var comm_cont = $('.scommentInput').val();
+            if (comm_cont.trim() == '') {
+                showMessage('请填写评论内容');
+                return;
+            } else if (comm_cont.trim().length > 140) {
+                showMessage('评论的内容请不要超过140个字');
+                return;
+            }
+
+            $.post('__APPURL__/Commit/insert', {com_object_id:$('input[name=re_id]').val(), com_content:comm_cont}, function (json) {
+                var htm = '';
+                if (json.status == 1) {
+                    htm += '<li attr="' + json.info + '">'
+                        +  '<p class="des">' + comm_cont.trim() + '</p>'
+                        +  '<div class="fun">'
+                        +  '<p class="commit from"><a href="#">我</a>发表于1秒前</p>'
+                        + '<div class="ope"><a class="innerA" href="javascript:void(0)" attr="0">回复(0)</a>|<a class="innerB" href="javascript:void(0)" com_id="' + json.info + '">删除</a></div>'
+                        + '</div>'
+                        + '<div class="innerDiv">'
+                        + '<div class="replyList"><ul></ul></div>'
+                        + '<textarea class="innerText" attr="回复:"></textarea>'
+                        + '<p class="sendbox">'
+                        + '<button class="innerButton" type="button">发短评</button>'
+                        + '<span class="innerCount">还可以输入140字</span>'
+                        + '</p></div></li>'
+                    if ($('.CommitList li').size() == 1 && $('.CommitList li').attr('attr') == 0) {
+                        $('.CommitList').html(htm);
+                    } else {
+                        $('.CommitList').prepend(htm);
+                    }
+                    $('.moreArea a').last().text((parseInt($('.moreArea a').last().text().slice(0,1)) + 1) + '条记录')
+                    $('.scommentInput').val('');
+                } else {
+                    showMessage('评论失败');
+                }
+            }, 'json')
+        })
+
+        // 回复
+        $(document).on('click', '.innerA', function () {
+
+            // 展开隐藏的回复文本输入框
+            var _this = $(this);
+
+            // 如果有回复的并且没有加载过，还需异步查询并展现
+            if (_this.parents('.fun').next().css('display') == 'none') {
+
+                var innerDiv = _this.parents('li').children('.innerDiv');
+                innerDiv.css('display', 'inline');
+                innerDiv.children('.innerText').val(innerDiv.children('.innerText').attr('attr'));
+
+                if (innerDiv.children('.replyList').children('ul').children('li').size() == 0) {
+                    $.post("__APPURL__/Public/getList", {com_id:_this.parents('li').attr('attr')}, function (json) {
+                        var htm = '';
+                        if (json) {
+                            for (var i=0,len = json.length; i<len; i++) {
+                                htm += '<li class="hf" attr="' + json[i]['rep_id'] + '">'
+                                    +  '<p class="des">' + json[i]['rep_content'] + '</p>'
+                                    +  '<div class="fun">'
+                                    +  '<p class="from"><a href="">' + json[i]['nickname'] + '</a>发表于' + json[i]['rep_created'] + '</p>'
+                                    + '<div class="ope"><a class="innerA" href="javascript:void(0)">回复</a>|<a class="innerB" href="javascript:void(0)" rep_id="' + json[i]['rep_id'] + '">删除</a></div>'
+                                    + '</div>'
+                                    + '</li>'
+                                }
+                            _this.parents('.fun').next().children('.replyList').children('ul').append(htm);
+
+                            // 聚焦回复文本框
+                            innerDiv.children('.innerText').focus();
+                        }
+                    }, 'json')
+
+                }
+            } else {
+                _this.parents('.fun').next().css('display', 'none');
+            }
+        })
+
+        // 提交回复
+        $(document).on('click', '.innerButton', function () {
+
+            // 弹出登录框
+            if (!$('.exit').html()) {
+                popCenterWindow();
+                return;
+            }
+
+            // 赋值并检测
+            var val = $(this).parents('.innerDiv').children('.innerText').val();
+            if (val.trim() == '') {
+                showMessage('请填写回复内容');
+                return;
+            } else if (val.trim().length > 140) {
+                showMessage('回复内容请不要超过140个字');
+                return;
+            }
+
+            var _this = $(this);
+            var replyName = _this.parents('.innerDiv').prev().children('.commit').children('a').text();
+
+            // ajax写入
+            $.post("__APPURL__/Reply/insert", {com_id:_this.parents('li').attr('attr'), rep_content:val.trim()}, function (json) {
+                var htm = '';
+                if (json.status == 1) {
+                    htm += '<li class="hf" attr="' + json.info + '">'
+                        +  '<p class="des">' + val.trim() + '</p>'
+                        +  '<div class="fun">'
+                        +  '<p class="from"><a href="">我</a>发表于1秒前</p>'
+                        + '<div class="ope"><a class="innerA" href="javascript:void(0)">回复</a>|<a class="innerB" href="javascript:void(0)" rep_id="' + json.info + '">删除</a></div>'
+                        + '</div>'
+                        + '</li>'
+
+                    var arr = _this.parents('.innerDiv').prev().find('.innerA').text().match(/\d+/g);
+                    _this.parents('.innerDiv').prev().find('.innerA').text('回复(' + (parseInt(arr[0]) + 1) + ')');
+
+                    _this.parents('.innerDiv').find('.replyList').children('ul').prepend(htm);
+                    _this.parents('.innerDiv').children('.innerText').val(_this.parents('.innerDiv').children('.innerText').attr('attr')
+                    )
+                    _this.parents('.innerDiv').children('.innerText').focus();
+                } else {
+                    showMessage('发表回复失败');
+                }
+            }, 'json')
+        })
+
+        // 删除
+        $(document).on('click', '.innerB', function () {
+
+            // 弹出登录框
+            if (!$('.exit').html()) {
+                popCenterWindow();
+                return;
+            }
+
+            // 展开隐藏的回复文本输入框
+            if (confirm('是否真的要删除此评论?')) {
+
+                var _this = $(this);
+
+                // 删除评论
+                if ($(this).attr('com_id')) {
+                    $.post('__APPURL__/Commit/delete', 'com_id=' + $(this).attr('com_id'), function (json) {
+                        if (json.status == 1) {
+                            $('.moreArea a').last().text((parseInt($('.moreArea a').last().text().slice(0,1)) - 1) + '条记录')
+                            _this.parents('li').remove();
+                        } else {
+                            showMessage(json.info);
+                        }
+                    }, 'json');
+                }
+
+                // 删除回复
+                if ($(this).attr('rep_id')) {
+                    $.post('__APPURL__/Reply/delete', 'rep_id=' + _this.attr('rep_id') + '&com_id=' + _this.parents('.innerDiv').parents('li').attr('attr'), function (json) {
+                        if (json.status == 1) {
+
+                            var arr = _this.parents('.innerDiv').prev().find('.innerA').text().match(/\d+/g);
+                            _this.parents('.innerDiv').prev().find('.innerA').text('回复(' + (parseInt(arr[0]) - 1) + ')');
+
+                            _this.parent().parent().parent().remove();
+                        } else {
+                            showMessage(json.info);
+                        }
+                    }, 'json');
+                }
+
+            }
+        })
+
+        // 收藏
+        $(document).on('click', '.sc', function () {
+
+            // 查看是否登录
+            if ($('.exit').html()) {
+                $.post('__APPURL__/ResourceCollect/insert/', {re_id:$('input[name=re_id]').val()}, function (json) {
+                    showMessage(json.info, 1);
+                }, 'json');
+            } else {
+
+                // 弹出登录框
+                popCenterWindow();
+            }
+        })
+
+        // 下载
+        $(document).on('click', '.download', function () {
+
+            // 查看是否登录
+            if ($('.exit').html()) {
+                location.href = "__APPURL__/MyResource/download?id=" + $('input[name=re_id]').val();
+            } else {
+
+                // 弹出登录框
+                popCenterWindow();
+            }
+        });
+
+        // 资源排行
+        $.getJSON('__APPURL__/html/today.txt', function (json) {
+            if (json) {
+                var htm = '';
+                for (var i=0, len=json.length; i<len; i++) {
+                        htm += '<li>'
+                            +  '<span class="good">' + (i+1) + '</span>'
+                            +  '<label title="' + json[i]['re_title'] + '"><a href="__APPURL__/Resource/index/id/' + json[i]['re_id'] + '" target="_blank">' + json[i]['re_title'] + '</a></label>'
+                            +  '</li>'
+                }
+                $('.res_ranking ul').append(htm);
+            }
+        });
+
+        // 加载评论
+        ajaxShow();
+
+    })
+
+    // 分页显示
+    function getList(p) {
+        ajaxShow(p);
+    }
+
+    // ajax显示评论
+    function ajaxShow(p) {
+        var p = p ? p : 1;
+
+        $.post("__APPURL__/Public/search", {com_object_id:$('input[name=re_id]').val(), p:p}, function (json) {
+            var htm = '';
+            if (json.list) {
+                for (var i=0,len = json.list.length; i<len; i++) {
+                    htm += '<li attr="' + json.list[i]['com_id'] + '">'
+                        +  '<p class="des">' + json.list[i]['com_content'] + '</p>'
+                        +  '<div class="fun">'
+                        +  '<p class="commit from"><a href="#">' + json.list[i]['nickname'] + '</a>发表于' + json.list[i]['com_created'] + '</p>'
+                        + '<div class="ope"><a class="innerA" href="javascript:void(0)" attr="' + json.list[i]['com_reply_count'] + '">回复(' + json.list[i]['com_reply_count'] + ')</a>|<a class="innerB" href="javascript:void(0)" com_id="' + json.list[i]['com_id'] + '">删除</a></div>'
+                        + '</div>'
+                        + '<div class="innerDiv">'
+                        + '<div class="replyList"><ul></ul></div>'
+                        + '<textarea class="innerText" attr="回复' + json.list[i]['nickname'] + ':"></textarea>'
+                        + '<p class="sendbox">'
+                        + '<button class="innerButton" type="button">发短评</button>'
+                        + '<span class="innerCount">还可以输入140字</span>'
+                        + '</p></div></li>'
+                }
+                $('.CommitList').html(htm);
+                $('.moreArea').html(json.page);
+            } else {
+                $('.yp ul').html('<li attr="0">暂无评论</li>');
+            }
+        }, 'json')
+
+    }
+
+    // 视频文件地址
+    var swf = "{$path}";
+
+    var flashvars={
+        f:swf,//视频地址
+        c:'0',
+        e:'1',//视频结束后的动作，0是调用js函数，1是循环播放，2是暂停播放，3是调用视频推荐列表的插件，4是清除视频流并调用js功能和1差不多
+        p:'0',//视频默认0是暂停，1是播放
+        g:'0',//视频直接g秒开始播放
+        };
+    var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always'};
+    var attributes={id:'ckplayer_a1',name:'ckplayer_a1'};
+    swfobject.embedSWF('/Public/Js/Home/ckplayer/ckplayer.swf', 'a1', '698', '508', '10.0.0','/Public/Js/Home/ckplayer/expressInstall.swf', flashvars, params, attributes); //播放器地址，容器id，宽，高，需要flash插件的版本，flashvars,params,attributes
+
+    var watchtime;
+    var wattime=-1;
+    var watt=false;//默认没有计时
+    var ptime=0;
+    function aboutstr(str,f) {
+        //查看str字符里是否有f
+        var about=false;
+        var strarray=new Array();
+        var farray=new Array();
+        farray=f.split(",");
+        if(str) {
+            for(var i=0;i<farray.length;i++){
+                strarray=str.split(farray[i]);
+                if(strarray.length>1){
+                    about=true;
+                    break;
+                }
+            }
+        }
+        return about;
+    }
+
+    // 实时的监听播放器里各状态的值
+    function ckplayer_status(str){
+
+        if(str=='103' || str=='101'){
+            if(watt){
+                watt=false;
+                window.clearInterval(watchtime);
+            }
+        }
+        // 获取当前播放时间
+        if(aboutstr(str,'nowtime:')){
+            ptime = parseInt(str.replace('nowtime:',''));
+            var twoStep  = ptime.toFixed(2);
+            var millisecond = parseFloat(twoStep)*1000;
+            var newTime = new Date(millisecond);
+            var hours = parseFloat(newTime.getHours() - 8);
+            var minutes = parseFloat(newTime.getMinutes());
+            var second = parseFloat(newTime.getSeconds());
+            if (hours < 10) {
+                hours = '0' + parseFloat(newTime.getHours() - 8);
+            }
+            if (minutes < 10) {
+                minutes = '0' + newTime.getMinutes();
+            }
+            if (second < 10) {
+                second = '0' + newTime.getSeconds();
+            }
+            var formatTime = hours + ":" + minutes + ':' + second;
+            document.getElementById('currentTime').innerHTML = formatTime;
+        }
+    }
+
+    // 暂停视频并获取当前播放时间点
+    function getTime(){
+        swfobject.getObjectById('ckplayer_a1').ckplayer_pause();
+    }
+//-->
+</script>
+<div class="warp">
+    <!-- 视频播放 -->
+    <div class="vedio_box fl">
+        <div class="r_info">
+            <ul>
+                <li class="dir">
+                    <p class="title">{$res.re_title}</p>
+                    <p class="colum">{$cate}</p>
+                </li>
+                <li class="tools">
+                    <a class="download" href="javascript:void(0);" title="下载资源">下载</a>
+                    <a class="sc" href="javascript:void(0);" title="收藏资源">收藏</a>
+                    <input type="hidden" name="re_id" value="{$res.re_id}">
+                </li>
+            </ul>
+        </div>
+        <div class="r_play_bg"></div>
+        <div class="r_play">
+            <div id="video" style="position:relative;z-index:10;width:698px;height:508px;float: left;"><div id="a1"></div></div>
+            <div id="takeNotes">
+                <div class="noteTop">
+                    <img src="__APPURL__/Public/Images/Home/note.png" />
+                    <label>笔记</label>
+                </div>
+                <div class="noteMain">
+                    <textarea onclick="getTime()" id="notespace" placeHolder="在此记录你的想法"></textarea>
+                    <label>时间驻点</label>
+                    <div class="doNote">
+                        <a></a>
+                        <label id="currentTime" value="0"></label>
+                    </div>
+                    <input class="saveNotes" type="button" value="保存">
+                    <p class="alarm"><img src="__APPURL__/Public/Images/Home/warn.png" width="13" height="13">请输入笔记内容</p>
+                </div>
+                <span class="fgline"></span>
+                <!-- 笔记保存列表 -->
+                <div class="noteList">
+                    <volist name="notes" id="nt">
+                        <div class="eachNote fl" attr="{$nt.rn_id}">
+                            <a class="play fl"></a>
+                            <label class="currentNote">{$nt.rn_time_point}</label>
+                            <div class="noteWord">
+                                <span class="word">{$nt.rn_content}</span>
+                                <div class="noteopt">
+                                    <a class="editNote"><img src="__APPURL__/Public/Images/Home/eachEdit.png">编辑</a>
+                                    <a class="delNote"><img src="__APPURL__/Public/Images/Home/eachDel.png">删除</a>
+                                </div>
+                            </div>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="main">
+            <neq name="recommend" value="">
+                <div class="res_like">    <!-- 猜您喜欢 -->
+                    <p class="title">猜您喜欢</p>
+                    <ul>
+                        <volist name="recommend" id="vo">
+                            <li>
+                                <a class="res_cover" href="__APPURL__/Resource/index/id/{$vo.re_id}" target="_blank"><img src="{$vo.img_path}"></a>
+                                <a class="res_title" href="__APPURL__/Resource/index/id/{$vo.re_id}" title="{$vo.re_title}">{$vo.re_title}</a>
+                                <span>{$vo.a_nickname}</span>
+                                <span><i>{$vo.re_download_points}</i>积分</span>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+            </neq>
+            <div class="res_comment">    <!-- 短评 -->
+                <p class="title">短评</p>
+                <div class="topic_input">
+                    <div class="t_box">
+                        <textarea class="scommentInput" placeholder="我来说两句"></textarea>
+                    </div>
+                    <p class="sendbox">
+                        <button class="scommentSubmit" type="button">发短评</button>
+                        <span class="scommentInputCount">还可以输入140字</span>
+                    </p>
+                </div>
+                <ul class="tabbox">
+                    <li class="newestSComment on">最热短评</li>
+                </ul>
+                <div class="comment_box new fl">
+                    <div class="yp">
+                        <ul class="CommitList"></ul>
+                        <p class="moreArea"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="side">
+            <div class="res_ranking">    <!-- 资源排行榜 -->
+                <p class="title">资源排行榜</p>
+                <ul>
+                </ul>
+            </div>
+        </div>
+    </div>
+<div class="clear"></div>
+</div>
+<include file="Public:footer"/>

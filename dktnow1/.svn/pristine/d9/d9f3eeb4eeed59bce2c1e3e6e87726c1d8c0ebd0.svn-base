@@ -1,0 +1,111 @@
+<load href="__PUBLIC__/Css/Home/public.css"/>
+<load href="__PUBLIC__/Css/Home/discuss.css"/>
+<load href="/Public/Js/Public/jquery-1.9.1.js"/>
+
+<script>
+    $(function(){
+
+        $('.dis_text div').click(function(){
+
+            if ($('.dis_text div').text() == '我也说一句') {
+                $('.dis_text div').text('');
+            }
+
+        })
+
+        //判断输入的字体个数
+        $(document).keyup(function(){
+            var num = $('.dis_text div').text();
+            var new_num = $.trim(num).length;
+            $('.dis_text span').text(new_num + "/500");
+        });
+        //发表
+        $('.dis_public').click(function(){
+            var num = $('.dis_text div').text();
+            $('input[name=at_content]').val(num);
+            var new_num = $.trim(num).length;
+            var number = new_num - 500
+            if ( new_num > 500){
+                alert("你输入的文字超过"+ number +"个，请删除后再发表");
+            }
+
+            $.post('__URL__/insert', 'act_id='+$('input[name=act_id]').val()+'&at_content='+num, function(json){
+
+                if (json) {
+
+                    if ($('.discuss ul li:first').attr('rel') == 1) {
+                        $('.discuss ul').html('');
+                    }
+
+                    var data = '<li attr="'+json.at_id+'"><div><a>'+json.a_nickname+'：</a><p>'+num+'</p></div><span>置顶</span></li>';
+                    $('.discuss ul').append(data);
+                }
+            }, 'json');
+        })
+
+        // 置顶
+        $(document).on('click', '.discuss ul li span', function(){
+            getDataList('', $(this).parent().attr('attr'));
+        });
+
+        getDataList();
+    })
+
+    function getDataList(p, at_id = 0) {
+
+        p = p ? p : 1;
+
+        var act_id = $('input[name=act_id]').val();
+
+        $.post('__URL__/lists', 'p='+p+'&at_id='+at_id+'&act_id='+act_id, function(json){
+
+            var obj = json.list;
+            var str = '';
+
+            if (obj) {
+                for (var i = 0; i < obj.length; i ++) {
+                    str += '<li attr="'+obj[i]['at_id']+'"><div><a>'+obj[i]['a_nickname']+'：</a><p>'+obj[i]['at_content']+'</p></div><span>置顶</span></li>';
+                }
+            }
+
+            if (!str) {
+                str += '<li rel="1">无人参与讨论！！！</li>';
+            }
+
+            $('.discuss ul').html(str);
+            $('.page').html(json.page);
+
+        }, 'json');
+    }
+
+    // 数据分页
+    function getList(p) {
+        getDataList(p);
+    }
+</script>
+<div class="discuss" id="dis_list">
+
+    <p class="dis_cuss"><label>讨论话题：</label>{$activity.act_title}</p>
+    <h3>讨论</h3>
+    <ul>
+
+    </ul>
+    <div class="page">
+
+    </div>
+
+    <form name="form1" method="post" action="__URL__/insert">
+
+        <input type="hidden" value="{$activity.act_id}" name="act_id" />
+        <input type="hidden" value="" name="at_content" />
+
+        <div class="clear"></div>
+
+        <div class="dis_text" style="display:block; width:730px;">
+            <div contenteditable="true">我也说一句</div>
+            <span style="margin-left:660px;">0/500</span>
+        </div>
+        <a href="javascript:void(0);" class="dis_public" style="display:block; margin-left:650px;">发表</a>
+    </form>
+
+</div>

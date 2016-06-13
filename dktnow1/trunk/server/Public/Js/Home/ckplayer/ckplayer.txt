@@ -1,0 +1,1 @@
+﻿{p->1}{b->1}{x->http://www.ckplayer.com/ckplayer6.0/ckplayer.xml}{s->0}{l->}{r->}{t->}

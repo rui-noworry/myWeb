@@ -1,0 +1,39 @@
+//
+//  AudioView.h
+//  iPhoneStreamingPlayer
+//
+//  Created by apple  on 13-1-14.
+//
+//
+
+#import <UIKit/UIKit.h>
+#import "AudioStreamer.h"
+@protocol AudioViewDelegate;
+@interface AudioView : UIView
+{
+    UILabel *lblTitle;
+    UISlider *slider;
+    UIButton* playBtn;
+    AudioStreamer *streamer;
+    NSTimer *progressUpdateTimer;
+
+    UILabel *currentLbl;
+    UILabel *lastLbl;
+
+    NSString *strURL;
+    
+    id<AudioViewDelegate>deleDelegate;
+}
+-(void)setlblTitle:(NSString *)strTitle;
+@property(nonatomic,retain)NSString *strURL;
+@property(nonatomic,assign)id<AudioViewDelegate>deleDelegate;
+
+-(void)stopPlay;
+- (void)buttonPressed:(UIButton *)button;
+@end
+
+@protocol AudioViewDelegate <NSObject>
+
+-(void)removeMyselfAudioView:(AudioView *)view;
+
+@end

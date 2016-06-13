@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView android:id="@+id/course_lesson_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="18dp"
+        android:background="@drawable/lesson_selector"
+        android:textColor="@color/black"/>
+
+</LinearLayout>

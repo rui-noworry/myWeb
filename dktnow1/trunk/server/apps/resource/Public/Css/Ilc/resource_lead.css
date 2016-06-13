@@ -1,0 +1,284 @@
+.warp{
+    width:1000px;
+    margin:0px auto;
+}
+.colu_right{
+    float:right;
+    width:825px;
+    margin-top:25px;
+}
+.colu_carte{
+    width:823px;
+    height:56px;
+    border:1px solid #d3d3d3;
+    background:#f2f2f2;
+}
+.colu_carte li{
+    float:left;
+    height:56px;
+    line-height:56px;
+    padding:0px 8px;
+    color:#99999d;
+    font-size:14px;
+    cursor:pointer;
+}
+.colu_carte li.car_click{
+    color:#080808;
+}
+.colu_arrow{
+    position:relative;
+    float:left;
+    width:100%;
+    height:15px;
+}
+.colu_arrow img{
+    position:absolute;
+    top:7px;
+}
+.statis_arr img{
+    left:28px;
+}
+.colu_main{
+    float:left;
+    width:823px;
+    min-height:670px;
+    margin-bottom:10px;
+    border:1px solid #d3d3d3;
+    border-top:none;
+    background:#f2f2f2;
+}
+/*========统计资源==========*/
+.colu_main select,.colu_main input.handle_inp{
+    float:left;
+    display:block;
+    width:180px;
+    height:34px;
+    line-height:38px;
+    margin:10px 0px 0px 18px;
+    padding-left:10px;
+    color:#727272;
+    font-size:18px;
+}
+.colu_main select{
+    height:38px;
+}
+.handle_query{
+    float:left;
+    width:100%;
+}
+.handle_query span,.handle_query div i{
+    float:left;
+    padding:17px 0px 0px 30px;
+    color:#727272;
+    font-size:18px;
+}
+.handle_query div i{
+    padding:16px 6px 0px 24px;
+}
+.colu_main .lead_check{
+    width:74px;
+    height:38px;
+    line-height:38px;
+    margin:10px 0px 0px 8px;
+    background:#e5f6eb;
+    color:#22a558;
+    border:1px solid #9bdbb5;
+    text-align:center;
+    cursor:pointer;
+}
+.handle_operate{
+    float:left;
+    width:100%;
+    height:44px;
+    border-top:1px solid #dcdcdc;
+    border-bottom:1px solid #dcdcdc;
+    margin-top:18px;
+    background:#eaeaea;;
+}
+.handle_operate li{
+    float:left;
+    width:66px;
+    height:28px;
+    margin:8px 0px 0px 20px;
+    background:url("/apps/resource/Public/Images/Home/res_tools.png") no-repeat;
+    cursor:pointer;
+}
+.handle_operate li.operate_for{
+    margin-left:27px;
+    background-position:-0px -56px;
+}
+.handle_operate li.operate_for_on{
+    margin-left:27px;
+    background-position:-195px -56px;
+}
+.handle_operate li.operate_rel{
+    background-position:-198px -0px;
+}
+.handle_operate li.operate_rel_on{
+    background-position:-198px -28px;
+}
+.handle_operate li.operate_tra{
+    background-position:-65px -56px;
+}
+.handle_operate li.operate_tra_on{
+    background-position:-130px -56px;
+}
+.handle_operate li.operate_rem{
+    background-position:-0px -0px;
+}
+.handle_operate li.operate_rem_on{
+    background-position:-0px -28px;
+}
+.handle_data,.handle_data li{
+    float:left;
+    width:100%;
+}
+.handle_data li{
+    height:50px;
+    border-bottom:1px solid #dcdcdc;
+}
+.handle_data li input,.handle_data li span{
+    display:block;
+    float:left;
+    height:50px;
+    line-height:50px;
+    color:#2c2c2c;
+    font-size:14px;
+}
+.handle_data li input{
+    width:13px;
+    height:13px;
+    margin:19px 0px 0px 30px;
+    cursor:pointer;
+}
+.handle_data li span{
+    text-align:center;
+}
+.handle_data li span.data_name{
+    overflow:hidden;
+}
+/*========资源上传导入==========*/
+.colu_right .lead_arr img{
+    left:758px;
+}
+.lead_main{
+    float:left;
+    width:100%;
+    padding-top:19px;
+}
+.lead_main label,.lead_main input,.lead_main a{
+    float:left;
+    line-height:37px;
+    color:#727272;
+}
+.lead_main label{
+    margin:0px 16px 0px 20px;
+    font-size:18px;
+}
+.lead_main input{
+    display:block;
+    width:360px;
+    height:37px;
+    margin-right:10px;
+    padding-left:10px;
+    font-size:14px;
+}
+.lead_main .lead_check{
+    margin-top:0px;
+}
+.lead_scan{
+    float:left;
+    width:100%;
+    height:42px;
+}
+.lead_scan center{
+    line-height:42px;
+    color:#d3d3d3;
+    font-size:14px;
+}
+.lead_test{
+    float:left;
+    width:100%;
+    height:44px;
+    line-height:44px;
+    background:#eaeaea;
+    border-bottom:1px solid #dcdcdc;
+    color:#727272;
+    font-size:18px;
+}
+.lead_center .lead_check{
+    font-size:14px;
+}
+.lead_in{
+    display:block;
+}
+.lead_center select{
+    float:left;
+}
+.lead_sure{
+    float:left;
+    display:block;
+    width:174px;
+    height:38px;
+    line-height:38px;
+    margin:32px 0px 0px 324px;
+    background:url("/apps/resource/Public/Images/Home/okBtn.png") no-repeat;
+    color:#fff;
+    font-size:16px;
+    text-align:center;
+}
+.lead_sure:hover{
+    background:url("/apps/resource/Public/Images/Home/okBtnh.png") no-repeat;
+}
+/*============资源转码参数设置=============*/
+.alloca_right .alloca_arr img{
+    left:645px;
+}
+.alloca_select{
+    float:right;
+    display:block;
+    width:174px;
+    height:36px;
+    line-height:36px;
+    margin:10px 18px 10px 0px;
+    border:1px solid #f4f4f4;
+    background:#ececec;
+    text-align:center;
+    font-size:14px;
+    color:#474747;
+    cursor:pointer;
+}
+.alloca_right .data_hea{
+    background:#eaeaea;
+}
+.allocation{
+    width:635px;
+    height:540px;
+    padding-left:15px;
+}
+.allocation li{
+    float:left;
+    width:635px;
+    margin-top:12px;
+}
+.allocation li label,.allocation li input,.allocation li select{
+    float:left;
+    height:37px;
+    line-height:37px;
+    color:#393939;
+    font-size:14px;
+}
+.allocation li label{
+    width:120px;
+    margin-right:5px;
+    text-align:right;
+}
+.allocation li select{
+    width:190px;
+    color:#686868;
+    font-size:16px;
+}
+.allocation li input{
+    width:275px;
+    padding-left:10px;
+}

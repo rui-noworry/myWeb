@@ -1,0 +1,1939 @@
+.warp{
+    width:1000px;
+    height:auto;
+    margin:0 auto;
+    padding-bottom:25px;
+    position:relative;
+}
+.foot_bot,.foot_top{
+    width:1000px;
+    border-bottom:1px solid #b2b2b2;
+    margin:0 auto;
+    margin-top:10px;
+    font-size:0px;
+    line-height:0px;
+}
+.foot_top{
+    border-bottom:1px solid #e8e8e8;
+    margin-top:0px;
+}
+.class_edit {
+    position:absolute;
+    top:0;
+    right:0;
+    width: 18px;
+    height: 17px;
+    background: url("/apps/resource/Public/Images/Ilc/write.png") no-repeat;
+    display:none;
+}
+.manage_center{
+    width:795px;
+    margin-top:25px;
+}
+.coBtn .save ,.coBtn .reset{
+    width:174px;
+    height:38px;
+    border:none;
+    cursor:pointer;
+}
+.coBtn .save {
+    background:url('/apps/resource/Public/Images/Ilc/asave.png');
+}
+.coBtn .reset {
+    background:url('/apps/resource/Public/Images/Ilc/aclear.png');
+}
+.page {
+    float:right;
+    margin-top:25px;
+    margin-right:20px;
+}
+.page a {
+    padding: 5px 10px;
+    border: 1px solid #20D691;
+    margin: 0px 2px;
+    text-decoration: none;
+}
+.page a:hover {
+    background:#93E5BD;
+}
+/* 用户管理(侯)*/
+.mod_select ul li{
+    list-style-type:none;
+    float:left;
+    height:39px;
+}
+.select_box{
+    float:left;
+    color:#444;
+    position:relative;
+    cursor:pointer;
+    width:133px;
+    font-size:12px;
+    height:39px;
+    background:url("/apps/resource/Public/Images/Ilc/class_manage.png") no-repeat -3px -127px;
+}
+.selet_open{
+    display:inline-block;
+    position:absolute;
+    right:0;
+    top:0;
+    width:39px;
+    height:39px;
+}
+.select_txt{
+    display:inline-block;
+    padding-left:10px;
+    width:110px;
+    line-height:39px;
+    height:39px;
+    cursor:text;
+    overflow:hidden;
+    color:#727272;
+    font-size:18px;
+}
+.option{
+    width:133px;
+    border:solid 1px #e3e3e3;
+    position:absolute;
+    top:39px;
+    left:0px;
+    z-index:2;
+    overflow:hidden;
+    display:none;
+    border-top:none;
+}
+.option a{
+    display:block;
+    height:26px;
+    line-height:26px;
+    text-align:left;
+    padding:0 10px;
+    width:100%;
+    background:#fff;
+    color:#727272;
+    font-size:18px;
+}
+.option a:hover{
+    background:#c6c6c6;
+}
+.manage_box{
+    width:161px;
+    height:38px;
+    line-height:39px;
+    padding-left:10px;
+    border:1px solid #e3e3e3;
+    border-top-color:#c6c6c6;
+    color:#727272;
+    font-size:18px;
+}
+.manage_query{
+    display:block;
+    width:76px;
+    height:40px;
+    background:url("/apps/resource/Public/Images/Ilc/class_manage.png") no-repeat -210px -58px;
+}
+.manage_query:hover{
+    background-position:-210px -10px;
+}
+.manage_cen{
+    margin-top:10px;
+}
+.manage_cen .manage_even{
+    width:795px;
+    height:60px;
+    border-bottom:1px solid #d7d7d7;
+    background:#e7e7e7;
+}
+.manage_cen .title{
+    background:#26a75b;
+}
+.manage_cen .title div{
+    color:#fff;
+}
+.manage_cen .even{
+    background:#f3f3f3;
+}
+.manage_check{
+    width:15px;
+    height:15px;
+    margin:25px 0px 0px 17px;
+}
+.manage_cen div div{
+    float:left;
+    width:80px;
+    height:60px;
+    line-height:60px;
+    font-size:14px;
+    color:#424242;
+    text-align:center;
+}
+
+.manage_cen>div div.manage_manage{
+    width:200px;
+}
+.manage_cen>div a{
+    float:left;
+    display:block;
+    width:20px;
+    height:22px;
+    margin:22px 0px 0px 35px;
+}
+.manage_cen>div div.manage_war{
+    width:30px;
+}
+.manage_cen>div a.manage_ture{
+    background:url("/apps/resource/Public/Images/Ilc/class_manage.png") no-repeat -148px -149px;
+}
+.manage_cen>div a.manage_false{
+    background:url("/apps/resource/Public/Images/Ilc/class_manage.png") no-repeat -169px -149px;
+}
+.manage_cen>div a.manage_ture:hover{
+    background-position:-187px -149px;
+}
+.manage_cen>div a.manage_false:hover{
+    background-position:-185px -125px;
+}
+/* 仪表盘 */
+.panel {
+    width:840px;
+    height:auto;
+    margin-top:25px;
+    margin-left:28px;
+}
+.panel .panel_tab_menu {
+    float: left;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+.panel .panel_tab_menu li {
+    float: left;
+    width: 140px;
+    height: 50px;
+    line-height: 50px;
+    margin-right: 20px;
+    font-size: 18px;
+    color: #99999D;
+    text-align: center;
+    cursor: pointer;
+}
+.panel .panel_tab_menu li.current {
+    font-weight: 400;;
+    color: #080808;
+}
+.stat_box {
+    float:left;
+    width:408px;
+    height:auto;
+    margin-right:12px;
+    margin-top:12px;
+    padding-bottom:25px;
+    background:#fff;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+    display:inline;
+    overflow:hidden;
+}
+.stat_box p {
+    height:46px;
+    line-height:46px;
+    border-bottom:1px solid #E0DDD9;
+    padding:0 20px;
+    overflow:hidden;
+    font-size:14px;
+    color:#5d5d5d;
+}
+.stat_box .diagram {
+    height:240px;
+    border-bottom:1px dashed #C9C5C0;
+    margin: 0 20px;
+}
+.stat_box .diagram.one {
+    margin:0 20px;
+}
+.stat_box .diagram ul {
+    float:left;
+}
+.stat_box .diagram.one ul.oneul {
+    margin:40px 0 0 10px;
+    _margin:40px 0 0 0;
+}
+.stat_box .diagram.one ul li {
+    float:left;
+    width:52px;
+    height:auto;
+    margin:0 15px;
+}
+.stat_box .diagram.one ul li span {
+    display:inline;
+    float:left;
+    width:52px;
+    height:140px;
+    background:#ECEBE9;
+    position:relative;
+}
+.stat_box .diagram ul li label {
+    display:block;
+    float:left;
+    text-align:center;
+    font-size:14px;
+    color:#080808;
+    padding:10px 0;
+}
+.stat_box .diagram.one ul li label {
+    width:52px;
+}
+.stat_box .diagram.three ul li label {
+    width:72px;
+}
+.diagram ul li span.chinese cite,.math cite,.english cite,.other cite {
+    float:left;
+    width:100%;
+    background:#F6C748;
+    position:absolute;
+    bottom:0px;
+    left:0px;
+}
+.diagram span cite i{
+    position:absolute;
+    top:-20px;
+    text-align:center;
+    color:#5d5d5d;
+    margin:0 auto;
+    width:52px;
+}
+.stat_box .ranking p{
+    height:50px;
+    line-height:50px;
+    _line-height: 50px;
+    border-bottom:none;
+}
+.stat_box .ranking.one ul,.stat_box .ranking.two ul {
+    display:inline;
+    float:left;
+    margin-left:20px;
+    _margin-left:10px;
+}
+.stat_box .ranking ul li {
+    float:left;
+    width:380px;
+    color:#888580;
+    font-size:14px;
+    display:inline;
+    margin:0;
+}
+.stat_box .ranking ul li label {
+    float:left;
+}
+.stat_box .ranking.one ul li label{
+    width:30px;
+}
+.stat_box .ranking.two ul li label{
+    width:50px;
+}
+.stat_box .ranking ul li label.count{
+    width:75px;
+}
+.stat_box .ranking ul li span {
+    float:left;
+    width:240px;
+    height:8px;
+    margin:6px 10px 0 5px;
+    background:#FFF4F3;
+    position:relative;
+    overflow:hidden;
+}
+.ranking ul li span i {
+    float: left;
+    height:8px;
+    position:absolute;
+    left:0;
+    background:#FF6769;
+    display:inline;
+    overflow:hidden;
+}
+.ranking ul li label cite {
+    color:#FE3233;
+}
+.stat_box .diagram.two ul.twoul {
+    margin:30px 0 0 0;
+    _margin:30px 0 0 0;
+}
+.diagram.two ul li {
+    float:left;
+    width:140px;
+    height:25px;
+    margin:0 35px 15px 5px;
+    font-size:14px;
+    color:#76746F;
+    overflow:hidden;
+    display:inline;
+}
+.diagram.two span.serialNum_good,.diagram.two span.serialNum {
+    float: left;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align:center;
+    color:#fff;
+    margin-right:10px;
+}
+.diagram.two span.serialNum_good {
+    background: url('/apps/resource/Public/Images/Ilc/serialNum_good.png') no-repeat;
+}
+.diagram.two span.serialNum {
+    background: url('/apps/resource/Public/Images/Ilc/serialNum.png') no-repeat;
+}
+.stat_box .diagram.three {
+    margin: 0 20px;
+}
+.stat_box .diagram.three, .stat_box .diagram.four {
+    height: 162px;
+    border-bottom: 1px dashed #C9C5C0;
+}
+.stat_box .diagram.three ul {
+    margin: 30px 0 0 15px;
+    _margin: 30px 0 0 0;
+}
+.stat_box .diagram.three ul li {
+    float: left;
+    width: 72px;
+    height: auto;
+    margin: 0 20px;
+    _margin: 0 10px;
+}
+.stat_box .diagram.three ul li span {
+    display: block;
+    float: left;
+    width: 52px;
+    height: 86px;
+    background: #ECEBE9;
+    position: relative;
+    margin-left:10px;
+}
+.diagram.three ul li span.three_res cite, .upload_res cite, .other_res cite {
+    float: left;
+    width: 100%;
+    background: #C186E6;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+.ranking3 ul ,.ranking4 ul{
+    margin:10px 0 0 20px;
+}
+.ranking3 ul li,.ranking4 ul li {
+    float: left;
+    width: 140px;
+    height: 25px;
+    margin: 0 35px 6px 5px;
+    font-size: 14px;
+    color: #76746F;
+    overflow: hidden;
+}
+.ranking3 ul li span ,.ranking4 ul li span{
+    width: 0;
+    margin-right:5px;
+}
+.ranking3 p ,.ranking4 p{
+    border-bottom:none;
+}
+.diagram.four ul {
+    margin-top:10px;
+}
+.diagram.four ul li {
+    float: left;
+    width: 140px;
+    height: 25px;
+    margin: 0 35px 5px 5px;
+    font-size: 14px;
+    color: #76746F;
+    overflow: hidden;
+}
+.diagram.four ul li span {
+    width: 0;
+    margin-right:5px;
+}
+
+/* 权限管理 */
+.perission {
+    width:840px;
+    height:auto;
+    margin-top:25px;
+    margin-left:28px;
+}
+.perission .create_role {
+    width: 123px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #E8E8E4;
+    color: #555;
+    font-size: 14px;
+    overflow: hidden;
+    margin-top: 5px;
+    text-indent: 50px;
+    background: url('/apps/resource/Public/Images/Ilc/lesson.png') no-repeat -120px -38px;
+    cursor: pointer;
+    margin-bottom:16px;
+}
+.perission .create_role:hover {
+    background-position: -120px 0px;
+}
+.perission_caption {
+    width: 800px;
+    height: 60px;
+    padding-left: 20px;
+    background: #26A75B;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+}
+.perission_caption li {
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+}
+.perission_caption .edit span, .forbidden span ,.commision span, .userList  span{
+    cursor:pointer;
+}
+.plist {
+    background: #F2F2F2;
+    border-bottom: 1px solid #E1DEDA;
+}
+.plist ul li {
+    color:#424242;
+}
+.per_order input {
+    margin-right:20px;
+    text-indent:5px;
+}
+.filter .tools{
+    width: 100%;
+    height: auto;
+    margin:0;
+}
+.tools {
+    width: 100%;
+    height: auto;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+.tools span {
+    float: left;
+    width: 66px;
+    height: 28px;
+    line-height: 28px;
+    background: url('/apps/resource/Public/Images/Ilc/toolbg.png') no-repeat;
+    margin-right: 10px;
+    color: #444;
+    font-weight: 400;;
+    cursor: pointer;
+}
+.tools span.add i,.del i,.forbidden i,.resume i{
+    float:left;
+    width:15px;
+    height:15px;
+    margin-top:6px;
+    margin-left:8px;
+    margin-right:5px;
+}
+.tools span.add i{
+    background:url('/apps/resource/Public/Images/Ilc/plus.png') no-repeat;
+}
+.tools span.edit i{
+    background:url('/apps/resource/Public/Images/Ilc/plus.png') no-repeat;
+}
+.tools span.del i{
+    background:url('/apps/resource/Public/Images/Ilc/plus.png') no-repeat;
+}
+.tools span.forbidden i{
+    background:url('/apps/resource/Public/Images/Ilc/locked.png') no-repeat;
+}
+.tools span.resume i{
+    background:url('/apps/resource/Public/Images/Ilc/ok.png') no-repeat;
+}
+/* 权限管理--创建组窗口 */
+#createGroup p {
+    float: left;
+    width: 100%;
+    margin-top: 15px;
+}
+#createGroup p label {
+    float: left;
+    width: 65px;
+    line-height: 29px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;;
+}
+#createGroup p input {
+    width: 300px;
+    height: 28px;
+    text-indent:5px;
+}
+#createGroup p select {
+    width:120px;
+    height: 26px;
+}
+/* 权限管理--授权页面 */
+.accredit {
+    width:840px;
+    height:auto;
+    margin-top:25px;
+    margin-left:28px;
+}
+.accredit p.groupname{
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    font-weight: 400;;
+}
+.accredit div div {
+    float: left;
+    width: 780px;
+    height: auto;
+    margin-bottom: 20px;
+    background: #F5F5F3;
+    padding: 10px 20px 20px 20px;
+}
+.accredit div p {
+    float:left;
+    width:120px;
+    height:40px;
+    line-height:40px;
+    background: #F5F5F3;
+    text-align:center;
+    font-size:16px;
+}
+.accredit div p.on {
+    color:#3CBC8B;
+    font-weight: 400;;
+}
+.accredit div div span {
+    float:left;
+    padding: 5px 20px;
+    margin:15px 20px 0 0;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid #20D691;
+}
+.accredit div div span.on{
+    background: url("/apps/resource/Public/Images/Ilc/hitchoose.png") no-repeat;
+    background-position: right top;
+    border: 0;
+    cursor: pointer;
+    border: 1px solid #20D691;
+}
+.accredit a.accredit_save {
+    float:right;
+    width:174px;
+    height:38px;
+    background:url('/apps/resource/Public/Images/Ilc/save.png') no-repeat;
+    margin-right:20px;
+}
+/* 权限管理--用户列表页面 */
+.accredit .user_list p {
+    float: left;
+    width: 160px;
+    height: 40px;
+    line-height: 40px;
+    background: #F5F5F3;
+    text-align: center;
+    font-size: 16px;
+}
+.accredit .user_list p cite {
+    margin-left:10px;
+    font-size:14px;
+    cursor:pointer;
+}
+.accredit .user_list ul {
+    float:left;
+    width:800px;
+    height:auto;
+    background: #F5F5F3;
+    padding:20px;
+}
+.accredit .user_list ul li {
+    float:left;
+    position:relative;
+    margin-right:20px;
+}
+.accredit .user_list ul li span {
+    float: left;
+    padding: 5px 20px;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid #20D691;
+}
+.accredit .user_list ul li .user_del {
+    position: absolute;
+    display:none;
+    right: -8px;
+    top: -8px;
+    width: 18px;
+    height: 17px;
+    background: url("/apps/resource/Public/Images/Ilc/delUser.png") no-repeat;
+}
+.accredit .user_list ul li .user_del:hover {
+    background: url("/apps/resource/Public/Images/Ilc/delUserHover.png") no-repeat;
+    cursor:pointer;
+}
+#addUser .filter p {
+    float:left;
+    display:inline;
+    margin-right:10px;
+}
+#addUser .filter p.searchUser {
+    width:86px;
+    height:39px;
+    background: url("/apps/resource/Public/Images/Ilc/searchBtn.png") no-repeat;
+    cursor:pointer;
+}
+#addUser p label {
+    float: left;
+    width:60px;
+    line-height: 35px;
+    padding-right: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;;
+}
+#addUser p input {
+    float: left;
+    width: 150px;
+    height: 35px;
+    line-height: 35px;
+    margin-right: 3px;
+    text-indent:5px;
+}
+#addUser .filter {
+    display:block;
+    margin-top: 15px;
+    float: left;
+    width: 100%;
+}
+#addUser .searchList {
+    margin-top:20px;
+    margin-left:10px;
+}
+#addUser .searchList li {
+    float:left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+#addUser .searchList li span {
+    float: left;
+    padding: 5px 20px;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid #20D691;
+}
+#addUser .searchList li span.on {
+    background: url("/apps/resource/Public/Images/Ilc/hitchoose.png") no-repeat;
+    background-position: right top;
+    border: 0;
+    cursor: pointer;
+    border: 1px solid #20D691;
+}
+/* 课程管理 */
+.course{
+    width: 840px;
+    height: auto;
+    margin-top: 25px;
+    margin-left: 28px;
+}
+.course .filter {
+    float: left;
+    width: 780px;
+    height: auto;
+    margin-bottom: 20px;
+    background: #F5F5F3;
+    padding:10px 20px 20px 20px;
+}
+.course .filter  li {
+    margin-top: 15px;
+    float:left;
+    width:100%;
+}
+.course .filter span {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 5px 20px;
+    border: 1px solid #20D691;
+    cursor: pointer;
+}
+.course .filter span.on {
+    background:#94E7C0;
+}
+.course_caption {
+    width: 800px;
+    height: 60px;
+    padding-left: 20px;
+    background: #26A75B;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+}
+.course_caption li {
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+}
+.courseList {
+    background: #F2F2F2;
+    border-bottom: 1px solid #E1DEDA;
+}
+.courseList ul li {
+    color:#424242;
+}
+.course .filter li label {
+    float:left;
+    width: 80px;
+    line-height:29px;
+    padding-right: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;;
+}
+.course .filter li input{
+    float: left;
+    width: 313px;
+    height: 39px;
+    line-height: 39px;
+    margin-right: 3px;
+    border: none;
+    background: url('/apps/resource/Public/Images/Ilc/searchbg.png') no-repeat;
+    text-indent:5px;
+}
+.course .filter li select {
+    width:313px;
+    height:39px;
+}
+.course .filter li .search_btn {
+    float:left;
+    width: 86px;
+    height: 39px;
+    background: url('/apps/resource/Public/Images/Ilc/searchBtn.png') no-repeat;
+    margin-left:6px;
+}
+
+/* 系统配置 */
+.system{
+    width: 840px;
+    height: auto;
+    margin-top: 25px;
+    margin-left: 28px;
+}
+.system .sys_menu a{
+    width:72px;
+    height:60px;
+    line-height:60px;
+    margin: 0px 20px 0px 20px;
+    color: #99999D;
+    font-size: 18px;
+    cursor: pointer;
+}
+.system .sys_menu a.selected{
+    color: #080808;
+    font-weight: 400;;
+}
+.system .filter {
+    float:left;
+    width:780px;
+    height:auto;
+    margin-bottom:20px;
+    background:#F5F5F3;
+    padding:0px 20px 10px 20px;
+}
+.system .filter .tools {
+    width:100%;
+    height:auto;
+    margin-top:10px;
+}
+.filter .tools span{
+    float:left;
+    width:66px;
+    height:28px;
+    line-height:28px;
+    background:url('/apps/resource/Public/Images/Ilc/toolbg.png') no-repeat;
+    margin-right:10px;
+    color: #444;
+    font-weight: 400;;
+    cursor:pointer;
+}
+.filter .tools span.add i,.edit i,.del i,.sort i,.forbidden i,.resume i{
+    float:left;
+    width:15px;
+    height:15px;
+    margin-top:6px;
+    margin-left:8px;
+    margin-right:5px;
+}
+.filter .tools span.add i{
+    background:url('/apps/resource/Public/Images/Ilc/plus.png') no-repeat;
+}
+.filter .tools span.edit i{
+    background:url('/apps/resource/Public/Images/Ilc/write.png') no-repeat;
+}
+.filter .tools span.del i{
+    background:url('/apps/resource/Public/Images/Ilc/plus.png') no-repeat;
+}
+.filter .tools span.sort i{
+    background:url('/apps/resource/Public/Images/Ilc/activity.png') no-repeat;
+}
+.filter .tools span.forbidden i{
+    background:url('/apps/resource/Public/Images/Ilc/locked.png') no-repeat;
+}
+.filter .tools span.resume i{
+    background:url('/apps/resource/Public/Images/Ilc/ok.png') no-repeat;
+}
+.filter .search {
+    width:100%;
+    height:auto;
+    margin-top:12px;
+}
+.filter .search input {
+    float:left;
+    width: 313px;
+    height: 39px;
+    line-height: 39px;
+    margin-right: 3px;
+    border: none;
+    background: url('/apps/resource/Public/Images/Ilc/searchbg.png') no-repeat;
+    text-indent:5px;
+}
+.filter .search .search_btn {
+    float:left;
+    width: 86px;
+    height: 39px;
+    background: url('/apps/resource/Public/Images/Ilc/searchBtn.png') no-repeat;
+    margin-left:6px;
+}
+.filter .search .folder {
+    display:inline-block;
+    margin-top:15px;
+    margin-left:10px;
+    cursor:pointer;
+    font-size: 14px;
+    /*background: url('/apps/resource/Public/Images/Ilc/folderDown.png') no-repeat;*/
+}
+.filter .search .more_search {
+    width:100%;
+    height:auto;
+}
+.filter .search .more_search li {
+    float:left;
+    margin-bottom:10px;
+}
+.filter .search .more_search li.searchBtn{
+    float:right;
+}
+.filter .search .more_search li label{
+    width:80px;
+    padding-right:10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;;
+}
+.filter .search .more_search li span{
+    display: inline-block;
+    margin: 0px 10px;
+    padding: 5px 20px;
+    border: 1px solid #20D691;
+    cursor: pointer;
+}
+.filter .search .more_search li.on {
+    background: #93E5BD;
+}
+.filter .search .more_search li.gcType {
+    float:left;
+    margin-top: 10px;
+}
+.filter .search .more_search li.searchBtn a {
+    float:right;
+    margin-top:10px;
+}
+._caption {
+    width: 800px;
+    height: 60px;
+    padding-left: 20px;
+    background: #26A75B;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+}
+#data {
+    display:inline;
+    color:red;
+}
+._caption li {
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    color: white;
+    cursor:pointer;
+    font-size: 14px;
+}
+/*._ptitle li.on{
+    background:#00ff00;
+}*/
+._List {
+    background: #F2F2F2;
+    border-bottom: 1px solid #E1DEDA;
+}
+._List ul li {
+    color:#424242;
+    overflow:hidden;
+}
+/* 年级课程设置 */
+.addBox {
+    float: left;
+    width: 780px;
+    height: auto;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    background: #F5F5F3;
+    padding: 10px 20px 20px 20px;
+}
+.addBox .title {
+    padding: 5px 0 5px 10px;
+    width: 97%;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 400;;
+    letter-spacing: 4px;
+    border-radius: 2px;
+    color: #1D1D1D;
+    font-size: 16px;
+}
+.addOption {
+    padding:10px 10px 0 10px;
+}
+.addOption li {
+    float:left;
+    width:100%;
+}
+
+.addOption li label {
+    float: left;
+    width: 60px;
+    line-height: 29px;
+    padding-right: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;;
+}
+.addOption li span.on {
+    background: #93E5BD;
+}
+.addOption li span {
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    padding: 5px 20px;
+    border: 1px solid #20D691;
+    cursor: pointer;
+}
+.addOption li div {
+    float:left;
+    width: 680px;
+}
+.addOption li select {
+    width:80px;
+    height:25px;
+}
+.addOption li.coBtn .saveBtn{
+    float:left;
+    width:174px;
+    height:38px;
+    margin-top:20px;
+    margin-right:10px;
+    background:url('/apps/resource/Public/Images/Ilc/save.png') no-repeat;
+}
+.addOption li.coBtn .clearBtn{
+    float:left;
+    width:174px;
+    height:38px;
+    margin-top:20px;
+    background:url('/apps/resource/Public/Images/Ilc/clear.png') no-repeat;
+}
+/* 新增学年 */
+.addOption li {
+    margin-bottom:10px;
+}
+.addOption li.xyear select{
+    height:30px;
+    margin-left:10px;
+}
+.addOption li input {
+    width:200px;
+    height:30px;
+    margin-left:10px;
+    margin-right:10px;
+    text-indent:5px;
+}
+/* 课文目录 */
+.more_search p div {
+    float: left;
+    width: 680px;
+}
+.filter .search .more_search li label {
+    float:left;
+    width: 50px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;;
+    margin-top:5px;
+}
+.filter .search .more_search li span.on {
+    background: #93E5BD;
+}
+.filter .search .more_search li span {
+    display: inline-block;
+    margin: 0 10px 3px 10px;
+    padding: 5px 20px;
+    border: 1px solid #20D691;
+    cursor: pointer;
+}
+.filter .search .more_search li div {
+    float: left;
+    width: 680px;
+}
+/* 新增课文 */
+.addOption li.coName input{
+    width:260px;
+    margin-left: 0;
+    text-indent:5px;
+}
+
+/* 教师管理 */
+.user .filter .search_btn {
+    float: left;
+    width: 86px;
+    height: 39px;
+    background: url('/apps/resource/Public/Images/Ilc/searchBtn.png') no-repeat;
+    margin-left: 6px;
+}
+.user {
+    width: 840px;
+    height: auto;
+    margin-top: 25px;
+    margin-left: 28px;
+}
+.user .user_menu a{
+    width:73px;
+    height:60px;
+    line-height:60px;
+    margin: 0px 20px 0px 20px;
+    color: #99999D;
+    font-size: 18px;
+    cursor: pointer;
+}
+.user .user_menu a.selected{
+    color: #080808;
+    font-weight: 400;;
+}
+.user .filter li .search_btn {
+    float: left;
+    width: 86px;
+    height: 39px;
+    background: url('/apps/resource/Public/Images/Ilc/searchBtn.png') no-repeat;
+    margin-left: 6px;
+}
+.user .filter .tools {
+    width: 100%;
+    height: auto;
+    margin: 5px 0 5px 0;
+}
+.user_caption {
+    width: 800px;
+    height: 60px;
+    padding-left: 20px;
+    background: #26A75B;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+}
+.user_caption li {
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+}
+.userList {
+    background: #F2F2F2;
+    border-bottom: 1px solid #E1DEDA;
+}
+.userList ul li {
+    color:#424242;
+}
+.user .filter {
+    float: left;
+    width: 780px;
+    height: auto;
+    margin-bottom: 20px;
+    background: #F5F5F3;
+    padding: 10px 20px 20px 20px;
+}
+.user .filter li {
+    float: left;
+    width: 100%;
+}
+.user .filter p {
+    float:left;
+    margin-top:10px;
+}
+.user .filter li label,.filter p label {
+    float: left;
+    width: 80px;
+    line-height: 39px;
+    padding-right: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;;
+}
+.user .filter div {
+    display: inline;
+}
+.user .filter li div span.on {
+    background: #93E5BD;
+}
+.user .filter li div span {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 5px 20px;
+    border: 1px solid #20D691;
+    cursor: pointer;
+}
+.user .filter li input,.filter p input {
+    float: left;
+    width: 313px;
+    height: 36px;
+    line-height: 39px;
+    margin-right: 3px;
+    text-indent:5px;
+}
+/* 教师管理--添加*/
+.addTeacher li input,.addStudent li input {
+    height: 30px;
+    margin:0;
+    text-indent:5px;
+}
+.addTeacher li label,.addStudent li label {
+    width: 80px;
+}
+.addTeacher li label.lang_agao,.addStudent li label.lang_agao {
+    width: 180px;
+}
+.addTeacher li p,.addStudent li p{
+    margin-left:5px;
+    line-height:29px;
+    height:25px;
+}
+.addTeacher li div {
+    float: left;
+    width: 660px;
+}
+.addTeacher li input,.addStudent li input {
+    width:200px;
+    height: 25px;
+    margin: 0;
+    text-indent:5px;
+}
+.addTeacher li input.boy,.addTeacher li input.girl,.addStudent li input.boy,.addStudent li input.girl {
+    width:30px;
+}
+.addTeacher li.tsex i,.addStudent li.ssex i{
+    position:relative;
+    top:-6px;
+}
+#province {
+    margin-right:10px;
+    padding: 0;
+    border: none;
+}
+#province select {
+    margin-right:10px;
+}
+.addTeacher textarea,.addStudent textarea {
+    width: 300px;
+    height: 100px;
+    font-size:14px;
+    text-indent:5px;
+}
+/* 学生添加 */
+.addStudent li div {
+    float: left;
+    width: 640px;
+}
+.addOption .oclass {
+    float:left;
+    width:760px;
+    display:inline;
+}
+.addOption li span.modify_cname ,.addOption li span.tempClass,.addOption li span.cname{
+    margin:0;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+}
+.addOption li span.modify_cname:hover {
+    color:red;
+}
+.oclass div p.classObj {
+    float:left;
+    width:100%;
+    margin-bottom:10px;
+}
+.oclass div p select{
+    margin-right:10px;
+}
+.oclass div p p.mselect ,.oclass div p p.mbtn {
+    display:inline;
+    float:left;
+}
+/* 教师（学生导入） */
+.AuthImport {
+    width: 840px;
+    height: auto;
+}
+.AuthImport .title {
+    color: #99999D;
+    font-size: 18px;
+}
+.AuthImport .operate {
+    margin-top:10px;
+}
+.AuthImport h3 {
+    margin-bottom:5px;
+}
+.AuthImport *{
+    line-height:20px;
+    font-size:14px;
+}
+.AuthImport .list .submitBtn {
+    width:174px;
+    height:38px;
+    display:block;
+    margin-top:25px;
+    border:none;
+    background:url('/apps/resource/Public/Images/Ilc/save.png');
+}
+/* 班级管理 */
+.class {
+    width: 840px;
+    height: auto;
+    margin-top: 25px;
+    margin-left: 28px;
+}
+.class .filter {
+    float: left;
+    width: 780px;
+    height: auto;
+    margin-bottom: 20px;
+    background: #F5F5F3;
+    padding: 0 20px 20px 20px;
+}
+.class .filter span.on{
+    background:#93E5BD;
+}
+.class .filter span {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 5px 20px;
+    border: 1px solid #20D691;
+    cursor: pointer;
+}
+.class .filter li .search_btn {
+    float: right;
+    width: 86px;
+    height: 39px;
+    background: url('/apps/resource/Public/Images/Ilc/searchBtn.png') no-repeat;
+    margin-left: 6px;
+}
+.class .filter li select {
+    float: left;
+    width: 313px;
+    height: 39px;
+}
+.class .result_list {
+    float: left;
+    width: 820px;
+    height: auto;
+    margin-bottom: 20px;
+    background: #F5F5F3;
+}
+.class .class_list {
+    width:100%;
+    height:auto;
+}
+.class .class_list p, .class .teacher_list p,.class .student_list p{
+    height:50px;
+    line-height:50px;
+    font-size:18px;
+    font-weight: 400;;
+    border-bottom:1px solid #E4E2DF;
+    padding-left:25px;
+}
+.class .class_list p span {
+    font-size: 14px;
+    margin-left:20px;
+    font-weight:normal;
+    cursor:pointer;
+}
+.class .class_list ul {
+    width:100%;
+    float:left;
+    margin-bottom:40px;
+}
+.class .class_list ul li {
+    float:left;
+    width:272px;
+    height:110px;
+    border-right:1px solid #E4E2DF;
+    border-bottom:1px solid #E4E2DF;
+    cursor:pointer;
+    position:relative;
+}
+.class .class_list ul li.add_class {
+    text-align:center;
+    cursor:pointer;
+}
+.class .class_list ul li.on {
+    background-color:#ffffff;
+}
+.gradeCourse{
+    display:block;
+    width:100px; 
+    line-height:30px;
+    border:1px solid #00ff00;
+    padding-left:10px;
+    margin-top:10px;
+}
+.class .class_list ul li.add_class .addBtn {
+    margin-top:20px;
+}
+.class .class_list ul li.add_class span {
+    display:block;
+    margin-top:5px;
+    font-size:14px;
+    color:#E2E0DC;
+}
+.class .class_list ul li a img {
+    float:left;
+    margin:20px 10px 0 18px;
+}
+.class_list .class_info {
+    float:left;
+    width:160px;
+    margin-top:22px;
+}
+.class_list .class_info a{
+    display:block;
+    width:160px;
+    color:#2c2c2c;
+    font-size:14px;
+    font-weight: 400;;
+    margin-bottom:5px;
+    overflow:hidden;
+}
+.class_list .class_info a.class_title:hover{
+    color:#F86E2D;
+}
+.class_list .class_info a.kb ,.class_list .class_info a.edit{
+    float: left;
+    display: inline;
+    width:70px;
+    color:#2c2c2c;
+    font-size:14px;
+    font-weight: 400;;
+    margin-bottom:5px;
+    overflow:hidden;
+}
+.class_list .class_info a.kb {
+    margin-right:10px;
+}
+.class .class_list ul li a.kb img ,.class .class_list ul li a.edit img{
+    float:left;
+    margin:0;
+    margin-right:5px;
+}
+.class_list .class_info a.kb:hover {
+    color:#F86E2D;
+}
+.class_list .class_info span{
+    display:block;
+    width:160px;
+    font-size:12px;
+    color:#575757;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+.class .teacher_list {
+    width:100%;
+    height:auto;
+}
+.class .teacher_list .tit cite {
+    width:100%;
+    font-size:14px;
+    font-weight:normal;
+    margin-left:10px;
+    cursor:pointer;
+}
+.teacher_list ul,.student_list ul {
+    float: left;
+    margin-bottom: 40px;
+    padding-left:10px;
+}
+.teacher_list ul li,.student_list ul li {
+    float:left;
+    width:120px;
+    height:60px;
+    line-height:60px;
+    background:#FFF;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.04);
+    margin-top:25px;
+    margin-left:12px;
+    text-align:center;
+    font-size:14px;
+    color:#2c2c2c;
+    cursor:pointer;
+    position:relative;
+}
+.class .student_list {
+    width:100%;
+    height:auto;
+}
+.student_list ul li.add_student {
+    text-align:left;
+    color:#E2E0DC;
+    cursor:pointer;
+}
+.student_list ul li.add_student img {
+    float:left;
+    margin:12px 5px 0 8px;
+}
+.class .filter div {
+    display:inline;
+}
+.class .filter li {
+    margin-top: 15px;
+    float: left;
+    width: 100%;
+}
+.class .filter li label {
+    float: left;
+    width: 80px;
+    line-height: 29px;
+    padding-right: 10px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;;
+}
+.class .filter li input {
+    float: left;
+    width: 313px;
+    height: 39px;
+    line-height: 39px;
+    margin-right: 3px;
+    border: none;
+    background: url('/apps/resource/Public/Images/Ilc/searchbg.png') no-repeat;
+    text-indent:5px;
+}
+/* 班级管理---指定班主任窗口 */
+#headTeacher label {
+    float:left;
+    font-size:14px;
+    line-height:39px;
+    font-weight: 400;;
+    margin-left:5px;
+}
+#headTeacher input {
+    float:left;
+    width:260px;
+    height:35px;
+    line-height:35px;
+    margin-left:10px;
+    margin-right:10px;
+    text-indent:5px;
+}
+#headTeacher .searchUser {
+    float:left;
+    width: 86px;
+    height: 39px;
+    background: url("/apps/resource/Public/Images/Ilc/searchBtn.png") no-repeat;
+    cursor: pointer;
+}
+#headTeacher .searchList {
+    margin-top: 20px;
+    margin-left: 10px;
+    color:red;
+}
+#headTeacher .searchList li {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+#headTeacher .searchList li span {
+    float: left;
+    padding: 5px 20px;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid #20D691;
+}
+#headTeacher .searchList li span.on {
+    background: url("/apps/resource/Public/Images/Ilc/hitchoose.png") no-repeat;
+    background-position: right top;
+    border: 0;
+    cursor: pointer;
+    border: 1px solid #20D691;
+}
+/* 为教师指定课程窗口 */
+#teacher_course .teacherList {
+    margin-top: 10px;
+}
+#teacher_course .teacherList li {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+#teacher_course .teacherList li span {
+    float: left;
+    padding: 5px 20px;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid #20D691;
+}
+#teacher_course .teacherList li span.on {
+    background: url("/apps/resource/Public/Images/Ilc/hitchoose.png") no-repeat;
+    background-position: right top;
+    border: 0;
+    cursor: pointer;
+    border: 1px solid #20D691;
+}
+/* 添加学生窗口 */
+#plus_student p {
+    float: left;
+    display: inline;
+    margin-right: 10px;
+}
+#plus_student p label {
+    float: left;
+    width: 80px;
+    line-height: 35px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;;
+}
+#plus_student p input {
+    height: 35px;
+    text-indent:5px;
+}
+#plus_student p select {
+    width:80px;
+    height:35px;
+}
+#plus_student p.searchStudent {
+    width: 86px;
+    height: 39px;
+    background: url("/apps/resource/Public/Images/Ilc/searchBtn.png") no-repeat;
+    cursor: pointer;
+}
+#plus_student .studentList {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+#plus_student .studentList li {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+#plus_student .studentList li span {
+    float: left;
+    padding: 5px 20px;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid #20D691;
+}
+#plus_student .studentList li span.on {
+    background: url("/apps/resource/Public/Images/Ilc/hitchoose.png") no-repeat;
+    background-position: right top;
+    border: 0;
+    cursor: pointer;
+    border: 1px solid #20D691;
+}
+.student_list li .student_del {
+    position: absolute;
+    display:none;
+    right: -8px;
+    top: -8px;
+    width: 18px;
+    height: 17px;
+    background: url("/apps/resource/Public/Images/Ilc/delUser.png") no-repeat;
+}
+
+#data li .class_del {
+    display:block;
+    width: 18px;
+    height: 17px;
+    float:right;
+    display:none;
+    background: url("/apps/resource/Public/Images/Ilc/delUser.png") no-repeat;
+}
+
+/* 添加班级窗口 */
+#plus_class ul li {
+    float: left;
+    width: 100%;
+    margin-top: 15px;
+}
+#plus_class li label{
+    float: left;
+    width: 80px;
+    line-height: 29px;
+    font-size: 14px;
+    color: #494949;
+    font-weight: 400;;
+}
+#plus_class li span {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 5px 12px;
+    border: 1px solid #20D691;
+    cursor: pointer;
+}
+#plus_class li input {
+    width:450px;
+    height:28px;
+    text-indent:5px;
+}
+#plus_class li textarea {
+    width:450px;
+    height:100px;
+}
+#plus_class li span.on{
+    background: #93E5BD;
+}
+
+
+
+
+
+/*5-21暂无数据样式*/
+
+/*暂无数据样式*/
+.pli_null{
+    padding:10px 0px;
+    background:#f5f5f3;
+    font-size:18px;
+    color:#3e3e3e;
+    text-align:center;
+}
+
+/*权限管理*/
+.xin_tools{
+    float:left;
+    width:800px;
+    margin:0px;
+    padding:15px 0px 20px 20px;
+    background:#f5f5f3;
+}
+
+
+
+/*  用户管理     系统配置  */
+.user .user_menu a,.system .sys_menu a{
+    padding:0px 5px;
+    display:block;
+    float:left;
+}
+/*小箭头*/
+.selected{
+    background:url("/apps/resource/Public/Images/Home/xin_select.png") no-repeat bottom;
+}
+
+
+/*
+._ptitle .sortby{
+    background:url("/apps/resource/Public/Images/Home/xin_up.png") no-repeat;
+}
+._ptitle .on{
+    background:url("/apps/resource/Public/Images/Home/xin_down.png") no-repeat 35px 25px;
+}
+._ptitle ._a_id{
+    background-position:45px 24px;
+}
+._ptitle ._a_account{
+    background-position:77px 24px;
+}
+._ptitle ._a_nickname{
+    background-position:57px 24px;
+}
+._ptitle ._a_login_count{
+    background-position:80px 24px;
+}
+._ptitle ._a_status{
+    background-position:50px 24px;
+}
+*/
+
+/*权限管理*/
+.accredit p.groupname a{
+    margin-right:30px;
+}
+.xin_group{
+    float:left;
+    width:840px;
+    background:#f5f5f3;
+}
+.xin_group div.class_manage{
+    width:800px;
+    border-bottom:1px dotted #999;
+}
+.groupname{
+    background:url("/apps/resource/Public/Images/Home/xin_select.png") no-repeat 42px bottom;
+}
+.accredit .user_list p{
+    width:820px;
+    padding-left:20px;
+    text-align:left;
+}
+.accredit .user_list p cite{
+    display:block;
+    float:right;
+    width:100px;
+    height:30px;
+    line-height:30px;
+    border:1px solid #e3e3e3;
+    margin:5px 20px 0px 0px;
+    text-align:center;
+}
+.accredit .user_list p cite:hover{
+    border-color:#2fae5f;
+    color:#088236;
+}
+
+
+
+
+/* 导入教师 导入学生 */
+ .groupname{
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    font-weight:500;
+    color: #040404;
+}
+  .groupname a{
+    margin-right:30px;
+    font-size: 18px;
+    color: #040404;
+}
+ .operate{
+    float:left;
+    width:100%;
+    margin:0px;
+    padding-bottom:15px;
+    background:#f5f5f3;
+}
+.xin_ope{
+    float:left;
+    width:100%;
+}
+.xin_ope .fl{
+    width:100%;
+}
+.operate h3{
+    color:#595959;
+    line-height:30px;
+}
+#opearte-one{
+    margin-bottom:10px;
+}
+#opearte-one a{
+    display:inline;
+    margin-left:55px;
+    color:#ff770c;
+}
+#notice-con span{
+    color:#595959;
+}
+#opearte-one a.xin_opea{
+    margin-left:30px;
+}
+#notice ol{
+    margin-left:68px;
+}
+#notice ol li{
+    line-height:30px;
+    color:#595959;
+}
+.operate .list h3{
+    margin-bottom:0px;
+}
+.operate .list span{
+    line-height:40px;
+    margin-left:55px;
+    color:#ff770c;
+    font-size:12px; 
+}
+.operate .list form{
+    padding-left:55px;
+    line-height:30px;
+}
+.operate .list form input{
+    color:#026c2a;
+    text-indent:5px;
+}
+.operate .list form .submitBtn{
+    margin-left:90px;
+}
+.accredit .xin_group{
+    padding-bottom:15px;
+}
+.addOption li span,.filter .search .more_search li span{
+    margin-bottom:10px;
+}
+.coBtn .save{
+    margin-left:70px;
+}
+.filter .search input{
+    width:313px;
+    display:inline;
+    margin-left:68px;
+    text-indent:5px;
+}
+.addBox .title a{
+    float:right;
+    font-weight:500;
+}
+.addOption .coBtn{
+    margin:10px 0px 0px 10px;
+}
+.groupname a{
+    line-height:50px;
+}
+
+
+
+
+#studentList ._ptitle ._tnumber{
+    background-position:57px 25px;
+}
+#studentList ._ptitle ._username{
+    background-position:63px 25px;
+}
+#studentList ._ptitle ._txm{
+    background-position:57px 25px;
+}
+#studentList ._ptitle ._tloginNum{
+    background-position:70px 25px;
+}
+#studentList ._ptitle ._status{
+    background-position:50px 25px;
+}

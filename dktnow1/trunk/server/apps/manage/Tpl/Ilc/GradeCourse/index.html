@@ -1,0 +1,146 @@
+<include file="../Public/header_main" />
+<load file="__PUBLIC__/Css/Ilc/resource_index.css"/>
+<script type="text/javascript">
+$(function(){
+    var listObj = {"data_check": "2%","data_id": "8%" ,"data_name": "10%","data_explain": "14%","data_default": "10%","data_sort": "12%","data_status": "15%","data_hand": "10%","data_edit": "10%","data_time": "15%"};
+    setWidth(listObj);
+
+    // 隐藏专业ID
+    var majorFlag= '{$prevMajor}';
+    if (majorFlag == '') {
+        $('select[name=gc_major]').hide();
+    }
+
+    // 通过学校获取学段
+    $('select[name=s_id]').change(function() {
+        $('select[name=gc_grade]').html('<option value="0">请选择</option>');
+        $('select[name=gc_major]').hide();
+        // 获取学段
+        var sType = $('select[name=s_id] option:selected').attr('attr');
+
+
+        var str = '<option value="0">请选择</option>';
+        if (sType != '') {
+            var typeArr = sType.split(',');
+
+            for (var p in typeArr) {
+
+                str += '<option value="'+typeArr[p]+'">'+$('.schoolType span').eq(typeArr[p] - 1).html()+'</option>';
+            }
+        }
+        $('select[name=gc_type]').html(str);
+    })
+
+    // 通过学段获取年级
+    $('select[name=gc_type]').change(function() {
+        $(this).nextAll().children('option').removeAttr('selected');
+        if ($(this).val() == 4) {
+            $('select[name=gc_major]').show();
+            listGradeOption($('select[name=s_id]').val(), $(this).val(), 'gc_major');
+        } else {
+            $('select[name=gc_major]').hide();
+            listGradeOption($('select[name=s_id]').val(), $(this).val(), 'gc_grade');
+        }
+    })
+
+    // 通过专业获取年级
+    $(document).on('change', 'select[name=gc_major]', function () {
+        listGradeOption($('select[name=s_id]').val(), $(this).val(), 'gc_grade', 0, 'major');
+    })
+})
+</script>
+    <form name="form" method="post" action="__URL__/index">
+        <div class="model_search">
+            <a>学科名：</a>
+            <input TYPE="text" title="名称查询" name="courseName" >
+            <a class="search">搜索</a>
+            <div class="clear"></div>
+            <select name="s_id" >
+                <option attr="" value="0">请选择</option>
+                <volist name="school" id="school">
+                    <option value="{$school.s_id}" attr="{$school.s_type}"  <eq name="prevsId" value="$school.s_id">selected</eq> >{$school.s_name}</option>
+                </volist>
+            </select>
+            <select name="gc_type">
+                <option value="0">请选择</option>
+            <foreach name="csType" item="type" key="typekey">
+                <option value="{$typekey}" <eq name="prevgcType" value="$typekey">selected</eq> >{$type}</option>
+            </foreach>
+            </select>
+            <select name="gc_major">
+                <option value="0">请选择</option>
+                <volist name="major" id="vo">
+                <option value="{$vo.ma_id}" <if condition="$vo.ma_id eq $prevMajor ">selected</if> >{$vo.ma_title}</option>
+                </volist>
+            </select>
+            <select name="gc_grade" >
+                <option value="0">请选择</option>
+            <foreach name="grade" item="gradename" key="gradekey">
+                <option value="{$gradekey}" <eq name="prevGrade" value="$gradekey">selected</eq> >{$gradename}</option>
+            </foreach>
+            </select>
+        </div>
+    </form>
+    <div class="tools fl">
+        <a class="add">
+            <i></i>
+            新增
+        </a>
+        <a class="edit">
+            <i></i>
+            编辑
+        </a>
+        <a class="forbidden">
+            <i></i>
+            禁用
+        </a>
+        <a class="resume">
+            <i></i>
+            启用
+        </a>
+
+    </div>
+    <div id="system_list">
+        <div>
+            <ul class="list_hea">
+                <li>
+                    <input class="data_check" type="checkbox" name="allcheck" onclick="CheckAll('system_list')"/>
+                    <span class="data_id">编号</span>
+                    <span class="data_name">学校</span>
+                    <span class="data_explain">类型</span>
+                    <span class="data_default">年级</span>
+                    <span class="data_status">学科</span>
+                    <span class="data_time">状态</span>
+                    <span class="data_hand">操作</span>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <ul class="list_list list_hea" id="list_main">
+
+                <volist name="list" id="list">
+                    <li>
+                        <input class="data_check" type="checkbox" value="{$list.gc_id}" name="key"/>
+                        <span class="data_id">{$list.gc_id}</span>
+                        <span class="data_name">{$list.schoolName}</span>
+                        <span class="data_explain">{$list.schoolType}</span>
+                        <span class="data_default">{$list.grade}</span>
+                        <span class="data_status">{$list.course}</span>
+                        <span class="data_time">{$list.gc_status|getStatus}</span>
+                        <span class="data_hand"><a href="javascript:edit({$list.gc_id})">编辑</a></span>
+                    </li>
+                </volist>
+
+            </ul>
+
+        </div>
+        <div class="page">
+            {$page}
+        </div>
+    </div>
+
+    <div class="schoolType" style="display:none;">
+        <volist name="schoolType" id="schoolType">
+            <span>{$schoolType}</span>
+        </volist>
+    </div>

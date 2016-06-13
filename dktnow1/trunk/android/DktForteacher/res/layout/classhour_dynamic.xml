@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ListView android:id="@+id/classhour_dynamic_listview"
+        android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:layout_marginLeft="60dp"
+    	android:layout_marginRight="20dp"
+    	android:layout_marginTop="20dp"
+        ></ListView>
+	<TextView 
+        android:layout_width="1dp"
+    	android:layout_height="match_parent"
+    	android:background="@color/el"
+    	android:layout_marginLeft="163dp"
+    	android:layout_toRightOf="@+id/classhour_dynamic_img"/>
+</RelativeLayout>

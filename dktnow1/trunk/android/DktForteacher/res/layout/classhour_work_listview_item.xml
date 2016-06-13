@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/work_re"
+    android:background="@drawable/activity_nopub">
+
+    <TextView 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@+id/work_img"
+    	android:id="@+id/work_title"
+    	android:textColor="@color/green"
+    	android:layout_marginLeft="8dp"
+    	android:layout_marginTop="20dp"
+    	android:textSize="20sp"/>
+    <TextView 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@+id/work_title"
+  		android:id="@+id/classname"
+    	android:textColor="#ff375c6c"
+    	android:layout_marginLeft="18dp"
+    	android:layout_marginTop="15dp"
+    	android:textSize="15sp"
+    	android:text=""/>
+    
+    <TextView
+        android:id="@+id/work_ff"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/classname"
+        android:layout_marginTop="15dp"
+        android:background="#ffe0e0e0" />
+    
+    <RadioGroup
+        android:id="@+id/work_radiogroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/work_ff"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="2dp"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/work_check_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@drawable/teacher_check"
+            android:drawablePadding="1dp"
+            android:paddingLeft="8dp"
+            android:textColor="#ff375c6c"
+            android:text="预览" />
+		<RadioButton
+            android:id="@+id/work_pub_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@drawable/teacher_pub"
+            android:drawablePadding="1dp"
+            android:paddingLeft="8dp"
+            android:textColor="#ff375c6c"
+            android:text="发布" />
+        <RadioButton
+            android:id="@+id/work_correct_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@drawable/teacher_correct"
+            android:drawablePadding="1dp"
+            android:paddingLeft="8dp"
+            android:textColor="#ff375c6c"
+            android:text="批阅" />
+    </RadioGroup>
+   
+   <!-- 
+    <TextView 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@+id/work_ff"
+  		android:id="@+id/work_num"
+    	android:textColor="@color/white"
+    	android:layout_marginLeft="8dp"
+    	android:layout_alignParentBottom="true"
+    	android:layout_alignParentLeft="true"
+    	android:textSize="15sp"
+    	android:text="1"/> --> 
+</RelativeLayout>

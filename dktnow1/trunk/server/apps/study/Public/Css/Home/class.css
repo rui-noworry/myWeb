@@ -1,0 +1,103 @@
+.class_box {
+    width:765px;
+    margin-left:20px;
+}
+.class_box li {
+    float:left;
+    width:350px;
+    height:115px;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+    background: #F3F2F0;
+    border-radius: 2px;
+    margin-top:25px;
+    margin-right:32px;
+    margin-bottom:5px;
+    position: relative;
+    display: inline;
+}
+.class_box li a img{
+    float:left;
+    margin-top:10px;
+    margin-left:10px;
+}
+.class_box li div.className {
+    float:left;
+    width:220px;
+    padding: 16px 0px;
+}
+.class_box li div.className a {
+    float:left;
+    display:block;
+    font-size: 16px;
+    color: #2C2C2C;
+    height:35px;
+    line-height:35px;
+    margin-left: 15px;
+    max-width:120px;
+    overflow:hidden;
+}
+.class_box li div.className a.app_class {
+    width:70px;
+}
+.class_box li div.class_tools {
+    float:left;
+    width:240px;
+    margin-top:5px;
+}
+.class_box li div.class_tools a {
+    color: #8F8C86;
+    width:95px;
+    margin-left: 18px;
+    margin-bottom: 10px;
+    display:inline-block;
+    overflow:hidden;
+    white-space:nowrap;
+}
+.class_box .create_group,.class_box .manage_group,.class_box .goin_class,.class_box .edit_class{
+    float:left;
+    width:16px;
+    height:16px;
+    margin-right:5px;
+}
+.class_box li div.class_tools a:hover {
+    color:#00BD6C;
+}
+.class_box li div.class_tools a .create_group {
+    background:url('/apps/study/Public/Images/Home/classTools.png') no-repeat 0px 0px;
+}
+.class_box li div.class_tools a .create_group:hover {
+    background:url('/apps/study/Public/Images/Home/classTools.png') no-repeat -16px 0px;
+}
+.class_box li div.class_tools a .manage_group {
+    background:url('/apps/study/Public/Images/Home/classTools.png') no-repeat 0px -16px;
+}
+.class_box li div.class_tools a .manage_group:hover {
+    background:url('/apps/study/Public/Images/Home/classTools.png') no-repeat -16px -16px;
+}
+.class_box li div.class_tools a .goin_class {
+    background:url('/apps/study/Public/Images/Home/classTools.png') no-repeat 0px -32px;
+}
+.class_box li div.class_tools a .goin_class:hover {
+    background:url('/apps/study/Public/Images/Home/classTools.png') no-repeat -16px -32px;
+}
+.class_box li div.class_tools a .edit_class {
+    background:url('/apps/study/Public/Images/Home/classTools.png') no-repeat 0px -48px;
+}
+.class_box li div.class_tools a .edit_class:hover {
+    background:url('/apps/study/Public/Images/Home/classTools.png') no-repeat -16px -48px;
+}
+/*申请加入班级样式 5-23*/
+.war_top{
+    float:left;
+    margin:25px 0px 10px 20px;
+}
+.war_top a{
+    float:left;
+    padding:5px 10px;
+    color:#696969;
+    font-size:16px;
+}
+.class_box li{
+    margin-top:0px;
+    margin-bottom:10px;
+}

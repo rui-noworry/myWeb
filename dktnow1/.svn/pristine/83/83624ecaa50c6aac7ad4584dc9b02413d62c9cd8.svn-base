@@ -1,0 +1,148 @@
+<include file="Public:header"/>
+<load href="/Public/Css/Home/client.css"/>
+    <script type="text/javascript">
+    <!--
+        $(function() {
+            $(".wl-subnav-item").click(function() {
+                $(this).addClass('current').siblings().removeClass('current');
+                $(".wl-content .wl-items").eq($(this).index()).show().siblings().hide();
+            }).eq(0).click();
+            $(".wl-subnav-item").mouseover(function() {
+                $(this).addClass('current').siblings().removeClass('current');
+                $(".wl-content .wl-items").eq($(this).index()).show().siblings().hide();
+            })
+        })
+    //-->
+    </script>
+    <div style="height:30px;"></div>
+    <div class="hide"></div>
+    <div style="height:62px;" class="wl-subnav">
+        <div class="wl-subnav-content">
+            <div class="wl-subnav-item current"><a class="androidicon" href="#"></a></div>
+            <div class="wl-subnav-item"><a class="iosicon" href="#"></a></div>
+            <div class="wl-subnav-item"><a class="editicon" href="#"></a></div>
+            <div class="wl-subnav-item"><a class="yhscicon" href="#"></a></div>
+        </div>
+    </div>
+    <div class="wl-content">
+        <!-- android -->
+        <div class="wl-items" style="background:url('/Public/Images/Home/clientbbg.png') no-repeat;height:640px;">
+            <div class="wl-item">
+                <div class="icon"><img src="/Public/Images/Home/icon/clientlogo.jpg"></div>
+                <div class="info">
+                    <div class="title">大课堂Android客户端教师版</div>
+                    <div class="version">最新版本: </div><div class="text">V3.0&nbsp;&nbsp;&nbsp;&nbsp;发布日期: 2013.03.26 &nbsp;&nbsp;&nbsp;&nbsp;软件大小: 3.26M</div>
+                    <div class="desc">产品介绍: </div><div class="text">大课堂产品是一种新型的教育模式，通过移动终端可以实现，本地资源的存放与阅读，教学视频的观看与点评。 课堂上讲课，互动练习，批改作业，发布作业以及记录学习的点点滴滴的记事本功能。</div>
+                    <div class="desc">配置要求: </div><div class="text">最适分辨率 1280x800，系统版本4.0以上</div>
+                </div>
+                <neq name="adst" value=''>
+                    <div class="dlbutton"><a href="{$adst}"><img src="/Public/Images/Home/adtd.png"></a></div>
+                </neq>
+            </div>
+            <div class="clear"></div>
+            <div class="wl-item">
+                <div class="icon"><img src="/Public/Images/Home/icon/clientlogo.jpg"></div>
+                <div class="info">
+                    <div class="title">大课堂Android客户端学生版</div>
+                    <div class="version">最新版本: </div><div class="text">V3.0&nbsp;&nbsp;&nbsp;&nbsp;发布日期: 2013.03.26 &nbsp;&nbsp;&nbsp;&nbsp;软件大小: 3.26M</div>
+                    <div class="desc">产品介绍: </div><div class="text">大课堂产品是一种新型的教育模式，通过移动终端可以实现，本地资源的存放与阅读，教学视频的观看与点评。 课堂上讲课，互动练习，批改作业，发布作业以及记录学习的点点滴滴的记事本功能。</div>
+                    <div class="desc">配置要求: </div><div class="text">最适分辨率 1280x800，系统版本4.0以上</div>
+                </div>
+                <neq name="adss" value=''>
+                    <div class="dlbutton"><a href="{$adss}"><img src="/Public/Images/Home/adsd.png"></a></div>
+                </neq>
+            </div>
+            <!--div class="clear"></div>
+            <div class="wl-item">
+                <div class="icon"><img src="/Public/Images/Home/icon/clientlogo.jpg"></div>
+                <div class="info">
+                    <div class="title">大课堂三星教师版</div>
+                    <div class="version">最新版本: </div><div class="text">V3.0&nbsp;&nbsp;&nbsp;&nbsp;发布日期: 2013.04.24 &nbsp;&nbsp;&nbsp;&nbsp;软件大小: 3.26M</div>
+                    <div class="desc">产品介绍: </div><div class="text">大课堂产品是一种新型的教育模式，通过移动终端可以实现，本地资源的存放与阅读，教学视频的观看与点评。 课堂上讲课，互动练习，批改作业，发布作业以及记录学习的点点滴滴的记事本功能。</div>
+                    <div class="desc">配置要求: </div><div class="text">最适分辨率 1280x800，系统版本4.0以上</div>
+                </div>
+                <neq name="adst" value=''>
+                    <div class="dlbutton"><a href="{$adst}"><img src="/Public/Images/Home/adtd.png"></a></div>
+                </neq>
+            </div>
+            <div class="clear"></div>
+            <div style="background: transparent;" class="wl-item">
+                <div class="icon"><img src="/Public/Images/Home/icon/clientlogo.jpg"></div>
+                <div class="info">
+                    <div class="title">大课堂三星学生版</div>
+                    <div class="version">最新版本: </div><div class="text">V3.0&nbsp;&nbsp;&nbsp;&nbsp;发布日期: 2013.04.24 &nbsp;&nbsp;&nbsp;&nbsp;软件大小: 3.26M</div>
+                    <div class="desc">产品介绍: </div><div class="text">大课堂产品是一种新型的教育模式，通过移动终端可以实现，本地资源的存放与阅读，教学视频的观看与点评。 课堂上讲课，互动练习，批改作业，发布作业以及记录学习的点点滴滴的记事本功能。</div>
+                    <div class="desc">配置要求: </div><div class="text">最适分辨率 1280x800，系统版本4.0以上</div>
+                </div>
+                <neq name="adss" value=''>
+                    <div class="dlbutton"><a href="{$adss}"><img src="/Public/Images/Home/adsd.png"></a></div>
+                </neq>
+            </div-->
+        </div>
+        <!-- ios -->
+        <div class="wl-items">
+            <div class="wl-item">
+                <div class="icon"><img src="/Public/Images/Home/icon/clientlogo.jpg"></div>
+                <div class="info">
+                    <div class="title">大课堂IOS客户端教师版</div>
+                    <div class="version">最新版本: </div><div class="text">V1.0&nbsp;&nbsp;&nbsp;&nbsp;发布日期: 2013.04.24 &nbsp;&nbsp;&nbsp;&nbsp;软件大小: 1.7M</div>
+                    <div class="desc">产品介绍: </div><div class="text">大课堂产品是一种新型的教育模式，通过移动终端可以实现，本地资源的存放与阅读，教学视频的观看与点评。
+课堂上讲课，互动练习，批改作业，发布作业以及记录学习的点点滴滴的记事本功能。</div>
+                    <div class="desc">配置要求: </div><div class="text">苹果ipad设备，iOS系统版本4.3或以上版本</div>
+                </div>
+                <neq name="iotd" value=''>
+                    <div class="dlbutton"><a href="itms-services://?action=download-manifest&url={$iotd}"><img src="/Public/Images/Home/iotd.png"></a></div>
+                </neq>
+            </div>
+            <div class="clear"></div>
+            <div style="background:transparent;" class="wl-item">
+                <div class="icon"><img src="/Public/Images/Home/icon/clientlogo.jpg"></div>
+                <div class="info">
+                    <div class="title">大课堂IOS客户端学生版</div>
+                    <div class="version">最新版本: </div><div class="text">V1.0&nbsp;&nbsp;&nbsp;&nbsp;发布日期: 2013.04.24 &nbsp;&nbsp;&nbsp;&nbsp;软件大小: 1.7M</div>
+                    <div class="desc">产品介绍: </div><div class="text">大课堂产品是一种新型的教育模式，通过移动终端可以实现，本地资源的存放与阅读，离线作业，教学视频的观看与点评。
+课堂上听课，互动练习，做作业以及记录学习的点点滴滴的记事本功能。</div>
+                    <div class="desc">配置要求: </div><div class="text">苹果ipad设备，iOS系统版本4.3或以上版本</div>
+                </div>
+                <neq name="iosd" value=''>
+                    <div class="dlbutton"><a href="itms-services://?action=download-manifest&url={$iosd}"><img src="/Public/Images/Home/iosd.png"></a></div>
+                </neq>
+            </div>
+        </div>
+        <!-- 在线编辑器下载 -->
+        <div class="wl-items">
+            <div class="wl-item">
+                <div class="icon"><img src="/Public/Images/Home/icon/clientlogo.jpg"></div>
+                <div class="info">
+                    <div class="title">大课堂IE浏览器在线编辑插件</div>
+                    <div class="version">最新版本: </div><div class="text">V1.0&nbsp;&nbsp;&nbsp;&nbsp;发布日期: 2013.04.24 &nbsp;&nbsp;&nbsp;&nbsp;软件大小: 24.2M</div>
+                    <div class="desc">产品介绍: </div><div class="text">IE浏览器下，安装此插件后，可在浏览器富文本编辑器中，直接复制粘贴WORD中的图片，无需手动上传。</div>
+                </div>
+                <div class="dlbutton"><a href="/apps/Uploads/Config/FileTransfer.rar"><img src="/Public/Images/Home/editdw.png"></a></div>
+            </div>
+            <div class="clear"></div>
+            <div style="background: transparent;" class="wl-item">
+                <div class="icon"><img src="/Public/Images/Home/icon/clientlogo.jpg"></div>
+                <div class="info">
+                    <div class="title">大课堂编辑器使用文档</div>
+                    <div class="version">最新版本: </div><div class="text">V1.0&nbsp;&nbsp;&nbsp;&nbsp;发布日期: 2013.04.24 &nbsp;&nbsp;&nbsp;&nbsp;文件大小: 1.38M</div>
+                    <div class="desc">产品介绍: </div><div class="text">富文本编辑器使用说明，各操作按钮详细示例。</div>
+                </div>
+                <div class="dlbutton"><a href="/apps/Uploads/Config/EditorInstructions.doc"><img src="/Public/Images/Home/use.png"></a></div>
+            </div>
+        </div>
+        <!-- 用户手册下载 -->
+        <div class="wl-items">
+            <div class="wl-item">
+                <div class="icon"><img src="/Public/Images/Home/icon/clientlogo.jpg"></div>
+                <div class="info">
+                    <div class="title">大课堂用户手册</div>
+                    <div class="version">最新版本: </div><div class="text">V1.0&nbsp;&nbsp;&nbsp;&nbsp;发布日期: 2013.04.24 &nbsp;&nbsp;&nbsp;&nbsp;软件大小: 5.89M</div>
+                    <div class="desc">产品介绍: </div><div class="text">用户可以详细的了解大课堂教学平台的使用方法，为用户提高操作效率的同时，让用户可以更全面，更系统的使用大课堂教学平台。</div>
+                </div>
+                <div class="dlbutton"><a href="/apps/Uploads/Config/UserManual.doc"><img src="/Public/Images/Home/scdw.png"></a></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+<include file="Public:footer"/>

@@ -1,0 +1,184 @@
+//
+//  SuperBackTable.m
+//  ClassRoomTeacher
+//
+//  Created by apple  on 13-7-3.
+//  Copyright (c) 2013年 apple . All rights reserved.
+//
+
+#import "SuperBackTable.h"
+
+@implementation SuperBackTable
+@synthesize isDisplay;
+@synthesize showtongji;
+@synthesize delegate;
+
+@synthesize lblTitle,lblTitle2,imgView2,showTongjiBtn,btnPush,lrBtn;
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code
+        
+        backTable = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, 770, 740)];
+        backTable.image = [UIImage imageNamed:@"n背景.png"];
+        backTable.userInteractionEnabled = YES;
+        [self addSubview:backTable];
+        [backTable release];
+        
+        imgView = [[UIImageView alloc] initWithFrame: CGRectMake(67, 0, 702, 54)];
+        imgView.image = [UIImage imageNamed:@"n头背景.png"];
+        [self addSubview:imgView];
+        [imgView release];
+        
+        lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(70, 15, 704, 30)];
+        lblTitle.backgroundColor = [UIColor clearColor];
+        lblTitle.font = [UIFont boldSystemFontOfSize:20];
+        lblTitle.textAlignment = NSTextAlignmentLeft;
+        lblTitle.text = @"练习作业一";
+        [self addSubview:lblTitle];
+        [lblTitle release];
+        
+        
+        
+        
+        //默认标题2 是学生的名字 ,全部隐藏掉的。
+        imgView2 = [[UIImageView alloc] initWithFrame: CGRectMake(67, 220, 702, 54)];
+        imgView2.image = [UIImage imageNamed:@"n头背景.png"];
+        imgView2.hidden = YES;
+        [self addSubview:imgView2];
+        [imgView2 release];
+        
+        lblTitle2 = [[UILabel alloc] initWithFrame:CGRectMake(70, 220+15, 704, 30)];
+        lblTitle2.backgroundColor = [UIColor clearColor];
+        lblTitle2.font = [UIFont boldSystemFontOfSize:20];
+        lblTitle2.textAlignment = NSTextAlignmentLeft;
+        lblTitle2.text = @"张伊辉";
+        lblTitle2.hidden = YES;
+        [self addSubview:lblTitle2];
+        [lblTitle2 release];
+        
+        btnPush = [[UIButton alloc]initWithFrame:CGRectMake(500, 10, 130, 34)];
+        btnPush.backgroundColor=[UIColor redColor];
+        [btnPush addTarget:self action:@selector(btnPushAction) forControlEvents:UIControlEventTouchDown];
+        //[btnPush setImage:[UIImage imageNamed:@".png"] forState:UIControlStateNormal];
+        [self addSubview:btnPush];
+        [btnPush release];
+        
+        showTongjiBtn=[[UIButton alloc]initWithFrame:CGRectMake(500, 10, 130, 34)];
+        showTongjiBtn.backgroundColor=[UIColor clearColor];
+        showTongjiBtn.hidden = YES;
+        [showTongjiBtn addTarget:self action:@selector(showTongjiBtnAction) forControlEvents:UIControlEventTouchDown];
+        [showTongjiBtn setImage:[UIImage imageNamed:@"n统计.png"] forState:UIControlStateNormal];
+        [self addSubview:showTongjiBtn];
+        [showTongjiBtn release];
+        
+        UIButton *closeBtn=[[UIButton alloc]initWithFrame:CGRectMake(770-110, 10, 74, 33)];
+        closeBtn.backgroundColor=[UIColor clearColor];
+        [closeBtn addTarget:self action:@selector(closeBtnAction) forControlEvents:UIControlEventTouchDown];
+        [closeBtn setImage:[UIImage imageNamed:@"n关闭.png"] forState:UIControlStateNormal];
+        [self addSubview:closeBtn];
+        [closeBtn release];	// Do any additional setup after loading the view.
+        
+        
+        lrBtn = [[UIButton alloc] initWithFrame:CGRectMake(28, 285, 32, 32)];
+        [lrBtn setImage:[UIImage imageNamed:@"n收起.png"] forState:UIControlStateNormal];
+        [lrBtn addTarget:self action:@selector(lrBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:lrBtn];
+        [lrBtn release];
+        
+        
+        
+
+    }
+    return self;
+}
+-(void)btnPushAction{
+    
+    [delegate pushAction];
+}
+
+-(void)showTongjiBtnAction{
+    
+    if (showtongji == NO) {
+        
+        [showTongjiBtn setImage:[UIImage imageNamed:@"n状态.png"] forState:UIControlStateNormal];
+        showtongji = YES;
+    }else{
+        [showTongjiBtn setImage:[UIImage imageNamed:@"n统计.png"] forState:UIControlStateNormal];
+
+        showtongji = NO;
+    }
+    
+    [delegate handleDisplayTongji:showtongji];
+
+}
+
+
+-(void)closeBtnAction{
+    
+    if (lrBtn.hidden) {
+        [[self superview] removeFromSuperview];
+    }else{
+        [UIView animateWithDuration:0.3 animations:^(void){
+            
+            isDisplay = NO;
+            self.frame = CGRectMake(1024, 0, 770, 740);
+        }];
+    }
+    
+    
+}
+
+-(void)lrBtnAction:(UIButton *)btn{
+    
+    if (isDisplay==NO) {
+        
+        [UIView animateWithDuration:0.3 animations:^(void){
+            
+            self.frame = CGRectMake(1024-770, 0, 770, 740);
+        }];
+        
+        
+        [btn setImage:[UIImage imageNamed:@"n收起.png"] forState:UIControlStateNormal];
+
+        
+        isDisplay = YES;
+        
+        
+    }else{
+        
+        [UIView animateWithDuration:0.3 animations:^(void){
+            
+            self.frame = CGRectMake(960, 0, 770, 740);
+        }];
+        
+        [btn setImage:[UIImage imageNamed:@"n展开.png"] forState:UIControlStateNormal];
+
+        
+        isDisplay = NO;
+        
+        
+    }
+}
+-(void)dealloc{
+    
+//    [lblTitle release];
+//    [lblTitle2 release];
+//    [imgView2 release];
+//    [showTongjiBtn release];
+//    [btnPush release];
+//    [lrBtn release];
+    
+    [super dealloc];
+}
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect
+{
+    // Drawing code
+}
+*/
+
+@end
