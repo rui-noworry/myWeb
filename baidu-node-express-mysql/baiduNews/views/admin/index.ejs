@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<title>管理中心</title>
+</head>
+<body>
+
+	<!-- 点我 -->
+	<div class="onhover" id="onhover">
+		
+	</div>
+
+	<!-- 整体 -->
+	<div class="container-fluid padding">
+	    <div class="row">
+			<!-- 头部 -->
+			<div class="body-head padding">
+				<div class="row">
+					<!-- logo -->
+					<div class="col-xs-7 col-md-7 logo">
+						<img src="images/index/logo.gif" class="pull-left">
+					</div>
+					<!-- 欢迎文字 -->
+					<div class="col-xs-4 col-md-4 welcome">
+						<p class="text-right">管理员：您好，感谢您登录使用！</p>
+					</div>
+					<!-- 退出 -->
+					<div class="col-xs-1 col-md-1 exit text-right">
+						<a class="btn btn-default" href="login.html" role="button"></a>
+					</div>
+				</div>
+			</div>
+
+			<!-- 主体部分 -->
+			<div class="col-xs-12 col-md-12 body-main">
+				<div class="row">
+					<!-- 左侧菜单栏 -->
+					<div class="col-xs-2 col-md-2 body-left padding" id="body-left">
+						
+						<div class="sidebar text-center"><a href="javascript:void(0)">推荐新闻管理</a></div>
+						<div class="menu-list">
+							<ul class="list-unstyled">
+								<li>
+									<a href="list" target="main">新闻列表</a>
+								</li>
+								<li>
+									<a href="add"  target="main">添加新闻</a>
+								</li>
+								
+							</ul>
+						</div>
+						
+					</div>
+
+					<!-- 右侧 -->
+					<div class="col-xs-10 col-md-10 body-right padding">
+						
+						<iframe name="main" src="/admin/welcome" height="567" width="100%"></iframe>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>

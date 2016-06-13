@@ -1,0 +1,199 @@
+/* 公共样式 */
+
+html,
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #666;
+    background: #B4BDCE;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+input {
+    outline: none;
+}
+
+.row {
+    height: 100%;
+}
+
+
+/* 清除不需要的padding */
+
+.padding {
+    padding: 0 !important;
+}
+
+
+/* 登录顶部背景 */
+
+.login-top-bg {
+    background: url(../images/login/login-top-bg.gif) repeat-x;
+    height: 41px;
+}
+
+
+/* 主体内容背景 */
+
+.body-bg {
+    height: 532px;
+    background: url(../images/login/login_bg.jpg) repeat-x;
+    padding-bottom: 94px;
+}
+
+
+/* 左侧logo */
+
+.logo {
+    background: url(../images/login/logo.png) left top no-repeat;
+    margin-top: 150px;
+    margin-right: 30px;
+    height: 68px;
+}
+
+
+/* logo下方的网址描述 */
+
+.web-desc {
+    padding-top: 20px;
+}
+
+.web-desc ol li {
+    line-height: 25px;
+}
+
+
+/* 描述下面的连接 */
+
+.left-a a {
+    display: inline-block;
+    width: 72px;
+    height: 30px;
+    text-align: right;
+    line-height: 30px;
+    position: relative;
+    color: #333;
+}
+
+.left-a a:hover {
+    color: #666;
+    text-decoration: none;
+}
+
+.left-a a.instruction:before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(../images/login/icon-demo.gif);
+    position: absolute;
+    left: 0;
+    top: 7px;
+}
+
+.left-a a.service:before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(../images/login/icon-login-seaver.gif);
+    position: absolute;
+    left: 0;
+    top: 7px;
+}
+
+.left-a a.service {
+    margin-left: 50px;
+}
+
+
+/* 主体右侧 */
+
+.body-right {
+    padding-left: 34px;
+}
+
+
+/* 表单 */
+
+.body-right form {
+    margin-top: 160px;
+}
+
+
+/* 标题 */
+
+.body-right legend {
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    height: 0;
+    padding-left: 40px;
+}
+
+
+/* 文本框 */
+
+.body-right form input {
+    width: 174px;
+}
+
+
+/* 密码锁图标 */
+
+.body-right .lock {
+    display: inline-block;
+    width: 19px;
+    height: 18px;
+    background: url(../images/login/luck.gif);
+    position: absolute;
+    top: 2px;
+    left: 178px;
+}
+
+
+/* 提交/重置按钮 */
+
+.body-right form button {
+    width: 50px;
+    height: 22px;
+    margin-right: 35px;
+}
+
+
+/* 文本框说明 */
+
+.body-right form label {
+    line-height: 18px;
+    height: 18px;
+    font-weight: normal;
+}
+
+
+/* 底部背景图片 */
+
+.footer-bg {
+    height: 94px;
+    background: #1D3647 url(../images/login/login-buttom-bg.gif) repeat-x;
+}
+
+.footer-bg p {
+    font-size: 10px;
+    color: #ABCAD3;
+    line-height: 20px;
+}
+
+@media only screen and (max-width: 992px) {
+    /*减小logo距上面的距离*/
+    .logo {
+        margin-top: 50px;
+    }
+    .body-right form {
+        padding-left: 30%;
+        margin-top: 60px;
+    }
+}

@@ -1,0 +1,228 @@
+/* 公共样式 */
+
+* {
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html,body{
+    position: relative;
+}
+
+/* 清除padding */
+
+.padding {
+    padding: 0 !important;
+}
+
+
+/* 给header设置背景 */
+
+header {
+    background: url(../images/index/content-bg.gif) repeat-x;
+    height: 30px;
+}
+
+
+/* 欢迎界面背景 */
+
+header p {
+    width: 85px;
+    height: 29px;
+    background: url(../images/index/top_bt.jpg);
+    font-weight: bold;
+    margin-bottom: 0;
+    padding-top: 10px;
+}
+
+
+/* 主体内容布局 */
+
+.body-left-bg {
+    height: 600px;
+    width: 9px;
+    background: url(../images/index/mail_leftbg.gif) repeat-y;
+    position: absolute;
+    left: 0;
+    top: 29px;
+}
+
+.body-main {
+    width: 100%;
+    height: 599px;
+    background: #F7F8F9;
+    margin-top: 0px;
+}
+
+.main {
+    padding-bottom: 20px;
+}
+
+.body-right-bg {
+    height: 600px;
+    width: 12px;
+    background: url(../images/index/mail-rightbg.png) repeat-y;
+    position: absolute;
+    right: 1px;
+    top: 29px;
+}
+
+
+/*底部背景*/
+
+footer {
+    width: 100%;
+    height: 17px;
+    background: url(../images/index/buttom_bgs.gif) repeat-x;
+   /*  position: absolute;
+   bottom:0; */
+}
+
+
+/*内容左侧，显示文本部分*/
+
+.main-left-pgroup h4 {
+    font-weight: bold;
+    color: #395a7b;
+    padding-top: 10px;
+}
+
+.main-left-pgroup p {
+    line-height: 20px;
+    color: #666;
+    text-indent: 2em;
+}
+
+.main-left-pgroup p:nth-of-type(1) {
+    background: url(../images/index/ts.gif) 2px 4px no-repeat;
+}
+
+.main-left-pgroup p a {
+    font-weight: bold;
+    color: #FF6600;
+}
+
+
+/* 左侧下部的内容 */
+
+.main-left-ul {
+    margin-top: 10px;
+}
+
+.list-inline {
+    margin-left: 0;
+}
+
+.main-left-ul li {
+    padding: 0 4px;
+    line-height: 25px;
+    border: 1px solid #B5D0D9;
+    background: #EBF0F4;
+    float: left;
+}
+
+.main-left-ul li:hover {
+    background: #E2E7ED;
+    font-weight: bold;
+    border-bottom: 1px solid #E2E7ED;
+    cursor: pointer;
+}
+
+
+/* ul的描述 */
+
+.main-left-ul-desc {
+    padding: 5px !important;
+    background: #E2E7ED;
+}
+
+.main-left-ul-content {
+    background: #fff;
+}
+
+.main-left-ul-content h6,
+.main-left-ul-content p {
+    color: #666;
+}
+
+.main-left-ul-content h6 {
+    border-bottom: 1px solid #E0E4EB;
+    line-height: 25px;
+    margin-top: 0;
+    padding-left: 15px;
+}
+
+.main-left-ul-content p {
+    padding-left: 15px;
+}
+
+
+/* 最新动态 */
+.main-right{
+    background: #F7F8F9;
+}
+.main-right .news {
+    height: 150px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.main-right .news h6 {
+    margin-top: 0;
+    line-height: 25px;
+    font-weight: bold;
+    border-bottom: 1px solid #E0E4EB;
+}
+
+
+/*程序说明*/
+
+.main-right .instruction {
+    margin-top: 68px;
+    height: 250px;
+}
+
+.main-right .instruction .form-control {
+    font-size: inherit;
+}
+
+
+/*内容底部联系方式*/
+
+.body-main address {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+.body-main address p {
+    background: green;
+    line-height: 20px;
+    text-indent: 3em;
+}
+
+.body-main address p:nth-of-type(1) {
+    background: url(../images/index/icon-mail2.gif) 16px 5px no-repeat;
+}
+
+.body-main address p:nth-of-type(2) {
+    background: url(../images/index/icon-phone.gif) 16px 4px no-repeat;
+}
+
+
+/*当宽度小于992px*/
+@media only screen and (max-width: 992px){
+     .body-left-bg{
+        height: 1200px;
+     }
+
+     .body-right-bg{
+        height: 1200px;
+     }
+     footer{
+       margin-top: 600px;
+     }
+}

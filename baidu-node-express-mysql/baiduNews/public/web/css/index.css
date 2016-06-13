@@ -1,0 +1,407 @@
+/*初始化*/
+*{
+	margin: 0 auto;
+	padding:0;
+}
+
+html,body{
+	width: 100%;
+	height: 100%;
+}
+
+a{
+	text-decoration: none;
+	color: #262b31;
+}
+
+img{
+	border:none;
+}
+
+li{
+	list-style: none;
+}
+
+/*清除浮动*/
+.clearfix:after{
+	content: "";
+	clear: both;
+	overflow: hidden;
+	display: block;
+}
+
+/*头部*/
+header{
+	background: #3e98f0;
+}
+
+header .toolsBar{
+	display: flex;
+	padding: 0.2rem;
+	border-bottom: 1px solid rgba(255,255,255,0.3);
+	background-image: url(../images/bg-news-logo.png);
+	background-position: center 0.5rem;
+	background-repeat: no-repeat;
+	background-size: 77px auto;
+}
+
+header .toolsBar a{
+	display: inline-block;
+	background-size: 40px 500px;
+	-webkit-background-size:40px 500px;
+	background-image: url(../images/bg-new-toolba.png);
+}
+
+header .toolsBar .tool-l{
+	flex-grow: 1;
+	text-align: left;
+}
+
+header .toolsBar .tool-l .baidu-lk{
+	width: 2.2rem;
+	height: 2.2rem;
+	background-position: 0 0;
+
+}
+
+header .toolsBar .tool-l .member-lk{
+	width: 2.2rem;
+	height: 2.2rem;
+	background-position: center -467px;
+}
+
+header .toolsBar .tool-r{
+	flex-grow: 1;
+	text-align:right;
+}
+
+header .toolsBar .tool-r .search-lk{
+	width: 2.2rem;
+	height: 2.2rem;
+	background-position:center -167px;
+}
+
+header .toolsBar .tool-r .subscribe-lk{
+	width: 2.2rem;
+	height: 2.2rem;
+	background-position:center -112px;
+}
+
+/*头部导航*/
+header nav{
+	box-sizing: border-box;
+}
+
+header nav a{
+	display: inline-block;
+	height: 2.5rem;
+	color: #ffffff;
+	line-height: 2.5rem;
+	width: 13.666%;
+	text-align: center;
+}
+
+header nav a.active span{
+	border-bottom: 1px solid #fff;
+	padding: 0.31rem 0.125rem;
+}
+
+header nav a:first-child{
+	padding-left: 5%;
+}
+header nav a i{
+	display: inline-block;
+	width: 0;
+	height: 0.625rem;
+	border:1px solid rgba(255,255,255,0.3);
+	line-height: 30px;
+	margin-left: 30%;
+}
+
+.content > div{
+	width: 95%;
+	padding-bottom: 0.8333rem;
+}
+
+/*图片轮换*/
+.pic-scroll{
+	overflow: hidden;
+}
+.pic-scroll .img-scroll-wrap{
+	height:15.43rem;
+	position: relative;
+	margin-top: 0.5rem;
+
+}
+
+.pic-scroll .img-scroll-wrap ul{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 10000px;
+}
+
+.pic-scroll .img-scroll-wrap ul li{
+	float: left;
+	position: relative;
+	
+}
+
+.pic-scroll .img-scroll-wrap ul li img{
+             max-height: 15.43rem;
+             width: 25.4rem;
+
+}
+
+/*图片上的文字*/
+.pic-scroll .img-scroll-wrap ul li h4{
+	position: absolute;
+	bottom: 0.18rem;
+	height: 1.875rem;
+	background: rgba(0,0,0,0.6);
+	width: 100%;
+	color: #fff;
+	font-weight: normal;
+	text-align: left;
+	padding-left: 0.625rem;
+	line-height: 1.56rem;
+	font-size: 0.81rem;
+}
+
+.pic-scroll .img-bar i{
+	display: inline-block;
+	width: 33.3333%;
+	height: 0.18rem;
+	background: #fff;
+	float:left;
+}
+
+.pic-scroll .img-bar i.cur-bar{
+	background: #3E98F0;
+}
+
+/*新闻列表的宽度*/
+
+/*向上滚动的热点新闻*/
+.content .hot-news{
+	height: 2rem;
+	overflow: hidden;
+	display: flex;
+	margin-top: 10px;
+}
+
+.content .hot-news .hot-icon{
+	flex-grow: 0;
+}
+.content .hot-news .hot-icon span{
+	width: 2.5rem;
+	display: block;
+	background: #E02F2F;
+	color: #fff;
+	line-height: 2.5rem;
+	text-align: center;
+}
+
+.content .hot-news .news-scroll{
+	flex-grow: 1;
+	position: relative;
+	
+}
+
+.content .hot-news .news-scroll ul{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+
+.content .hot-news .news-scroll ul li{
+	padding-left: 2%;
+	line-height: 2rem;
+}
+
+.content .hot-news .news-scroll ul li a{
+	font-size: 0.875rem;
+}
+
+/*新闻列表*/
+.list{
+	display: flex;
+	margin:0.8333rem 0;
+}
+
+.list .img-wrap{
+	flex-grow: 0;
+	height: 4.666rem;
+}
+
+.list .img-wrap img{
+	width: 5.9rem;
+	height: 100%;
+}
+
+.list .img-con{
+	flex-grow: 1;
+	padding-left: 0.8333rem;
+	width: 200px;
+}
+
+.list .img-con h4{
+	font-weight: normal;
+	line-height: 2rem;
+	width: 230px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	float:left;
+}
+
+.list .img-con p, .list .img-con time{
+	font-size: 0.9rem;
+	color:#BDBEC4;
+	padding-top: 0.6333rem;
+}
+
+.list .img-con p{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+
+.list .img-con time{
+	display: block;
+}
+
+.content > div {
+	display: none;
+}
+
+/*图片列表样式*/
+.pics .pic-list{
+	padding:10px 0;
+	border-bottom: 1px solid #F5F5F5;
+}
+
+.pics .pic-list .pic-img-wrap{
+	height: 13.5rem;
+}
+
+.pics .pic-list .pic-img-wrap img{
+	width: 100%;
+	height: 100%;
+}
+
+.pics .pic-list .pic-desc{
+	margin-top: 0.83333rem;
+	display: flex;
+}
+
+.pics .pic-list .pic-desc .pic-title{
+	flex-grow: 1;
+}
+
+.pics .pic-list .pic-desc .pic-title h4{
+	font-weight: normal;
+	text-align: left;
+}
+
+.pics .pic-list .pic-desc .pic-zan{
+	text-align: right;
+	flex-grow: 1;
+}
+
+.pics .pic-list .pic-desc .pic-zan span{
+	display: inline-block;
+	color: #545454;
+	position: relative;
+	top: -2px;
+}
+
+.pics .pic-list .pic-desc .pic-zan em{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background-image: url(../images/bg-image_icon.png);
+	background-size: 50px 150px;
+	background-position: -6px -68px;
+}
+
+/*更多新闻*/
+.more-news{
+	display:block;
+	width: 80%;
+	height: 2.5rem;
+	border:1px solid #F1F2F4;
+	line-height: 2.5rem;
+	text-align: center;
+	background: #F8F9FA;
+}
+
+/*回到顶部的样式*/
+.goTop{
+	width: 38px;
+	height: 40px;
+	background: #7F7F80 url(../images/top.png);
+	background-size: 38px 40px;
+	position: fixed;
+	bottom: 100px;
+	right: 10px;
+	display: none;
+}
+
+
+
+
+/*/*媒体查询*/
+@media only screen and (max-width:320px) {
+	html{
+		font-size: 12px;
+	}
+}
+
+@media only screen and (min-width:375px) and (max-width: 400px) {
+	html{
+		font-size: 14px;
+	}
+}
+
+@media only screen and (min-width:410px) and (max-width: 700px) {
+	html{
+		font-size: 16px;
+	}
+}
+
+@media only screen and (min-width:768px) {
+	html{
+		font-size: 30px;
+	}
+
+	header .toolsBar{
+		background-size:154px auto;
+	}
+
+	header .toolsBar a{
+		display: inline-block;
+		background-size: 80px 1000px;
+		background-image: url(../images/bg-new-toolba.png);
+	}
+
+	header .toolsBar .tool-l .member-lk{
+		width: 2.2rem;
+		height: 2.2rem;
+		background-position: center 65px;
+	}
+
+	header .toolsBar .tool-r .search-lk{
+		width: 2.2rem;
+		height: 2.2rem;
+		background-position:center -329px;
+	}
+
+	header .toolsBar .tool-r .subscribe-lk{
+		width: 2.2rem;
+		height: 2.2rem;
+		background-position:center -220px;
+	}
+}

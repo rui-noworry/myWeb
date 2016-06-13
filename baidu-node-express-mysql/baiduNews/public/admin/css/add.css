@@ -1,0 +1,59 @@
+/*初始化*/
+*{
+	padding:0;
+	margin:0 auto;
+}
+
+html, body{
+	background: #EEF2FB;
+}
+
+a{
+	color: #333;
+}
+
+a:hover{
+	text-decoration: none;
+}
+
+/*增加新闻页面样式*/
+table{
+	border:1px solid #ddd;
+}
+
+table thead th{
+	text-align: center;
+}
+
+td{
+	vertical-align: middle;
+	text-align: center;
+}
+
+td img{
+	width: 60px;
+
+}
+
+
+/*新闻列表样式*/
+.num{
+	width: 50px;
+	text-align: center;
+}
+
+.txt{
+	width: 260px;
+	text-align: left;
+}
+
+table span{
+	cursor: pointer;
+}
+
+/*编辑页面的图片样式*/
+#img{
+	width: 170px;
+	height: 130px;
+	margin:10px;
+}
