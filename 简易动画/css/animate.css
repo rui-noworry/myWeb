@@ -1,0 +1,535 @@
+* {
+    padding: 0;
+    margin: 0 auto;
+}
+
+
+/* 整体 */
+
+.wrapper {
+    width: 400px;
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: rollin 5s ease-in 0s;
+    -moz-animation: rollin 5s ease-in 0s;
+    -webkit-animation: rollin 5s ease-in 0s;
+    -o-animation: rollin 5s ease-in 0s;
+    -ms-animation: rollin 5s ease-in 0s;
+    cursor: pointer;
+}
+
+
+/* 小黄人裤子变色 */
+
+.wrapper:hover .l_kudai {
+    background-color: red;
+}
+
+.wrapper:hover .r_kudai {
+    background-color: red;
+}
+
+.wrapper:hover .ku_d {
+    background-color: red;
+}
+
+.wrapper:hover .ku_b {
+    background-color: red;
+}
+
+.wrapper:hover .ku_t {
+    background-color: red;
+}
+
+
+/* 头发 */
+
+.toufa1 {
+    width: 57px;
+    height: 103px;
+    border-right: 8px solid #000;
+    border-top-right-radius: 69px;
+    position: absolute;
+    transform: rotate(-50deg);
+    top: 6px;
+    left: 136px;
+}
+
+.toufa2 {
+    width: 60px;
+    height: 80px;
+    border-right: 8px solid #000;
+    border-top-right-radius: 49px;
+    position: absolute;
+    transform: rotate(-50deg);
+    top: 32px;
+    left: 139px;
+}
+
+
+/* 嘴 */
+
+.mouth {
+    width: 64px;
+    height: 22px;
+    border: 5px solid #000;
+    position: absolute;
+    background: #fff;
+    top: 170px;
+    left: 84px;
+    border-bottom-left-radius: 25px 27px;
+    border-bottom-right-radius: 49px 27px;
+}
+
+
+/* 整个身体 */
+
+.body {
+    width: 230px;
+    height: 380px;
+    background: #F9D946;
+    margin-top: 50px;
+    border-radius: 105px;
+    border: 5px solid #000;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+
+/* 左裤带 */
+
+.l_kudai {
+    width: 90px;
+    height: 14px;
+    transform: rotate(45deg);
+    background: #2074A0;
+    border: 5px solid #000;
+    position: absolute;
+    top: 195px;
+    left: -29px;
+    z-index: 2;
+}
+
+.l_kudai_dotted {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #000;
+    position: absolute;
+    top: 4px;
+    left: 81px;
+}
+
+
+/* 右裤带 */
+
+.r_kudai_dotted {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #000;
+    position: absolute;
+    top: 5px;
+    left: 3px;
+}
+
+.r_kudai {
+    width: 90px;
+    height: 14px;
+    transform: rotate(-45deg);
+    background: #2074A0;
+    border: 5px solid #000;
+    position: absolute;
+    top: 195px;
+    left: 160px;
+    z-index: 2;
+}
+
+
+/* 裤子底部 */
+
+.ku_b {
+    width: 230px;
+    height: 95px;
+    position: absolute;
+    background: #2074A0;
+    bottom: -1px;
+    border-bottom-left-radius: 230px;
+    border-bottom-right-radius: 230px;
+    border-top: 5px solid #000;
+}
+
+
+/* 裤子上部 */
+
+.ku_t {
+    width: 152px;
+    height: 60px;
+    background: #2074A0;
+    border: 5px solid #000;
+    border-bottom: none;
+    position: absolute;
+    bottom: 90px;
+    bottom: 94px;
+    z-index: 1;
+    left: 34px;
+}
+
+
+/* 裤兜 */
+
+.ku_d {
+    width: 58px;
+    height: 44px;
+    position: absolute;
+    border: 5px solid #000;
+    bottom: 60px;
+    left: 82px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    z-index: 2;
+}
+
+
+/* 裤子左侧线 */
+
+.ku_left_xian {
+    width: 40px;
+    height: 50px;
+    border-right: 5px solid #000;
+    border-bottom-right-radius: 40px;
+    position: absolute;
+    bottom: 53px;
+    left: -15px;
+    transform: rotate(50deg);
+}
+
+
+/* 裤子右侧线 */
+
+.ku_right_xian {
+    width: 40px;
+    height: 50px;
+    border-left: 5px solid #000;
+    border-bottom-left-radius: 40px;
+    position: absolute;
+    bottom: 53px;
+    left: 200px;
+    transform: rotate(-50deg);
+}
+
+
+/* 裤子底部线 */
+
+.ku_bottom_xian {
+    width: 5px;
+    height: 40px;
+    background: #000;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 0;
+    left: 115px;
+}
+
+
+/* 左眼 */
+
+.left_eyes_outer {
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    background: #fff;
+    border: 5px solid #000;
+    position: absolute;
+    top: 54px;
+    left: 22px;
+    z-index: 1;
+}
+
+.left_eyes_middle {
+    width: 39px;
+    height: 39px;
+    background: #000;
+    position: absolute;
+    border-radius: 50%;
+    top: 22px;
+    left: 25px;
+}
+
+
+/* 右眼 */
+
+.left_eyes_inner {
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    position: absolute;
+    border-radius: 50%;
+    top: 8px;
+    right: 3px;
+}
+
+.right_eyes_outer {
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    background: #fff;
+    border: 5px solid #000;
+    position: absolute;
+    top: 54px;
+    left: 114px;
+    z-index: 1;
+}
+
+.right_eyes_middle {
+    width: 39px;
+    height: 39px;
+    background: #000;
+    position: absolute;
+    border-radius: 50%;
+    top: 22px;
+    left: 25px;
+}
+
+.right_eyes_inner {
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    position: absolute;
+    border-radius: 50%;
+    top: 5px;
+    right: 2px;
+}
+
+
+/* 左眼边的线 */
+
+.left-eye-xian {
+    width: 35px;
+    height: 18px;
+    background: #000;
+    position: absolute;
+    transform: rotate(10deg);
+    left: -4px;
+    top: 91px;
+}
+
+
+/* 右眼边的线 */
+
+.right-eye-xian {
+    width: 35px;
+    height: 18px;
+    background: #000;
+    position: absolute;
+    transform: rotate(-10deg);
+    right: -4px;
+    top: 91px;
+}
+
+
+/* 左臂 */
+
+.left_arm {
+    width: 60px;
+    height: 45px;
+    border: 5px solid #000;
+    background: #F9D946;
+    border-top-left-radius: 20px;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 266px;
+    left: 51px;
+}
+
+.left_arm_inner {
+    width: 20px;
+    height: 6px;
+    background: #000;
+    transform: rotate(-5deg);
+    border-radius: 5px;
+    position: absolute;
+    left: 22px;
+    top: 11px;
+}
+
+
+/* 右臂 */
+
+.right_arm {
+    width: 60px;
+    height: 45px;
+    border: 5px solid #000;
+    background: #F9D946;
+    border-top-right-radius: 20px;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 266px;
+    left: 280px;
+}
+
+.right_arm_inner {
+    width: 20px;
+    height: 6px;
+    background: #000;
+    transform: rotate(5deg);
+    border-radius: 5px;
+    position: absolute;
+    left: 16px;
+    top: 11px;
+}
+
+
+/* 左腿 */
+
+.left_leg {
+    width: 33px;
+    height: 56px;
+    position: absolute;
+    background: #000;
+    border-bottom-right-radius: 6px;
+    bottom: 20px;
+    left: 166px;
+    border-bottom-left-radius: 12px;
+}
+
+
+/* 左脚 */
+
+.left_foot {
+    width: 50px;
+    height: 33px;
+    background: #000;
+    border-top-left-radius: 19px 17px;
+    border-bottom-left-radius: 12px 11px;
+    position: absolute;
+    left: 134px;
+    bottom: 21px;
+    transform: rotate(4deg);
+    border-bottom-right-radius: 10px;
+}
+
+
+/* 右腿 */
+
+.right_leg {
+    width: 33px;
+    height: 56px;
+    position: absolute;
+    background: #000;
+    border-bottom-left-radius: 6px;
+    bottom: 20px;
+    left: 205px;
+    border-bottom-right-radius: 12px;
+}
+
+
+/* 右脚 */
+
+.right_foot {
+    width: 50px;
+    width: 50px;
+    height: 33px;
+    background: #000;
+    border-top-right-radius: 19px 17px;
+    border-bottom-right-radius: 12px 11px;
+    position: absolute;
+    left: 220px;
+    bottom: 21px;
+    transform: rotate(-4deg);
+    border-bottom-left-radius: 10px;
+}
+
+
+/* 动画 */
+
+@keyframes rollin {
+    100% {
+        transform: translateX(0) rotate(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(-50%) rotate(-360deg);
+        opacity: 0.5;
+    }
+    0% {
+        transform: translateX(-100%) rotate(-360deg);
+        opacity: 1;
+    }
+}
+
+
+/* 兼容chrome */
+
+@-webkit-keyframes rollin {
+    100% {
+        -webkit-transform: translateX(0) rotate(0);
+        opacity: 0;
+    }
+    50% {
+        -webkit-transform: translateX(-50%) rotate(-360deg);
+        opacity: 0.5;
+    }
+    0% {
+        -webkit-transform: translateX(-100%) rotate(-360deg);
+        opacity: 1;
+    }
+}
+
+
+/* 兼容火狐 */
+
+@-moz-keyframes rollin {
+    100% {
+        -moz-transform: translateX(0) rotate(0);
+        opacity: 0;
+    }
+    50% {
+        -moz-transform: translateX(-50%) rotate(-360deg);
+        opacity: 0.5;
+    }
+    0% {
+        -moz-transform: translateX(-100%) rotate(-360deg);
+        opacity: 1;
+    }
+}
+
+
+/* 兼容opera */
+
+@-o-keyframes rollin {
+    100% {
+        -o-transform: translateX(0) rotate(0);
+        opacity: 0;
+    }
+    50% {
+        -o-transform: translateX(-50%) rotate(-360deg);
+        opacity: 0.5;
+    }
+    0% {
+        -o-transform: translateX(-100%) rotate(-360deg);
+        opacity: 1;
+    }
+}
+
+
+/* 兼容ie */
+
+@-ms-keyframes rollin {
+    100% {
+        -ms-transform: translateX(0) rotate(0);
+        opacity: 0;
+    }
+    50% {
+        -ms-transform: translateX(-50%) rotate(-360deg);
+        opacity: 0.5;
+    }
+    0% {
+        -ms-transform: translateX(-100%) rotate(-360deg);
+        opacity: 1;
+    }
+}
