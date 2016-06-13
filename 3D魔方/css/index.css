@@ -1,0 +1,135 @@
+* {
+    padding: 0;
+    margin: 0 auto;
+}
+
+body {
+    background: #000;
+}
+
+
+/* 外部盒子 */
+
+.box {
+    width: 160px;
+    height: 160px;
+    margin-top: 180px;
+    position: relative;
+    /* 开启3D */
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    /* 启用动画 */
+    animation: animations 6s infinite linear;
+    -webkit-animation: animations 6s infinite linear;
+    -o-animation: animations 6s infinite linear;
+    -ms-animation: animations 6s infinite linear;
+}
+
+
+/* 给六个面统一设置样式 */
+
+ul li {
+    width: 160px;
+    height: 160px;
+    position: absolute;
+    background: #ff0000;
+    opacity: 0.3;
+    top: 0;
+    left: 0;
+    border: 1px solid #000;
+    list-style: none;
+}
+
+
+/* 每一面的小方块 */
+
+ul li div {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000;
+    float: left;
+    margin: 1px .5px 0 .5px;
+}
+
+.first {
+    -webkit-transform: translateZ(80px);
+    -o-transform: translateZ(80px);
+    -ms-transform: translateZ(80px);
+    transform: translateZ(80px);
+}
+
+.second {
+    -webkit-transform: rotateY(-90deg) translateZ(80px);
+    -o-transform: rotateY(-90deg) translateZ(80px);
+    -ms-transform: rotateY(-90deg) translateZ(80px);
+    transform: rotateY(-90deg) translateZ(80px);
+}
+
+.three {
+    -webkit-transform: rotateY(90deg) translateZ(80px);
+    -o-transform: rotateY(90deg) translateZ(80px);
+    -ms-transform: rotateY(90deg) translateZ(80px);
+    transform: rotateY(90deg) translateZ(80px);
+}
+
+.four {
+    -webkit-transform: translateZ(-80px);
+    -o-transform: translateZ(-80px);
+    -ms-transform: translateZ(-80px);
+    transform: translateZ(-80px);
+}
+
+.five {
+    -webkit-transform: rotateX(90deg) translateZ(80px);
+    -o-transform: rotateX(90deg) translateZ(80px);
+    -ms-transform: rotateX(90deg) translateZ(80px);
+    transform: rotateX(90deg) translateZ(80px);
+}
+
+.six {
+    -webkit-transform: rotateX(-90deg) translateZ(80px);
+    -o-transform: rotateX(-90deg) translateZ(80px);
+    -ms-transform: rotateX(-90deg) translateZ(80px);
+    transform: rotateX(-90deg) translateZ(80px);
+}
+
+
+/* 动画效果 */
+
+@keyframes animations {
+    0% {
+        transform: translateZ(-20px) rotateX(0) rotateY(0deg);
+    }
+    100% {
+        transform: translateZ(-20px) rotateX(360deg) rotateY(360deg);
+    }
+}
+
+@-webkit-keyframes animations {
+    0% {
+        -webkit-transform: rotateX(0) rotateY(0deg);
+    }
+    100% {
+        -webkit-transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+@-o-keyframes animations {
+    0% {
+        -o-transform: rotateX(0) rotateY(0deg);
+    }
+    100% {
+        -o-transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+@-ms-keyframes animations {
+    0% {
+        -ms-transform: rotateX(0) rotateY(0deg);
+    }
+    100% {
+        -ms-transform: rotateX(360deg) rotateY(360deg);
+    }
+}
