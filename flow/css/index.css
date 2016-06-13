@@ -1,0 +1,100 @@
+/*初始化*/
+
+* {
+    padding: 0;
+    margin: 0 auto;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    border: none;
+}
+
+ul li {
+    list-style: none;
+}
+
+
+/*清除浮动*/
+
+.clearfix:after {
+    content: '';
+    clear: both;
+    display: block;
+    overflow: hidden;
+}
+
+
+/*设置背景图片*/
+
+body {
+    background: url(../images/bg.jpg) no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+/*设置图片列表*/
+
+#wrapper {
+    padding: 10px 0 10px 10px;
+    background: rgba(255, 255, 255, 0.3);
+    margin-top: 60px;
+    min-width: 190px;
+    width: 67%;
+}
+
+
+/*设置列表的左浮动*/
+#wrapper ul {
+    /*width: 55%;*/
+}
+#wrapper ul li {
+    float: left;
+    margin-right: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+
+/*设置图片的大小*/
+
+#wrapper ul li img {
+    width: 170px;
+    height: auto;
+
+}
+
+/*设置图片标题样式*/
+
+#wrapper ul li p{
+	position: absolute;
+	bottom: -30px;
+	left: 0;
+	height: 30px;
+	background:-webkit-linear-gradient(top, transparent 3%, rgba(0, 0, 0, 0.8) 100%);
+	background:-moz-linear-gradient(top, transparent 3%, rgba(0, 0, 0, 0.8) 100%);
+	background:-ms-linear-gradient(top, transparent 3%, rgba(0, 0, 0, 0.8) 100%);
+	width: 100%;
+	text-align: center;
+	line-height: 30px;
+}
+
+#wrapper ul li p a{
+	color:#fff;
+	font-size: 12px;
+}
+
+#wrapper ul li p a:hover{
+	text-decoration: underline;
+}
+
+/*给标题设置出现时的动画效果*/
+
+#wrapper ul li:hover p{
+	bottom: 3px;
+	transition: bottom .3s linear;
+}
