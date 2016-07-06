@@ -1,5 +1,0 @@
-[ 2013-08-26T10:38:14+08:00 ] ERR: (ThinkException) 非法操作:Images
-[ 2013-08-26T10:38:19+08:00 ] ERR: (ThinkException) 非法操作:Images
-[ 2013-08-26T13:36:13+08:00 ] ERR: (ThinkException) 模板不存在[./Tpl/Home/School/index.html]
-[ 2013-08-26T16:44:08+08:00 ] ERR: (ThinkException) 非法操作:Js
-[ 2013-08-26T16:58:57+08:00 ] ERR: (ThinkException) 无法加载模块:__APPURL__
