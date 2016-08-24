@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Template Demo</title>
+    <script src="./js/template.js" type="text/javascript"></script>
+    <style type="text/css">
+    * {
+        margin: 0 auto;
+        padding: 0;
+    }
+    
+    h2 {
+        padding-left: 100px;
+    }
+    .loading {
+        width: 40px;
+        height: 40px;
+        margin-left: 100px;
+        background: url(./images/waiting.gif) no-repeat left center;
+        background-size: cover;
+    }
+    </style>
+</head>
+
+<body>
+    <ul id="container">
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <h2 class="name">某某某<span>中日友好医院 外科</span></h2>
+        <script type="text/template" id="tpl">
+            {%each items as item%}
+            <h2 class="name">{%item.name%}<span>{%item.hospital%}</span></h2> {%endeach%}
+        </script>
+        
+    </ul>
+    <p class="loading"></p>
+    <script>
+    var tpl = document.getElementById('tpl').innerHTML;
+    var t = new Template(tpl);
+
+    // 用于判断是否正在加载，如果正在加载则不再加载数据
+    var isLoading = false;
+
+    window.addEventListener("scroll", function(event) {
+
+        var loading = document.querySelector(".loading");
+        var loadTop = loading.getBoundingClientRect().top;
+
+        // 用来判断何时进行加载数据
+        if (loadTop <= document.documentElement.clientHeight) {
+            if (isLoading) {
+                return;
+            }
+
+            isLoading = true;
+
+            // 为避免滑轮滚动多次数据加载过快 增加延迟 ,同时开启了多线程，当1000ms之后开始执行settimeout 而此时scroll方法已经执行完毕
+            setTimeout(function() {
+
+                document.getElementById("container").innerHTML += t.render({
+                    items: [{
+                        name: 'cmstop',
+                        hospital: '中日友好医院',
+                    }, {
+                        name: 'cmstop',
+                        hospital: '中日友好医院',
+                    }, {
+                        name: 'cmstop',
+                        hospital: '中日友好医院',
+                    }]
+                });
+
+                isLoading = false;
+
+            }, 1000);
+
+        }
+
+
+    });
+    </script>
+</body>
+
+</html>
