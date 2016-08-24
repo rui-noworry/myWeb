@@ -95,7 +95,11 @@
                     }]
                 });
 
-                isLoading = false;
+                // 不同浏览器渲染的顺序不同，为了避免顺序错乱，所以加个settimeout 0 保证上面执行完毕之后立刻执行这里
+                setTimeout(function(){
+                        isLoading = false;
+                }, 0);
+                
 
             }, 1000);
 
