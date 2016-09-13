@@ -1,0 +1,97 @@
+@charset "utf-8";
+@import "mixin";
+@import "reset";
+
+$font-size:12px;
+
+%inline-block{
+    display: inline-block;
+}
+
+.container{
+    margin-top: 20px;
+    width: 624px;
+    height: 195px;
+    display: flex;
+    border:6px solid #B0B0B0;
+
+    .left-content{
+        width: 175px;
+        border-right: 8px solid #55D413;
+        flex-grow: 0;
+        background:getbackgroundColor() url("images/logo.png") center 25px no-repeat;
+    }
+    .right-content{
+        flex-grow: 1;
+        @include getbackgroundColor(#187A01);
+        padding-top:34px;
+
+        .address-index{
+            float: left;
+            width: 296px;
+            height: 2px;
+            @include getbackgroundColor();
+            margin-top: 20px;
+            position: relative;
+            margin-left: 53px;
+
+            i{
+                @extend %inline-block;
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                @include getbackgroundColor();
+                position: absolute;
+                top: -1px;
+
+                &:nth-of-type(1){
+                    left: 0;
+                    @include getbackgroundColor(#55D413);
+                }
+                &:nth-of-type(2){
+                    left: 53px;
+                    @include getbackgroundColor();
+                }
+                &:nth-of-type(3){
+                    left: 100px;
+                    @include getbackgroundColor();
+                }
+                &:nth-of-type(4){
+                    left: 148px;
+                    @include getbackgroundColor();
+                }
+                &:nth-of-type(5){
+                    left: 244px;
+                    @include getbackgroundColor();
+                }
+                &:nth-of-type(6){
+                    left: 199px;
+                    @include getbackgroundColor();
+                }
+                &:nth-of-type(7){
+                    left: 292px;
+                    @include getbackgroundColor();
+                }
+            }
+            
+        }
+        .address-content{
+            margin:0 auto;
+            width: 330px;
+                p{
+                    @include %inline-block;
+                    margin-top: 10px;
+                    width: 20px;
+                    height: auto;
+                    font-size: $font-size;
+                    color: #fff;
+                    margin-right: 20px;  
+                    vertical-align: top;
+
+                    &:last-of-type{
+                        margin-right: 0;
+                    }
+                }
+            }
+    }
+}

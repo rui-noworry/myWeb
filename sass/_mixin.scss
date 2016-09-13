@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+@function getbackgroundColor(){
+	@return #fff;
+}
+
+@mixin getbackgroundColor($background: #fff){
+	background:$background;
+}
