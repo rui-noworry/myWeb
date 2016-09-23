@@ -4,6 +4,7 @@ import Home from './components/Home'
 import TimeEntries from './components/TimeEntries'
 import LogTime from './components/LogTime'
 
+// router和resource必须配合使用
 // vue路由插件
 import VueRouter from 'vue-router'
 // vueXHR ajax 异步请求插件
