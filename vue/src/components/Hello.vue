@@ -1,18 +1,17 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>{{ msg }}{{tips}}</h1>
+    <input type="button" @click="changeColor" value="change color" />
   </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      // note: changing this line won't causes changes
-      // with hot-reload because the reloaded component
-      // preserves its current state and we are modifying
-      // its initial state.
-      msg: 'my fisrt vue todo list'
+  // props 是获取父组件中调用子组件自定义标签的属性
+  props:['msg','tips'],
+  methods:{
+    changeColor() {
+      this.$dispatch('changeBg', 'red')
     }
   }
 }
@@ -22,5 +21,8 @@ export default {
 <style scoped>
 h1 {
   color: #42b983;
+}
+input{
+  margin-bottom: 10px;
 }
 </style>

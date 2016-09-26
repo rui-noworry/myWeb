@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="logo"><img class="logo" src="./assets/logo.png"></div>
-    <hello></hello>
+    <hello msg="First ToDo List!", tips="demo"></hello>
     <input type="text" v-model="inputValue" @keyup.enter="addli" />
     <ul>
       <li v-for="item in items" @click="underline(item)" :class="{show:item.ishow}">
@@ -50,6 +50,11 @@ export default {
     },
     del:function (index) {
       this.items.splice(index,1);
+    }
+  },
+  events:{
+    changeBg(color){
+      document.getElementById('app').style.backgroundColor = color;
     }
   }
 }
