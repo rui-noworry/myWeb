@@ -17,29 +17,25 @@
 </template>
 
 <script>
+import Store from './components/store'
 import Hello from './components/Hello'
 export default {
   data(){
     return {
       inputValue:'',
-      items:[
-        {
-          label:'huangrui1',
-          ishow:true
-        },
-        {
-          label:'huangrui2',
-          ishow:true
-        },
-        {
-          label:'huangrui3',
-          ishow:false
-        }
-      ]
+      items:Store.fetch() || []
     }
   },
   components: {
     Hello
+  },
+  watch:{
+    'items':{
+      handler: function(val){ // handler本有两个参数，因为是数组，指向的是同一个对象，所以val和oldval相同
+        Store.save(val);
+      },
+      deep:true // 可以观察每个属性的变化
+    }
   },
   methods:{
     underline:function (item) {
