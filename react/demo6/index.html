@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello react</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+    <script type="text/babel"> // 注意类型 凡是使用JSX的地方就要使用这个类型
+        var MyTitle = React.createClass({ // 组件的数字木必须大写
+//            propTypes:{
+//                title: React.PropTypes.string.isRequired
+//            },
+            getDefaultProps: function () { // 获取默认属性
+                return {
+                    title: 'hello world'
+                }
+            },
+            render: function () {
+                return (<div>{this.props.title}</div>)
+            }
+        });
+
+        var data = 'aaa';
+        ReactDOM.render(
+                <MyTitle/>,
+                document.getElementById('example')
+        )
+    </script>
+</body>
+</html>

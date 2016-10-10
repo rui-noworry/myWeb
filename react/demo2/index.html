@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello react</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+    <script type="text/babel"> // 注意类型 凡是使用JSX的地方就要使用这个类型
+       var names = ['Alice', 'Emily', 'Kate'];
+        // 在render里，遇到html标签<开头，遇到代码块，{ 开头
+       ReactDOM.render(
+               <div>
+                   {
+                           names.map(function (name) {
+                               return <p>Hello, {name}!</p>
+                           })
+                   }
+               </div>,
+               document.getElementById('example')
+       );
+    </script>
+</body>
+</html>

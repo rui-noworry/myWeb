@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello react</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+    <script type="text/babel"> // 注意类型 凡是使用JSX的地方就要使用这个类型
+        var LikeButton = React.createClass({
+            getInitialState:function () {
+              return {like: false}
+            },
+            handleClick: function () {
+                this.setState({like: !this.state.like});
+            },
+            render: function () {
+                var text = this.state.like? 'like' : 'haven\'t like';
+                return (
+                    <p onClick={this.handleClick}>you {text} this, click to toggle</p>
+                )
+            }
+        });
+
+        ReactDOM.render(
+                <LikeButton />,
+                document.getElementById('example')
+        )
+    </script>
+</body>
+</html>

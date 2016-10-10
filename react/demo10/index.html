@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello react</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+    <script type="text/babel"> // 注意类型 凡是使用JSX的地方就要使用这个类型
+       var Opacity = React.createClass({
+           getInitialState: function () {
+               return {opacity: 1.0}
+           },
+           componentDidMount: function () {
+                setInterval(function () {
+                    var opacity = this.state.opacity;
+                    opacity -= 0.05;
+                    if (opacity < 0.1) {
+                        opacity = 1
+                    }
+                    this.setState({opacity:opacity});
+                }.bind(this),100) // bind是强行绑定this到当前对象，否则setInterval会指向window
+           },
+           render: function () {  // 注意样式的写法，第一个{ 是js代码块 第二个{ 是样式对象
+               return (
+                       <p style={{opacity:this.state.opacity}}>hello, {this.props.name}</p>
+               )
+           }
+       });
+
+        ReactDOM.render(
+                <Opacity name="world"/>,
+                document.getElementById('example')
+        )
+    </script>
+</body>
+</html>

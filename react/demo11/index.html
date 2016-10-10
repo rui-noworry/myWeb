@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello react</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+    <script src="../build/jquery.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+    <script type="text/babel"> // 注意类型 凡是使用JSX的地方就要使用这个类型
+    console.log($)
+        var User = React.createClass({
+            getInitialState: function () {
+                return {
+                    username:'',
+                    url:''
+                }
+            },
+            componentDidMount: function () {
+                $.get(this.props.source, function (result) {
+                    var data = result[0];
+                    if (this.isMounted()) { // isMounted已经被废除了
+                        this.setState({
+                            username: data.owner.login,
+                            url: data.html_url
+                        })
+                    }
+                });
+            },
+            render: function () {
+                return (
+                        <p>{this.state.username},<a href={this.state.url} /> here </p>
+                )
+            }
+        });
+
+        ReactDOM.render(
+                <User source="https://api.github.com/users/octocat/gists"/>,
+                document.getElementById('example')
+        )
+    </script>
+</body>
+</html>

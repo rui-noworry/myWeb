@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello react</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+    <script type="text/babel"> // 注意类型 凡是使用JSX的地方就要使用这个类型
+       var MyComponent = React.createClass({
+           handleClick: function () {
+                this.refs.myTextInput.focus();
+           },
+           render: function () { // 注意rel属性 点击事件是onClick注意大写否则不起作用
+               return (
+                       <div>
+                           <input type="text" ref="myTextInput" />
+                           <input type="button" value="Focus the text input" onClick={this.handleClick} />
+                       </div>
+               )
+           }
+       });
+        ReactDOM.render(
+                <MyComponent />,
+                document.getElementById('example')
+        )
+    </script>
+</body>
+</html>

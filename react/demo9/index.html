@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello react</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+    <script type="text/babel"> // 注意类型 凡是使用JSX的地方就要使用这个类型
+        var Input = React.createClass({
+            getInitialState: function () {
+              return {value:'change'}
+            },
+            handleChange: function (event) {
+              this.setState({value:event.target.value}) ;
+            },
+            render: function () { // 注意这渲染的是一段html代码，所以不需要，
+                var value = this.state.value;
+                return (
+                        <div>
+                            <input type="text" value={value} onChange={this.handleChange} />
+                            <p>{value}</p>
+                        </div>
+                )
+            }
+        });
+
+        ReactDOM.render(
+                <Input/>,  // 要渲染的组件
+                document.getElementById('example') // 组件要添加到的位置
+        )
+    </script>
+</body>
+</html>

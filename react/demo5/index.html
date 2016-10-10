@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello react</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+    <script type="text/babel"> // 注意类型 凡是使用JSX的地方就要使用这个类型
+       var HelloMessage = React.createClass({
+           render: function () {
+               return ( // 注意这个return 这有 （
+                       <ol>
+                        {
+                                React.Children.map(this.props.children,function (child) {
+                                    return <li>{child}</li>;// 注意map的方法里要有return
+                                })
+                        }
+                       </ol>
+               );
+           }
+       })
+        // 在render里，遇到html标签<开头，遇到代码块，{ 开头
+        // 组件类第一个字母必须大写 否则会报错，render里只能有一个顶级标签，否则会报错
+        // 注意组件子节点之间没有逗号分割
+       ReactDOM.render(
+               <HelloMessage>
+                   <span>child1</span>
+                   <span>child2</span>
+               </HelloMessage>,// 注意属性名，不能是js的关键字例如，不能是class，而应该是className，不能是for而是htmlFor
+               document.getElementById('example')
+       );
+    </script>
+</body>
+</html>
