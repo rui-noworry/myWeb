@@ -1,0 +1,4 @@
+原生js操作 transform属性
+
+$('.pic-content')[0].style.webkitTransform = "translateX("+distance2+"px)";
+height line-height vertical-align:middle
